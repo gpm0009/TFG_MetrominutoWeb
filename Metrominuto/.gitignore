@@ -1,0 +1,4 @@
+/venv/
+instance/
+.webassets-cache
+/.idea
