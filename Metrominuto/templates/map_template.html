@@ -11,6 +11,16 @@
         width:  720px;
         height: 500px;
       }
+
+      #directions-panel {
+          margin-top: 10px;
+          background-color: #FFEE77;
+          padding: 10px;
+          overflow: scroll;
+          height: 174px;
+          width: 600px;
+      }
+
       /* Optional: Makes the sample page fill the window. */
       html, body {
         height: 100%;
@@ -18,42 +28,76 @@
         padding: 0;
       }
     </style>
-    <script src="https://maps.googleapis.com/maps/api/js?key=GOOGLE_KEY"> type="text/javascript"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBa4H59vDquLKttwMkxv0WaJrx3wXB260s"> type="text/javascript"
     </script>
-    <script language="JavaScript" type="text/javascript" src="/js/jquery-1.2.6.min.js"></script>
     <script>
-      var markers = [];
+        var markers = [];
+        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        var labelIndex = 0;
 
-      function initMap() {
-         //var myLatLng = {lat: 42.34, lng: -3.69};
-         var myLatLng = {lat: {{latitud}}, lng: {{longitud}} }
-         var map = new google.maps.Map(document.getElementById('map'), {
-           zoom: 12,
-           center: myLatLng
-         });
+        function initMap() {
+            //var myLatLng = {lat: 42.34, lng: -3.69};
+            var myLatLng = {lat: {{latitud}}, lng: {{longitud}} }
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: myLatLng
+            });
 
-         google.maps.event.addListener(map, 'click', function(event) {
-          addMarker(event.latLng, map);
-        });
+            google.maps.event.addListener(map, 'click', function(event) {
+                addMarker(event.latLng, map);
+            });
 
-         var marker = new google.maps.Marker({
-           position: {lat: 42.343455, lng: -3.702989},
-           map: map,
-           title : "A"
-         });
-       }
+            var marker = new google.maps.Marker({
+                position: {lat: 42.343455, lng: -3.702989},
+                map: map,
+                title : "A"
+            });
+        }
 
-       function addMarker(location, map) {
-        var marker = new google.maps.Marker({
-          position: location,
-          map: map
-        });
-        markers.push(marker);
-      }
-      google.maps.event.addDomListener(window, 'load', initMap);
+        function addMarker(location, map) {
+            var marker = new google.maps.Marker({
+                position: location,
+                label: labels[labelIndex++ % labels.length],
+                map: map
+            });
+            markers.push(marker);
+        }
+
+        function setMapOnAll(map) {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(map);
+            }
+        }
+
+        function clearMarkers() {
+            setMapOnAll(null);
+        }
+
+        // Deletes all markers in the array by removing references to them.
+        function deleteMarkers() {
+            clearMarkers();
+            markers = [];
+            labelIndex = 0;
+        }
+
+        function showMarkersDiv() {
+             var summaryPanel = document.getElementById('directions-panel');
+              summaryPanel.innerHTML = '';
+              for (var i=0;i<markers.length;i++){
+                  summaryPanel.innerHTML += markers[i].label + ': ' + markers[i].position + '<br>';
+              }
+        }
+
+        google.maps.event.addDomListener(window, 'load', initMap);
      </script>
   </head>
   <body>
-    <div id="map" name="map"></div>
+    <form>
+        <div id="map"></div>
+        <input onclick="showMarkersDiv();" type=button value="Mostrar">
+        <input onclick="deleteMarkers();" type=button value="Delete Markers">
+        <button name="forwardBtn" onclick="save_markers()">Forward</button>
+        <div id = "directions-panel"></div>
+    </form>
   </body>
 </html>
