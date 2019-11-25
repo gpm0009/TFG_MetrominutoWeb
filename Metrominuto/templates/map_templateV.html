@@ -56,81 +56,57 @@
             }
         }
 
-        function save_markers(){
-            var waypts = [];
-            var checkboxArray = markers;
-            for (var i = 0; i < checkboxArray.length; i++) {
-                if (checkboxArray.options[i].selected) {
-                waypts.push({
-                    location: checkboxArray[i].position,
-                    stopover: true
-                });
-                }
-            }
+        function save_markers() {
+            $.post('/getMarks', {
+                data: markers.length,
 
-            directionsService.route({
-                origin: checkboxArray[0],
-                destination: checkboxArray[checkboxArray.length-1],
-                waypoints: waypts,
-                optimizeWaypoints: true,
-                travelMode: 'DRIVING'
-            }, function(response, status) {
-                if (status === 'OK') {
-                directionsRenderer.setDirections(response);
-                var route = response.routes[0];
-                var summaryPanel = document.getElementById('directions-panel');
-                summaryPanel.innerHTML = '';
-                // For each route, display summary information.
-                for (var i = 0; i < route.legs.length; i++) {
-                    var routeSegment = i + 1;
-                    summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
-                        '</b><br>';
-                    summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
-                    summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-                    summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
-                }
-                } else {
-                window.alert('Directions request failed due to ' + status);
-                }
+            }).done(function(response) {
+               console.debug("Error")
+            }).fail(function() {
+
             });
+
         }
 
+        function draw_route(){
+
+        }
 
         google.maps.event.addDomListener(window, 'load', initMap);
 </script>
 
 <form>
     <div id="map"></div>
-    
     <input onclick="showMarkersDiv();" type=button value="Mostrar">
     <input onclick="deleteMarkers();" type=button value="Delete Markers">
-    <input onclick="save_markers();" type=button value="Guardar">
-    <input type="submit" id="submit">
+    <input onclick="draw_route();" type="button" value="Dibujar">
+{#    <input onclick="save_markers();" type=button value="Guardar">#}
+{#    <input type="submit" id="submit">#}
     <div id = "directions-panel"></div>
 </form>
-<script>
-    $(document).ready(function boxes(){
-        var markers = [];
-        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        var labelIndex = 0;
-        $("#showButton").click(function () {
-            showMarkersDiv();
-        });
-        $("#removeButton").click(function () {
-            deleteMarkers();
-        });
-        $("#saveButton").click(function () {
-            $.ajax({
-                type: "POST",
-                contentType: "application/json;charset=utf-8",
-                url: "/getMarks",
-                traditional: "true",
-                data: JSON.stringify (markers.length),
-                dataType: "json"
-            });
-        });
-       
-    });
-</script>
+{#<script>#}
+{#    $(document).ready(function boxes(){#}
+{#        var markers = [];#}
+{#        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';#}
+{#        var labelIndex = 0;#}
+{#        $("#showButton").click(function () {#}
+{#            showMarkersDiv();#}
+{#        });#}
+{#        $("#removeButton").click(function () {#}
+{#            deleteMarkers();#}
+{#        });#}
+{#        $("#saveButton").click(function () {#}
+{#            $.ajax({#}
+{#                type: "POST",#}
+{#                contentType: "application/json;charset=utf-8",#}
+{#                url: "/getMarks",#}
+{#                traditional: "true",#}
+{#                data: JSON.stringify (markers.length),#}
+{#                dataType: "json"#}
+{#            });#}
+{#        });#}
+{#       #}
+{#    });#}
+{#</script>#}
 
 {% endblock %}
