@@ -46,13 +46,15 @@
     <input type='button' value='Show' id='showButton'>
     <input type='button' value='Delete' id='removeButton'>
     <input type='button' value='Save' id='saveButton'>
+    <input type='button' value='Draw' id='drawButton'>
     <div id = "directions"></div>
 </form>
 </body>
 </html>
 <script>
     $(document).ready(function boxes(){
-
+            var directionsService = new google.maps.DirectionsService();
+            var directionsRenderer = new google.maps.DirectionsRenderer();
         var markers = [];
         var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         var labelIndex = 0;
@@ -67,10 +69,9 @@
             //alert(markers[0].label);
             var list = []
             for(i=0;i<markers.length;i++){
-                list.push(markers[i].label);
                 list.push(markers[i].position);
             }
-            alert(list);
+            //alert(list);
             $.ajax({
                 type: "POST",
                 contentType: "application/json;charset=utf-8",
@@ -80,10 +81,13 @@
                 dataType: "json"
             });
         });
-
+        $("#drawButton").click(function () {
+            draw_route();
+        });
 
         function initMap() {
             //var myLatLng = {lat: 42.34, lng: -3.69};
+
             var myLatLng = {lat: {{latitud}}, lng: {{longitud}} }
             var map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 12,
@@ -99,6 +103,7 @@
                 map: map,
                 title : "A"
             });
+            directionsRenderer.setMap(map);
         }
 
         function addMarker(location, map) {
@@ -133,6 +138,20 @@
             for (var i=0;i<markers.length;i++){
                 summaryPanel.innerHTML += markers[i].label + ': ' + markers[i].position + '<br>';
             }
+        }
+        function draw_route(){
+            var start = markers[0].position;
+            var end = markers[1].position;
+            var request = {
+                origin: start,
+                destination: end,
+                travelMode: 'DRIVING'
+            };
+            directionsService.route(request, function(result, status) {
+                if (status == 'OK') {
+                    directionsRenderer.setDirections(result);
+                }
+            });
         }
         google.maps.event.addDomListener(window, 'load', initMap);
     });

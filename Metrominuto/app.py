@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, json
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map, icons
+from googlemaps import convert
 #from datetime import datetime
 
 
@@ -19,8 +20,10 @@ def show_map():
         )
     else:
         markers = request.get_json();
-        print(markers[1])
-        return render_template("map_route.html",)
+        for mark in markers:
+            al = convert.latlng(mark)
+            print(al)
+        return render_template("map_route.html")
 
 
 @app.route("/show_route", methods=['GET'])
