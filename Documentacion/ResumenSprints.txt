@@ -1,0 +1,20 @@
+Sprint 1: 
+	Instalacion del entonrno de trabajo. Inicialmente VSC y posteriormente se cambio a pycharm proffesional. 
+	Orientacion acerca del objetivo del proyecto. 
+	Familiarización con Flask --> Hola Mundo 
+	Crear proyecto en github. 
+	Estructura del proyecto. 
+	Crear cuenta en google y activar las apis. 
+	Mostrar marcadores en el mapa 
+
+Sprint 2: 
+	Activar nueva api en google. 
+	Guardar e imprimir en el servidor los marcadores añadidos al mapa 
+	Dibujar ruta entre ellos --> API JavaScript google. 
+	Para guardarlos mediante JSON. 
+	Cambio de SO a Linux Mint --> correspondiente configuración. 
+	Descargar plantilla Latex 
+
+Sprint 3: 
+	Documentar 
+	Buscar información acerca del API de Google de Python. 
