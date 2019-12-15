@@ -141,11 +141,24 @@
         }
         function draw_route(){
             var start = markers[0].position;
-            var end = markers[1].position;
+            var end = markers[markers.length-1].position;
+            var waypts = [];
+            for (var i = 0; i < markers.length; i++){
+                waypts.push(markers[i].position)
+            }
+            var dir=[];
+
+           for (let i=1;i<markers.length-1;i++){
+                dir.push({
+                location: markers[i].position,
+                stopover: false
+              });
+           }
             var request = {
                 origin: start,
                 destination: end,
-                travelMode: 'DRIVING'
+                waypoints: dir,
+                travelMode: 'WALKING'
             };
             directionsService.route(request, function(result, status) {
                 if (status == 'OK') {
