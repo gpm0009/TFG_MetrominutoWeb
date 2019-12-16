@@ -47,6 +47,7 @@
     <input type='button' value='Delete' id='removeButton'>
     <input type='button' value='Save' id='saveButton'>
     <input type='button' value='Draw' id='drawButton'>
+     <input type='button' value='Distance' id='distanceMatrix'>
     <div id = "directions"></div>
 </form>
 </body>
@@ -69,20 +70,24 @@
             //alert(markers[0].label);
             var list = []
             for(i=0;i<markers.length;i++){
-                list.push(markers[i].position);
-            }
-            //alert(list);
-            $.ajax({
+                var marcador = {'position' : markers[i].position,
+                                'label' : markers[i].label};
+                console.log(marcador);
+                $.ajax({
                 type: "POST",
                 contentType: "application/json;charset=utf-8",
                 {#url: "/getMarks",#}
                 traditional: "true",
-                data: JSON.stringify(list),
+                data: JSON.stringify(marcador),
                 dataType: "json"
             });
+            }
         });
         $("#drawButton").click(function () {
             draw_route();
+        });
+        $("#distanceMatrix").click(function () {
+            calcularDistance();
         });
 
         function initMap() {
@@ -166,6 +171,52 @@
                 }
             });
         }
+        function calcularDistance(){
+            var service = new google.maps.DistanceMatrixService();
+            var originss = ["Perth, Australia", "Sydney, Australia",
+                "Melbourne, Australia", "Adelaide, Australia",
+                "Brisbane, Australia", "Darwin, Australia",
+                "Hobart, Australia", "Canberra, Australia"];
+            var destinationss = ["Uluru, Australia",
+                "Kakadu, Australia",
+                "Blue Mountains, Australia",
+                "Bungle Bungles, Australia",
+                "The Pinnacles, Australia"];
+            service.getDistanceMatrix(
+                {
+                    origins: originss,
+                    destinations: destinationss,
+                    travelMode: 'WALKING',
+                    avoidHighways: true,
+                    avoidTolls: true,
+                }, callback);
+        }
+        function callback(response, status) {
+            if (status == 'OK') {
+                var origins = response.originAddresses;
+                var destinations = response.destinationAddresses;
+
+                for (var i = 0; i < origins.length; i++) {
+                    var results = response.rows[i].elements;
+                    for (var j = 0; j < results.length; j++) {
+                        var element = results[j];
+                        var distance = element.distance.text;
+                        var duration = element.duration.text;
+                        var from = origins[i];
+                        var to = destinations[j];
+                        $.ajax({
+                            type: "POST",
+                            contentType: "application/json;charset=utf-8",
+                            {#url: "/getMarks",#}
+                            traditional: "true",
+                            data: JSON.stringify(element),
+                            dataType: "json"
+                        });
+                    }
+                }
+            }
+        }
+
         google.maps.event.addDomListener(window, 'load', initMap);
     });
 </script>
