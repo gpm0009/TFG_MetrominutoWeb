@@ -1,0 +1,4 @@
+tratar objeto JSON en el servidor:
+	>Probar con --> https://www.programiz.com/python-programming/json
+		>>Lo pasa a un diccionario en el que luego podemos acceder con la clave a los valores. Realmente de lo que se trataria es de pasar a un diccionario
+		cada uno de los elementos que llega, ya que la peticion post se realizaa de elemento en elemento, no de todos a la vez.
