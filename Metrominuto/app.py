@@ -15,45 +15,41 @@ gmaps = googlemaps.Client(key='AIzaSyBa4H59vDquLKttwMkxv0WaJrx3wXB260s')
 def show_map():
     latitude = 42.34
     longitude = -3.69
-    coordenadas=[]
-    if request.method == 'GET':
-        return render_template(
-            "map_template.html",
-            latitud=latitude,
-            longitud=longitude
-        )
-    else:
-        markers = []
-        markers = request.get_json();
-        # for mark in markers:
-        #     al = convert.latlng(mark)
-        #     print(al)
-        #     coordenadas.append(al)
-        print(markers)
-        show_route(coordenadas)
-        return render_template("map_route.html")
+    # Se puede introducir código de places para cargar directamente el mapa donde queramos.
+    return render_template(
+        "map_template.html",
+        latitud=latitude,
+        longitud=longitude
+    )
+
+    # distance_matrix(client, origins, destinations,
+    #                 mode=None, language=None, avoid=None, units=None,
+    #                 departure_time=None, arrival_time=None, transit_mode=None,
+    #                 transit_routing_preference=None, traffic_model=None, region=None);
 
 
-@app.route("/show_route", methods=['GET'])
-def show_route(coordenadas):
-    # Look up an address with reverse geocoding
-    # reverse_geocode_result = gmaps.reverse_geocode((40.714224, -73.961452))
-    # print(reverse_geocode_result)
-    # Request directions via public transit
+@app.route("/setMarks", methods=['POST'])
+def set_marks():
+    place = gmaps.find_place('Burgos', 'textquery')
+    print(place)
+
+    markers = request.get_json();
+    print(markers)
+    origins = []
+    destinations = []
+    origins.append(markers[0]['position'])
+    origins.append(markers[1]['position'])
+    destinations.append(markers[2]['position'])
     now = datetime.now()
-    # directions_result = gmaps.directions("Sydney Town Hall",
-    #                                      "Parramatta, NSW",
-    #                                      mode="transit",
-    #                                      departure_time=now)
-
-    return 0
-
-
-# @app.route("/getMarks", methods=['POST'])
-# def get_marks():
-#     markers = request.args.list('data')
-#     #print(markers)
-#     return markers
+    # devuelven diccionarios
+    matrix_distance = gmaps.distance_matrix(origins, destinations)
+    directions_result = gmaps.directions(markers[0]['position'],
+                                         markers[1]['position'],
+                                         mode="transit",
+                                         departure_time=now)
+    print(matrix_distance)
+    print(directions_result)
+    return render_template("map_template.html")
 
 
 if __name__ == '__main__':

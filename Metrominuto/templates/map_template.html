@@ -72,16 +72,16 @@
             for(i=0;i<markers.length;i++){
                 var marcador = {'position' : markers[i].position,
                                 'label' : markers[i].label};
-                console.log(marcador);
-                $.ajax({
+                list.push(marcador)
+            }
+            $.ajax({
                 type: "POST",
                 contentType: "application/json;charset=utf-8",
-                {#url: "/getMarks",#}
+                url: "/setMarks",
                 traditional: "true",
-                data: JSON.stringify(marcador),
+                data: JSON.stringify(list),
                 dataType: "json"
             });
-            }
         });
         $("#drawButton").click(function () {
             draw_route();
@@ -95,7 +95,7 @@
 
             var myLatLng = {lat: {{latitud}}, lng: {{longitud}} }
             var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 12,
+                zoom: 15,
                 center: myLatLng
             });
 
@@ -103,11 +103,7 @@
                 addMarker(event.latLng, map);
             });
 
-            var marker = new google.maps.Marker({
-                position: {lat: 42.343455, lng: -3.702989},
-                map: map,
-                title : "A"
-            });
+
             directionsRenderer.setMap(map);
         }
 
