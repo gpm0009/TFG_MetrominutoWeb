@@ -1,46 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Simple Map</title>
-    <meta name="viewport" content="initial-scale=1.0">
-    <meta charset="utf-8">
-    <style>
-        /* Always set the map height explicitly to define the size of the div
-         * element that contains the map. */
-        #map {
-            width:  720px;
-            height: 500px;
-        }
+{% extends "base_template.html" %}
 
-        #directions-panel {
-            margin-top: 10px;
-            background-color: #FFEE77;
-            padding: 10px;
-            overflow: scroll;
-            height: 174px;
-            width: 600px;
-        }
-
-        /* Optional: Makes the sample page fill the window. */
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-    </style>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBa4H59vDquLKttwMkxv0WaJrx3wXB260s"> type="text/javascript"</script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-</head>
-<body>
-{#<script>
-    var markers = [];
-    var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    var labelIndex = 0;
-
-
-
-</script>#}
-
+{% block content %}>
 <form>
     <div id="map"></div>
     <input type='button' value='Show' id='showButton'>
@@ -87,7 +47,7 @@
             draw_route();
         });
         $("#distanceMatrix").click(function () {
-            calcularDistance();
+            calculateDistance();
         });
 
         function initMap() {
@@ -130,7 +90,6 @@
         function deleteMarkers() {
             clearMarkers();
             markers = [];
-            labelIndex = 0;
         }
 
         function showMarkersDiv() {
@@ -167,17 +126,10 @@
                 }
             });
         }
-        function calcularDistance(){
+        function calculateDistance(){
             var service = new google.maps.DistanceMatrixService();
-            var originss = ["Perth, Australia", "Sydney, Australia",
-                "Melbourne, Australia", "Adelaide, Australia",
-                "Brisbane, Australia", "Darwin, Australia",
-                "Hobart, Australia", "Canberra, Australia"];
-            var destinationss = ["Uluru, Australia",
-                "Kakadu, Australia",
-                "Blue Mountains, Australia",
-                "Bungle Bungles, Australia",
-                "The Pinnacles, Australia"];
+            var originss = ["Perth, Australia", "Sydney, Australia"];
+            var destinationss = ["Uluru, Australia", "Kakadu, Australia"];
             service.getDistanceMatrix(
                 {
                     origins: originss,
@@ -200,19 +152,14 @@
                         var duration = element.duration.text;
                         var from = origins[i];
                         var to = destinations[j];
-                        $.ajax({
-                            type: "POST",
-                            contentType: "application/json;charset=utf-8",
-                            {#url: "/getMarks",#}
-                            traditional: "true",
-                            data: JSON.stringify(element),
-                            dataType: "json"
-                        });
                     }
                 }
             }
         }
 
+
         google.maps.event.addDomListener(window, 'load', initMap);
     });
 </script>
+
+{% endblock %}
