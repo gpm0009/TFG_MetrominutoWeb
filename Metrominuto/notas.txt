@@ -1,4 +1,11 @@
+16 - 12 - 2019
 tratar objeto JSON en el servidor:
 	>Probar con --> https://www.programiz.com/python-programming/json
 		>>Lo pasa a un diccionario en el que luego podemos acceder con la clave a los valores. Realmente de lo que se trataria es de pasar a un diccionario
 		cada uno de los elementos que llega, ya que la peticion post se realizaa de elemento en elemento, no de todos a la vez.
+		
+
+19 - 12 - 2019
+http://micaminomaster.com.co/grafo-algoritmo/algoritmos-dijkstra-floyd-warshall-python-3-5/
+	Algoritmos de Dijkstra y Floyd-Warshall en Python 3.5 (dado un nodo origen encontrar el camino más corto para todos los demás 		nodos)
+https://runestone.academy/runestone/static/pythoned/Graphs/ElAlgoritmoDeDijkstra.html
