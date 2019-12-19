@@ -9,3 +9,6 @@ tratar objeto JSON en el servidor:
 http://micaminomaster.com.co/grafo-algoritmo/algoritmos-dijkstra-floyd-warshall-python-3-5/
 	Algoritmos de Dijkstra y Floyd-Warshall en Python 3.5 (dado un nodo origen encontrar el camino más corto para todos los demás 		nodos)
 https://runestone.academy/runestone/static/pythoned/Graphs/ElAlgoritmoDeDijkstra.html
+
+http://micaminomaster.com.co/grafo-algoritmo/algoritmo-incremental-khopkar-python/
+Algoritmos de busqueda incrementales (Algoritmo incremental de Khopkar)
