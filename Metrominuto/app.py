@@ -1,20 +1,22 @@
 from builtins import print
 
 from flask import Flask, render_template, request, jsonify, json
-from flask_googlemaps import GoogleMaps
-from flask_googlemaps import Map, icons
-from googlemaps import convert
+# from flask_googlemaps import GoogleMaps
+# from flask_googlemaps import Map, icons
+# from googlemaps import convert
 from datetime import datetime
 import googlemaps
 import json
+import calculateRoute as clr
+
 
 app = Flask(__name__)
 gmaps = googlemaps.Client(key='AIzaSyBa4H59vDquLKttwMkxv0WaJrx3wXB260s')
 
 @app.route("/", methods=['GET', 'POST'])
 def show_map():
-    latitude = 42.34
     longitude = -3.69
+    latitude = 42.34
     # Se puede introducir código de places para cargar directamente el mapa donde queramos.
     return render_template(
         "map_template.html",
@@ -33,7 +35,7 @@ def set_marks():
     place = gmaps.find_place('Burgos', 'textquery')
     print(place)
 
-    markers = request.get_json();
+    markers = request.get_json()
     print(markers)
     origins = []
     destinations = []
@@ -48,50 +50,16 @@ def set_marks():
 
     matrix = gmaps.distance_matrix(origins_prueba, destinations_prueba)
 
-
     directions_result = gmaps.directions(markers[0]['position'],
                                          markers[1]['position'],
                                          mode="transit",
                                          departure_time=now)
     print(matrix)
     print(directions_result)
-    read_matrix_distance(matrix)
-    read_direction(directions_result)
+    clr.read_matrix_distance(matrix)
+    clr.read_direction(directions_result)
     return render_template("map_template.html")
 
-
-#recibe un diccionario
-def read_matrix_distance(matrix_distance):
-    rows = matrix_distance['rows'] #Lista de disccionarios.
-    #matrix['rows'][0]['elements'][0]['distance']['value']
-    for row in rows:
-        elements = row['elements']
-        for element in elements:
-            distance = element['distance']['value']
-    # matrix['destination_addresses'][0]
-    destination_addresses = matrix_distance['destination_addresses'] #List
-    origin_addresses = matrix_distance['origin_addresses'] #List
-
-    return 0
-
-
-#recibe una lista con un diccionario
-def read_direction(directions):
-    trace = directions[0] #Diccionario
-    # directions_result[0]['warnings'][0]
-    #directions_result[0]['waypoint_order']
-    #directions_result[0]['legs'][0]['distance']['value']
-    #directions_result[0]['legs'][0]['end_location']['lat']
-    warnings = trace['warnings']
-    for warnin in warnings:
-        print(warnin)
-    legs = trace['legs']
-    for leg in legs:
-        distance = legs['distance']['value']
-        end_location_lat = leg['end_location']['lat']
-        end_location_lng = leg['end_location']['lng']
-
-    return 0
 
 if __name__ == '__main__':
     app.run()
