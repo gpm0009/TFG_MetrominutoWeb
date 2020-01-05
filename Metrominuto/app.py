@@ -32,28 +32,31 @@ def show_map():
 
 @app.route("/setMarks", methods=['POST'])
 def set_marks():
-    place = gmaps.find_place('Burgos', 'textquery')
-    print(place)
+    # place = gmaps.find_place('Burgos', 'textquery')
 
+    # Contiene latlng de los marcadores del mapa.
     markers = request.get_json()
-    print(markers)
+
     origins = []
     destinations = []
-    origins.append(markers[0]['position'])
-    origins.append(markers[1]['position'])
-    destinations.append(markers[2]['position'])
-    now = datetime.now()
+
+    # origins.append(markers[0]['position'])
+    # origins.append(markers[1]['position'])
+    # destinations.append(markers[2]['position'])
+    # Burgos = 42.34, -3.69
+    # Medina = 42.93, -3.51
+    # Villar = 42.9396796, -3.5805516
+    # Espinosa = 43.0792415, -3.5550065
     # devuelven diccionarios
-    origins_prueba = ["Bobcaygeon ON", [41.43206, -81.38992]]
-    destinations_prueba = [(43.012486, -83.6964149),
-                    {"lat": 42.8863855, "lng": -78.8781627}]
+    origins_prueba = [[42.34, -3.69], [42.93, -3.51], [42.9396796, -3.5805516], [43.0792415, -3.5550065]]
+    destinations_prueba = [[42.34, -3.69], [42.93, -3.51], [42.9396796, -3.5805516], [43.0792415, -3.5550065]]
 
     matrix = gmaps.distance_matrix(origins_prueba, destinations_prueba)
 
     directions_result = gmaps.directions(markers[0]['position'],
                                          markers[1]['position'],
-                                         mode="transit",
-                                         departure_time=now)
+                                         mode="transit")
+
     print(matrix)
     print(directions_result)
     clr.read_matrix_distance(matrix)
