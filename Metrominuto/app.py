@@ -33,35 +33,32 @@ def show_map():
 @app.route("/setMarks", methods=['POST'])
 def set_marks():
     # place = gmaps.find_place('Burgos', 'textquery')
-
     # Contiene latlng de los marcadores del mapa.
     markers = request.get_json()
-
     origins = []
     destinations = []
 
-    # origins.append(markers[0]['position'])
-    # origins.append(markers[1]['position'])
-    # destinations.append(markers[2]['position'])
     # Burgos = 42.34, -3.69
     # Medina = 42.93, -3.51
     # Villar = 42.9396796, -3.5805516
     # Espinosa = 43.0792415, -3.5550065
-    # devuelven diccionarios
-    origins_prueba = [[42.34, -3.69], [42.93, -3.51], [42.9396796, -3.5805516], [43.0792415, -3.5550065]]
-    destinations_prueba = [[42.34, -3.69], [42.93, -3.51], [42.9396796, -3.5805516], [43.0792415, -3.5550065]]
+    # origins_prueba = [[42.34, -3.69], [42.93, -3.51], [42.9396796, -3.5805516], [43.0792415, -3.5550065]]
+    # destinations_prueba = [[42.34, -3.69], [42.93, -3.51], [42.9396796, -3.5805516], [43.0792415, -3.5550065]]
+    # matrix = gmaps.distance_matrix(origins_prueba, destinations_prueba)
+    for mark in markers:
+        origins.append(mark['position'])
+        destinations.append(mark['position'])
+    matrix = gmaps.distance_matrix(origins, destinations)
 
-    matrix = gmaps.distance_matrix(origins_prueba, destinations_prueba)
-
-    directions_result = gmaps.directions(markers[0]['position'],
-                                         markers[1]['position'],
-                                         mode="transit")
-
-    print(matrix)
-    print(directions_result)
-    clr.read_matrix_distance(matrix)
-    clr.read_direction(directions_result)
+    # directions_result = gmaps.directions(markers[0]['position'],
+    #                                      markers[1]['position'],
+    #                                      mode="transit")
+    # print(matrix)
+    # print(directions_result)
+    clr.get_distance_matrix_values(matrix)
+    # clr.read_direction(directions_result)
     return render_template("map_template.html")
+
 
 
 if __name__ == '__main__':

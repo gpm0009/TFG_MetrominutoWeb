@@ -21,11 +21,9 @@ def read_matrix_distance(matrix_distance):
 
 
 def get_distance_matrix_values(matrix_distance):
-    dist = matrix_distance['rows'][1]['elements'][0]['distance']['value']
     x = matrix_distance['origin_addresses'].__len__()
     y = matrix_distance['destination_addresses'].__len__()
     distances = np.zeros((x, y))
-
     for i in range(0, x):
         for j in range(0, y):
             distances[i, j] = matrix_distance['rows'][i]['elements'][j]['distance']['value']
