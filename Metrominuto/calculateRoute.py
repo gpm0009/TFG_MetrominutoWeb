@@ -28,7 +28,7 @@ def get_distance_matrix_values(matrix_distance):
         for j in range(0, y):
             distances[i, j] = matrix_distance['rows'][i]['elements'][j]['distance']['value']
     print(distances)
-    return 0
+    return distances
 
 
 # recibe una lista con un diccionario.
