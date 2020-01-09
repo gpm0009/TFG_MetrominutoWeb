@@ -42,22 +42,22 @@ def set_marks():
     origins = []
     destinations = []
 
-    Burgos = 42.34, -3.69
-    Medina = 42.93, -3.51
-    Villar = 42.9396796, -3.5805516
-    Espinosa = 43.0792415, -3.5550065
-    origins_prueba = [[42.34, -3.69], [42.93, -3.51], [42.9396796, -3.5805516], [43.0792415, -3.5550065]]
-    destinations_prueba = [[42.34, -3.69], [42.93, -3.51], [42.9396796, -3.5805516], [43.0792415, -3.5550065]]
-    matrix = gmaps.distance_matrix(origins_prueba, destinations_prueba)
-    # for mark in markers:
-    #     origins.append(mark['position'])
-    #     destinations.append(mark['position'])
-    # matrix = gmaps.distance_matrix(origins, destinations)
+    # Burgos = 42.34, -3.69
+    # Medina = 42.93, -3.51
+    # Villar = 42.9396796, -3.5805516
+    # Espinosa = 43.0792415, -3.5550065
+    # origins_prueba = [[42.34, -3.69], [42.93, -3.51], [42.9396796, -3.5805516], [43.0792415, -3.5550065]]
+    # destinations_prueba = [[42.34, -3.69], [42.93, -3.51], [42.9396796, -3.5805516], [43.0792415, -3.5550065]]
+    # matrix = gmaps.distance_matrix(origins_prueba, destinations_prueba)
+    for mark in markers:
+        origins.append(mark['position'])
+        destinations.append(mark['position'])
+    matrix = gmaps.distance_matrix(origins, destinations)
 
-    # directions_result = gmaps.directions(markers[0]['position'],
-    #                                      markers[1]['position'],
-    #                                      mode="transit")
-    # print(matrix)
+    directions_result = gmaps.directions(markers[0]['position'],
+                                         markers[1]['position'],
+                                         mode="transit")
+    print(matrix)
     # print(directions_result)
     dist = clr.get_distance_matrix_values(matrix)
     dibujargrafo(dist)
@@ -66,26 +66,32 @@ def set_marks():
 
 
 def dibujargrafo(dista):
-    G = nx.DiGraph()
-    G.add_node('A', pos=(1, 2))
-    G.add_node('B', pos=(4, 5))
-    G.add_node('C', pos=(25, 7))
-    G.add_node('D', pos=(4, 15))
-    G.add_edge('A', 'B', weight=5)
-    G.add_edge('B', 'C', weight=7)
-    G.add_edge('B', 'D', weight=7)
-    G.add_edge('D', 'A', weight=20)
-    nx.draw(G, pos=nx.get_node_attributes(G, 'pos'), with_labels=True)
+    
+    graph = nx.DiGraph()
+    graph.add_node('Burgos', pos=(42.34, 3.69))
+    graph.add_node('Medina', pos=(42.93, 3.51))
+    graph.add_node('Villar', pos=(42.93, 3.58))
+    graph.add_node('Espinosa', pos=(43.07, 3.55))
+
+    graph.add_edge('Burgos', 'Medina', weight=dista[0][1])
+    graph.add_edge('Medina', 'Villar', weight=dista[1][2])
+    graph.add_edge('Villar', 'Espinosa', weight=dista[2][3])
+    graph.add_edge('Espinosa', 'Burgos', weight=dista[3][0])
+    # graph.add_node('A', pos=(1, 2))
+    # graph.add_node('B', pos=(4, 5))
+    # graph.add_node('C', pos=(25, 7))
+    # graph.add_node('D', pos=(4, 15))
+    # graph.add_edge('A', 'B', weight=5)
+    # graph.add_edge('B', 'C', weight=7)
+    # graph.add_edge('B', 'D', weight=7)
+    # graph.add_edge('D', 'A', weight=20)
+    nx.draw(graph, pos=nx.get_node_attributes(graph, 'pos'), with_labels=True)
     # for i in range(0, dista.__len__()):
-    #     G.add_node(i, )
-
-
-    nx.draw_networkx_edge_labels(G, pos=nx.get_node_attributes(G, 'pos'), edge_labels=None, label_pos=0.5, font_size=10, font_color='k',
+    #     graph.add_node(i, )
+    nx.draw_networkx_edge_labels(graph, pos=nx.get_node_attributes(graph, 'pos'), edge_labels=None, label_pos=0.5, font_size=10, font_color='k',
                               font_family='sans-serif', font_weight='normal', alpha=None, bbox=None, ax=None,
                               rotate=True)
     plt.show()
-
-
     return 0
 
 
