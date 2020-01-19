@@ -1,3 +1,6 @@
+matplotlib
+networkx
+numpy
 apt-clone==0.2.1
 apt-xapian-index==0.47
 apturl==0.5.2
