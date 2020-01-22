@@ -1,6 +1,6 @@
 from builtins import print
 
-from flask import Flask, render_template, request, jsonify, json
+from flask import Flask, render_template, request, jsonify, json, redirect
 from datetime import datetime
 import googlemaps
 import calculateRoute as clr
@@ -37,13 +37,6 @@ def set_marks():
     origins = []
     destinations = []
 
-    # Burgos = 42.34, -3.69
-    # Medina = 42.93, -3.51
-    # Villar = 42.9396796, -3.5805516
-    # Espinosa = 43.0792415, -3.5550065
-    # origins_prueba = [[42.34, -3.69], [42.93, -3.51], [42.9396796, -3.5805516], [43.0792415, -3.5550065]]
-    # destinations_prueba = [[42.34, -3.69], [42.93, -3.51], [42.9396796, -3.5805516], [43.0792415, -3.5550065]]
-    # matrix = gmaps.distance_matrix(origins_prueba, destinations_prueba)
     for mark in markers:
         origins.append(mark['position'])
         destinations.append(mark['position'])
@@ -57,7 +50,13 @@ def set_marks():
     dist = clr.get_distance_matrix_values(matrix)
     clr.draw_graph(dist, markers)
     # clr.read_direction(directions_result)
-    return render_template("map_template.html")
+    return render_template('map_template.html')
+
+
+# @app.route('/graph', methods=['GET'])
+# def grafo():
+#
+#     return render_template('graph.html')
 
 
 if __name__ == '__main__':
