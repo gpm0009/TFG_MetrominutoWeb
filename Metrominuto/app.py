@@ -50,13 +50,14 @@ def set_marks():
     dist = clr.get_distance_matrix_values(matrix)
     clr.draw_graph(dist, markers)
     # clr.read_direction(directions_result)
+    grafo()
     return render_template('map_template.html')
 
 
-# @app.route('/graph', methods=['GET'])
-# def grafo():
-#
-#     return render_template('graph.html')
+@app.route('/graph', methods=['GET', 'POST'])
+def grafo():
+
+    return render_template('tubemap.html')
 
 
 if __name__ == '__main__':

@@ -1,0 +1,72 @@
+<html>
+
+<head>
+    <title>GRAFO</title>
+  <script src="../static/d3.v5.js"></script>
+    <script src="../static/d3-tube-map.js"></script>
+
+  <link href='https://fonts.googleapis.com/css?family=Hammersmith+One' rel='stylesheet' type='text/css'>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        text {
+            font-family: 'Hammersmith One', sans-serif;
+            fill: #0019A8;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: normal;
+        }
+    </style>
+</head>
+
+<body>
+  <div id="tube-map">
+  </div>
+  <script>
+    var container = d3.select('#tube-map');
+    var width = 1600;
+    var height = 1000;
+
+    var map = d3.tubeMap()
+      .width(width)
+      .height(height)
+      .margin({
+        top: 20,
+        right: 20,
+        bottom: 40,
+        left: 100,
+      })
+      .on("click", function (name) {
+        console.log(name);
+      });
+
+
+    d3.json('../static/prueba.json').then(function(data) {
+      container
+        .datum(data).call(map);
+
+      var svg = container.select('svg');
+
+      zoom = d3
+        .zoom()
+        .scaleExtent([0.5, 6])
+        .on('zoom', zoomed);
+
+      var zoomContainer = svg.call(zoom);
+      var initialScale = 2;
+      var initialTranslate = [100, 200];
+
+      zoom.scaleTo(zoomContainer, initialScale);
+      zoom.translateTo(zoomContainer, initialTranslate[0], initialTranslate[1]);
+
+      function zoomed() {
+        svg.select('g').attr('transform', d3.event.transform.toString());
+      }
+    });
+  </script>
+</body>
+
+</html>

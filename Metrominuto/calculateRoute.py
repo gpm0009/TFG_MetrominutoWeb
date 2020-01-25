@@ -60,6 +60,7 @@ def draw_graph(dista, nodes):
                 graph.add_edge(str(i), str(j), weight=dista[i][j])
     # nx.draw(graph, pos=nx.get_node_attributes(graph, 'pos'), with_labels=True)
     mst = nx.minimum_spanning_edges(graph, weight='weight', data=True)
+
     edgelist = list(mst)  # make a list of the edges
     print(sorted(edgelist))
 
