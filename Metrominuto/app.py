@@ -1,15 +1,11 @@
-from builtins import print
-
 from flask import Flask, render_template, request, jsonify, json, redirect
-from datetime import datetime
 import googlemaps
 import calculateRoute as clr
-import random
-import networkx as nx
-import matplotlib.pyplot as plt
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
-gmaps = googlemaps.Client(key='AIzaSyBa4H59vDquLKttwMkxv0WaJrx3wXB260s')
+bootstrap = Bootstrap(app)
+google_maps = googlemaps.Client(key='')
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -23,11 +19,6 @@ def show_map():
         longitud=longitude
     )
 
-    # distance_matrix(client, origins, destinations,
-    #                 mode=None, language=None, avoid=None, units=None,
-    #                 departure_time=None, arrival_time=None, transit_mode=None,
-    #                 transit_routing_preference=None, traffic_model=None, region=None);
-
 
 @app.route("/setMarks", methods=['POST'])
 def set_marks():
@@ -40,11 +31,9 @@ def set_marks():
     for mark in markers:
         origins.append(mark['position'])
         destinations.append(mark['position'])
-    matrix = gmaps.distance_matrix(origins, destinations)
+    matrix = google_maps.distance_matrix(origins, destinations)
 
-    # directions_result = gmaps.directions(markers[0]['position'],
-    #                                      markers[1]['position'],
-    #                                      mode="transit")
+    # directions_result = gmaps.directions(markers[0]['position'], markers[1]['position'], mode="transit")
     # print(matrix)
     # print(directions_result)
     dist = clr.get_distance_matrix_values(matrix)
