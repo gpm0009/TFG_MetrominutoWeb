@@ -1,3 +1,9 @@
+ # distance_matrix(client, origins, destinations,
+    #                 mode=None, language=None, avoid=None, units=None,
+    #                 departure_time=None, arrival_time=None, transit_mode=None,
+    #                 transit_routing_preference=None, traffic_model=None, region=None);
+
+
 # Burgos = 42.34, -3.69
     # Medina = 42.93, -3.51
     # Villar = 42.9396796, -3.5805516
@@ -15,3 +21,10 @@
     # graph.add_edge('Medina', 'Villar', weight=dista[1][2])
     # graph.add_edge('Villar', 'Espinosa', weight=dista[2][3])
     # graph.add_edge('Espinosa', 'Burgos', weight=dista[3][0])
+
+
+# edge_list = list(mst)  # make a list of the edges
+    # print(edge_list)
+    # for z in range(0, edge_list.__len__()):
+    #     min_graph.add_edge(edge_list[z][0], edge_list[z][1], weight=edge_list[z][2]['weight'])
+    #nx.draw(min_graph, pos=nx.get_node_attributes(graph, 'pos'), with_labels=True)

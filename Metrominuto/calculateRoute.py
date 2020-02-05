@@ -50,10 +50,12 @@ def read_direction(directions):
 def draw_graph(dista, nodes):
     graph = nx.Graph()
     min_graph = nx.Graph()
+    vote_graph = nx.Graph()
     nodes_name = 0
     for node in nodes:
         graph.add_node(str(nodes_name), pos=(node['position']['lat'], node['position']['lng']))
         min_graph.add_node(str(nodes_name), pos=(node['position']['lat'], node['position']['lng']))
+        vote_graph.add_node(str(nodes_name), pos=(node['position']['lat'], node['position']['lng']))
         nodes_name = nodes_name + 1
 
     for i in range(0, dista.__len__()):
@@ -71,36 +73,53 @@ def draw_graph(dista, nodes):
     # nx.draw(min_graph, pos=nx.get_node_attributes(graph, 'pos'), with_labels=True)
     #
     # plt.show()
-    nodes_votes(graph, nodes_name, min_graph)
-    # save_nodes_json(graph, nodes)
+    save_nodes_json(graph)
+    # votes = nodes_votes(graph, nodes_name, min_graph, vote_graph)
+    # print(votes)
+    # draw_line = 23
+    # elarge = [(u, v) for (u, v, d) in votes.edges(data=True) if d['votes'] > 15]
+    # # positions for all nodes
+    # pos = nx.spring_layout(votes)
+    # # nodes
+    # nx.draw_networkx_nodes(votes, pos, node_size=700)
+    # # edges
+    # nx.draw_networkx_edges(votes, pos, edgelist=elarge, width=6)
+    # nx.draw_networkx_edges(votes, pos, edgelist=elarge, width=6, alpha=0.5, edge_color='b', style='dashed')
+    # # labels
+    # nx.draw_networkx_labels(votes, pos, font_size=20, font_family='sans-serif')
+    # plt.axis('off')
+    # plt.show()
     return 0
 
 
-def save_nodes_json(graph, nodes):
+def save_nodes_json(graph):
     # data = {'stations': {}, 'lines': []}
-    stations = {}
-    nodes_name = 0
-    # print(graph.nodes())
-    # stations[str(nodes_name)] = 'A'
-    # stations[str(nodes_name)]['position']['lat'] = 40.3
+    stat = {'stations': {}, 'lines': []}
+    # Generar estaciones
+    for node in graph.nodes(data=True):
+        stat['lines'].append({'name': node[0],
+                              'shiftCoords'[0]: node[1]['pos'][0], 'shiftCoords'[1]: node[1]['pos'][1],
+                              'nodes': []})
 
-    for node in nodes:
-        stations.update({'A': {}})
-        stations['A']['position']['lat'] = 40.3
-        # stations['A']['position']['lat'] = node['position']['lng']
-        nodes_name = nodes_name+1
-    print(stations)
+    for node in graph.nodes(data=True):
+        stat['stations'][node[0]] = {}
+        stat['stations'][node[0]]['name'] = node[0]
+        stat['stations'][node[0]]['position'] = {}
+        stat['stations'][node[0]]['position']['lat'] = node[1]['pos'][0]
+        stat['stations'][node[0]]['position']['lng'] = node[1]['pos'][1]
 
 
-    # with open('data.json', 'w') as file:
-    #     json.dump(data, file, indent=4)
+
+    print(stat)
     return 0
 
 
-def nodes_votes(graph, tam, min_graph):
+def nodes_votes(graph, tam, min_graph, votes_graph):
     votes = np.zeros((tam, tam))
     edge_list = list(graph.edges(data=True))  # make a list of the edges
-    for i in range(0, tam):
+    votes_graph.clear()
+    # Bucle para sacar los votos aleatorios del grafo
+    for i in range(0, 100):
         random_graph = sample(edge_list, k=tam - 1)
         min_graph.clear()
         for z in range(0, random_graph.__len__()):
@@ -111,4 +130,30 @@ def nodes_votes(graph, tam, min_graph):
             x = int(pair[0])
             y = int(pair[1])
             votes[x, y] = votes[x, y] + 1
+            votes_graph.add_edge(random_graph[z][0], random_graph[z][1], votes=votes[x, y] + 1)
+    return votes_graph
+
+
+def ejemplo_graph():
+    G = nx.Graph()
+
+    G.add_edge('a', 'b', weight=0.6)
+    G.add_edge('a', 'c', weight=0.2)
+    G.add_edge('c', 'd', weight=0.1)
+    G.add_edge('c', 'e', weight=0.7)
+    G.add_edge('c', 'f', weight=0.9)
+    G.add_edge('a', 'd', weight=0.3)
+
+    elarge = [(u, v) for (u, v, d) in G.edges(data=True) if d['weight'] > 0.5]
+    esmall = [(u, v) for (u, v, d) in G.edges(data=True) if d['weight'] <= 0.5]
+    pos = nx.spring_layout(G)  # positions for all nodes
+    # nodes
+    nx.draw_networkx_nodes(G, pos, node_size=700)
+    # edges
+    nx.draw_networkx_edges(G, pos, edgelist=elarge, width=6)
+    nx.draw_networkx_edges(G, pos, edgelist=esmall, width=6, alpha=0.5, edge_color='b', style='dashed')
+    # labels
+    nx.draw_networkx_labels(G, pos, font_size=20, font_family='sans-serif')
+    plt.axis('off')
+    plt.show()
     return 0
