@@ -28,3 +28,16 @@
     # for z in range(0, edge_list.__len__()):
     #     min_graph.add_edge(edge_list[z][0], edge_list[z][1], weight=edge_list[z][2]['weight'])
     #nx.draw(min_graph, pos=nx.get_node_attributes(graph, 'pos'), with_labels=True)
+
+
+ # mst = nx.minimum_spanning_tree(graph, weight='weight')
+    # nx.draw(mst, pos=nx.get_node_attributes(graph, 'pos'), with_labels=True)
+
+    # mst = nx.minimum_spanning_edges(graph, weight='weight', data=True)
+    # edge_list = list(mst)  # make a list of the edges
+    # prueba = sample(edge_list, k=2)
+    # for z in range(0, edge_list.__len__()):
+    #     min_graph.add_edge(edge_list[z][0], edge_list[z][1], weight=edge_list[z][2]['weight'])
+    # nx.draw(min_graph, pos=nx.get_node_attributes(graph, 'pos'), with_labels=True)
+    #
+    # plt.show()

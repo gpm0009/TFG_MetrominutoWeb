@@ -38,6 +38,7 @@ def set_marks():
     # print(directions_result)
     dist = clr.get_distance_matrix_values(matrix)
     clr.draw_graph(dist, markers)
+    # clr.ejemplo_graph()
     # clr.read_direction(directions_result)
     grafo()
     return render_template('map_template.html')
