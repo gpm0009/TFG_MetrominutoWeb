@@ -1,66 +1,93 @@
 \apendice{Plan de Proyecto Software}
 
 \section{Introducción}
-En esta fase se analiza en detalle todo aquello necesario para que un proyecto se desarrolle de una forma eficaz y lo mas llevadera posible de manera que surja el menor numero de imprevistos posible.
-Es en esta fase donde se estima el tiempo que va a llevar, el trabajo y el dinero requerido para que el proyecto se lleve acabo.
+En este apéndice se va a analizar todo aquello necesario para que un proyecto se desarrolle con el menor número de imprevistos posible. Para conseguir esto, es necesaria una fase de planificación donde se estimen los tiempos, la cantidad de trabajo y el dinero que es necesario invertir para sacar adelante el proyecto.
+Dicha planificación se divide en dos partes:
+\begin{itemize}
+	\item \textbf{Planificación temporal}: fase en la que se analiza y planifica el trabajo necesario para desarrollar cada parte del proyecto, marcando fechas de inicio y final para cada una de ellas.
+	\item \textbf{Estudio de viabilidad}: fase en la que se analizan las repercusiones legales y económicas del proyecto:
+	\subitem Económica: Análisis de los posibles costes y beneficios del proyecto.
+	\subitem Legal: Análisis de las repercusiones a efectos legales como la \cite{Ley de Protección de Datos} o las licencias del proyecto.
+\end{itemize}
 
 \section{Planificación temporal}
 Esta parte del proyecto es aquella en la que se planifica cómo va a ir avanzando el proyecto en función del trabajo requerido para cada una de las tareas de las que consta el mismo.
 Concretamente se estima el tiempo, es decir, cuáles van a ser los plazos para desarrollar determinadas tareas.
-Para esta planificación o estimación se han empleado los conceptos generales de la metodología ágil Scrum, ya que en este caso en el proyecto sólo hay un único desarrollador a parte de los tutores. Las lineas generales que se han aplicado de esta metodología de gestión han sido:
+Para esta planificación o estimación se han empleado los conceptos generales de la metodología ágil Scrum, ya que en este caso en el proyecto sólo hay un único desarrollador a parte de los tutores. Las líneas generales que se han aplicado de esta metodología de gestión han sido:
 \begin{itemize}
 	\tightlist
 	\item
-	Desarrollo marcado por sucesivos \emph{sprints} marcados por dos reuniones: una al principio de cada uno y otra al final. Normalmente en la reunión de finalización de un \emph{sprint} se marcaban los objetivos y la planificación del siguiente (siendo la primera reunión).
+	Desarrollo marcado por sucesivos \emph{sprints} delimitados por dos reuniones: una al principio de cada uno y otra al final. Normalmente en la reunión de finalización de un \emph{sprint} se marcaban los objetivos y la planificación del siguiente (siendo la primera reunión).
 	\item
 	La duración de los \emph{sprints} fue de dos semanas.
 	\item
-	Cada \emph{sprints} pruce un resultado o incremente del proyecto final.
+	Cada \emph{sprints} produce un resultado o incremente del proyecto final.
 	\item
 	En cada \emph{sprint} se dividía el objetivo final en distintas tareas mas pequeñas.
 	\item
 	Las tareas se planificaban y estimaban en un tablero.
 \end{itemize}
 
-\subsection{Sprint 0. ()}
-En esta reunión el objetivo fundamental fue la presentación, a grandes rasgos, de en que iba a consistir el proyecto por parte de los dos tutores: Alvar Arnaiz Gonzalez y Cesar Ignacio Garcia Osorio.
+\subsection{Sprint 0. (22/10/2019 - 28/10/2019)}
+En esta reunión el objetivo fundamental fue la presentación, a grandes rasgos, de en qué iba a consistir el proyecto por parte de los dos tutores: Álvar Arnaiz González y César Ignacio García Osorio.
 No se definió ninguna tarea, ya que simplemente se trataba de acordar si se había entendido bien el objetivo del proyecto.
 
 \subsection{Sprint 1. (29/10/2019 - 12/11/2019)}
 Esta reunión fue la primera en la que se comenzó a hablar de los requisitos del proyecto y de sus detalles para la planificación.
-Los objetivos de este sprint fueron: crear correctamente el repositorio en GitHub, elegir el entorno de desarrollo que se iba a utilizar y su posterior configuración para ejecutar una aplicación web con Flask, hacer un primer proyecto (HolaMundo) como primera toma de contacto con este framework, y por ultimo, que nuestro proyecto final incorporase ya un mapa proporcionado por el API de Google en el que fuésemos capaces de seleccionar diferentes puntos (marcadores).
+Los objetivos de este sprint fueron:
+\begin{itemize}
+	\item crear correctamente el repositorio en GitHub.
+	\item elegir el entorno de desarrollo que se iba a utilizar y su posterior configuración para ejecutar una aplicación web con Flask.
+	\item hacer un primer proyecto (Hola Mundo) como primera toma de contacto con este framework.
+	\item Incorporar en el proyecto un mapa proporcionado por el API de Google en el que fuésemos capaces de seleccionar diferentes puntos (marcadores).
+\end{itemize}
 
 
 \subsection{Sprint 2. (13/11/2019 - 26/11/2019)}
-Los objetivos principales de este Sprint fueron: guardar e imprimir (tanto en el cliente como en el servidor) los distintos marcadores seleccionados en el mapa, dibujar la ruta entre los distintos puntos seleccionados, seguir los estándares de programación, empezar a completar la documentación del proyecto, y cambiar de Visual Studio Code a Pycharm (licencia profesional).
-Ademas de estos objetivos, debido a la posibilidad de añadir al proyecto nuevas funcionalidades y metodologías de Docker, se decidio cambiar de Sistema Operativo a Linux.
-Durante este sprint se siguió un curso o tutorial sobre Flask de Miguel Grinberg, en el cual, a medida que iba avanzando encontré varias mejoras para aplicar a mi proyecto y que fui incorporando.
-Al final de este sprint, dos de los objetivos no se consiguió por completo, ya que daban algunos errores y se opto por una funcionalidad menor: en vez de dibujar la ruta entre todos los puntos seleccionados, sólo se dibujaba entre el primero y el ultimo; y al pasar los distintos marcadores, mediante un POST al servidor no podia pasar un objeto. Estas dos funcionalidades quedaron pendientes para el siguiente Sprint.
+Los objetivos principales de este Sprint fueron: 
+\begin{itemize}
+	\item Guardar e imprimir (tanto en el cliente como en el servidor) los distintos marcadores seleccionados en el mapa.
+	\item Dibujar la ruta entre los distintos puntos seleccionados.
+	\item Seguir los estándares de programación
+	\item Completar la documentación del proyecto.
+	\item Cambiar de Visual Studio Code a Pycharm (licencia profesional).
+\end{itemize}
+Además de estos objetivos, debido a la posibilidad de añadir al proyecto nuevas funcionalidades y metodologías de Docker, se decidió cambiar de Sistema Operativo a Linux.
+Durante este sprint se siguió un curso o \cite{tutorial sobre Flask de Miguel Grinberg}, en el cual, a medida que iba avanzando encontré varias mejoras para aplicar a mi proyecto y que fui incorporando.
+Al final de este sprint, dos de los objetivos no se consiguieron por completo, ya que daban algunos errores y se opto por una funcionalidad menor: en vez de dibujar la ruta entre todos los puntos seleccionados, sólo se dibujaba entre el primero y el ultimo; y al pasar los distintos marcadores, mediante un POST al servidor no podía pasar un objeto. Estas dos funcionalidades quedaron pendientes para el siguiente Sprint.
 
 \subsection{Sprint 3. (27/11/2019 - 10/12/2019)}
-El principal objetivo de este sprint fue poner al dia la documentación al mismo tiempo que se seguía el tutorial de Flask mencionado en el sprint 2.
-Se encontraron distintas mejoras para realizar, asi como la posibilidad de añadir el fichero requirements.txt, que después serviría para instalar las diferentes librerías utilizadas en el proyecto.
+El principal objetivo de este sprint fue poner al día la documentación al mismo tiempo que se seguía el tutorial de Flask mencionado en el sprint~2.
+Se encontraron distintas mejoras para realizar, así como la posibilidad de añadir el fichero requirements.txt, que después serviría para instalar las diferentes librerías utilizadas en el proyecto.
 También se acabaron las tareas que quedaron pendientes el sprint anterior.
 
 \subsection{Sprint 4. (10/12/2019 - 18/12/2019)}
-Los objetivos de este sprint fueron: mejorar el envío de los datos al servidor, buscar documentación y evaluar los resultados de las distintas funciones que proporciona el API de Google para Python, y ser capaces de diferenciar los datos "útiles" de dichas funciones.
+Los objetivos de este sprint fueron: mejorar el envío de los datos al servidor, buscar documentación y evaluar los resultados de las distintas funciones que proporciona el API de Google para Python, y ser capaces de diferenciar los datos <<útiles>> de dichas funciones.
 
 \subsection{Sprint 5. ( 19/12/2019 - 09/01/2020)}
 En este Sprint, los objetivos fueron:
 \begin{itemize}
 	\item Mostrar la información de los diferentes puntos seleccionados.
-	\item Obtener la matriz de distancias de todos con todos. Se obtiene como resultado una matriz en la que tenemos las distancias de todos los nodos con todos los nodos.
-	\item Dibujar el grafo en la parte python
+	\item Obtener la matriz de distancias de todos con todos. Se obtiene como resultado una matriz en la que tenemos las distancias de todos los nodos entre sí.
+	\item Dibujar el grafo en la parte del servidor, es decir, en Python.
 \end{itemize}
 Tras concluir el sprint, se alcanzaron todos los objetivos, no quedando nada pendiente para el siguiente.
 \subsection{Sprint 6. (10/01/2020 - 23/01/2020)}
 Los objetivos de sprint fueron:
 \begin{itemize}
 	\item Actualizar la documentación.
-	\item Evaluar el algoritmo minimum spanning tree.
+	\item Evaluar el algoritmo \cite{minimum spanning tree}.
 	\item Valorar diferentes bibliotecas para dibujar el grafo en la web.
 \end{itemize}
 Tras concluir el sprint, quedó pendiente algunas preguntas sobre la parte de documentación, además de la implementación del grafo en el cliente.
+\subsection{Sprint 7. (24/01/2020 - 10/02/2020)}
+Durante este Sprint, los objetivos que se marcaron fueron los siguientes:
+\begin{itemize}
+	\item La correcta implementación de la librería encontrada en el Sprint anterior tube-map-d3.
+	\item Creación de una estructura en la que a partir del árbol generado inicialmente y con la ayuda de la función minimum spanning tree de networkx, evaluar este camino mínimo en un conjunto aleatorio de arcos del árbol inicial.
+	\item Crear el archivo JSON necesario para que la librería implementada anteriormente dibuje el grafo que necesitamos. 
+	\item Actualizar y corregir la documentación.
+\end{itemize}
 
 \section{Estudio de viabilidad}
 
