@@ -1,11 +1,9 @@
 from random import sample
-
 import networkx as nx
-from flask import Flask, render_template, request, jsonify, json
-from datetime import datetime
-import googlemaps
+import json
 import numpy as np
 import matplotlib.pyplot as plt
+
 
 # recibe un diccionario
 def read_matrix_distance(matrix_distance):
@@ -62,29 +60,44 @@ def draw_graph(dista, nodes):
         for j in range(0, dista.__len__()):
             if i != j:
                 graph.add_edge(str(i), str(j), weight=dista[i][j])
-    votes = nodes_votes(graph, nodes_name, min_graph, vote_graph)
-    draw_votes_graph(votes)
-    # save_nodes_json(graph)
-
+    # votes = nodes_votes(graph, nodes_name, min_graph, vote_graph)
+    # draw_votes_graph(votes)
+    save_nodes_json(graph)
+    # json_to_list()
     return 0
 
 
 def save_nodes_json(graph):
     # data = {'stations': {}, 'lines': []}
-    stat = {'stations': {}, 'lines': []}
+    stations = {}
     # stations
     for node in graph.nodes(data=True):
-        stat['stations'][node[0]] = {}
-        stat['stations'][node[0]]['name'] = node[0]
-        stat['stations'][node[0]]['position'] = {}
-        stat['stations'][node[0]]['position']['lat'] = node[1]['pos'][0]
-        stat['stations'][node[0]]['position']['lng'] = node[1]['pos'][1]
-    # Lines
-    for node in graph.nodes(data=True):
-        stat['lines'].append({'name': node[0],
-                              'shiftCoords'[0]: node[1]['pos'][0], 'shiftCoords'[1]: node[1]['pos'][1],
-                              'nodes': []})
-    print(stat)
+        stations[node[0]] = {}
+        stations[node[0]]['label'] = node[0]
+        stations[node[0]]['position'] = {}
+        stations[node[0]]['position']['lat'] = node[1]['pos'][0]
+        stations[node[0]]['position']['lng'] = node[1]['pos'][1]
+    i = 0
+    lines_list = [{'name': 'prueba', 'label': 'aaa', 'shiftCoords': [], 'nodes': []}]
+    lines_list[0]['shiftCoords'].append(0)
+    lines_list[0]['shiftCoords'].append(0)
+    for nod in graph.nodes(data=True):
+        lines_list[0]['nodes'].append({'coords': [], 'name': nod[0], 'labelPos': 'N'})
+        lines_list[0]['nodes'][i]['coords'].append(nod[1]['pos'][0]*1000)
+        lines_list[0]['nodes'][i]['coords'].append(nod[1]['pos'][1]*1000)
+        i = i+1
+    data = {'stations': stations, 'lines': lines_list}
+    with open('./static/result.json', 'w') as fp:
+        json.dump(data, fp)
+    print(data)
+    return 0
+
+
+def json_to_list():
+    with open('./static/prueba.json') as json_file:
+        data = json.load(json_file)
+        for ele in data:
+            print(ele)
     return 0
 
 
@@ -93,7 +106,7 @@ def nodes_votes(graph, tam, min_graph, votes_graph):
     edge_list = list(graph.edges(data=True))  # make a list of the edges
     votes_graph.clear()
     # Bucle para sacar los votos aleatorios del grafo
-    for i in range(0, 100):
+    for i in range(0, 50):
         random_graph = sample(edge_list, k=tam - 1)
         min_graph.clear()
         for z in range(0, random_graph.__len__()):
@@ -109,7 +122,7 @@ def nodes_votes(graph, tam, min_graph, votes_graph):
 
 
 def draw_votes_graph(votes):
-    draw_line = 40
+    draw_line = 5
     elarge = [(u, v) for (u, v, d) in votes.edges(data=True) if d['votes'] > draw_line]
     # positions for all nodes
     pos = nx.spring_layout(votes)
@@ -123,25 +136,3 @@ def draw_votes_graph(votes):
     plt.show()
     return 0
 
-
-def ejemplo_graph():
-    G = nx.Graph()
-    G.add_edge('a', 'b', weight=0.6)
-    G.add_edge('a', 'c', weight=0.2)
-    G.add_edge('c', 'd', weight=0.1)
-    G.add_edge('c', 'e', weight=0.7)
-    G.add_edge('c', 'f', weight=0.9)
-    G.add_edge('a', 'd', weight=0.3)
-    elarge = [(u, v) for (u, v, d) in G.edges(data=True) if d['weight'] > 0.5]
-    esmall = [(u, v) for (u, v, d) in G.edges(data=True) if d['weight'] <= 0.5]
-    pos = nx.spring_layout(G)  # positions for all nodes
-    # nodes
-    nx.draw_networkx_nodes(G, pos, node_size=700)
-    # edges
-    nx.draw_networkx_edges(G, pos, edgelist=elarge, width=6)
-    nx.draw_networkx_edges(G, pos, edgelist=esmall, width=6, alpha=0.5, edge_color='b', style='dashed')
-    # labels
-    nx.draw_networkx_labels(G, pos, font_size=20, font_family='sans-serif')
-    plt.axis('off')
-    plt.show()
-    return 0

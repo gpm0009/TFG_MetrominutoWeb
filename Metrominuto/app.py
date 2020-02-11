@@ -40,7 +40,6 @@ def set_marks():
     clr.draw_graph(dist, markers)
     # clr.ejemplo_graph()
     # clr.read_direction(directions_result)
-    grafo()
     return render_template('map_template.html')
 
 

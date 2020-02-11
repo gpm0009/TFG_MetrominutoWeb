@@ -2,6 +2,6 @@ instance/
 .webassets-cache
 /Metrominuto/.idea
 /HolaMundo
-/GOOGLE_API_KEY.txt
+/Metrominuto/GOOGLE_API_KEY.txt
 /Metrominuto/templates/node_modules
 /Metrominuto/__pycache__
