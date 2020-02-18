@@ -1,27 +1,65 @@
 {
   "stations": {
     "StationA": {
-      "label": "Station A"
+      "label": "Station A",
+      "position": {
+        "lat": 52.200395,
+        "lon": 0.134442
+      }
     },
     "StationB": {
-      "label": "Station B"
+      "label": "Station B",
+      "position": {
+        "lat": 52.200395,
+        "lon": 0.134442
+      }
+    },
+    "StationC": {
+      "label": "Station C",
+      "position": {
+        "lat": 52.200395,
+        "lon": 0.134442
+      }
     }
   },
   "lines": [
     {
       "name": "LineA",
-      "color": "#FF0000",
+      "color": "#FFD600",
       "shiftCoords": [0, 0],
       "nodes": [
         {
           "coords": [23, -4],
           "name": "StationA",
-          "labelPos": "N"
+          "labelPos": "S",
+          "marker": "interchange"
+        },
+        {
+          "coords": [31, -4]
         },
         {
           "coords": [31, 2],
           "name": "StationB",
+          "marker": "interchange",
           "labelPos": "E"
+        },
+        {
+          "coords": [31, 5]
+        },
+        {
+          "coords": [50, 5],
+          "name": "StationC",
+          "labelPos": "E",
+          "marker": "interchange"
+        },
+        {
+          "coords": [50, -4]
+        },
+        {
+          "coords": [23, -4],
+          "name": "StationA",
+          "labelPos": "S",
+          "marker": "interchange"
         }
       ]
     }

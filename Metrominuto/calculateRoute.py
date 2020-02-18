@@ -45,7 +45,7 @@ def read_direction(directions):
     return 0
 
 
-def draw_graph(dista, nodes):
+def calculate_graph(dista, nodes):
     graph = nx.Graph()
     min_graph = nx.Graph()
     vote_graph = nx.Graph()
@@ -60,44 +60,43 @@ def draw_graph(dista, nodes):
         for j in range(0, dista.__len__()):
             if i != j:
                 graph.add_edge(str(i), str(j), weight=dista[i][j])
-    # votes = nodes_votes(graph, nodes_name, min_graph, vote_graph)
-    # draw_votes_graph(votes)
-    save_nodes_json(graph)
-    # json_to_list()
+    votes, max, min = nodes_votes(graph, nodes_name, min_graph, vote_graph)
+    draw_value = (max + min)/2
+    draw_votes_graph(votes, draw_value)
+    save_nodes_json(votes, graph)
     return 0
 
 
-def save_nodes_json(graph):
-    # data = {'stations': {}, 'lines': []}
+def save_nodes_json(min_graph, weight_graph):
     stations = {}
-    # stations
-    for node in graph.nodes(data=True):
+    pos = weight_graph.nodes(data=True)
+    for node in min_graph.nodes(data=True):
         stations[node[0]] = {}
         stations[node[0]]['label'] = node[0]
         stations[node[0]]['position'] = {}
-        stations[node[0]]['position']['lat'] = node[1]['pos'][0]
-        stations[node[0]]['position']['lng'] = node[1]['pos'][1]
-    i = 0
-    lines_list = [{'name': 'prueba', 'label': 'aaa', 'shiftCoords': [], 'nodes': []}]
-    lines_list[0]['shiftCoords'].append(0)
-    lines_list[0]['shiftCoords'].append(0)
-    for nod in graph.nodes(data=True):
-        lines_list[0]['nodes'].append({'coords': [], 'name': nod[0], 'labelPos': 'N'})
-        lines_list[0]['nodes'][i]['coords'].append(nod[1]['pos'][0]*1000)
-        lines_list[0]['nodes'][i]['coords'].append(nod[1]['pos'][1]*1000)
-        i = i+1
+        stations[node[0]]['position']['lat'] = pos._nodes[node[0]]['pos'][0]
+        stations[node[0]]['position']['lng'] = pos._nodes[node[0]]['pos'][1]
+
+    nodes_dict_min = dict(min_graph.nodes(data=True))  # make a dict of the nodes
+    edge_list_min = list(min_graph.edges(data=True))  # make a list of the edges
+    # print(nodes_dict_min)
+    # print(edge_list_min)
+    #line 1
+    lines_list = [{'name': 'Line1', 'label': 'Line1', 'color': '#FFD600', 'shiftCoords': [0, 0], 'nodes': []}]
+    for edge in edge_list_min:
+        lines_list[0]['nodes'].append({'name': edge[0],
+                                       'coords': [pos._nodes[edge[0]]['pos'][0]*10000,pos._nodes[edge[0]]['pos'][1]*10000],
+                                       'labelPos': 'S',
+                                       'marker': 'interchange'})
+        lines_list[0]['nodes'].append({'coords':[pos._nodes[edge[1]]['pos'][0]*10000,pos._nodes[edge[0]]['pos'][1]*10000]})
+        lines_list[0]['nodes'].append({'name': edge[1],
+                                       'coords': [pos._nodes[edge[1]]['pos'][0]*10000, pos._nodes[edge[1]]['pos'][1]*10000],
+                                       'labelPos': 'S',
+                                       'marker': 'interchange'})
     data = {'stations': stations, 'lines': lines_list}
     with open('./static/result.json', 'w') as fp:
         json.dump(data, fp)
     print(data)
-    return 0
-
-
-def json_to_list():
-    with open('./static/prueba.json') as json_file:
-        data = json.load(json_file)
-        for ele in data:
-            print(ele)
     return 0
 
 
@@ -107,7 +106,7 @@ def nodes_votes(graph, tam, min_graph, votes_graph):
     votes_graph.clear()
     # Bucle para sacar los votos aleatorios del grafo
     for i in range(0, 50):
-        random_graph = sample(edge_list, k=tam - 1)
+        random_graph = sample(edge_list, k=tam-2)
         min_graph.clear()
         for z in range(0, random_graph.__len__()):
             min_graph.add_edge(random_graph[z][0], random_graph[z][1], weight=random_graph[z][2]['weight'])
@@ -118,11 +117,10 @@ def nodes_votes(graph, tam, min_graph, votes_graph):
             y = int(pair[1])
             votes[x, y] = votes[x, y] + 1
             votes_graph.add_edge(random_graph[z][0], random_graph[z][1], votes=votes[x, y] + 1)
-    return votes_graph
+    return votes_graph, np.max(votes), np.min(votes)
 
 
-def draw_votes_graph(votes):
-    draw_line = 5
+def draw_votes_graph(votes, draw_line):
     elarge = [(u, v) for (u, v, d) in votes.edges(data=True) if d['votes'] > draw_line]
     # positions for all nodes
     pos = nx.spring_layout(votes)

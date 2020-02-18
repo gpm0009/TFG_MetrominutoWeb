@@ -41,3 +41,35 @@
     # nx.draw(min_graph, pos=nx.get_node_attributes(graph, 'pos'), with_labels=True)
     #
     # plt.show()
+
+
+
+
+def save_nodes_json(graph):
+    # data = {'stations': {}, 'lines': []}
+    stations = {}
+    # stations
+    for node in graph.nodes(data=True):
+        stations[node[0]] = {}
+        stations[node[0]]['label'] = node[0]
+        stations[node[0]]['position'] = {}
+        stations[node[0]]['position']['lat'] = node[1]['pos'][0]
+        stations[node[0]]['position']['lng'] = node[1]['pos'][1]
+    i = 0
+    lines_list = [{'name': 'prueba', 'label': 'aaa', 'color': '#FFD600', 'shiftCoords': [], 'nodes': []}]
+    lines_list[0]['shiftCoords'].append(0)
+    lines_list[0]['shiftCoords'].append(0)
+    len = graph.nodes(data=True).__len__()
+    print(len)
+    for nod in graph.nodes(data=True):
+        lines_list[0]['nodes'].append({'coords': [], 'marker': 'interchange', 'name': nod[0], 'labelPos': 'E'})
+        lines_list[0]['nodes'][i]['coords'].append(nod[1]['pos'][0]*1000)
+        lines_list[0]['nodes'][i]['coords'].append(nod[1]['pos'][1]*1000)
+        if i < len:
+            lines_list[0]['nodes'].append({'coords': [nod[1]['pos'][0]*1000, nod[1]['pos'][1]*1000]})
+        i = i+1
+    data = {'stations': stations, 'lines': lines_list}
+    with open('./static/result.json', 'w') as fp:
+        json.dump(data, fp)
+    print(data)
+    return 0
