@@ -1,6 +1,6 @@
 {% extends "base_template.html" %}
 
-{% block content %}>
+{% block app_content %}
     <style>
     </style>
     <form>
@@ -10,11 +10,11 @@
                style="z-index: 0;position: absolute;left: 300px;top: 26px;">
         <div id="map"></div>
         <div id="buttons">
-            <input type='button' value='Show' id='showButton'>
-            <input type='button' value='Delete' id='removeButton'>
-            <input type='button' value='Save' id='saveButton'>
-            <input type='button' value='Draw' id='drawButton'>
-            <input type='button' value='Distance' id='distanceMatrix'>
+            <input type='button' class="btn btn-primary" value='Show' id='showButton'>
+            <input type='button' class="btn btn-primary" value='Delete' id='removeButton'>
+            <input type='button' class="btn btn-primary" value='Save' id='saveButton'>
+            <input type='button' class="btn btn-primary" value='Draw' id='drawButton'>
+            <input type='button' class="btn btn-primary" value='Distance' id='distanceMatrix'>
             <div id = "directions"></div>
         </div>
 

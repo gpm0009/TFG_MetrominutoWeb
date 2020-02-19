@@ -1,53 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-      <title>MAPA</title>
-      <meta name="viewport" content="initial-scale=1.0">
-      <meta charset="utf-8">
-      <style>
-          /* Always set the map height explicitly to define the size of the div
-           * element that contains the map. */
-          #map {
-              width: 1200px;
-              height: 900px;
-              margin-left: 130px;
-          }
-          #buttons {
-              margin-left: 130px;
-              margin-top: 10px;
-          }
+{% extends 'bootstrap/base.html' %}
 
-          html, body {
-              height: 100%;
-              margin: 0;
-              padding: 0;
-          }
-           #controls {
-              background-color: #fff;
-              border-radius: 2px;
-              border: 1px solid transparent;
-              box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-              box-sizing: border-box;
-              font-family: Roboto;
-              font-size: 15px;
-              font-weight: 300;
-              height: 29px;
+{% block title %}
+    {% if title %}{{ title }} - MAPA{% else %}MAPA{% endif %}
+{% endblock %}
 
-              outline: none;
+{% block navbar %}
+    <nav class="navbar navbar-light bg-light">
+  <span class="navbar-brand mb-0 h1">Metrominuto</span>
+</nav>
+{% endblock %}
 
-              text-overflow: ellipsis;
-              width: 400px;
-               position: absolute;
-               left: 195px;
-               top: 18px;
-           }
+{% block content %}
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            width: 1200px;
+            height: 900px;
+            margin-left: 130px;
+        }
+        #buttons {
+            margin-left: 130px;
+            margin-top: 10px;
+        }
 
-
-      </style>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBa4H59vDquLKttwMkxv0WaJrx3wXB260s&libraries=places"> type="text/javascript"</script>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    </head>
-    <body>
-        {% block content %}{% endblock %}
-    </body>
-</html>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #controls {
+            background-color: #fff;
+            border-radius: 2px;
+            border: 1px solid transparent;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            box-sizing: border-box;
+            font-family: Roboto;
+            font-size: 15px;
+            font-weight: 300;
+            height: 29px;
+            outline: none;
+            text-overflow: ellipsis;
+            width: 400px;
+            position: absolute;
+            left: 195px;
+            top: 18px;
+        }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBa4H59vDquLKttwMkxv0WaJrx3wXB260s&libraries=places"> type="text/javascript"</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+     <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+     </div>
+    {% block app_content %}{% endblock %}
+{% endblock %}
