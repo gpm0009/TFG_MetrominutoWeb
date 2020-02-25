@@ -9,7 +9,7 @@ No se pretende que este apartado se convierta en un capítulo de un libro dedica
 Scrum es una metodología de desarrollo ágil la cual proporciona un marco de trabajo y desarrollo de productos. No es un solo proceso, si no que en esta metodología se aplican un conjunto de buenas practicas y procesos para que el producto final sea de la mejor calidad posible.
 El principal elemento del Scrum consiste en los llamados Sprints, que son ciclos de trabajo de una semana de duración, período el cual sirve para producir un desarrollo o mejora del producto final. Estos sprints están marcados por dos reuniones:
 \begin{itemize}
-	\item Planificación: en ella se presentan los requisitos o avances que tiene que cumplir el proyecto., a la vez que se estiman los tiempos y se realiza la planificación.
+	\item Planificación: en ella se presentan los requisitos o avances que tiene que cumplir el proyecto, a la vez que se estiman los tiempos y se realiza la planificación.
 	\item Reunión de revisión: entrega de los requisitos acordados en la reunión de planificación y el equipo analiza el sprint.
 \end{itemize}
 El uso de esta metodología, junto con las diversas reuniones que se realizan, permite que el producto final sea de mejor calidad ya que en todo momento se conoce el feedback del cliente y se pueden realizar distintos cambios incrementales a medida que avanza el proyecto.
@@ -17,18 +17,15 @@ Es una metodología pensada para el trabajo en equipo, por lo que en este proyec
 
 
 \subsubsection{GitHub}
-Para el control de versiones de este proyecto he utilizado GitHub, que es un repositorio en linea que emplea Git. De esta manera tenemos acceso en linea a los diferentes cambios de nuestro proyecto.
-Git maneja los diferentes archivos del proyecto como un conjunto de copias instantáneas. 
+Para el control de versiones de este proyecto he utilizado GitHub, que es un repositorio en línea que emplea Git. De esta manera tenemos acceso en línea a los diferentes cambios de nuestro proyecto.
+Git maneja los distintos archivos del proyecto como un conjunto de copias instantáneas. 
 
-\subsubsection{Tablero}
-Estas tareas podemos ponerlas en un tablero, en función de las que sean prioritarias, se esten desarrollando, quien las hace\dots u otras clasificaciones que queramos darle (normalmente en función de la prioridad).
-Normalmente, el uso del tablero es mas útil cuando el desarrollo se realiza en equipo, ya que se pueden asignar a distintas personas. Individualmente también resulta útil ya que ayuda a mantener un control y un orden.
 
 \section{Herramientas}
 \subsection{Flask}
-Flask es un framework de Python que nos permite crear páginas web de una manera mas sencilla y empleando un mínimo número de lineas para ello. Ofrece servicios HTTP, pero para poder hacer uso de los contenidos HTML requiere de la utilización del motor de templates \cite{Jinja2}: lenguaje de plantillas que permite insertar datos procesados y texto predeterminado.
+Flask es un framework de Python que nos permite crear páginas web de una manera mas sencilla y empleando un mínimo número de lineas para ello. Ofrece servicios HTTP, pero para poder hacer uso de los contenidos HTML requiere de la utilización del motor de templates \textit{Jinja2}: lenguaje de plantillas que permite insertar datos procesados y texto predeterminado.
 
-\subsection{Librerías}
+\subsection{Bibliotecas}
 
 \subsubsection{Networkx}
 \subsection{JavaScript para dibujar redes}
@@ -50,10 +47,12 @@ Para poder integrar en la aplicación web tanto los mapas como las diferentes fu
 Una vez obtenida la clave, puede restringirse su uso para ciertas direcciones o dominios, de modo que puedes mantener el control de quien la usa. Además, no vale con conseguir una clave y ya esta, si no que para usar los diferentes servicios que proporciona Google hay que activar diferentes APIs.
 Las APIs que se usan en este proyecto son:
 \begin{itemize}
-	\item \textbf{Maps JAvaScript API}: Se utiliza en el cliente, de manera que se muestra el mapa al cargar la página y permite realizar diferentes acciones en el; tales como buscar, seleccionar puntos o moverte a traves de él. Algunas de estas acciones implican el uso de algunas de funcionalidades que proporcionan las APIs explicadas a continuación.
+	\item \textbf{Maps JavaScript API}: Se utiliza en el cliente, de manera que se muestra el mapa al cargar la página y permite realizar diferentes acciones en él; tales como buscar, seleccionar puntos o moverte a traves de él. Algunas de estas acciones implican el uso de algunas de funcionalidades que proporcionan las APIs explicadas a continuación.
 	\item \textbf{Geocoding API}: este API consta de dos elementos:
-	\subitem Geocodificación: Consiste en convertir direcciones en coordenadas.
-	\subitem Geocodificación inversa: Consiste en convertir coordenadas en una dirección legible.
+	\begin{itemize}
+		\item Geocodificación: Consiste en convertir direcciones en coordenadas.
+		\item Geocodificación inversa: Consiste en convertir coordenadas en una dirección legible.
+	\end{itemize}
 	\item \textbf{Places API}: este servicio devuelve como resultado de la petición toda la información acerca de un lugar.
 	\item \textbf{Distance Matrix API}: este API proporciona tanto la distancia como el tiempo de viaje que hay entre una lista de orígenes y una de destinos. En otras palabras, como resultado devuelve la distancia y tiempo que hay entre cada origen y cada destino.
 	\item \textbf{Directions API}: como respuesta nos devuelve las indicaciones a seguir para llegar desde el punto de inicio hasta el punto de destino. Además, puede configurarse para diferentes modos de trasporte, diferentes momentos de salida o llegada.
