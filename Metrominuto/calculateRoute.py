@@ -3,6 +3,8 @@ import networkx as nx
 import json
 import numpy as np
 import matplotlib.pyplot as plt
+import svgwrite
+from sys import stdout
 
 
 # recibe un diccionario
@@ -89,16 +91,16 @@ def nodes_votes(graph, tam, min_graph, votes_graph):
 def draw_votes_graph(votes, draw_line, pos):
     elarge = [(u, v) for (u, v, d) in votes.edges(data=True) if d['votes'] > draw_line]
     print(elarge)
-    # positions for all nodes
-    # pos = nx.spring_layout(votes)
     # nodes
     # nx.draw_networkx_nodes(votes, pos, node_size=600, label=votes.nodes)
     # # edges
     # nx.draw_networkx_edges(votes, pos, edgelist=elarge, width=6)
     # # labels
     # nx.draw_networkx_labels(votes, pos, font_size=20, font_family='sans-serif')
-    # plt.axis('on')
+    plt.figure(figsize=[10, 10])
+    plt.axis('on')
     nx.draw(votes, pos, edgelist=elarge)
+    plt.savefig('./static/img/graph.svg', format='svg')
     plt.show()
     return 0
 
