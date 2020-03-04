@@ -1,7 +1,12 @@
 {% extends "base_template.html" %}
 
 {% block app_content %}
-<section>
-    {{ svg | safe }}
-</section>
+    <style>
+        #line1{
+            stroke: #FFEB3B;
+        }
+    </style>
+<div class="container">
+    {{ svg|safe }}
+</div>
 {% endblock %}

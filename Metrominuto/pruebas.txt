@@ -43,6 +43,9 @@
     # plt.show()
 
 
+Se quita por que esto se va a controlar en el svg
+# elarge = [(u, v) for (u, v, d) in votes.edges(data=True) if d['votes'] > draw_line]
+
 
 
 def save_nodes_json(min_graph, weight_graph):

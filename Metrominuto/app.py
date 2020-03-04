@@ -13,7 +13,7 @@ from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
-google_maps = googlemaps.Client(key='AIzaSyBa4H59vDquLKttwMkxv0WaJrx3wXB260s')
+google_maps = googlemaps.Client(key='')
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -64,11 +64,9 @@ def plot_svg(num_x_points=50):
 
 @app.route('/prueba')
 def draw_svg():
-    svg = render_template('graph_t.svg')
-    response = make_response(svg)
-    response.content_type = 'image/svg+xml'
-    resp = Response(svg, mimetype="image/svg+xml")
-    return Response(svg, mimetype="image/svg+xml")
+    svg = render_template('./grafo_svg.svg')
+    # response = make_response(svg)
+    return render_template('prueba.html', svg=svg)
 
 
 if __name__ == '__main__':
