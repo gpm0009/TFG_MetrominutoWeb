@@ -80,3 +80,17 @@ def save_nodes_json(min_graph, weight_graph):
         json.dump(data, fp)
     # print(data)
     return 0
+
+
+
+
+    $("#submit").click(function () {
+            //alert(markers[0].label);
+            var number = $('#votes_number').val();
+            console.log(number);
+            $.ajax({
+                type: 'post',
+                    url: '/saveNumber',
+                    data: $('#votes_number').val(),
+            });
+        });

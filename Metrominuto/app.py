@@ -1,13 +1,5 @@
-import io
-import random
-
-import networkx as nx
-from flask import Flask, render_template, request, jsonify, json, redirect, Response, make_response
+from flask import Flask, render_template, request, jsonify, json, redirect, Response
 import googlemaps
-from markupsafe import Markup
-from matplotlib.backends.backend_svg import FigureCanvasSVG
-from matplotlib.figure import Figure
-
 import calculateRoute as clr
 from flask_bootstrap import Bootstrap
 
@@ -50,23 +42,19 @@ def set_marks():
     # clr.read_direction(directions_result)
     return render_template('map_template.html')
 
-@app.route('/grafo')
-def plot_svg(num_x_points=50):
-    fig = Figure()
-    axis = fig.add_subplot(1, 1, 1)
-    x_points = range(num_x_points)
-    axis.plot(x_points, [random.randint(1, 30) for x in x_points])
-
-    output = io.BytesIO()
-    FigureCanvasSVG(fig).print_svg(output)
-    return Response(output.getvalue(), mimetype="image/svg+xml")
-
 
 @app.route('/prueba')
 def draw_svg():
     svg = render_template('./grafo_svg.svg')
     # response = make_response(svg)
     return render_template('prueba.html', svg=svg)
+
+
+@app.route("/saveNumber", methods=['POST'])
+def save_number():
+    num = int(request.get_data())
+    clr.conected_graph(num)
+    return render_template('prueba.html')
 
 
 if __name__ == '__main__':

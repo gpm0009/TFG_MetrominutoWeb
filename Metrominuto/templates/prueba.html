@@ -5,8 +5,30 @@
         #line1{
             stroke: #FFEB3B;
         }
+    form{
+        margin-left: 3%;
+    }
     </style>
-<div class="container">
-    {{ svg|safe }}
-</div>
+    <form class="form-inline">
+        <label for="example-number-input" class="col-2 col-form-label">Number</label>
+        <input class="form-control" type="number" value="5" id="votes_number">
+        <input type='button' class="btn btn-primary" value='Save' id='submit'>
+    </form>
+
+    <div class="container">
+        {{ svg|safe }}
+    </div>
+    <script>
+        $("#submit").click(function () {
+            //alert(markers[0].label);
+            var number = $('#votes_number').val();
+            console.log(number);
+            $.ajax({
+                type: 'post',
+                    url: '/saveNumber',
+                    data: $('#votes_number').val(),
+            });
+        });
+
+    </script>
 {% endblock %}
