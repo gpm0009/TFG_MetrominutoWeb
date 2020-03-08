@@ -94,3 +94,80 @@ def save_nodes_json(min_graph, weight_graph):
                     data: $('#votes_number').val(),
             });
         });
+
+
+
+function showMarkersDiv() {
+            var summaryPanel = document.getElementById('directions');
+            // summaryPanel.innerHTML = '';
+            for (var i=0;i<markers.length;i++){
+                summaryPanel.innerHTML += markers[i].label + ': ' + markers[i].position + '<br>';
+            }
+        }
+
+
+function draw_route(){
+            var start = markers[0].position;
+            var end = markers[markers.length-1].position;
+            var waypts = [];
+            for (var i = 0; i < markers.length; i++){
+                waypts.push(markers[i].position)
+            }
+            var dir=[];
+
+           for (let i=1;i<markers.length-1;i++){
+                dir.push({
+                location: markers[i].position,
+                stopover: false
+              });
+           }
+            var request = {
+                origin: start,
+                destination: end,
+                waypoints: dir,
+                travelMode: 'WALKING'
+            };
+            directionsService.route(request, function(result, status) {
+                if (status == 'OK') {
+                    directionsRenderer.setDirections(result);
+                }
+            });
+        }
+        function calculateDistance(){
+            var service = new google.maps.DistanceMatrixService();
+            var originss = ["Perth, Australia", "Sydney, Australia"];
+            var destinationss = ["Uluru, Australia", "Kakadu, Australia"];
+            service.getDistanceMatrix(
+                {
+                    origins: originss,
+                    destinations: destinationss,
+                    travelMode: 'WALKING',
+                    avoidHighways: true,
+                    avoidTolls: true,
+                }, callback);
+        }
+        function callback(response, status) {
+            if (status == 'OK') {
+                var origins = response.originAddresses;
+                var destinations = response.destinationAddresses;
+
+                for (var i = 0; i < origins.length; i++) {
+                    var results = response.rows[i].elements;
+                    for (var j = 0; j < results.length; j++) {
+                        var element = results[j];
+                        var distance = element.distance.text;
+                        var duration = element.duration.text;
+                        var from = origins[i];
+                        var to = destinations[j];
+                    }
+                }
+            }
+        }
+
+
+from __init__ import create_app
+
+app = create_app()
+
+if __name__ == '__main__':
+    app.run()

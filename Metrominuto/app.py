@@ -1,11 +1,12 @@
-from flask import Flask, render_template, request, jsonify, json, redirect, Response
 import googlemaps
-import calculateRoute as clr
+from config import Config
+import calculateRoute as Clr
 from flask_bootstrap import Bootstrap
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
-google_maps = googlemaps.Client(key='')
+google_maps = googlemaps.Client(key=Config.GOOGLE_API_KEY)
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -31,13 +32,13 @@ def set_marks():
     for mark in markers:
         origins.append(mark['position'])
         destinations.append(mark['position'])
-    matrix = google_maps.distance_matrix(origins, destinations)
+    matrix = googlemaps.distance_matrix(origins, destinations)
 
     # directions_result = gmaps.directions(markers[0]['position'], markers[1]['position'], mode="transit")
     # print(matrix)
     # print(directions_result)
-    dist = clr.get_distance_matrix_values(matrix)
-    clr.calculate_graph(dist, markers)
+    dist = Clr.get_distance_matrix_values(matrix)
+    Clr.calculate_graph(dist, markers)
     # clr.ejemplo_graph()
     # clr.read_direction(directions_result)
     return render_template('map_template.html')
@@ -53,7 +54,7 @@ def draw_svg():
 @app.route("/saveNumber", methods=['POST'])
 def save_number():
     num = int(request.get_data())
-    clr.conected_graph(num)
+    Clr.conected_graph(num)
     return render_template('prueba.html')
 
 
