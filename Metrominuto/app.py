@@ -17,7 +17,7 @@ def show_map():
     return render_template(
         "map_template.html",
         latitud=latitude,
-        longitud=longitude
+        longitud=longitude, API_KEY=Config.GOOGLE_API_KEY
     )
 
 
@@ -32,30 +32,30 @@ def set_marks():
     for mark in markers:
         origins.append(mark['position'])
         destinations.append(mark['position'])
-    matrix = googlemaps.distance_matrix(origins, destinations)
+    matrix = google_maps.distance_matrix(origins, destinations)
 
-    # directions_result = gmaps.directions(markers[0]['position'], markers[1]['position'], mode="transit")
+    # directions_result = google_maps.directions(markers[0]['position'], markers[1]['position'], mode="transit")
     # print(matrix)
     # print(directions_result)
     dist = Clr.get_distance_matrix_values(matrix)
     Clr.calculate_graph(dist, markers)
     # clr.ejemplo_graph()
     # clr.read_direction(directions_result)
-    return render_template('map_template.html')
+    return render_template('map_template.html', API_KEY=Config.GOOGLE_API_KEY)
 
 
 @app.route('/prueba')
 def draw_svg():
     svg = render_template('./grafo_svg.svg')
     # response = make_response(svg)
-    return render_template('prueba.html', svg=svg)
+    return render_template('prueba.html', svg=svg, API_KEY=Config.GOOGLE_API_KEY)
 
 
 @app.route("/saveNumber", methods=['POST'])
 def save_number():
     num = int(request.get_data())
-    Clr.conected_graph(num)
-    return render_template('prueba.html')
+    Clr.connected_graph(num)
+    return render_template('prueba.html', API_KEY=Config.GOOGLE_API_KEY)
 
 
 if __name__ == '__main__':

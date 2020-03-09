@@ -131,24 +131,41 @@ def save_svg():
 
 
 def generate_svg(graph_votes):
-    dwg = svg.Drawing('templates/grafo_svg.svg', size=('900px', '900px'), viewBox=('-100 -100 200 200'), profile='full')
-    for node in (graph_votes.nodes(data=True)):
-        circle = dwg.circle(id='node' + node[0], center=(node[1]['pos'][0], node[1]['pos'][1]), r='3')
-        dwg.add(circle)
+    pos = nx.get_node_attributes(graph_votes, 'pos')
+    coords_x = []
+    coords_y = []
+    for x in range(0, pos.__len__()):
+        coords_x.append(pos[str(x)][0])
+        coords_y.append(pos[str(x)][1])
+    max_x, min_x = max(coords_x), min(coords_x)
+    max_y, min_y = max(coords_y), min(coords_y)
+    # print(max_x, ' | ', min_x, ' | ', max_y, ' | ', min_y)
+    radio = 0.06
+    vB = '-'+str(min_x-radio) + ' '+ str(min_y-radio) + ' ' + str(max_x-min_x) + ' ' + str(max_y-min_y)
 
+    print(min_x, ' | ', max_x)
+    print(max_x-min_x)
+    file_name = 'templates/grafo_svg.svg'
+    dwg = svg.Drawing(file_name, size=('900px', '900px'),
+                      viewBox='-1 -1 3 3', profile='full')
+    for node in (graph_votes.nodes(data=True)):
+        coox = (node[1]['pos'][0] - min_x)/(max_x - min_x)
+        cooy = (node[1]['pos'][1] - min_y)/(max_y - min_y)
+        circle = dwg.circle(id='node' + node[0], center=(coox, cooy), r=str(radio))
+        dwg.add(circle)
     positions = nx.get_node_attributes(graph_votes, 'pos')
     for edge in (graph_votes.edges(data=True)):
         line = dwg.line(id='line' + str(int(edge[2]['votes'])),
-                        start=(positions[edge[0]][0], positions[edge[0]][1]),
-                        end=(positions[edge[1]][0], positions[edge[1]][1]),
-                        stroke='#000', stroke_width=1)
+                        start=((positions[edge[0]][0]- min_x)/(max_x - min_x), (positions[edge[0]][1]- min_y)/(max_y - min_y)),
+                        end=((positions[edge[1]][0]- min_x)/(max_x - min_x), (positions[edge[1]][1]- min_y)/(max_y - min_y)),
+                        stroke='#000', stroke_width=0.02)
         dwg.add(line)
     dwg.save(pretty=True)
     return 0
 
 
 # posterior a que el usuario elija un parámetro.
-def conected_graph(num_votes):
+def connected_graph(num_votes):
     check_graph = nx.Graph()
     for node in (vote_global_graph.nodes(data=True)):
         check_graph.add_node(node[0], pos=node[1]['pos'])
@@ -184,3 +201,5 @@ def compare_distance_matrix(component_x, component_y):
                 nodex = element_x
                 nodey = element_y
     return nodex, nodey, min
+
+
