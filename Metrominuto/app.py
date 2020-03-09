@@ -54,7 +54,8 @@ def draw_svg():
 @app.route("/saveNumber", methods=['POST'])
 def save_number():
     num = int(request.get_data())
-    Clr.connected_graph(num)
+    graph = Clr.connected_graph(num)
+    Clr.generate_svg(graph)
     return render_template('prueba.html', API_KEY=Config.GOOGLE_API_KEY)
 
 

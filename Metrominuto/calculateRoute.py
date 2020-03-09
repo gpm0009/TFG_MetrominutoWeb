@@ -155,7 +155,7 @@ def generate_svg(graph_votes):
         dwg.add(circle)
     positions = nx.get_node_attributes(graph_votes, 'pos')
     for edge in (graph_votes.edges(data=True)):
-        line = dwg.line(id='line' + str(int(edge[2]['votes'])),
+        line = dwg.line(id='line',
                         start=((positions[edge[0]][0]- min_x)/(max_x - min_x), (positions[edge[0]][1]- min_y)/(max_y - min_y)),
                         end=((positions[edge[1]][0]- min_x)/(max_x - min_x), (positions[edge[1]][1]- min_y)/(max_y - min_y)),
                         stroke='#000', stroke_width=0.02)
@@ -187,7 +187,7 @@ def connected_graph(num_votes):
             draw_graph(check_graph)
             connected_components_list = sorted(nx.connected_components(check_graph), key=len, reverse=True)
             print(connected_components_list)
-    return 0
+    return check_graph
 
 
 def compare_distance_matrix(component_x, component_y):
