@@ -1,3 +1,10 @@
+\lstset{basicstyle=\ttfamily,
+	showstringspaces=false,
+	commentstyle=\color{red},
+	keywordstyle=\color{blue},
+	frame=single
+}
+
 \apendice{Documentación técnica de programación}
 
 \section{Introducción}
@@ -30,48 +37,50 @@ Para el desarrollo de este proyecto se tuvieron en cuenta principalmente dos edi
 	\item \textbf{GitHub}
 	\item \textbf{GitCraken}
 \end{itemize}
-Después de analizar y configurar ambos editores de texto, se llego a la conclusión de que era mucho mas cómodo y útil utilizar PyCharm, ya que ofrece una configuración mas sencilla, además de permitir importar diversas librerías de una manera mas amigable. También ofrece la posibilidad de seguir los estándares de programación(\cite{PEP8}).
+Después de analizar y configurar ambos editores de texto, se llego a la conclusión de que era mucho mas cómodo y útil utilizar PyCharm, ya que ofrece una configuración mas sencilla, además de permitir importar diversas librerías de una manera mas amigable. También ofrece la posibilidad de seguir los estándares de programación \textit{PEP8} y \textit{ECMAScript}.
 
 \section{Instalación y configuración}
-Para la instalación del proyecto se explicarán los pasos a seguir en un sistema operativo de linux: en este caso la versión Linux Mint 18.3 Sylvia.
+Para la instalación del proyecto se explicarán los pasos a seguir en un sistema operativo de Linux, que en este caso se trata de la versión Linux Mint 18.3 Sylvia.
 
 \subsection{Python}
 
-Este proyecto está desarrollado con la versión 3.6.3, pero con para desarrollar 
-la mínima es 3.6. Python se puede descargar desde el siguiente enlace: 
+Este proyecto está desarrollado con la versión 3.6.3. Python se puede descargar desde el siguiente enlace: 
 \url{https://www.python.org/downloads/}
 
 \subsection{Instalación y configuración de PyCharm}
 Este \textit{IDE} tiene distribución para Linux, además de permitir a estudiantes usar la versión profesional. Para su instalación podemos usar la \cite{snap store} de Linux, que en caso de no tenerla instalada tenemos que ejecutar el siguiente comando:
 
-\begin{lstlisting}
-sudo apt update
-sudo apt install snapd
+\begin{lstlisting}[language=bash,caption={Instalar snapd}]
+	$ sudo apt update
+	$ sudo apt install snapd
 \end{lstlisting}
 Después de tener instalado esto, ejecutaríamos:
-\begin{lstlisting}
-sudo snap install pycharm-community|professional --classic
+\begin{lstlisting}[language=bash,caption={Instalar PyCharm}]
+	$ sudo snap install pycharm-community|professional --classic
 \end{lstlisting}
 
 Una vez instalado \textit{PyCharm}, la forma más cómoda de obtener el código del proyecto es mediante \textit{git}, usando para ello el comando:
-\begin{lstlisting}
-$ git clone <url_del_repositorio>
+\begin{lstlisting}[language=bash,caption={Descargar el repositorio}]
+	$ git clone <url_del_repositorio>
 \end{lstlisting}
 Siendo \url{https://github.com/gpm0009/TFG_MetrominutoWeb.git} la URL del 
 repositorio.
 
 Para instalar las dependencias ejecutar el comando:
-\begin{lstlisting}
-$ pip install -r requirementes.txt
+\begin{lstlisting}[language=bash,caption={Instalar requirements.txt}]
+	$ pip install -r requirementes.txt
 \end{lstlisting}
 
 \subsubsection{Claves de Google}
 Para la obtención de un \textit{Google API KEY} es necesario obtener los credenciales en  \url{https://console.developers.google.com/apis/credentials}.
-Después, dichos credenciales deben activarse para las APIs que utiliza este proyecto (¿poner referencia aquí a las apis que se explican en el apartado de Google, o mencionarlas aquí?)
+Después, dichos credenciales deben activarse para las APIs que utiliza este proyecto:
+\begin{itemize}
+	\item 
+\end{itemize}
 
 \subsection{\TeX studio}
 Esta herramienta para la compilación de documentación \LaTeX{} permite la instalación de diccionarios para aplicar las reglas al texto. Para ello, debemos acceder a:
-\begin{lstlisting}
+\begin{lstlisting}[language=bash,caption={Añadir diccionario}]
 	Options -> Configure TeXstudio
 	Language checking
 \end{lstlisting}

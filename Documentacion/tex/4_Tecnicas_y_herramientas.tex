@@ -1,13 +1,11 @@
 \capitulo{4}{Técnicas y herramientas}
 
-Esta parte de la memoria tiene como objetivo presentar las técnicas metodológicas y las herramientas de desarrollo que se han utilizado para llevar a cabo el proyecto. Si se han estudiado diferentes alternativas de metodologías, herramientas, bibliotecas se puede hacer un resumen de los aspectos más destacados de cada alternativa, incluyendo comparativas entre las distintas opciones y una justificación de las elecciones realizadas. 
-No se pretende que este apartado se convierta en un capítulo de un libro dedicado a cada una de las alternativas, sino comentar los aspectos más destacados de cada opción, con un repaso somero a los fundamentos esenciales y referencias bibliográficas para que el lector pueda ampliar su conocimiento sobre el tema.
 
 \section{Técnicas}
 
 \subsection{Scrum}
-Scrum es una metodología de desarrollo ágil la cual proporciona un marco de trabajo y desarrollo de productos. No es un solo proceso, si no que en esta metodología se aplican un conjunto de buenas practicas y procesos para que el producto final sea de la mejor calidad posible.
-El principal elemento del Scrum consiste en los llamados Sprints, que son ciclos de trabajo de una semana de duración, período el cual sirve para producir un desarrollo o mejora del producto final. Estos sprints están marcados por dos reuniones:
+Scrum es una metodología de desarrollo ágil la cual proporciona un marco de trabajo y desarrollo de productos. No es un solo proceso, si no que en esta metodología se aplican un conjunto de buenas prácticas y procesos para que el producto final sea de la mejor calidad posible.
+El principal elemento del Scrum consiste en los llamados Sprints, que son ciclos de trabajo de una semana de duración. Este periodo sirve para producir un desarrollo o mejora del producto final. Estos sprints están marcados por dos reuniones:
 \begin{itemize}
 	\item Planificación: en ella se presentan los requisitos o avances que tiene que cumplir el proyecto, a la vez que se estiman los tiempos y se realiza la planificación.
 	\item Reunión de revisión: entrega de los requisitos acordados en la reunión de planificación y el equipo analiza el sprint.
@@ -23,7 +21,7 @@ Git maneja los distintos archivos del proyecto como un conjunto de copias instan
 
 \section{Herramientas}
 \subsection{Flask}
-Flask es un framework de Python que nos permite crear páginas web de una manera mas sencilla y empleando un mínimo número de lineas para ello. Ofrece servicios HTTP, pero para poder hacer uso de los contenidos HTML requiere de la utilización del motor de templates \textit{Jinja2}: lenguaje de plantillas que permite insertar datos procesados y texto predeterminado.
+Flask es un framework de Python que nos permite crear aplicaciones cliente - servidor de una manera mas sencilla y empleando un mínimo número de lineas para ello. Ofrece servicios HTTP, pero para poder hacer uso de los contenidos HTML requiere de la utilización del motor de templates \textit{Jinja2}: lenguaje de plantillas que permite insertar datos procesados y texto predeterminado.
 
 \subsection{Bibliotecas}
 
@@ -43,7 +41,7 @@ Al inicio del proyecto se empezó trabajando con Visual Studio Code, pero tras d
 
 \subsection{Google API}
 En este proyecto, para la selección de los distintos puntos a recorrer por parte del usuario he empleado los mapas de Google. Google proporciona una plataforma para los desarrolladores en la que se puede encontrar una gran cantidad de documentación\footnote{\url{https://cloud.google.com/maps-platform/}}.
-Para poder integrar en la aplicación web tanto los mapas como las diferentes funcionalidades que ofrecen debemos adquirir lo que llama API~Key \footnote{\url{https://developers-dot-devsite-v2-prod.appspot.com/maps/documentation/geocoding/get-api-key}} , la cual se trata de una clave <<privada>> para tener acceso a los servicios de su API. Para su obtención es necesario incluir tus datos bancarios, ya que durante el primer año el uso de los servicios es gratis y luego comienza a pagarse a partir de un determinado número de peticiones.
+Para poder integrar en la aplicación web tanto los mapas como las diferentes funcionalidades que ofrecen debemos adquirir lo que llama API~Key\footnote{\url{https://developers-dot-devsite-v2-prod.appspot.com/maps/documentation/geocoding/get-api-key}}, la cual se trata de una clave <<privada>> para tener acceso a los servicios de su API. Para su obtención es necesario incluir tus datos bancarios, ya que durante el primer año el uso de los servicios es gratis y luego comienza a pagarse a partir de un determinado número de peticiones.
 Una vez obtenida la clave, puede restringirse su uso para ciertas direcciones o dominios, de modo que puedes mantener el control de quien la usa. Además, no vale con conseguir una clave y ya esta, si no que para usar los diferentes servicios que proporciona Google hay que activar diferentes APIs.
 Las APIs que se usan en este proyecto son:
 \begin{itemize}

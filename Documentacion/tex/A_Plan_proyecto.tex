@@ -6,26 +6,28 @@ Dicha planificación se divide en dos partes:
 \begin{itemize}
 	\item \textbf{Planificación temporal}: fase en la que se analiza y planifica el trabajo necesario para desarrollar cada parte del proyecto, marcando fechas de inicio y final para cada una de ellas.
 	\item \textbf{Estudio de viabilidad}: fase en la que se analizan las repercusiones legales y económicas del proyecto:
-	\subitem Económica: Análisis de los posibles costes y beneficios del proyecto.
-	\subitem Legal: Análisis de las repercusiones a efectos legales como la \textit{Ley de Protección de Datos}o las licencias del proyecto.
+	\begin{itemize}
+		\item Económica: Análisis de los posibles costes y beneficios del proyecto.
+		\item Legal: Análisis de las repercusiones a efectos legales como la \textit{Ley de Protección de Datos} o las licencias del proyecto.
+	\end{itemize}
 \end{itemize}
 
 \section{Planificación temporal}
 Esta parte del proyecto es aquella en la que se planifica cómo va a ir avanzando el proyecto en función del trabajo requerido para cada una de las tareas de las que consta el mismo.
 Concretamente se estima el tiempo, es decir, cuáles van a ser los plazos para desarrollar determinadas tareas.
-Para esta planificación o estimación se han empleado los conceptos generales de la metodología ágil Scrum, ya que en este caso en el proyecto sólo hay un único desarrollador a parte de los tutores. Las líneas generales que se han aplicado de esta metodología de gestión han sido:
+Para esta planificación o estimación se han empleado los conceptos generales de la metodología ágil Scrum, ya que en este caso en el proyecto sólo hay un único desarrollador aparte de los tutores. Las líneas generales que se han aplicado de esta metodología de gestión han sido:
 \begin{itemize}
 	\tightlist
 	\item
 	Desarrollo marcado por sucesivos \emph{sprints} delimitados por dos reuniones: una al principio de cada uno y otra al final. Normalmente en la reunión de finalización de un \emph{sprint} se marcaban los objetivos y la planificación del siguiente (siendo la primera reunión).
 	\item
-	La duración de los \emph{sprints} fue de dos semanas.
+	La duración de los \emph{sprints} fue de dos semanas al inicio y de una semana en la segunda mitad del mismo.
 	\item
-	Cada \emph{sprints} produce un resultado o incremente del proyecto final.
+	Cada \emph{sprints} produce un resultado o incremento del proyecto final.
 	\item
-	En cada \emph{sprint} se dividía el objetivo final en distintas tareas mas pequeñas.
+	En cada \emph{sprint} se divide el objetivo final en distintas tareas mas pequeñas.
 	\item
-	Las tareas se planificaban y estimaban en un tablero.
+	Las tareas se planifican y estiman en un tablero.
 \end{itemize}
 
 \subsection{Sprint 0. (22/10/2019 -- 28/10/2019)}
@@ -83,7 +85,7 @@ Tras concluir el sprint, quedó pendiente algunas preguntas sobre la parte de do
 \subsection{Sprint 7. (24/01/2020 -- 10/02/2020)}
 Durante este Sprint, los objetivos que se marcaron fueron los siguientes:
 \begin{itemize}
-	\item La correcta implementación de la librería encontrada en el Sprint anterior \footnote{text}.
+	\item La correcta implementación de la librería encontrada en el Sprint anterior.
 	\item Creación de una estructura en la que a partir del árbol generado inicialmente y con la ayuda de la función minimum spanning tree de networkx, evaluar este camino mínimo en un conjunto aleatorio de arcos del árbol inicial.
 	\item Crear el archivo JSON necesario para que la librería implementada anteriormente dibuje el grafo que necesitamos. 
 	\item Actualizar y corregir la documentación.
@@ -93,7 +95,7 @@ En este Sprint no se logró alcanzar por completo los objetivos marcados, quedan
 \subsection{Sprint 8. (10/02/2020 -- 19/02/2020)}
 Los objetivos de este Sprint, que fue el primero en el que se pasó de realizar reuniones cada dos semanas a realizarlas cada semana, fueron:
 \begin{itemize}
-	\item Terminar Sprint 7.
+	\item Terminar las tareas del sprint anterior.
 	\item Actualizar la documentación del proyecto.
 	\item Mejorar el sistema de generar un grafo por votos para que todos sus nodos estén siempre conectados.
 \end{itemize}
@@ -106,6 +108,29 @@ Por esta razón, se decidió emplear otra forma para su dibujado, lo que lleva a
 	\item Generar el grafo en el servidor y exportarlo como svg para poder tratarlo a nuestro antojo en el cliente.
 	\item Actualizar la documentación, junto con las correcciones del sprint anterior.
 \end{itemize}
+
+\subsection{Sprint 10. (27/02/2020 -- 04/03/2020)}
+Los objetivos de este sprint fueron:
+\begin{itemize}
+	\item Generar el archivo SVG con el grafo generado. Se encontraron varias dificultades a la hora de escalar los puntos para dibujarlos en el SVG. Por ello, esta tarea quedaría pendiente para el siguiente Sprint.
+	\item Generar la documentación.
+	\item Investigar sobre los layouts para grafos.
+	\item Dar al usuario la posibilidad de elegir el número de arcos que aparecen en el grafo.
+\end{itemize}
+
+\subsection{Sprint 11. (05/03/2020 -- 12/03/2020)}
+En este Sprint, los objetivos fueron:
+\begin{itemize}
+	\item Generar toda la documentación pendiente del Sprint anterior junto con la nueva generada en este.
+	\item Resolver el escalado del grafo en SVG.
+	\item Añadir estilos al grafo en el cliente. Para ello fijarse en el java script de la librería utilizada en Sprints anteriores.
+	\item Añadir texto al grafo SVG.
+	\item Dar al usuario la posibilidad de elegir el número de veces que se repite el bucle que genera el grafo de votos.
+\end{itemize}
+En este Sprint se alcanzaron todos los objetivos.
+
+\subsection{Sprint 11. (13/03/2020 -- xx/03/2020)}
+
 
 \section{Estudio de viabilidad}
 

@@ -1,44 +1,5 @@
 \capitulo{3}{Conceptos teóricos}
 
-En aquellos proyectos que necesiten para su comprensión y desarrollo de unos conceptos teóricos de una determinada materia o de un determinado dominio de conocimiento, debe existir un apartado que sintetice dichos conceptos.
-
-Algunos conceptos teóricos de \LaTeX \footnote{Créditos a los proyectos de Álvaro López Cantero: Configurador de Presupuestos y Roberto Izquierdo Amo: PLQuiz}.
-
-\section{Metrominuto}
-<<En los conceptos teóricos yo indicaría lo que es el concepto de Metrominuto, con bastante detalle (al menos un par de páginas y poniendo el diagrama por ejemplo).>>
-\\
-El concepto de Metrominuto surgió como resultado de diversas ideas sobre movilidad en la ciudad de Pontevedra. Este concepto hace referencia a un mapa sináptico, como si de un mapa de metro se tratase, que representa las distancias y los tiempos existentes entre los diferentes puntos de una ciudad. 
-//Algún gráfico sobre movilidad urbana, medios de transporte....?
-\imagen{MetrominutoPontevedra}{Metrominuto de Pontevedra}
-
-Metrominuto no solo ofrece información de cara a la gente que quiere visitar la ciudad, si no que también fomenta caminar como medio de transporte en una ciudad, donde de una manera sencilla y curiosa nos muestra como llegar de un sitio a otro. Caminar, como ya sabemos, es la mejor solución para evitar el gran flujo de automóviles en el área urbana, y lo que ello conlleva: una constante emisión de elementos contaminantes. \\
-En los orígenes de este sistema de movilidad se encuentra el estudio, por medio de la técnica DAFO(¿cita?) (Debilidades, Amenazas, Fortalezas, Oportunidades):
-
-\begin{description}
-	\item[Debilidades:] Como el estado cambiante del tiempo, diferente ritmo al caminar dependiendo de las personas, y la comodidad de coger el coche para moverse.
-	\item[Amenazas:] Prejuicios de la población.
-	\item[Fortalezas:] Cuidado del medio ambiente, mayor salud y al reducir los desplazamientos en automóvil se produce como resultado una mayor seguridad en los pocos que haya.
-	\item[Oportunidades:] Mejorar la ciudad, bienestar.
-\end{description}
-Estos planos no solo nos incitan a caminar, si no que también incluyen información útil acerca de líneas de autobús, estaciones de ferrocarril o de metro \dots
-
-\subsection{Proceso de elaboración}
-\begin{enumerate}
-	\item Paso 1: Consiste en la selección, dentro de una ciudad, de los puntos los cuales se quieren representar en el mapa. Estos puntos pueden elegirse en función de su importancia, interés turístico o de los ciudadanos.
-	\item Paso 2: Decidir qué ruta \textbf{peatonal} es la mas adecuado para unirlos.
-	\item Paso 3: Considerar cómo se va a dibujar el mapa. Puede ser más o menos preciso respecto a la realidad cartográfica.
-	\item Paso 4: Situar un punto central que sirva como punto de origen y de orientación para todos los usuarios.
-	\item Paso 5: Realizar por medio de herramientas de mapas, como Google Maps en nuestro caso o los mapas de Bing, el cálculo de las distancias entre los diferentes puntos.
-	\item Paso 6: Establecer una relación entre las distancias con el tiempo medio que lleva recorrerlas. Tenemos que tener en cuenta que toda la población no camina al mismo ritmo.
-	\item Paso 7: Una vez establecidas las diferentes rutas, hacer un estudio sobre ellas para corregir errores que puedan surgir, así como la variación en el tiempo si el terreno no es uniforme o si las condiciones de tráfico y semáforos varía.
-	\item Paso 8: Reflejar accidentes naturales o elementos de la ciudad como parques, mar, ríos\dots A través de elementos muy sencillos y con un código de colores al que estamos acostumbrados.
-	\item Paso 9:  Reflejar aspectos de la movilidad intermodal, es decir elementos como estaciones de metro, autobús, tren, etc. 
-	\item Paso 10: Advertir de los espacios con condiciones adversas para personas con problemas de movilidad.
-	\item Paso 11: Simplicidad, claridad y facilidad de lectura a la hora de dibujar el mapa.
-	\item Paso 12: No sólo mostrar conexiones con el punto central establecido como referencia, si no que también debe aparecer información sobre la interconexión entre los diferentes puntos.
-\end{enumerate}
-
-El objetivo de este proyecto es automatizar este proceso, ya que actualmente los Metrominutos existentes se realizan de esta forma. Con el proceso automatizado sería el mismo usuario quien realice su propio Metrominuto con los puntos de interés personalizados que él decida, evitando que aparezcan puntos o información que no le resulta interesante.
 
 \section{Mapa de tránsito}
 Un mapa de tránsito consiste en un mapa topológico esquemático utilizado para mostrar trayectos y estaciones en el ámbito urbano, como puede ser el metro o el autobús. Los elementos principales de este tipo de mapas son:
@@ -55,6 +16,44 @@ Harry Beck fue un ingeniero electrónico del metro de Londres que trabajaba dise
 Realizó varias versiones antes de llegar a la que conocemos hoy en día, como por ejemplo las que podemos observar en las imágenes //preguntar esto.
 \imagen{MetroLondres1928.png}{Mapa del metro de Londres de 1928}
 \imagen{MetroLondres1933.png}{Mapa del metro de Londres de 1933}
+
+\section{Metrominuto}
+<<En los conceptos teóricos yo indicaría lo que es el concepto de Metrominuto, con bastante detalle (al menos un par de páginas y poniendo el diagrama por ejemplo).>>
+\\
+El concepto de Metrominuto surgió como resultado de diversas ideas sobre movilidad en la ciudad de Pontevedra. Este concepto hace referencia a un mapa sináptico, como si de un mapa de metro se tratase, que representa las distancias y los tiempos existentes entre los diferentes puntos de una ciudad. 
+//Algún gráfico sobre movilidad urbana, medios de transporte....?
+\imagen{MetrominutoPontevedra}{Metrominuto de Pontevedra}
+
+Metrominuto no solo ofrece información de cara a la gente que quiere visitar la ciudad, si no que también fomenta caminar como medio de transporte en una ciudad, donde de una manera sencilla y curiosa nos muestra como llegar de un sitio a otro. Caminar, como ya sabemos, es la mejor solución para evitar el gran flujo de automóviles en el área urbana, y lo que ello conlleva: una constante emisión de elementos contaminantes. \\
+En los orígenes de este sistema de movilidad se encuentra el estudio, por medio de la técnica DAFO (Debilidades, Amenazas, Fortalezas, Oportunidades):
+
+\begin{description}
+	\item[Debilidades:] Como el estado cambiante del tiempo, diferente ritmo al caminar dependiendo de las personas, y la comodidad de coger el coche para moverse.
+	\item[Amenazas:] Prejuicios de la población.
+	\item[Fortalezas:] Cuidado del medio ambiente, mayor salud y al reducir los desplazamientos en automóvil se produce como resultado una mayor seguridad en los pocos que haya.
+	\item[Oportunidades:] Mejorar la ciudad, bienestar.
+\end{description}
+Estos planos no solo nos incitan a caminar, si no que también incluyen información útil acerca de líneas de autobús, estaciones de ferrocarril o de metro \dots
+
+\subsection{Proceso de elaboración}
+\begin{enumerate}
+	\item Paso 1: Consiste en la selección, dentro de una ciudad, de los puntos los cuales se quieren representar en el mapa. Estos puntos pueden elegirse en función de su importancia, interés turístico o de los ciudadanos.
+	\item Paso 2: Decidir qué ruta \textbf{peatonal} es la mas adecuada para unirlos.
+	\item Paso 3: Considerar cómo se va a dibujar el mapa. Puede ser más o menos preciso respecto a la realidad cartográfica.
+	\item Paso 4: Situar un punto central que sirva como punto de origen y de orientación para todos los usuarios.
+	\item Paso 5: Realizar por medio de herramientas de mapas, como Google Maps en nuestro caso o los mapas de Bing, el cálculo de las distancias entre los diferentes puntos.
+	\item Paso 6: Establecer una relación entre las distancias con el tiempo medio que lleva recorrerlas. Tenemos que tener en cuenta que toda la población no camina al mismo ritmo.
+	\item Paso 7: Una vez establecidas las diferentes rutas, hacer un estudio sobre ellas para corregir errores que puedan surgir, así como la variación en el tiempo si el terreno no es uniforme o si las condiciones de tráfico y semáforos varía.
+	\item Paso 8: Reflejar accidentes naturales o elementos de la ciudad como parques, mar, ríos\dots A través de elementos muy sencillos y con un código de colores al que estamos acostumbrados.
+	\item Paso 9:  Reflejar aspectos de la movilidad intermodal, es decir elementos como estaciones de metro, autobús, tren, etc. 
+	\item Paso 10: Advertir de los espacios con condiciones adversas para personas con problemas de movilidad.
+	\item Paso 11: Simplicidad, claridad y facilidad de lectura a la hora de dibujar el mapa.
+	\item Paso 12: No sólo mostrar conexiones con el punto central establecido como referencia, si no que también debe aparecer información sobre la interconexión entre los diferentes puntos.
+\end{enumerate}
+
+El objetivo de este proyecto es automatizar este proceso, ya que actualmente los Metrominutos existentes se realizan de esta forma. Con el proceso automatizado sería el mismo usuario quien realice su propio Metrominuto con los puntos de interés personalizados que él decida, evitando que aparezcan puntos o información que no le resulta interesante.
+
+
 \section{Referencias}
 
 Las referencias se incluyen en el texto usando cite \cite{wiki:latex}. Para citar webs, artículos o libros \cite{koza92}.
