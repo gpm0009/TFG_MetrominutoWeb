@@ -2,6 +2,7 @@
 
 \section{Introducción}
 En este apartado de la documentación se expone el diseño que ha dado lugar a la aplicación, el cual incluye el diseño de las distintas estructuras de datos, el diseño procedimental y diseño arquitectónico.
+
 \section{Diseño de datos}
 La estructura del proyecto podemos dividirla en varias partes ya que, debido al uso de bibliotecas como la de Google Maps o de la biblioteca de Networkx para la generación de grafos, se han usado todos o parte de los datos que nos devuelven como resultado de las consultas.
 
@@ -32,4 +33,5 @@ Google se ha usado para la obtención de todos los datos necesarios para el cál
 
 \section{Diseño arquitectónico}
 
-
+La estructura del proyecto esta condicionada por el tipo de proyecto que es. Se trata de una aplicación web y por ello se ha seguido el patrón MVC (Modelo - Vista - Controlador), el cual permite separar en 3 componentes diferentes los datos, el interfaz y la lógica de la aplicación. 
+\imagen{mvc}{Diagrama Modelo-Vista-Controlador}

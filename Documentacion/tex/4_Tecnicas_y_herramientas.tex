@@ -21,14 +21,31 @@ Git maneja los distintos archivos del proyecto como un conjunto de copias instan
 
 \section{Herramientas}
 \subsection{Flask}
-Flask es un framework de Python que nos permite crear aplicaciones cliente - servidor de una manera mas sencilla y empleando un mínimo número de lineas para ello. Ofrece servicios HTTP, pero para poder hacer uso de los contenidos HTML requiere de la utilización del motor de templates \textit{Jinja2}: lenguaje de plantillas que permite insertar datos procesados y texto predeterminado.
+Flask es un \textit{framework} de Python que nos permite crear aplicaciones cliente - servidor de una manera mas sencilla, y que no impone ninguna limitación respecto a estructura del proyecto ni a los componentes que usar durante el desarrollo~\cite{grinberg2014flask}.
+\\
+Ofrece servicios HTTP, pero para poder hacer uso de los contenidos HTML requiere de la utilización del motor de templates \textit{Jinja2}: lenguaje de plantillas que permite insertar datos procesados y texto predeterminado.
 
 \subsection{Bibliotecas}
 
 \subsubsection{Networkx}
-\subsection{JavaScript para dibujar redes}
+NetworkX es la biblioteca por excelencia de Python para trabajar con grafos y redes. Permite crear, manipular y estudiar su estructura.
+\\
+Características:
+\begin{itemize}
+	\item Estructuras de datos para grafos simples, grafos dirigidos y multigrafos.
+	\item Contiene la gran parte de algoritmos utilizados para el estudio y modificación de grafos.
+	\item Los nodos pueden ser <<cualquier cosa>> como por ejemplo texto, imágenes o números.
+	\item Los arcos pueden tener diferentes atributos o datos, como el peso, distancia\dots
+	\item Es de código abierto.
+\end{itemize}
+
+
 \subsubsection{Tube Map - D3}
 //incluir estructura archivo JSON y explicar lo que significan las diferentes opciones de dirección.
+Esta biblioteca permite dibujar mapas muy similares a los mapas que hoy podemos ver en el metro, con sus estaciones, paradas e intersecciones.
+\\
+Se intentó implementar en el proyecto durante dos Sprints (¿Se puede hacer algún tipo de referencia aqui?), pero se llegó a la conclusión que no se podía generar la estructura necesaria en el archivo JSON para el dibujado del mapa. Esta estructura debía contener coordenadas con números enteros y estar ordenadas de tal forma que se indicasen las esquinas y cruces que debía haber.
+(¿Ejemplo JSON?)
 
 \subsection{Entorno de desarrollo Integrado (IDE)}
 Para el desarrollo del proyecto, se valoraron inicialmente dos editores:
@@ -36,7 +53,7 @@ Para el desarrollo del proyecto, se valoraron inicialmente dos editores:
 	\item Visual Studio Code
 	\item PyCharm
 \end{itemize}
-Al inicio del proyecto se empezó trabajando con Visual Studio Code, pero tras darle una vuelta mas se decidió usar Pycharm, ya que al estar orientado el proyecto a Python, este IDE ofrece mejores opciones para el desarrollo de este tipo de proyectos.
+Al inicio del proyecto se empezó trabajando con Visual Studio Code, pero tras darle una vuelta más se decidió usar Pycharm, ya que al estar orientado el proyecto a Python este IDE ofreceía mejores opciones para el desarrollo.
 
 
 \subsection{Google API}

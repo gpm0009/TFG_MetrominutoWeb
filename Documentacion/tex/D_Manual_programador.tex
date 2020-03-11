@@ -37,7 +37,7 @@ Para el desarrollo de este proyecto se tuvieron en cuenta principalmente dos edi
 	\item \textbf{GitHub}
 	\item \textbf{GitCraken}
 \end{itemize}
-Después de analizar y configurar ambos editores de texto, se llego a la conclusión de que era mucho mas cómodo y útil utilizar PyCharm, ya que ofrece una configuración mas sencilla, además de permitir importar diversas librerías de una manera mas amigable. También ofrece la posibilidad de seguir los estándares de programación \textit{PEP8} y \textit{ECMAScript}.
+Después de analizar y configurar ambos editores de texto, se llegó a la conclusión de que era mucho mas cómodo y útil utilizar PyCharm, ya que ofrece una configuración mas sencilla, además de permitir importar diversas librerías de una manera mas amigable. También ofrece la posibilidad de seguir los estándares de programación \textit{PEP8} y \textit{ECMAScript}.
 
 \section{Instalación y configuración}
 Para la instalación del proyecto se explicarán los pasos a seguir en un sistema operativo de Linux, que en este caso se trata de la versión Linux Mint 18.3 Sylvia.
@@ -51,39 +51,69 @@ Este proyecto está desarrollado con la versión 3.6.3. Python se puede descarga
 Este \textit{IDE} tiene distribución para Linux, además de permitir a estudiantes usar la versión profesional. Para su instalación podemos usar la \cite{snap store} de Linux, que en caso de no tenerla instalada tenemos que ejecutar el siguiente comando:
 
 \begin{lstlisting}[language=bash,caption={Instalar snapd}]
-	$ sudo apt update
-	$ sudo apt install snapd
+$ sudo apt update
+$ sudo apt install snapd
 \end{lstlisting}
 Después de tener instalado esto, ejecutaríamos:
 \begin{lstlisting}[language=bash,caption={Instalar PyCharm}]
-	$ sudo snap install pycharm-community|professional --classic
+$ sudo snap install pycharm-community|professional --classic
 \end{lstlisting}
 
 Una vez instalado \textit{PyCharm}, la forma más cómoda de obtener el código del proyecto es mediante \textit{git}, usando para ello el comando:
 \begin{lstlisting}[language=bash,caption={Descargar el repositorio}]
-	$ git clone <url_del_repositorio>
+$ git clone <url_del_repositorio>
 \end{lstlisting}
 Siendo \url{https://github.com/gpm0009/TFG_MetrominutoWeb.git} la URL del 
 repositorio.
 
 Para instalar las dependencias ejecutar el comando:
 \begin{lstlisting}[language=bash,caption={Instalar requirements.txt}]
-	$ pip install -r requirementes.txt
+$ pip install -r requirementes.txt
 \end{lstlisting}
 
-\subsubsection{Claves de Google}
+\subsection{Claves de Google}
 Para la obtención de un \textit{Google API KEY} es necesario obtener los credenciales en  \url{https://console.developers.google.com/apis/credentials}.
 Después, dichos credenciales deben activarse para las APIs que utiliza este proyecto:
 \begin{itemize}
-	\item 
+	\item Directions.
+	\item Distance Matrix.
+	\item Geocoding.
+	\item Maps JavaScript.
+	\item Places.
 \end{itemize}
 
+Una vez que la tenemos, debemos incluirla en el proyecto. Para ello:
+
+\begin{lstlisting}[language=python,caption={Añadir API\_KEY}]
+google_maps=googlemaps.Client(key='GOOGLE_API_KEY')
+\end{lstlisting}
+
+Además, no hay que olvidar incluirla en los templates:
+\begin{lstlisting}[language=html,caption={Añadir API\_KEY a los templates}]
+<script
+ src="https://maps.googleapis.com/maps/api/
+	 js?key=API_KEY&libraries=places" 
+	 type="text/javascript"</script>
+\end{lstlisting}
+
+También podemos incluirla como variable de entorno en nuestro editor. De esta manera nos aseguramos de no compartirla al realizar los commints en el control de versiones.
+\\
+En este caso, en PyCharm se configura de la siguiente manera:
+\begin{enumerate}
+\item Abrir selector Run Configuration (arriba a la derecha)
+\item Edit Configurations...
+\item Environmental variables
+\item Add or change variables, then click OK 
+\end{enumerate}
+  
 \subsection{\TeX studio}
 Esta herramienta para la compilación de documentación \LaTeX{} permite la instalación de diccionarios para aplicar las reglas al texto. Para ello, debemos acceder a:
+
 \begin{lstlisting}[language=bash,caption={Añadir diccionario}]
-	Options -> Configure TeXstudio
-	Language checking
+Options -> Configure TeXstudio
+Language checking
 \end{lstlisting}
+
 Una vez ahí, vemos que nos ofrece dos opciones para buscar diccionarios: \url{https://extensions.openoffice.org/de/search?f[0]=field_project_tags} o \url{https://extensions.libreoffice.org/extensions?getCategories=Dictionary&getCompatibility=any}. Elegimos cualquiera de ellas y descargamos el paquete del diccionario que queramos, y después lo importamos.
 
 
