@@ -8,226 +8,190 @@
                style="z-index: 0;position: absolute;left: 300px;top: 26px;">
         <div id="map"></div>
         <div id="buttons">
-            <input type='button' class="btn btn-primary" value='Show' id='showButton'>
+            {#            <input type='button' class="btn btn-primary" value='Show' id='showButton'>#}
             <input type='button' class="btn btn-primary" value='Delete' id='removeButton'>
             <input type='button' class="btn btn-primary" value='Save' id='saveButton'>
-{#            <input type='button' class="btn btn-primary" value='Draw' id='drawButton'>#}
-{#            <input type='button' class="btn btn-primary" value='Distance' id='distanceMatrix'>#}
+            {#            <input type='button' class="btn btn-primary" value='Save Pixels' id='pixels'>#}
+            {#            <input type='button' class="btn btn-primary" value='Distance' id='distanceMatrix'>#}
+            <select id="select" class="mdb-select">
+                <option value="" disabled selected>Elige Modo Desplazamiento</option>
+                <option value="bicycling">Bicicleta</option>
+                <option value="walking">A pie</option>
+                <option value="driving">Coche</option>
+                <option value="transit">Trasporte Público</option>
+            </select>
+
             <div id = "directions"></div>
         </div>
     </form>
-</body>
-</html>
-<script>
-    $(document).ready(function boxes(){
+    </body>
+{% endblock %}
+{% block scripts %}
+    <script>
+        $(document).ready(function boxes(){
             var directionsService = new google.maps.DirectionsService();
             var directionsRenderer = new google.maps.DirectionsRenderer();
-        var markers = [];
+            var markers = [];
 
-        $("#showButton").click(function () {
-            showMarkersDiv();
-        });
-        $("#removeButton").click(function () {
-            deleteMarkers();
-        });
-        $("#saveButton").click(function () {
-            //alert(markers[0].label);
-            var list = []
-            for(i=0;i<markers.length;i++){
-                var marcador = {'position' : markers[i].position};
-                list.push(marcador)
-            }
-            $.ajax({
-                type: "POST",
-                contentType: "application/json;charset=utf-8",
-                url: "/setMarks",
-                traditional: "true",
-                data: JSON.stringify(list),
-                dataType: "json"
-            });
-        });
-        $("#drawButton").click(function () {
-            draw_route();
-        });
-        $("#distanceMatrix").click(function () {
-            calculateDistance();
-        });
-
-        function initMap() {
-            let myLatLng = {lat: {{latitud}}, lng: {{longitud}} }
-            let map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 15,
-                center: myLatLng
+            $("#removeButton").click(function () {
+                deleteMarkers();
             });
 
-            google.maps.event.addListener(map, 'click', function(event) {
-                addMarker(event.latLng, map);
-            });
-
-            directionsRenderer.setMap(map);
-            var input = document.getElementById('pac-input');
-
-            var autocomplete = new google.maps.places.Autocomplete(input);
-            autocomplete.bindTo('bounds', map);
-
-            // Specify just the place data fields that you need.
-            autocomplete.setFields(['place_id', 'geometry', 'name']);
-
-            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-            var infowindow = new google.maps.InfoWindow();
-
-
-            var marker = new google.maps.Marker({map: map});
-
-            marker.addListener('click', function() {
-                infowindow.open(map, marker);
-            });
-
-            autocomplete.addListener('place_changed', function() {
-                infowindow.close();
-
-                var place = autocomplete.getPlace();
-
-                if (!place.geometry) {
-                    return;
+            $("#saveButton").click(function () {
+                //alert(markers[0].label);
+                var list = []
+                for(i=0;i<markers.length;i++){
+                    var marcador = {'position' : markers[i].position};
+                    list.push(marcador)
                 }
-
-                if (place.geometry.viewport) {
-                    map.fitBounds(place.geometry.viewport);
-                } else {
-                    map.setCenter(place.geometry.location);
-                    map.setZoom(17);
-                }
-
-                // Set the position of the marker using the place ID and location.
-                marker.setPlace({
-                    placeId: place.place_id,
-                    location: place.geometry.location
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    url: "/setMarks",
+                    traditional: "true",
+                    data: JSON.stringify(list),
+                    dataType: "json"
                 });
-                saveMarker(marker);
-                marker.setVisible(true);
-                infowindow.open(map, marker);
             });
-        }
+            $("#select").change(function () {
+                $.post('/setMode', {
+                    mode: $('#select').val()
+                }).done(function(response) {
+                    {#$(destElem).text(response['text'])#}
+                    console.log('OK');
+                }).fail(function() {
+                    {#$(destElem).text("{{ _('Error: Could not contact server.') }}");#}
+                    console.log('ERROR');
+                });
+            });
 
-        function addMarker(location, map) {
-            var geocoder = new google.maps.Geocoder;
-            geocoder.geocode({'location': location}, function(results, status) {
-                if (status === google.maps.GeocoderStatus.OK) {
-                    if (results[1]) {
-                        //console.log(results[0].place_id);
-                        var marker = new google.maps.Marker({
-                            position: location,
-                            map: map
-                        });
-                        saveMarker(marker);
-                        var infowindow = new google.maps.InfoWindow({content: results[0].formatted_address });
-                        {#infowindow.open(map,marker);#}
-                        marker.addListener('click', function() {
-                            infowindow.open(map, marker);
-                        });
+            $("#prueba").click(function () {
+                var list = []
+                for(i=0;i<markers.length;i++){
+                    var marcador = {'position' : markers[i].position};
+                    list.push(marcador)
+                }
+                prueb_ajax(JSON.stringify(list));
+            });
+
+
+            function initMap() {
+                let myLatLng = {lat: {{latitud}}, lng: {{longitud}} }
+                let map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 15,
+                    center: myLatLng
+                });
+
+                google.maps.event.addListener(map, 'click', function(event) {
+                    addMarker(event.latLng, map);
+                });
+
+                directionsRenderer.setMap(map);
+                var input = document.getElementById('pac-input');
+
+                var autocomplete = new google.maps.places.Autocomplete(input);
+                autocomplete.bindTo('bounds', map);
+
+                // Specify just the place data fields that you need.
+                autocomplete.setFields(['place_id', 'geometry', 'name']);
+
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+                var infowindow = new google.maps.InfoWindow();
+
+
+                var marker = new google.maps.Marker({map: map});
+
+                marker.addListener('click', function() {
+                    infowindow.open(map, marker);
+                });
+
+                autocomplete.addListener('place_changed', function() {
+                    infowindow.close();
+
+                    var place = autocomplete.getPlace();
+
+                    if (!place.geometry) {
+                        return;
+                    }
+
+                    if (place.geometry.viewport) {
+                        map.fitBounds(place.geometry.viewport);
                     } else {
-                        window.alert('No results found');
+                        map.setCenter(place.geometry.location);
+                        map.setZoom(17);
                     }
+
+                    // Set the position of the marker using the place ID and location.
+                    marker.setPlace({
+                        placeId: place.place_id,
+                        location: place.geometry.location
+                    });
+                    saveMarker(marker);
+                    marker.setVisible(true);
+                    infowindow.open(map, marker);
+                });
+            }
+
+            function addMarker(location, map) {
+                var geocoder = new google.maps.Geocoder;
+                geocoder.geocode({'location': location}, function(results, status) {
+                    if (status === google.maps.GeocoderStatus.OK) {
+                        if (results[1]) {
+                            //console.log(results[0].place_id);
+                            var marker = new google.maps.Marker({
+                                position: location,
+                                map: map
+                            });
+                            saveMarker(marker);
+                            var infowindow = new google.maps.InfoWindow({content: results[0].formatted_address });
+                            {#infowindow.open(map,marker);#}
+                            marker.addListener('click', function() {
+                                infowindow.open(map, marker);
+                            });
+                        } else {
+                            window.alert('No results found');
+                        }
+                    }
+                });
+            }
+
+
+            function saveMarker(mark) {
+                markers.push(mark);
+            }
+
+
+            function setMapOnAll(map) {
+                for (var i = 0; i < markers.length; i++) {
+                    markers[i].setMap(map);
                 }
+            }
+
+            function clearMarkers() {
+                setMapOnAll(null);
+            }
+
+            // Deletes all markers in the array by removing references to them.
+            function deleteMarkers() {
+                clearMarkers();
+                markers = [];
+            }
+            google.maps.event.addDomListener(window, 'load', initMap);
+        });
+    </script>
+    <script>
+        function prueb_ajax(marcadores) {
+            {#$(destElem).html('<img src="{{ url_for('static', filemarcadoresname='loading.gif') }}">');#}
+            $.post('/pruebajax', {
+                text: marcadores
+            }).done(function(response) {
+                {#$(destElem).text(response['text'])#}
+                console.log('OK');
+            }).fail(function() {
+                {#$(destElem).text("{{ _('Error: Could not contact server.') }}");#}
+                console.log('ERROR');
             });
         }
-
-
-        function saveMarker(mark) {
-            markers.push(mark);
-        }
-
-
-        function setMapOnAll(map) {
-            for (var i = 0; i < markers.length; i++) {
-                markers[i].setMap(map);
-            }
-        }
-
-        function clearMarkers() {
-            setMapOnAll(null);
-        }
-
-        // Deletes all markers in the array by removing references to them.
-        function deleteMarkers() {
-            clearMarkers();
-            markers = [];
-        }
-
-        function showMarkersDiv() {
-            var summaryPanel = document.getElementById('directions');
-            // summaryPanel.innerHTML = '';
-            for (var i=0;i<markers.length;i++){
-                summaryPanel.innerHTML += markers[i].label + ': ' + markers[i].position + '<br>';
-            }
-        }
-        function draw_route(){
-            var start = markers[0].position;
-            var end = markers[markers.length-1].position;
-            var waypts = [];
-            for (var i = 0; i < markers.length; i++){
-                waypts.push(markers[i].position)
-            }
-            var dir=[];
-
-           for (let i=1;i<markers.length-1;i++){
-                dir.push({
-                location: markers[i].position,
-                stopover: false
-              });
-           }
-            var request = {
-                origin: start,
-                destination: end,
-                waypoints: dir,
-                travelMode: 'WALKING'
-            };
-            directionsService.route(request, function(result, status) {
-                if (status == 'OK') {
-                    directionsRenderer.setDirections(result);
-                }
-            });
-        }
-        function calculateDistance(){
-            var service = new google.maps.DistanceMatrixService();
-            var originss = ["Perth, Australia", "Sydney, Australia"];
-            var destinationss = ["Uluru, Australia", "Kakadu, Australia"];
-            service.getDistanceMatrix(
-                {
-                    origins: originss,
-                    destinations: destinationss,
-                    travelMode: 'WALKING',
-                    avoidHighways: true,
-                    avoidTolls: true,
-                }, callback);
-        }
-        function callback(response, status) {
-            if (status == 'OK') {
-                var origins = response.originAddresses;
-                var destinations = response.destinationAddresses;
-
-                for (var i = 0; i < origins.length; i++) {
-                    var results = response.rows[i].elements;
-                    for (var j = 0; j < results.length; j++) {
-                        var element = results[j];
-                        var distance = element.distance.text;
-                        var duration = element.duration.text;
-                        var from = origins[i];
-                        var to = destinations[j];
-                    }
-                }
-            }
-        }
-
-
-
-
-
-
-        google.maps.event.addDomListener(window, 'load', initMap);
-    });
-</script>
-
+    </script>
 {% endblock %}
