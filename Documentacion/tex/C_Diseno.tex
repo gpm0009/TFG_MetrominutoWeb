@@ -7,18 +7,7 @@ En este apartado de la documentación se expone el diseño que ha dado lugar a l
 La estructura del proyecto podemos dividirla en varias partes ya que, debido al uso de bibliotecas como la de Google Maps o de la biblioteca de Networkx para la generación de grafos, se han usado todos o parte de los datos que nos devuelven como resultado de las consultas.
 
 \subsection{NetworkX}
-Como ya he mencionado, esta biblioteca nos permite trabajar de una forma muy amplia y completa con grafos. A lo largo del proyecto se han usado:
-\begin{itemize}
-	\item grap(): para crear un grafo no dirigido al que se añadirán nodos y arcos.
-	\item add\_node(): Diferentes nodos junto con atributos como la posición obtenida del API de Google y el nombre.
-	\item add\_edge(): Arco que conecta dos nodos. Además, los arcos contienen atributos como la distancia real que hay de nodo a nodo o el número de votos que tendrá.
-	\item get\_edge\_attributes(): para obtener los valores de un atributo perteneciente a los arcos. Devuelve una lista que contiene el nodo de origen, el nodo destino y el atributo deseado.
-	\item edges(data\=True): devuelve los arcos junto con los atributos.
-	\item nodes(data\=True): devuelve los nodos junto con los atributos.
-	\item minimum\_spanning\_edges(): devuelve un iterador con los arcos que forman el grafo de tal manera que la suma de distancias es la mínima.
-	\item draw\_networkx(): para dibujar el grafo.
-\end{itemize}
-
+En este proyecto se usa networkX para generar, modificar y visualizar grafos, en los cuales el elemento <<\textit{nodes}>> representa los diferentes puntos seleccionados por el usuario, y el elemento <<\textit{edges}>> representa las conexiones entre ellos.
 
 \subsection{Google API}
 Google se ha usado para la obtención de todos los datos necesarios para el cálculo de distancias y tiempos, así como para la selección de los diferentes puntos en el mapa. Para ello, Google proporciona un API para \textit{Python} y otro para \textit{JavaScript}. Las funciones que se han usado han sido:
