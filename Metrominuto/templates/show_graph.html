@@ -9,14 +9,20 @@
         margin-left: 3%;
     }
     </style>
-    <form class="form-inline">
-        <label for="example-number-input" class="col-2 col-form-label">Number</label>
-        <input class="form-control" type="number" value="5" id="votes_number">
-        <input type='button' class="btn btn-primary" value='Save' id='submit'>
-    </form>
+    <div class="row">
+        <form class="form-inline">
+            <label for="example-number-input" class="col-2 col-form-label">Number</label>
+            <input class="form-control" type="number" value="5" id="votes_number">
+            <input type='button' class="btn btn-primary" value='Save' id='submit'>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="container-fluid">
+                {{ svg|safe }}
+            </div>
 
-    <div class="container">
-        {{ svg|safe }}
+        </div>
     </div>
     <script>
         $("#submit").click(function () {

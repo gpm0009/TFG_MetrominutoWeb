@@ -1,18 +1,25 @@
 {% extends "base_template.html" %}
 
 {% block app_content %}
-    <form>
-        <input id="pac-input"
-               type="text"
-               placeholder="Enter a location"
-               style="z-index: 0;position: absolute;left: 300px;top: 26px;">
-        <div id="map"></div>
-        <div id="buttons">
-            {#            <input type='button' class="btn btn-primary" value='Show' id='showButton'>#}
+    <style>
+        .row{
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+    </style>
+{#    <div class="container">#}
+        <div class="row">
+            <div class="col-12">
+                <input id="pac-input"
+                       type="text"
+                       placeholder="Enter a location">
+                <div id="map"></div>
+            </div>
+        </div>
+        <div class="row" id="buttons">
             <input type='button' class="btn btn-primary" value='Delete' id='removeButton'>
-            <input type='button' class="btn btn-primary" value='Save' id='saveButton'>
-            {#            <input type='button' class="btn btn-primary" value='Save Pixels' id='pixels'>#}
-            {#            <input type='button' class="btn btn-primary" value='Distance' id='distanceMatrix'>#}
+            <input type='button' class="btn btn-primary" value='Save' id='saveButton' href="/graph">
+{#            <a  class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Save2</a>#}
             <select id="select" class="mdb-select">
                 <option value="" disabled selected>Elige Modo Desplazamiento</option>
                 <option value="bicycling">Bicicleta</option>
@@ -20,10 +27,9 @@
                 <option value="driving">Coche</option>
                 <option value="transit">Trasporte Público</option>
             </select>
-
-            <div id = "directions"></div>
         </div>
-    </form>
+{#    </div>#}
+
     </body>
 {% endblock %}
 {% block scripts %}
@@ -179,18 +185,15 @@
             }
             google.maps.event.addDomListener(window, 'load', initMap);
         });
-    </script>
-    <script>
+
         function prueb_ajax(marcadores) {
             {#$(destElem).html('<img src="{{ url_for('static', filemarcadoresname='loading.gif') }}">');#}
             $.post('/pruebajax', {
                 text: marcadores
-            }).done(function(response) {
-                {#$(destElem).text(response['text'])#}
-                console.log('OK');
-            }).fail(function() {
-                {#$(destElem).text("{{ _('Error: Could not contact server.') }}");#}
-                console.log('ERROR');
+            }).done(function(data) {
+                console.log(data);
+            }).fail(function(data) {
+                console.log(data);
             });
         }
     </script>
