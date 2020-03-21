@@ -5,10 +5,9 @@ import matplotlib.pyplot as plt
 import globals
 
 
-def calculate_graph(dista, nodes):
+def calculate_graph(dista, nodes, matriz):
     graph = nx.Graph()
     min_graph = nx.Graph()
-    # vote_graph = nx.Graph()
     nodes_name = 0
 
     for node in nodes:
@@ -20,15 +19,15 @@ def calculate_graph(dista, nodes):
     for i in range(0, dista.__len__()):
         for j in range(0, dista.__len__()):
             if i != j:
-                graph.add_edge(str(i), str(j), weight=dista[i][j])
+                graph.add_edge(str(i), str(j), weight=dista[i][j], duration=matriz['rows'][i]['elements'][j]['duration']['text'])
     weight = nx.get_edge_attributes(graph, 'weight')
-    votes = nodes_votes(graph, nodes_name, min_graph, weight)
+    votes = nodes_votes(graph, nodes_name, min_graph, weight,matriz)
     # draw_votes_graph(votes)
     # svg_f.save_svg()
     return votes
 
 
-def nodes_votes(graph, tam, min_graph, weight):
+def nodes_votes(graph, tam, min_graph, weight, matriz):
     votes = np.zeros((tam, tam))
     edge_list = list(graph.edges(data=True))  # make a list of the edges
     # votes_graph.clear()
@@ -46,7 +45,7 @@ def nodes_votes(graph, tam, min_graph, weight):
             votes[x, y] = votes[x, y] + 1
             globals.vote_global_graph.add_edge(random_graph[z][0], random_graph[z][1],
                                        weight=weight[(random_graph[z][0], random_graph[z][1])],
-                                       votes=votes[x, y] + 1)
+                                       votes=votes[x, y] + 1, duration=random_graph[z][2]['duration'])
     print(votes)
     return globals.vote_global_graph
 

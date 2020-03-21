@@ -9,7 +9,6 @@ def get_distance_matrix_values(matrix_distance):
     for i in range(0, x):
         for j in range(0, y):
             distances[i, j] = matrix_distance['rows'][i]['elements'][j]['distance']['value']
-    # print(distances)
     globals.global_matrix = distances
     return distances
 
@@ -22,8 +21,6 @@ def read_direction(directions):
         print(warnin)
     legs = trace['legs']
     return 0
-
-
 
 
 

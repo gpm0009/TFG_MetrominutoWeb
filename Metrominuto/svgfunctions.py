@@ -1,6 +1,6 @@
 import networkx as nx
 import svgwrite as svg
-from app import google_maps
+
 
 def save_svg():
     dwg = svg.Drawing('templates/test.svg', size=("800px", "600px"), profile='full')
@@ -22,18 +22,18 @@ def generate_svg(graph_votes):
     max_x, min_x = max(coords_x), min(coords_x)
     max_y, min_y = max(coords_y), min(coords_y)
     print(max_x, min_x,max_y, min_y)
-    radio = 0.05
+    radio = 0.025
     file_name = 'templates/grafo_svg.svg'
-    dwg = svg.Drawing(file_name, size=('900px', '900px'),
-                      viewBox='-1 -1 3 3', profile='full')
+    dwg = svg.Drawing(file_name, size=('100%', '900px'),
+                      viewBox='0 -0.3 1 1.4', profile='full')
     for edge in (graph_votes.edges(data=True)):
         line = dwg.line(id='line',
                         start=((positions[edge[0]][0]- min_x)/(max_x - min_x), (positions[edge[0]][1]- min_y)/(max_y - min_y)),
                         end=((positions[edge[1]][0]- min_x)/(max_x - min_x), (positions[edge[1]][1]- min_y)/(max_y - min_y)),
-                        stroke='blue', fill='blue', stroke_width=0.02)
+                        stroke='blue', fill='blue', stroke_width=0.01)
         medio_x, medio_y = puntoMedio((positions[edge[0]][0]- min_x)/(max_x - min_x), (positions[edge[0]][1]- min_y)/(max_y - min_y),
                                       (positions[edge[1]][0]- min_x)/(max_x - min_x), (positions[edge[1]][1]- min_y)/(max_y - min_y))
-        time = dwg.text("your text", insert=(medio_x+radio*1.5, medio_y),stroke='none',
+        time = dwg.text(edge[2]['duration'], insert=(medio_x+radio*1.5, medio_y),stroke='none',
                          fill='#900',
                          font_size=str(radio),
                          font_weight="bold",
@@ -44,7 +44,7 @@ def generate_svg(graph_votes):
         coord_x = (node[1]['pos'][0] - min_x)/(max_x - min_x)
         coord_y = (node[1]['pos'][1] - min_y)/(max_y - min_y)
         circle = dwg.circle(id='node' + node[0], center=(coord_x, coord_y), r=str(radio),
-                            fill='black', stroke='white', stroke_width=0.015)
+                            fill='black', stroke='white', stroke_width=0.010)
         dwg.add(circle)
         label = dwg.text("your text", insert=(coord_x+radio*1.5,coord_y+radio*0.2),stroke='none',
                          fill='#900',
