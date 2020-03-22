@@ -22,24 +22,25 @@ def generate_svg(graph_votes):
         coords_y.append(positions[str(x)][1])
     max_x, min_x = max(coords_x), min(coords_x)
     max_y, min_y = max(coords_y), min(coords_y)
-    print(max_x, min_x, max_y, min_y)
+    # print(max_x, min_x, max_y, min_y)
     radio = 0.025
     file_name = 'templates/grafo_svg.svg'
     dwg = svg.Drawing(file_name, size=('100%', '900px'),
                       viewBox='0 -0.3 1 1.4', profile='full')
     for edge in (graph_votes.edges(data=True)):
+        color = select_color(int(edge[2]['duration'].split(' min')[0]))
         line = dwg.line(id='line',
                         start=((positions[edge[0]][0] - min_x) / (max_x - min_x),
                                (positions[edge[0]][1] - min_y) / (max_y - min_y)),
                         end=((positions[edge[1]][0] - min_x) / (max_x - min_x),
                              (positions[edge[1]][1] - min_y) / (max_y - min_y)),
-                        stroke='blue', fill='blue', stroke_width=0.01)
-        medio_x, medio_y = puntoMedio((positions[edge[0]][0] - min_x) / (max_x - min_x),
-                                      (positions[edge[0]][1] - min_y) / (max_y - min_y),
-                                      (positions[edge[1]][0] - min_x) / (max_x - min_x),
-                                      (positions[edge[1]][1] - min_y) / (max_y - min_y))
+                        stroke=color, fill=color, stroke_width=0.01)
+        medio_x, medio_y = punto_medio((positions[edge[0]][0] - min_x) / (max_x - min_x),
+                                       (positions[edge[0]][1] - min_y) / (max_y - min_y),
+                                       (positions[edge[1]][0] - min_x) / (max_x - min_x),
+                                       (positions[edge[1]][1] - min_y) / (max_y - min_y))
         time = dwg.text(edge[2]['duration'], insert=(medio_x + radio * 1.5, medio_y), stroke='none',
-                        fill='#900',
+                        fill=color,
                         font_size=str(radio),
                         font_weight="bold",
                         font_family="Arial")
@@ -54,7 +55,7 @@ def generate_svg(graph_votes):
         label = dwg.text(google_maps.reverse_geocode((node[1]['pos'][0], node[1]['pos'][1]))[0]['formatted_address'],
                          insert=(coord_x + radio * 1.5, coord_y + radio * 0.2),
                          stroke='none',
-                         fill='#900',
+                         fill='black',
                          font_size=str(radio),
                          font_weight="bold",
                          font_family="Arial")
@@ -63,7 +64,24 @@ def generate_svg(graph_votes):
     return 0
 
 
-def puntoMedio(c_x, c_y, c_xx, c_yy):
+def punto_medio(c_x, c_y, c_xx, c_yy):
     x = (c_x + c_xx) / 2
     y = (c_y + c_yy) / 2
     return x, y
+
+
+colors = ['green', 'yellow', 'grey', 'red', 'pink', 'brown']
+
+
+def select_color(time):
+    if time < 2:
+        color = 'green'
+    elif time < 5:
+        color = 'yellow'
+    elif time < 8:
+        color = 'grey'
+    elif time < 12:
+        color = 'brown'
+    else:
+        color = 'red'
+    return color

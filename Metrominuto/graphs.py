@@ -77,10 +77,9 @@ def connected_graph(num_votes):
     check_graph = nx.Graph()
     for node in (globals.vote_global_graph.nodes(data=True)):
         check_graph.add_node(node[0], pos=node[1]['pos'])
-
     for edge in (globals.vote_global_graph.edges(data=True)):
         if int(edge[2]['votes']) > num_votes:
-            check_graph.add_edge(edge[0], edge[1], weight=edge[2]['weight'], votes=edge[2]['votes'])
+            check_graph.add_edge(edge[0], edge[1], weight=edge[2]['weight'], votes=edge[2]['votes'], duration=edge[2]['duration'])
 
     connected_components_list = sorted(nx.connected_components(check_graph), key=len, reverse=True)
     print(connected_components_list)
@@ -88,7 +87,9 @@ def connected_graph(num_votes):
     if connected_components_list.__len__() > 1:
         for s in range(0, connected_components_list.__len__()-1):
             node_x, node_y, dist = compare_distance_matrix(connected_components_list[0], connected_components_list[1])
-            check_graph.add_edge(str(node_x), str(node_y), weight=dist)
+            edge_duration = globals.vote_global_graph.get_edge_data(str(node_x), str(node_y))
+            # print(edge_duration['duration'])
+            check_graph.add_edge(str(node_x), str(node_y), weight=dist, duration=edge_duration['duration'])
             draw_graph(check_graph)
             connected_components_list = sorted(nx.connected_components(check_graph), key=len, reverse=True)
             print(connected_components_list)
