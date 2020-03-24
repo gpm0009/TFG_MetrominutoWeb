@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<svg baseProfile="full" height="900px" version="1.1" viewBox="-100 -100 200 200" width="900px" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg baseProfile="full" height="100%" version="1.1" viewBox="0 -0.3 1 1.4" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs/>
-  <circle cx="42.33022881684166" cy="-3.703389587402337" id="node3" r="3"/>
-  <circle cx="42.348119893802206" cy="-3.7066511535644464" id="node0" r="3"/>
-  <circle cx="42.33435309807479" cy="-3.6910728836059503" id="node5" r="3"/>
-  <circle cx="42.340221801246116" cy="-3.7060503387451105" id="node4" r="3"/>
-  <circle cx="42.33441654644295" cy="-3.7115864181518488" id="node2" r="3"/>
-  <circle cx="42.33879432926176" cy="-3.695021095275872" id="node1" r="3"/>
-  <line id="line9" stroke="#000" stroke-width="1" x1="42.33022881684166" x2="42.33435309807479" y1="-3.703389587402337" y2="-3.6910728836059503"/>
-  <line id="line5" stroke="#000" stroke-width="1" x1="42.33022881684166" x2="42.340221801246116" y1="-3.703389587402337" y2="-3.7060503387451105"/>
-  <line id="line7" stroke="#000" stroke-width="1" x1="42.33022881684166" x2="42.348119893802206" y1="-3.703389587402337" y2="-3.7066511535644464"/>
-  <line id="line9" stroke="#000" stroke-width="1" x1="42.33022881684166" x2="42.33441654644295" y1="-3.703389587402337" y2="-3.7115864181518488"/>
-  <line id="line4" stroke="#000" stroke-width="1" x1="42.33022881684166" x2="42.33879432926176" y1="-3.703389587402337" y2="-3.695021095275872"/>
-  <line id="line11" stroke="#000" stroke-width="1" x1="42.348119893802206" x2="42.340221801246116" y1="-3.7066511535644464" y2="-3.7060503387451105"/>
-  <line id="line6" stroke="#000" stroke-width="1" x1="42.348119893802206" x2="42.33879432926176" y1="-3.7066511535644464" y2="-3.695021095275872"/>
-  <line id="line9" stroke="#000" stroke-width="1" x1="42.348119893802206" x2="42.33441654644295" y1="-3.7066511535644464" y2="-3.7115864181518488"/>
-  <line id="line5" stroke="#000" stroke-width="1" x1="42.348119893802206" x2="42.33435309807479" y1="-3.7066511535644464" y2="-3.6910728836059503"/>
-  <line id="line3" stroke="#000" stroke-width="1" x1="42.33435309807479" x2="42.340221801246116" y1="-3.6910728836059503" y2="-3.7060503387451105"/>
-  <line id="line3" stroke="#000" stroke-width="1" x1="42.33435309807479" x2="42.33441654644295" y1="-3.6910728836059503" y2="-3.7115864181518488"/>
-  <line id="line8" stroke="#000" stroke-width="1" x1="42.33435309807479" x2="42.33879432926176" y1="-3.6910728836059503" y2="-3.695021095275872"/>
-  <line id="line8" stroke="#000" stroke-width="1" x1="42.340221801246116" x2="42.33879432926176" y1="-3.7060503387451105" y2="-3.695021095275872"/>
-  <line id="line13" stroke="#000" stroke-width="1" x1="42.340221801246116" x2="42.33441654644295" y1="-3.7060503387451105" y2="-3.7115864181518488"/>
-  <line id="line10" stroke="#000" stroke-width="1" x1="42.33441654644295" x2="42.33879432926176" y1="-3.7115864181518488" y2="-3.695021095275872"/>
+  <text fill="pink" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.26458333333333334" y="0.5">34 mins</text>
+  <line fill="pink" id="line" stroke="pink" stroke-width="0.01" x1="0.45416666666666666" x2="0.0" y1="1.0" y2="0.0"/>
+  <text fill="orange" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.7645833333333333" y="0.7573063068230222">28 mins</text>
+  <line fill="orange" id="line" stroke="orange" stroke-width="0.01" x1="0.45416666666666666" x2="1.0" y1="1.0" y2="0.5146126136460445"/>
+  <text fill="red" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.5791666666666666" y="0.5344858116862399">30 mins</text>
+  <line fill="red" id="line" stroke="red" stroke-width="0.01" x1="0.45416666666666666" x2="0.6291666666666667" y1="1.0" y2="0.06897162337247982"/>
+  <text fill="brown" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.3895833333333333" y="0.7016029534531149">18 mins</text>
+  <line fill="brown" id="line" stroke="brown" stroke-width="0.01" x1="0.45416666666666666" x2="0.25" y1="1.0" y2="0.4032059069062297"/>
+  <text fill="green" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.6604166666666667" y="0.8527950237699866">24 mins</text>
+  <line fill="green" id="line" stroke="green" stroke-width="0.01" x1="0.45416666666666666" x2="0.7916666666666666" y1="1.0" y2="0.7055900475399732"/>
+  <circle cx="0.45416666666666666" cy="1.0" fill="black" id="node2" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.4916666666666667" y="1.005">Carr. del Castillo, 10, 09003 Burgos, Spain</text>
+  <circle cx="1.0" cy="0.5146126136460445" fill="black" id="node1" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="1.0375" y="0.5196126136460445">N-120, 29, 09002 Burgos, Spain</text>
+  <circle cx="0.7916666666666666" cy="0.7055900475399732" fill="black" id="node5" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.8291666666666666" y="0.7105900475399732">Calle Calzadas, 15, 09004 Burgos, Spain</text>
+  <circle cx="0.0" cy="0.0" fill="black" id="node4" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.037500000000000006" y="0.005000000000000001">Calle Arco del Amparo, 30, 09001 Burgos, Spain</text>
+  <circle cx="0.6291666666666667" cy="0.06897162337247982" fill="black" id="node3" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.6666666666666666" y="0.07397162337247982">Calle de Sta. Cruz, 26, 09002 Burgos, Spain</text>
+  <circle cx="0.25" cy="0.4032059069062297" fill="black" id="node0" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.2875" y="0.4082059069062297">Calle Sta. Águeda, 21, 09003 Burgos, Spain</text>
 </svg>

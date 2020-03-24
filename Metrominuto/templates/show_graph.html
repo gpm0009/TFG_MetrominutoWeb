@@ -8,20 +8,37 @@
     form{
         margin-left: 3%;
     }
+    .col-12{
+        display: flex;
+        align-items: center;
+        {#background: darkgreen;#}
+    }
+    .row > .col-12 > svg{
+        {#transform: rotate(-90deg);#}
+        {#background: purple;#}
+        align-items: center;
+        margin-left: auto;
+        margin-right: auto;
+        max-height: 900px;
+        max-width: 1200px;
+    }
     </style>
     <div class="row">
-        <form class="form-inline">
-            <label for="example-number-input" class="col-2 col-form-label">Number</label>
-            <input class="form-control" type="number" value="5" id="votes_number">
-            <input type='button' class="btn btn-primary" value='Save' id='submit'>
+{#        <form class="form-inline">#}
+{#            <label for="example-number-input" class="col-2 col-form-label">Number</label>#}
+{#            <input class="form-control" type="number" value="10" id="votes_number">#}
+{#            <input type='button' class="btn btn-primary" value='Save' id='submit'>#}
+{#        </form>#}
+        <form action="/graph" method="post" class="form-inline" novalidate>
+            {{ form.hidden_tag() }}
+
+            {{ form.number.label }}: {{ form.number }}
+            {{ form.submit(class="btn btn-primary") }}
         </form>
     </div>
     <div class="row">
         <div class="col-12">
-            <div class="container-fluid">
                 {{ svg|safe }}
-            </div>
-
         </div>
     </div>
     <script>
@@ -31,7 +48,7 @@
             console.log(number);
             $.ajax({
                 type: 'post',
-                    url: '/saveNumber',
+                    url: '/graph',
                     data: $('#votes_number').val(),
             });
         });

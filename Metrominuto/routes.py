@@ -1,10 +1,11 @@
 from datetime import datetime
 from app import app, google_maps
 import calculateRoute as Clr
-from flask import render_template, request, session, jsonify, redirect, url_for
+from flask import render_template, request, session, jsonify, redirect, url_for, flash
 from config import Config
 import graphs as gph
 import svgfunctions as svg_f
+from forms import Form
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -38,25 +39,39 @@ def set_marks():
     return redirect(url_for('draw_svg'))
 
 
-@app.route('/graph', methods=['GET'])
+# @app.route('/graph', methods=['GET', 'POST'])
+# def draw_svg():
+#     form = Form()
+#     svg = render_template('./grafo_svg.svg')
+#     return render_template('show_graph.html', form=form, svg=svg, API_KEY=Config.GOOGLE_API_KEY)
+@app.route('/graph', methods=['GET', 'POST'])
 def draw_svg():
-    svg = render_template('./grafo_svg.svg')
-    return render_template('show_graph.html', svg=svg, API_KEY=Config.GOOGLE_API_KEY)
+    form = Form()
+    svg = None
+    if form.validate_on_submit():
+        num = form.number.data
+        flash('Votos guardados')
+        print(num)
+        graph = gph.connected_graph(num)
+        svg_f.generate_svg(graph)
+        return redirect(url_for('draw_svg'))
+    elif request.method == 'GET':
+        svg = render_template('./grafo_svg.svg')
+    return render_template('show_graph.html', form=form, svg=svg, API_KEY=Config.GOOGLE_API_KEY)
 
 
-@app.route("/saveNumber", methods=['POST'])
-def save_number():
-    num = int(request.get_data())
-    graph = gph.connected_graph(num)
-    svg_f.generate_svg(graph)
-    print(url_for('draw_svg'))
-    return redirect(url_for('draw_svg'))
+# @app.route("/saveNumber", methods=['POST', 'GET'])
+# def save_number():
+#     num = int(request.get_data())
+#     graph = gph.connected_graph(num)
+#     svg_f.generate_svg(graph)
+#     return redirect(url_for('draw_svg'))
 
 
 @app.route('/setMode', methods=['POST'])
 def set_mode():
-    modo = request.form['mode']
-    session['mode'] = modo
-    if modo:
+    mode = request.form['mode']
+    session['mode'] = mode
+    if mode:
         return jsonify('OK')
     return jsonify('ERROR')
