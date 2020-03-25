@@ -23,7 +23,6 @@ def show_map():
 @app.route("/setMarks", methods=['POST'])
 def set_marks():
     # place = gmaps.find_place('Burgos', 'textquery')
-    # reverse_geocode_result = gmaps.reverse_geocode((40.714224, -73.961452))
     # Contiene latlng de los marcadores del mapa.
     markers = request.get_json()
     origins = []
@@ -32,7 +31,7 @@ def set_marks():
         origins.append(mark['position'])
         destinations.append(mark['position'])
     now = datetime.now()
-    matrix = google_maps.distance_matrix(origins, destinations, mode='walking', departure_time=now)
+    matrix = google_maps.distance_matrix(origins, destinations, mode=session['mode'], departure_time=now)
     dist = Clr.get_distance_matrix_values(matrix)
     votes = gph.calculate_graph(dist, markers, matrix)
     svg_f.generate_svg(votes)
@@ -50,14 +49,12 @@ def draw_svg():
     svg = None
     if form.validate_on_submit():
         num = form.number.data
-        flash('Votos guardados')
-        print(num)
         graph = gph.connected_graph(num)
         svg_f.generate_svg(graph)
         return redirect(url_for('draw_svg'))
     elif request.method == 'GET':
         svg = render_template('./grafo_svg.svg')
-    return render_template('show_graph.html', form=form, svg=svg, API_KEY=Config.GOOGLE_API_KEY)
+    return render_template('show_graph.html', form=form, svg=svg)
 
 
 # @app.route("/saveNumber", methods=['POST', 'GET'])

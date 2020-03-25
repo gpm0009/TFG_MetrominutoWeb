@@ -89,8 +89,9 @@ def connected_graph(num_votes):
             node_x, node_y, dist = compare_distance_matrix(connected_components_list[0], connected_components_list[1])
             edge_duration = globals.vote_global_graph.get_edge_data(str(node_x), str(node_y))
             # print(edge_duration['duration'])
-            check_graph.add_edge(str(node_x), str(node_y), weight=dist, duration=edge_duration['duration'])
-            draw_graph(check_graph)
+            time = edge_duration.get('duration')
+            check_graph.add_edge(str(node_x), str(node_y), weight=dist, duration=time)
+            # draw_graph(check_graph)
             connected_components_list = sorted(nx.connected_components(check_graph), key=len, reverse=True)
             print(connected_components_list)
     return check_graph

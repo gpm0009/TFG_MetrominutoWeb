@@ -1,34 +1,47 @@
 {% extends "base_template.html" %}
 
-{% block app_content %}
+{% block content %}
     <style>
+        #map {
+            width: 100%;
+            height: 900px;
+        }
+        #buttons {
+            margin-left: 130px;
+            margin-top: 10px;
+        }
         .row{
             margin-right: 10px;
             margin-left: 10px;
         }
     </style>
-{#    <div class="container">#}
-        <div class="row">
-            <div class="col-12">
-                <input id="pac-input"
-                       type="text"
-                       placeholder="Enter a location">
-                <div id="map"></div>
-            </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{API_KEY}}&libraries=places"> type="text/javascript"</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <div class="row">
+        <div class="col-md-12">
+            <input id="pac-input"
+                   type="text"
+                   placeholder="Enter a location">
+            <div id="map"></div>
+{#            <div class="col-md-4">#}
+{#                <div id="directions">#}
+{#                </div>#}
+{#            </div>#}
         </div>
-        <div class="row" id="buttons">
-            <input type='button' class="btn btn-primary" value='Delete' id='removeButton'>
-            <input type='button' class="btn btn-primary" value='Save' id='saveButton' href="/graph">
-            <a class="btn btn-primary" role="button" target="_blank" href="{{url_for('draw_svg')}}">Show</a>
-            <select id="select" class="mdb-select">
-                <option value="" disabled selected>Elige Modo Desplazamiento</option>
-                <option value="bicycling">Bicicleta</option>
-                <option value="walking">A pie</option>
-                <option value="driving">Coche</option>
-                <option value="transit">Trasporte Público</option>
-            </select>
-        </div>
-{#    </div>#}
+
+    </div>
+    <div class="row" id="buttons">
+        <input type='button' class="btn btn-primary" value='Delete' id='removeButton'>
+        <input type='button' class="btn btn-primary" value='Save' id='saveButton' href="/graph">
+        <a class="btn btn-primary" role="button" target="_blank" href="{{url_for('draw_svg')}}">Show</a>
+        <select id="select" class="mdb-select">
+            <option value="" disabled selected>Elige Modo Desplazamiento</option>
+            <option value="bicycling">Bicicleta</option>
+            <option value="walking">A pie</option>
+            <option value="driving">Coche</option>
+            <option value="transit">Trasporte Público</option>
+        </select>
+    </div>
 
     </body>
 {% endblock %}
@@ -196,5 +209,7 @@
                 console.log(data);
             });
         }
+
     </script>
+
 {% endblock %}
