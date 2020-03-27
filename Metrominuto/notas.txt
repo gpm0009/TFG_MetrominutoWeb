@@ -1,0 +1,5 @@
+https://vuejsexamples.com/vue-component-for-customize-your-svg-file/
+
+https://codepen.io/scorch/pen/JEKorP
+
+http://www.petercollingridge.co.uk/tutorials/svg/interactive/javascript/

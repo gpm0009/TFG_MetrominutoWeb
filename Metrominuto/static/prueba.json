@@ -31,11 +31,15 @@
         {
           "coords": [23, -4],
           "name": "StationA",
-          "labelPos": "S",
+          "labelPos": "W",
           "marker": "interchange"
         },
         {
-          "coords": [31, -4]
+          "coords": [30, -4]
+        },
+        {
+          "coords": [31, -3],
+          "dir": "E"
         },
         {
           "coords": [31, 2],
@@ -44,21 +48,12 @@
           "labelPos": "E"
         },
         {
-          "coords": [31, 5]
+          "coords": [49, 2]
         },
         {
           "coords": [50, 5],
           "name": "StationC",
           "labelPos": "E",
-          "marker": "interchange"
-        },
-        {
-          "coords": [50, -4]
-        },
-        {
-          "coords": [23, -4],
-          "name": "StationA",
-          "labelPos": "S",
           "marker": "interchange"
         }
       ]

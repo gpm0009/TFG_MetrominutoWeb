@@ -3,8 +3,9 @@
 {% block content %}
     <style>
 
-        form{
-            margin-left: 3%;
+        .row{
+            margin-right: 10px;
+            margin-left: 10px;
         }
         .col-12{
             display: flex;
@@ -19,19 +20,19 @@
             max-width: 100%;
         }
         @media screen and (max-width: 1600px) {
-            .row > .col-12 > svg{
-                {#transform: rotate(-90deg);#}
+            .row > .col-12 {
+            {#transform: rotate(-90deg);#}
                 align-items: center;
                 margin-left: auto;
                 margin-right: auto;
                 max-width:900px;
-                height:900px;
+                height:600px;
             }
         }
     </style>
     <div class="row">
         <div class="col-md-12">
-            <form action="/graph" method="post" class="form-inline" novalidate>
+            <form action="{{url_for('draw_svg')}}" method="post" class="form-inline" novalidate>
                 {{ form.hidden_tag() }}
 
                 {{ form.number.label }}: {{ form.number }}
@@ -40,8 +41,28 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-md-6">
+
+                <div class="form-group">
+                    <label for="formControlRange">{{ form.value.label }}</label>
+                    <input type="range" min="{{form.min_votes}}" max="{{form.max_votes}}" class="form-control-range" id="formControlRange">
+                </div>
+
+        </div>
+    </div>
+    <div class="row">
         <div class="col-12">
             {{ svg|safe }}
         </div>
     </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        $(document).ready(function boxes() {
+            $("#formControlRange").change(function () {
+                console.log($('#formControlRange').val());
+
+            });
+        });
+    </script>
 {% endblock %}

@@ -8,7 +8,10 @@ body {
     margin-bottom: 180px;
 }
 
-
+.row{
+            margin-right: 10px;
+            margin-left: 10px;
+        }
 
 
 .footer {

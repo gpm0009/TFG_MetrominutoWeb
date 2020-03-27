@@ -924,6 +924,7 @@
         },
         {
           "coords": [12, 10],
+          "coords": [12, 10],
           "name": "BaronOfBeef",
           "labelPos": "S",
           "canonical": true

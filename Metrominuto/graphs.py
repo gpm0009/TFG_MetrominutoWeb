@@ -2,6 +2,8 @@ from random import sample
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
+from flask import session
+
 import globals
 
 
@@ -47,6 +49,8 @@ def nodes_votes(graph, tam, min_graph, weight, matriz):
                                        weight=weight[(random_graph[z][0], random_graph[z][1])],
                                        votes=votes[x, y] + 1, duration=random_graph[z][2]['duration'])
     print(votes)
+    session['max_votes'] = votes.max()
+    session['min_votes'] = votes.min()
     return globals.vote_global_graph
 
 
@@ -91,7 +95,7 @@ def connected_graph(num_votes):
             # print(edge_duration['duration'])
             time = edge_duration.get('duration')
             check_graph.add_edge(str(node_x), str(node_y), weight=dist, duration=time)
-            # draw_graph(check_graph)
+            draw_graph(check_graph)
             connected_components_list = sorted(nx.connected_components(check_graph), key=len, reverse=True)
             print(connected_components_list)
     return check_graph

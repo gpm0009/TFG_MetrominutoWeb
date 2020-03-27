@@ -53,6 +53,8 @@ def draw_svg():
         svg_f.generate_svg(graph)
         return redirect(url_for('draw_svg'))
     elif request.method == 'GET':
+        form.max_votes = session['max_votes']
+        form.min_votes = session['min_votes']
         svg = render_template('./grafo_svg.svg')
     return render_template('show_graph.html', form=form, svg=svg)
 

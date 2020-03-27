@@ -1,7 +1,8 @@
 import networkx as nx
 import svgwrite as svg
 from app import google_maps
-
+import math
+import numpy as np
 
 def save_svg():
     dwg = svg.Drawing('templates/test.svg', size=("800px", "600px"), profile='full')
@@ -22,6 +23,8 @@ def generate_svg(graph_votes):
         coords_y.append(positions[str(x)][1])
     max_x, min_x = max(coords_x), min(coords_x)
     max_y, min_y = max(coords_y), min(coords_y)
+    dif_x = (max_x - min_x)
+    dif_y = (max_y - min_y)
     # print(max_x, min_x, max_y, min_y)
     radio = 0.025
     file_name = 'templates/grafo_svg.svg'
@@ -54,8 +57,8 @@ def generate_svg(graph_votes):
         dwg.add(time)
         dwg.add(line)
     for node in (graph_votes.nodes(data=True)):
-        coord_x = (node[1]['pos'][0] - min_x) / (max_x - min_x)
-        coord_y = (node[1]['pos'][1] - min_y) / (max_y - min_y)
+        coord_x = (node[1]['pos'][0] - min_x) / dif_x
+        coord_y = (node[1]['pos'][1] - min_y) / dif_y
         circle = dwg.circle(id='node' + node[0], center=(coord_y, coord_x), r=str(radio),
                             fill='black', stroke='white', stroke_width=0.010)
         dwg.add(circle)
