@@ -17,6 +17,7 @@
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?key={{API_KEY}}&libraries=places"> type="text/javascript"</script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/vue.js') }}"></script>
     <div class="row">
         <div class="col-md-8">
             <input id="pac-input"
@@ -27,6 +28,21 @@
             {#                <div id="directions">#}
             {#                </div>#}
             {#            </div>#}
+        </div>
+        {#        <div id="app" class="col-md-4">#}
+        {#            [[ message ]]#}
+        {#        </div>#}
+        <div class="col-md-4">
+            <div id="myDIV" class="header">
+                <h2>My To Do List</h2>
+                <input type="text" id="myInput" placeholder="Title...">
+                <span onclick="newElement()" class="addBtn">Add</span>
+            </div>
+
+            <ul id="myUL">
+
+
+            </ul>
         </div>
 
     </div>
@@ -47,8 +63,6 @@
                 <option value="" disabled selected>Elige Modo Desplazamiento</option>
                 <option value="bicycling">Bicicleta</option>
                 <option value="walking">A pie</option>
-                <option value="driving">Coche</option>
-                <option value="transit">Trasporte Público</option>
             </select>
         </div>
     </div>
@@ -58,7 +72,6 @@
 {% block scripts %}
     <script>
         $(document).ready(function boxes(){
-            var directionsService = new google.maps.DirectionsService();
             var directionsRenderer = new google.maps.DirectionsRenderer();
             var markers = [];
 
@@ -93,16 +106,6 @@
                     console.log('ERROR');
                 });
             });
-
-            $("#prueba").click(function () {
-                var list = []
-                for(i=0;i<markers.length;i++){
-                    var marcador = {'position' : markers[i].position};
-                    list.push(marcador)
-                }
-                prueb_ajax(JSON.stringify(list));
-            });
-
 
             function initMap() {
                 let myLatLng = {lat: {{latitud}}, lng: {{longitud}} }
@@ -161,9 +164,9 @@
                     infowindow.open(map, marker);
                 });
             }
-
+            var geocoder = new google.maps.Geocoder;
             function addMarker(location, map) {
-                var geocoder = new google.maps.Geocoder;
+
                 geocoder.geocode({'location': location}, function(results, status) {
                     if (status === google.maps.GeocoderStatus.OK) {
                         if (results[1]) {
@@ -172,8 +175,10 @@
                                 position: location,
                                 map: map
                             });
+                            console.log(results);
                             saveMarker(marker);
-                            var infowindow = new google.maps.InfoWindow({content: results[0].formatted_address });
+                            newElement(results[2].formatted_address);
+                            var infowindow = new google.maps.InfoWindow({content: results[2].formatted_address });
                             {#infowindow.open(map,marker);#}
                             marker.addListener('click', function() {
                                 infowindow.open(map, marker);
@@ -207,17 +212,69 @@
             google.maps.event.addDomListener(window, 'load', initMap);
         });
 
-        function prueb_ajax(marcadores) {
-            {#$(destElem).html('<img src="{{ url_for('static', filemarcadoresname='loading.gif') }}">');#}
-            $.post('/pruebajax', {
-                text: marcadores
-            }).done(function(data) {
-                console.log(data);
-            }).fail(function(data) {
-                console.log(data);
-            });
+
+        {#var app = new Vue({#}
+        {#    el: '#app',#}
+        {#    delimiters: ['[[',']]'],#}
+        {#    data: {#}
+        {#        message: 'Hola Vue!'#}
+        {#    }#}
+        {#})#}
+
+        var myNodelist = document.getElementsByTagName("LI");
+        var i;
+        for (i = 0; i < myNodelist.length; i++) {
+            var span = document.createElement("SPAN");
+            var txt = document.createTextNode("\u00D7");
+            span.className = "close";
+            span.appendChild(txt);
+            myNodelist[i].appendChild(span);
         }
 
+        // Click on a close button to hide the current list item
+        var close = document.getElementsByClassName("close");
+        var i;
+        for (i = 0; i < close.length; i++) {
+            close[i].onclick = function() {
+                var div = this.parentElement;
+                div.style.display = "none";
+            }
+        }
+
+        // Add a "checked" symbol when clicking on a list item
+        var list = document.querySelector('ul');
+        list.addEventListener('click', function(ev) {
+            if (ev.target.tagName === 'LI') {
+                ev.target.classList.toggle('checked');
+            }
+        }, false);
+
+        // Create a new list item when clicking on the "Add" button
+        function newElement(mark) {
+            var li = document.createElement("li");
+            var inputValue = mark;//document.getElementById("myInput").value;
+            var t = document.createTextNode(inputValue);
+            li.appendChild(t);
+            if (inputValue === '') {
+                alert("You must write something!");
+            } else {
+                document.getElementById("myUL").appendChild(li);
+            }
+            document.getElementById("myInput").value = "";
+
+            var span = document.createElement("SPAN");
+            var txt = document.createTextNode("\u00D7");
+            span.className = "close";
+            span.appendChild(txt);
+            li.appendChild(span);
+
+            for (i = 0; i < close.length; i++) {
+                close[i].onclick = function() {
+                    var div = this.parentElement;
+                    div.style.display = "none";
+                }
+            }
+        }
     </script>
 
 {% endblock %}
