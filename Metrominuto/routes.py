@@ -78,7 +78,7 @@ def set_mode():
 
 @app.route('/api/mensaje')
 def mensaje():
-    return jsonify('Nuevo mensaje desde servidor Flask')
+    return render_template('vue_template.html')
 
 #
 # @app.route('/', defaults={'path': ''})
