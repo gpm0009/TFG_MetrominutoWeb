@@ -16,8 +16,6 @@
         }
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?key={{API_KEY}}&libraries=places"> type="text/javascript"</script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <div class="row">
         <div class="col-md-8">
             <input id="pac-input"
@@ -72,7 +70,7 @@
 {% block scripts %}
     <script>
         $(document).ready(function boxes(){
-            var directionsRenderer = new google.maps.DirectionsRenderer();
+            {#Array que contendrá los marcadores del mapa#}
             var markers = [];
 
             $("#removeButton").click(function () {
@@ -95,6 +93,7 @@
                     dataType: "json"
                 });
             });
+
             $("#select").change(function () {
                 $.post('/setMode', {
                     mode: $('#select').val()
@@ -108,61 +107,43 @@
             });
 
             function initMap() {
-                let myLatLng = {lat: {{latitud}}, lng: {{longitud}} }
                 let map = new google.maps.Map(document.getElementById('map'), {
                     zoom: 15,
-                    center: myLatLng
+                    center: {lat: {{latitud}}, lng: {{longitud}} }
                 });
+
+                var input = document.getElementById('pac-input');
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
 
                 google.maps.event.addListener(map, 'click', function(event) {
                     addMarker(event.latLng, map);
                 });
 
-                directionsRenderer.setMap(map);
-                var input = document.getElementById('pac-input');
-
+                {#Search for places#}
                 var autocomplete = new google.maps.places.Autocomplete(input);
                 autocomplete.bindTo('bounds', map);
-
                 // Specify just the place data fields that you need.
                 autocomplete.setFields(['place_id', 'geometry', 'name']);
-
-                map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-                var infowindow = new google.maps.InfoWindow();
-
-
-                var marker = new google.maps.Marker({map: map});
-
-                marker.addListener('click', function() {
-                    infowindow.open(map, marker);
-                });
-
                 autocomplete.addListener('place_changed', function() {
-                    infowindow.close();
 
                     var place = autocomplete.getPlace();
-
                     if (!place.geometry) {
                         return;
                     }
-
                     if (place.geometry.viewport) {
                         map.fitBounds(place.geometry.viewport);
                     } else {
                         map.setCenter(place.geometry.location);
                         map.setZoom(17);
                     }
-
-                    // Set the position of the marker using the place ID and location.
-                    marker.setPlace({
-                        placeId: place.place_id,
-                        location: place.geometry.location
-                    });
-                    saveMarker(marker);
-                    marker.setVisible(true);
-                    infowindow.open(map, marker);
+                    var mark = new google.maps.Marker({
+                                position: place.geometry.location,
+                                map: map
+                            });
+                    addMarker(mark.position,map);
                 });
+
             }
             var geocoder = new google.maps.Geocoder;
             function addMarker(location, map) {
@@ -177,21 +158,32 @@
                             });
                             console.log(results);
                             saveMarker(marker);
-                            newElement(results[2].formatted_address);
                             var infowindow = new google.maps.InfoWindow({content: results[2].formatted_address });
-                            {#infowindow.open(map,marker);#}
+                            infowindow.open(map,marker);
                             marker.addListener('click', function() {
                                 infowindow.open(map, marker);
                             });
+                            var element_list = {
+                                //modificar este elemento con la estructura de Vue, para poder añadirlo y eliminarlo (remove marker)
+                            }
+                            newElement(results[2].formatted_address);
                         } else {
                             window.alert('No results found');
                         }
                     }
                 });
             }
-
+            var id = 0;
             function saveMarker(mark) {
-                markers.push(mark);
+                markers.push({
+                    id: id,
+                    position: mark.position
+                });
+            }
+
+            function removeMark(mark_remove){
+                var index = markers.indexOf(mark_remove)
+                markers.splice(index, 1);
             }
 
             function setMapOnAll(map) {
@@ -211,16 +203,7 @@
             }
             google.maps.event.addDomListener(window, 'load', initMap);
         });
-
-
-        var app = new Vue({
-            el: '#app',
-            delimiters: ['[[',']]'],
-            data: {
-                message: 'Hola Vue!'
-            }
-        })
-
+        
         var myNodelist = document.getElementsByTagName("LI");
         var i;
         for (i = 0; i < myNodelist.length; i++) {
