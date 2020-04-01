@@ -27,20 +27,20 @@
             {#                </div>#}
             {#            </div>#}
         </div>
-        {#        <div id="app" class="col-md-4">#}
-        {#            [[ message ]]#}
-        {#        </div>#}
         <div class="col-md-4">
-            <div id="myDIV" class="header">
-                <h2>My To Do List</h2>
-                <input type="text" id="myInput" placeholder="Title...">
-                <span onclick="newElement()" class="addBtn">Add</span>
+            <div id="todo-list-example">
+                <h3>Marcadores</h3>
+                <ul>
+                    <todo-item
+                            v-for="(item, index) in markers_list"
+                            v-bind:key="item.id"
+                            v-bind:title="item.text"
+                            v-on:remove="deleteMarker(item)"
+{#                            v-on:remove="markers_list.splice(index,1)"#}
+                    ></todo-item>
+                </ul>
             </div>
 
-            <ul id="myUL">
-
-
-            </ul>
         </div>
 
     </div>
@@ -138,52 +138,45 @@
                         map.setZoom(17);
                     }
                     var mark = new google.maps.Marker({
-                                position: place.geometry.location,
-                                map: map
-                            });
+                        position: place.geometry.location,
+                        map: map
+                    });
                     addMarker(mark.position,map);
                 });
 
             }
             var geocoder = new google.maps.Geocoder;
             function addMarker(location, map) {
-
                 geocoder.geocode({'location': location}, function(results, status) {
                     if (status === google.maps.GeocoderStatus.OK) {
                         if (results[1]) {
                             //console.log(results[0].place_id);
                             var marker = new google.maps.Marker({
                                 position: location,
-                                map: map
+                                map: map,
+                                //draggable: true,
                             });
-                            console.log(results);
-                            saveMarker(marker);
+
+                            {#saveMarker(marker);#}
                             var infowindow = new google.maps.InfoWindow({content: results[2].formatted_address });
                             infowindow.open(map,marker);
                             marker.addListener('click', function() {
                                 infowindow.open(map, marker);
                             });
-                            var element_list = {
-                                //modificar este elemento con la estructura de Vue, para poder añadirlo y eliminarlo (remove marker)
-                            }
-                            newElement(results[2].formatted_address);
+                            saveMarker(marker, results[2].formatted_address);
+                            {#varVue.markers_list.push({id:varVue.cont, texto:results[2].formatted_address});#}
+                            {#varVue.addNewTodo({id:varVue.cont, texto:results[2].formatted_address});#}
+                            {#varVue.cont++;#}
                         } else {
                             window.alert('No results found');
                         }
                     }
                 });
             }
-            var id = 0;
-            function saveMarker(mark) {
-                markers.push({
-                    id: id,
-                    position: mark.position
-                });
-            }
-
-            function removeMark(mark_remove){
-                var index = markers.indexOf(mark_remove)
-                markers.splice(index, 1);
+            
+            function saveMarker(mark, text) {
+                markers.push(mark);
+                varVue.addNewTodo(mark,text);
             }
 
             function setMapOnAll(map) {
@@ -202,62 +195,46 @@
                 markers = [];
             }
             google.maps.event.addDomListener(window, 'load', initMap);
-        });
-        
-        var myNodelist = document.getElementsByTagName("LI");
-        var i;
-        for (i = 0; i < myNodelist.length; i++) {
-            var span = document.createElement("SPAN");
-            var txt = document.createTextNode("\u00D7");
-            span.className = "close";
-            span.appendChild(txt);
-            myNodelist[i].appendChild(span);
-        }
 
-        // Click on a close button to hide the current list item
-        var close = document.getElementsByClassName("close");
-        var i;
-        for (i = 0; i < close.length; i++) {
-            close[i].onclick = function() {
-                var div = this.parentElement;
-                div.style.display = "none";
-            }
-        }
 
-        // Add a "checked" symbol when clicking on a list item
-        var list = document.querySelector('ul');
-        list.addEventListener('click', function(ev) {
-            if (ev.target.tagName === 'LI') {
-                ev.target.classList.toggle('checked');
-            }
-        }, false);
+            {#  VUE  delimiters:['[[',']]'] #}
+            Vue.component('todo-item', {
+                delimiters:['[[',']]'],
+                template: '\
+                        <li>\
+                          [[ title ]]\
+                          <button type="button" class="btn btn-danger btn-sm" v-on:click="$emit(\'remove\')">Delete</button>\
+                        </li>\
+                      ',
+                props: ['title']
+            });
 
-        // Create a new list item when clicking on the "Add" button
-        function newElement(mark) {
-            var li = document.createElement("li");
-            var inputValue = mark;//document.getElementById("myInput").value;
-            var t = document.createTextNode(inputValue);
-            li.appendChild(t);
-            if (inputValue === '') {
-                alert("You must write something!");
-            } else {
-                document.getElementById("myUL").appendChild(li);
-            }
-            document.getElementById("myInput").value = "";
+            var varVue = new Vue({
+                el: '#todo-list-example',
+                data: {
+                    cont:0,
+                    markers_list: [
 
-            var span = document.createElement("SPAN");
-            var txt = document.createTextNode("\u00D7");
-            span.className = "close";
-            span.appendChild(txt);
-            li.appendChild(span);
-
-            for (i = 0; i < close.length; i++) {
-                close[i].onclick = function() {
-                    var div = this.parentElement;
-                    div.style.display = "none";
+                    ]
+                },
+                methods: {
+                    addNewTodo: function (mark, text) {
+                        this.markers_list.push({
+                            id:this.count,
+                            mark:mark,
+                            text:text
+                        });
+                    },
+                    deleteMarker: function (item) {
+                        console.log(item.mark);
+                        var index = markers.indexOf(item.mark);
+                        markers[index].setMap(null);
+                        markers.splice(index, 1);
+                        varVue.markers_list.splice(index,1)
+                    }
                 }
-            }
-        }
+            });
+        });
     </script>
 
 {% endblock %}
