@@ -34,7 +34,7 @@
                     <todo-item
                             v-for="(item, index) in markers_list"
                             v-bind:key="item.id"
-                            v-bind:title="item.text"
+                            v-bind:list_elements="item.text"
                             v-on:remove="deleteMarker(item)"
 {#                            v-on:remove="markers_list.splice(index,1)"#}
                     ></todo-item>
@@ -163,7 +163,8 @@
                             marker.addListener('click', function() {
                                 infowindow.open(map, marker);
                             });
-                            saveMarker(marker, results[2].formatted_address);
+                            markers.push(marker);
+                            varVue.addNewTodo(marker,results[2].formatted_address);
                             {#varVue.markers_list.push({id:varVue.cont, texto:results[2].formatted_address});#}
                             {#varVue.addNewTodo({id:varVue.cont, texto:results[2].formatted_address});#}
                             {#varVue.cont++;#}
@@ -173,40 +174,28 @@
                     }
                 });
             }
-            
-            function saveMarker(mark, text) {
-                markers.push(mark);
-                varVue.addNewTodo(mark,text);
-            }
 
-            function setMapOnAll(map) {
-                for (var i = 0; i < markers.length; i++) {
-                    markers[i].setMap(map);
-                }
-            }
-
-            function clearMarkers() {
-                setMapOnAll(null);
-            }
 
             // Deletes all markers in the array by removing references to them.
             function deleteMarkers() {
-                clearMarkers();
+                for (var i = 0; i < markers.length; i++) {
+                    markers[i].setMap(null);
+                }
+                varVue.markers_list = [];
                 markers = [];
             }
             google.maps.event.addDomListener(window, 'load', initMap);
-
 
             {#  VUE  delimiters:['[[',']]'] #}
             Vue.component('todo-item', {
                 delimiters:['[[',']]'],
                 template: '\
                         <li>\
-                          [[ title ]]\
+                          [[ list_elements ]]\
                           <button type="button" class="btn btn-danger btn-sm" v-on:click="$emit(\'remove\')">Delete</button>\
                         </li>\
                       ',
-                props: ['title']
+                props: ['list_elements']
             });
 
             var varVue = new Vue({
@@ -220,10 +209,11 @@
                 methods: {
                     addNewTodo: function (mark, text) {
                         this.markers_list.push({
-                            id:this.count,
+                            id:this.cont,
                             mark:mark,
                             text:text
                         });
+                        this.cont++;
                     },
                     deleteMarker: function (item) {
                         console.log(item.mark);
