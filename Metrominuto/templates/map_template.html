@@ -16,7 +16,6 @@
         }
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?key={{API_KEY}}&libraries=places"> type="text/javascript"</script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <div class="row">
         <div class="col-md-8">
             <input id="pac-input"
@@ -27,6 +26,21 @@
             {#                <div id="directions">#}
             {#                </div>#}
             {#            </div>#}
+        </div>
+        <div class="col-md-4">
+            <div id="todo-list-example">
+                <h3>Marcadores</h3>
+                <ul>
+                    <todo-item
+                            v-for="(item, index) in markers_list"
+                            v-bind:key="item.id"
+                            v-bind:list_elements="item.text"
+                            v-on:remove="deleteMarker(item)"
+{#                            v-on:remove="markers_list.splice(index,1)"#}
+                    ></todo-item>
+                </ul>
+            </div>
+
         </div>
 
     </div>
@@ -47,8 +61,6 @@
                 <option value="" disabled selected>Elige Modo Desplazamiento</option>
                 <option value="bicycling">Bicicleta</option>
                 <option value="walking">A pie</option>
-                <option value="driving">Coche</option>
-                <option value="transit">Trasporte Público</option>
             </select>
         </div>
     </div>
@@ -58,8 +70,7 @@
 {% block scripts %}
     <script>
         $(document).ready(function boxes(){
-            var directionsService = new google.maps.DirectionsService();
-            var directionsRenderer = new google.maps.DirectionsRenderer();
+            {#Array que contendrá los marcadores del mapa#}
             var markers = [];
 
             $("#removeButton").click(function () {
@@ -82,6 +93,7 @@
                     dataType: "json"
                 });
             });
+
             $("#select").change(function () {
                 $.post('/setMode', {
                     mode: $('#select').val()
@@ -94,90 +106,68 @@
                 });
             });
 
-            $("#prueba").click(function () {
-                var list = []
-                for(i=0;i<markers.length;i++){
-                    var marcador = {'position' : markers[i].position};
-                    list.push(marcador)
-                }
-                prueb_ajax(JSON.stringify(list));
-            });
-
-
             function initMap() {
-                let myLatLng = {lat: {{latitud}}, lng: {{longitud}} }
                 let map = new google.maps.Map(document.getElementById('map'), {
                     zoom: 15,
-                    center: myLatLng
+                    center: {lat: {{latitud}}, lng: {{longitud}} }
                 });
+
+                var input = document.getElementById('pac-input');
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
 
                 google.maps.event.addListener(map, 'click', function(event) {
                     addMarker(event.latLng, map);
                 });
 
-                directionsRenderer.setMap(map);
-                var input = document.getElementById('pac-input');
-
+                {#Search for places#}
                 var autocomplete = new google.maps.places.Autocomplete(input);
                 autocomplete.bindTo('bounds', map);
-
                 // Specify just the place data fields that you need.
                 autocomplete.setFields(['place_id', 'geometry', 'name']);
-
-                map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-                var infowindow = new google.maps.InfoWindow();
-
-
-                var marker = new google.maps.Marker({map: map});
-
-                marker.addListener('click', function() {
-                    infowindow.open(map, marker);
-                });
-
                 autocomplete.addListener('place_changed', function() {
-                    infowindow.close();
 
                     var place = autocomplete.getPlace();
-
                     if (!place.geometry) {
                         return;
                     }
-
                     if (place.geometry.viewport) {
                         map.fitBounds(place.geometry.viewport);
                     } else {
                         map.setCenter(place.geometry.location);
                         map.setZoom(17);
                     }
-
-                    // Set the position of the marker using the place ID and location.
-                    marker.setPlace({
-                        placeId: place.place_id,
-                        location: place.geometry.location
+                    var mark = new google.maps.Marker({
+                        position: place.geometry.location,
+                        map: map
                     });
-                    saveMarker(marker);
-                    marker.setVisible(true);
-                    infowindow.open(map, marker);
+                    addMarker(mark.position,map);
                 });
-            }
 
+            }
+            var geocoder = new google.maps.Geocoder;
             function addMarker(location, map) {
-                var geocoder = new google.maps.Geocoder;
                 geocoder.geocode({'location': location}, function(results, status) {
                     if (status === google.maps.GeocoderStatus.OK) {
                         if (results[1]) {
                             //console.log(results[0].place_id);
                             var marker = new google.maps.Marker({
                                 position: location,
-                                map: map
+                                map: map,
+                                //draggable: true,
                             });
-                            saveMarker(marker);
-                            var infowindow = new google.maps.InfoWindow({content: results[0].formatted_address });
-                            {#infowindow.open(map,marker);#}
+
+                            {#saveMarker(marker);#}
+                            var infowindow = new google.maps.InfoWindow({content: results[2].formatted_address });
+                            infowindow.open(map,marker);
                             marker.addListener('click', function() {
                                 infowindow.open(map, marker);
                             });
+                            markers.push(marker);
+                            varVue.addNewTodo(marker,results[2].formatted_address);
+                            {#varVue.markers_list.push({id:varVue.cont, texto:results[2].formatted_address});#}
+                            {#varVue.addNewTodo({id:varVue.cont, texto:results[2].formatted_address});#}
+                            {#varVue.cont++;#}
                         } else {
                             window.alert('No results found');
                         }
@@ -185,39 +175,56 @@
                 });
             }
 
-            function saveMarker(mark) {
-                markers.push(mark);
-            }
-
-            function setMapOnAll(map) {
-                for (var i = 0; i < markers.length; i++) {
-                    markers[i].setMap(map);
-                }
-            }
-
-            function clearMarkers() {
-                setMapOnAll(null);
-            }
 
             // Deletes all markers in the array by removing references to them.
             function deleteMarkers() {
-                clearMarkers();
+                for (var i = 0; i < markers.length; i++) {
+                    markers[i].setMap(null);
+                }
+                varVue.markers_list = [];
                 markers = [];
             }
             google.maps.event.addDomListener(window, 'load', initMap);
-        });
 
-        function prueb_ajax(marcadores) {
-            {#$(destElem).html('<img src="{{ url_for('static', filemarcadoresname='loading.gif') }}">');#}
-            $.post('/pruebajax', {
-                text: marcadores
-            }).done(function(data) {
-                console.log(data);
-            }).fail(function(data) {
-                console.log(data);
+            {#  VUE  delimiters:['[[',']]'] #}
+            Vue.component('todo-item', {
+                delimiters:['[[',']]'],
+                template: '\
+                        <li>\
+                          [[ list_elements ]]\
+                          <button type="button" class="btn btn-danger btn-sm" v-on:click="$emit(\'remove\')">Delete</button>\
+                        </li>\
+                      ',
+                props: ['list_elements']
             });
-        }
 
+            var varVue = new Vue({
+                el: '#todo-list-example',
+                data: {
+                    cont:0,
+                    markers_list: [
+
+                    ]
+                },
+                methods: {
+                    addNewTodo: function (mark, text) {
+                        this.markers_list.push({
+                            id:this.cont,
+                            mark:mark,
+                            text:text
+                        });
+                        this.cont++;
+                    },
+                    deleteMarker: function (item) {
+                        console.log(item.mark);
+                        var index = markers.indexOf(item.mark);
+                        markers[index].setMap(null);
+                        markers.splice(index, 1);
+                        varVue.markers_list.splice(index,1)
+                    }
+                }
+            });
+        });
     </script>
 
 {% endblock %}

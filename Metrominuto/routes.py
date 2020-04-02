@@ -74,3 +74,14 @@ def set_mode():
     if mode:
         return jsonify('OK')
     return jsonify('ERROR')
+
+
+@app.route('/api/mensaje')
+def mensaje():
+    return render_template('vue_template.html')
+
+#
+# @app.route('/', defaults={'path': ''})
+# @app.route('/<path:path>')
+# def render_vue(path):
+#     return render_template('index.html')
