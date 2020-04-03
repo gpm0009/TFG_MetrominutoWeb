@@ -11,7 +11,6 @@ def calculate_graph(dista, nodes, matriz):
     graph = nx.Graph()
     min_graph = nx.Graph()
     nodes_name = 0
-
     for node in nodes:
         graph.add_node(str(nodes_name), pos=(node['position']['lat'], node['position']['lng']))
         min_graph.add_node(str(nodes_name), pos=(node['position']['lat'], node['position']['lng']))

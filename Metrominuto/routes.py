@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 from app import app, google_maps
 import calculateRoute as Clr
@@ -5,7 +6,7 @@ from flask import render_template, request, session, jsonify, redirect, url_for,
 from config import Config
 import graphs as gph
 import svgfunctions as svg_f
-from forms import Form
+from forms import Form, ModeForm
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -22,27 +23,32 @@ def show_map():
 
 @app.route("/setMarks", methods=['POST'])
 def set_marks():
-    # place = gmaps.find_place('Burgos', 'textquery')
     # Contiene latlng de los marcadores del mapa.
-    markers = request.get_json()
+    # markers = request.get_json()
+    # with open('marcadores.json', 'w') as outfile:
+    #     json.dump(markers, outfile)
+    with open('./static/marcadores.json') as markers_file:
+        new_markers = json.load(markers_file)
+    markers = []
+    for element in new_markers:
+        markers.append({'position': element})
     origins = []
     destinations = []
     for mark in markers:
         origins.append(mark['position'])
         destinations.append(mark['position'])
     now = datetime.now()
-    matrix = google_maps.distance_matrix(origins, destinations, mode=session['mode'], departure_time=now)
+    # matrix = google_maps.distance_matrix(origins, destinations, mode=session['mode'], departure_time=now)
+    # with open('distance_matrix.json', 'w') as outfile_matrix:
+    #     json.dump(matrix, outfile_matrix)
+    with open('./static/distance_matrix.json') as matrix_file:
+        matrix = json.load(matrix_file)
     dist = Clr.get_distance_matrix_values(matrix)
     votes = gph.calculate_graph(dist, markers, matrix)
     svg_f.generate_svg(votes)
     return redirect(url_for('draw_svg'))
 
 
-# @app.route('/graph', methods=['GET', 'POST'])
-# def draw_svg():
-#     form = Form()
-#     svg = render_template('./grafo_svg.svg')
-#     return render_template('show_graph.html', form=form, svg=svg, API_KEY=Config.GOOGLE_API_KEY)
 @app.route('/graph', methods=['GET', 'POST'])
 def draw_svg():
     form = Form()
@@ -66,6 +72,14 @@ def draw_svg():
 #     svg_f.generate_svg(graph)
 #     return redirect(url_for('draw_svg'))
 
+# @app.route('/setMode', methods=['POST'])
+# def set_mode():
+#     mode_form = ModeForm()
+#     if mode_form.validate_on_submit():
+#         num = mode_form.number.data
+#         mode = mode_form.mode.data
+#     return render_template('map_template.html', form=mode_form)
+
 
 @app.route('/setMode', methods=['POST'])
 def set_mode():
@@ -80,8 +94,3 @@ def set_mode():
 def mensaje():
     return render_template('vue_template.html')
 
-#
-# @app.route('/', defaults={'path': ''})
-# @app.route('/<path:path>')
-# def render_vue(path):
-#     return render_template('index.html')

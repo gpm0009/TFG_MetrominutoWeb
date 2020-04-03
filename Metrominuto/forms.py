@@ -10,7 +10,8 @@ class Form(FlaskForm):
     max_votes = IntegerField()
     value = IntegerField('Votes')
 
+
 class ModeForm(FlaskForm):
     submit = SubmitField('SaveForm')
-    choices = [('bicycling', 'Bicicleta'), ('walking', 'A Pie'), ('driving', 'Coche'), ('transit', 'Transporte público')]
+    choices = [('bicycling', 'Bicicleta'), ('walking', 'A Pie')]
     mode = SelectField('Modo', choices=choices)
