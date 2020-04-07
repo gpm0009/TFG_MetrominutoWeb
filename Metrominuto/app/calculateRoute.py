@@ -1,5 +1,10 @@
+"""
+Metrominuto.calculateRoute
+ ~~~~~~~~~~~~~~~~~~~~~~~~~
+    This file contains the operations needed to save the distance matrix values that are needed in the project.
+"""
 import numpy as np
-import globals
+from app import globals
 
 
 def get_distance_matrix_values(matrix_distance):

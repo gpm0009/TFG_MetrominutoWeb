@@ -1,10 +1,16 @@
+"""
+Metrominuto.graphs
+ ~~~~~~~~~~~~~~~~~~~~~~~~~
+    This file contains diferent operations with graphs and NetworkX.
+"""
+
 from random import sample
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
 from flask import session
 
-import globals
+from app import globals
 
 
 def calculate_graph(dista, nodes, matriz):
@@ -45,8 +51,8 @@ def nodes_votes(graph, tam, min_graph, weight, matriz):
             y = int(pair[1])
             votes[x, y] = votes[x, y] + 1
             globals.vote_global_graph.add_edge(random_graph[z][0], random_graph[z][1],
-                                       weight=weight[(random_graph[z][0], random_graph[z][1])],
-                                       votes=votes[x, y] + 1, duration=random_graph[z][2]['duration'])
+                                               weight=weight[(random_graph[z][0], random_graph[z][1])],
+                                               votes=votes[x, y] + 1, duration=random_graph[z][2]['duration'])
     print(votes)
     session['max_votes'] = votes.max()
     session['min_votes'] = votes.min()
