@@ -1,8 +1,7 @@
 import networkx as nx
 import svgwrite as svg
 from app import google_maps
-import math
-import numpy as np
+
 
 def save_svg():
     dwg = svg.Drawing('templates/test.svg', size=("800px", "600px"), profile='full')
@@ -62,15 +61,15 @@ def generate_svg(graph_votes):
         circle = dwg.circle(id='node' + node[0], center=(coord_y, coord_x), r=str(radio),
                             fill='black', stroke='white', stroke_width=0.010)
         dwg.add(circle)
-        label = dwg.text(google_maps.reverse_geocode((node[1]['pos'][0], node[1]['pos'][1]))[0]['formatted_address'],
-                         insert=(coord_y + radio * 1.5, coord_x + radio * 0.2),
-                         stroke='none',
-                         fill='black',
-                         font_size=str(radio),
-                         font_weight="bold",
-                         font_family="Arial")
+        # label = dwg.text(google_maps.reverse_geocode((node[1]['pos'][0], node[1]['pos'][1]))[0]['formatted_address'],
+        #                  insert=(coord_y + radio * 1.5, coord_x + radio * 0.2),
+        #                  stroke='none',
+        #                  fill='black',
+        #                  font_size=str(radio),
+        #                  font_weight="bold",
+        #                  font_family="Arial")
         # label.rotate(90, center=(coord_x + radio * 1.5, coord_y))
-        dwg.add(label)
+        # dwg.add(label)
     dwg.save(pretty=True)
     return 0
 

@@ -161,6 +161,14 @@
                     addMarker(event.latLng, map);
                 });
 
+                //FIXME ONLY FOR NO API OPERATIONS
+                var positions = {{ positions|safe }};
+                for(var i=1;i<positions.length;i++){
+                    var marker = new google.maps.Marker({position: positions[i].position, map: map});
+                    markers.push(marker);
+                    app.addNewTodo(marker,'Marcador'+i.toString());
+                }
+
                 {#Search for places#}
                 var autocomplete = new google.maps.places.Autocomplete(input);
                 autocomplete.bindTo('bounds', map);

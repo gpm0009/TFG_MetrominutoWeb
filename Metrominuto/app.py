@@ -1,7 +1,7 @@
 import googlemaps
 from config import Config
 from flask_bootstrap import Bootstrap
-from flask import Flask, url_for
+from flask import Flask
 from flask_cors import CORS
 
 

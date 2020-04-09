@@ -22,13 +22,13 @@ def calculate_graph(dista, nodes, matriz):
             if i != j:
                 graph.add_edge(str(i), str(j), weight=dista[i][j], duration=matriz['rows'][i]['elements'][j]['duration']['text'])
     weight = nx.get_edge_attributes(graph, 'weight')
-    votes = nodes_votes(graph, nodes_name, min_graph, weight,matriz)
+    votes = nodes_votes(graph, nodes_name, min_graph, weight)
     # draw_votes_graph(votes)
     # svg_f.save_svg()
     return votes
 
 
-def nodes_votes(graph, tam, min_graph, weight, matriz):
+def nodes_votes(graph, tam, min_graph, weight):
     votes = np.zeros((tam, tam))
     edge_list = list(graph.edges(data=True))  # make a list of the edges
     # votes_graph.clear()
@@ -45,9 +45,9 @@ def nodes_votes(graph, tam, min_graph, weight, matriz):
             y = int(pair[1])
             votes[x, y] = votes[x, y] + 1
             globals.vote_global_graph.add_edge(random_graph[z][0], random_graph[z][1],
-                                       weight=weight[(random_graph[z][0], random_graph[z][1])],
-                                       votes=votes[x, y] + 1, duration=random_graph[z][2]['duration'])
-    print(votes)
+                                               weight=weight[(random_graph[z][0], random_graph[z][1])],
+                                               votes=votes[x, y] + 1, duration=random_graph[z][2]['duration'])
+    # print(votes)
     session['max_votes'] = votes.max()
     session['min_votes'] = votes.min()
     return globals.vote_global_graph
@@ -83,20 +83,21 @@ def connected_graph(num_votes):
     for edge in (globals.vote_global_graph.edges(data=True)):
         if int(edge[2]['votes']) > num_votes:
             check_graph.add_edge(edge[0], edge[1], weight=edge[2]['weight'], votes=edge[2]['votes'], duration=edge[2]['duration'])
-
     connected_components_list = sorted(nx.connected_components(check_graph), key=len, reverse=True)
-    print(connected_components_list)
+    # print(connected_components_list)
     # if the graph is not connected
     if connected_components_list.__len__() > 1:
         for s in range(0, connected_components_list.__len__()-1):
             node_x, node_y, dist = compare_distance_matrix(connected_components_list[0], connected_components_list[1])
             edge_duration = globals.vote_global_graph.get_edge_data(str(node_x), str(node_y))
-            # print(edge_duration['duration'])
-            time = edge_duration.get('duration')
+            if edge_duration is not None:
+                time = edge_duration['duration']
+            else:
+                time = 'default'
             check_graph.add_edge(str(node_x), str(node_y), weight=dist, duration=time)
-            draw_graph(check_graph)
+            # draw_graph(check_graph)
             connected_components_list = sorted(nx.connected_components(check_graph), key=len, reverse=True)
-            print(connected_components_list)
+            # print(connected_components_list)
     return check_graph
 
 
