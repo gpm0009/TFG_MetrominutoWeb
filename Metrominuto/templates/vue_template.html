@@ -1,36 +1,226 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-</head>
-<body>
-
-<h1>Vue Demo #1</h1>
-<div id="components-demo">
-    <blog-post
-            v-for="post in posts"
-            v-bind:key="post.id"
-            v-bind:title="post.title"
-    ></blog-post>
-</div>
-<script>
-    Vue.component('blog-post', {
-        props: ['title'],
-        delimiters: ['[[',']]'],
-        template: '<h3>[[ title ]]</h3>'
-    })
-    new Vue({
-        el: '#components-demo',
-        data: {
-            posts: [
-                { id: 1, title: 'Mi viaje con Vue' },
-                { id: 2, title: 'Blogging con Vue' },
-                { id: 3, title: 'Por qué Vue es tan divertido?' }
-            ]
+{% extends "base_template.html" %}
+{% block content %}
+    <style>
+        body {
+            font-family: Helvetica Neue, Arial, sans-serif;
+            font-size: 14px;
+            color: #444;
         }
-    })
-</script>
-</body>
-</html>
+
+        table {
+            border: 2px solid #42b983;
+            border-radius: 3px;
+            background-color: #fff;
+        }
+
+        th {
+            background-color: #42b983;
+            color: rgba(255,255,255,0.66);
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        th, td {
+            min-width: 120px;
+            padding: 10px 20px;
+        }
+
+        th.active {
+            color: #fff;
+        }
+
+        th.active .arrow {
+            opacity: 1;
+        }
+
+        .arrow {
+            display: inline-block;
+            vertical-align: middle;
+            width: 0;
+            height: 0;
+            margin-left: 5px;
+            opacity: 0.66;
+        }
+
+        .arrow.asc {
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-bottom: 4px solid #fff;
+        }
+
+        .arrow.dsc {
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 4px solid #fff;
+        }
+    </style>
+    <body>
+    <div class="col-md-6">
+        <h1>Vue Demo #1</h1>
+        <div id="todo-list-example">
+            <h2 align="left">Marcadores</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Central Point</th>
+                    <th>Delete</th>
+                    <th>Location</th>
+                </tr>
+                </thead>
+                <tbody id="">
+                    <table-item
+                            v-for="(item, index) in markers_list"
+                            v-bind:key="item.id"
+                            v-bind:list_elements="item.text"
+                            v-on:remove="deleteMarker(item)"
+                    ></table-item>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h1>Vue Demo #2</h1>
+        <div id="app">
+            <table>
+                <thead>
+                <tr>
+                    <th>Central Point</th>
+                    <th>Delete</th>
+                    <th>Location</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="(item, index) in markers_list" :key="item.id">
+                    <td align="center">
+                        <input type="checkbox" :id="item.id" :value="item.id" v-model="checked" @click="markAsCentral(item)">
+                    </td>
+                    {#                        <td><button @click="clicked(row)">Add To Cart</button></td>#}
+                    {#                        <td></td><button type="button" class="btn btn-danger btn-sm" v-on:click="$emit('remove')">Delete</button></td>#}
+                    <td>
+                        <button type="button" class="btn btn-default" v-on:click="deleteMarker(item)" aria-label="Remove">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </button>
+                    </td>
+                    <td>[[ item.text ]]</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </body>
+{% endblock %}
+{% block scripts %}
+    <script>
+        {#delimiters:['[[',']]'],#}
+
+        Vue.component('table-item', {
+            delimiters:['[[',']]'],
+            template: '\
+                <tr>\
+                        <td>\
+                        <label class="form-checkbox">\
+                            <input type="checkbox" value="item">\
+                            <i class="form-icon"></i>\
+                        </label>\
+                    </td>\
+                    <td>\
+                        <button type="button" class="btn btn-default" aria-label="Remove" v-on:click="$emit(\'remove\')">\
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>\
+                        </button>\
+                    </td>\
+                    <td>[[ item ]]</td>\
+                </tr>\
+                      ',
+            props: ['item']
+        });
+
+        var app = new Vue({
+            el: "#app",
+            delimiters:['[[',']]'],
+            selectAll: false,
+            data() {
+                return {
+                    cont:0,
+                    markers_list: [
+                        {id:0, text:'Av Reyes Católicos'},
+                        {id:1, text:'Plaza del Cid'},
+                        {id:2, text:'Espolón'},
+                        {id:3, text:'Plaza Mayor'},
+                        {id:4, text:'Llanas'}
+                    ],
+                    checked:[]
+                }
+            },
+            methods: {
+                addNewTodo: function (mark, text) {
+                    this.markers_list.push({
+                        id:this.cont,
+                        mark:mark,
+                        text:text
+                    });
+                    this.cont++;
+                },
+                deleteMarker: function (item) {
+                    console.log(item);
+                    index=this.markers_list.indexOf(item);
+                    this.markers_list.splice(index,1);
+                },
+                markAsCentral: function (item) {
+                    console.log(item.id); //Funciona, llamada al servidor para pasar el nodo central.
+                }
+            }
+        });
+
+
+        Vue.component('todo-item', {
+            delimiters:['[[',']]'],
+            template: '\
+                        <li>\
+                          [[ list_elements ]]\
+                          <button type="button" class="btn btn-danger btn-sm" v-on:click="$emit(\'remove\')">Delete</button>\
+                          \<button type="button" class="btn btn-warning btn-sm" v-on:click="$emit(\'set_central\')">Central Point</button>\
+                        </li>\
+                      ',
+            props: ['list_elements']
+        });
+
+        var varVue = new Vue({
+            el: '#todo-list-example',
+            data: {
+                cont:0,
+                markers_list: [
+                        {id:0, text:'Av Reyes Católicos'},
+                        {id:1, text:'Plaza del Cid'},
+                        {id:2, text:'Espolón'},
+                        {id:3, text:'Plaza Mayor'},
+                        {id:4, text:'Llanas'}
+                    ]
+            },
+            methods: {
+                addNewTodo: function (mark, text) {
+                    this.markers_list.push({
+                        id:this.cont,
+                        mark:mark,
+                        text:text
+                    });
+                    this.cont++;
+                },
+                deleteMarker: function (item) {
+                    console.log(item);
+                },
+                set_central: function (item) {
+                    console.log(item.id);
+                }
+
+            }
+        });
+
+    </script>
+{% endblock %}

@@ -14,49 +14,90 @@
             margin-right: 10px;
             margin-left: 10px;
         }
+
+         body {
+             font-family: Helvetica Neue, Arial, sans-serif;
+             font-size: 14px;
+             color: #444;
+         }
+
+        table {
+            border: 2px solid #42b983;
+            border-radius: 3px;
+            background-color: #fff;
+        }
+
+        th {
+            background-color: #42b983;
+            color: rgba(255,255,255,0.66);
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        th, td {
+            min-width: 120px;
+            padding: 10px 20px;
+        }
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?key={{API_KEY}}&libraries=places"> type="text/javascript"</script>
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 col-sm-12">
             <input id="pac-input"
                    type="text"
                    placeholder="Enter a location">
-            <div id="map"></div>
-            {#            <div class="col-md-4">#}
-            {#                <div id="directions">#}
-            {#                </div>#}
-            {#            </div>#}
+            <div id="map" v-if="markers_list"></div>
         </div>
-        <div class="col-md-4">
-            <div id="todo-list-example">
-                <h3>Marcadores</h3>
-                <ul>
-                    <todo-item
-                            v-for="(item, index) in markers_list"
-                            v-bind:key="item.id"
-                            v-bind:list_elements="item.text"
-                            v-on:remove="deleteMarker(item)"
-{#                            v-on:remove="markers_list.splice(index,1)"#}
-                    ></todo-item>
-                </ul>
+        <div class="col-md-4 col-sm-12">
+            <div id="app">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Central Point</th>
+                        <th>Delete</th>
+                        <th>Location</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in markers_list">
+                            <td>
+                                <label class="form-checkbox">
+                                    <input type="checkbox" :id="item.id" :value="item" v-model="checked" @click="setCentralMarker(item)">
+                                    <i class="form-icon"></i>
+                                </label>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-default" @click="deleteMarker(item)" aria-label="Remove">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                            <td>[[ item.text ]]</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-
         </div>
-
     </div>
+
     <div class="row" id="buttons">
-        <div class="col-md-2">
+        <div class="col-md-2 col-sm-4">
             <input type='button' class="btn btn-primary" value='Delete' id='removeButton'>
             <input type='button' class="btn btn-primary" value='Save' id='saveButton' href="/graph">
             <a class="btn btn-primary" role="button" target="_blank" href="{{url_for('draw_svg')}}">Show</a>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 col-sm-4 ">
             <form class="form-inline">
                 <label for="example-number-input" class="col-2 col-form-label">Number</label>
                 <input class="form-control" type="number" value="5" id="votes_number">
             </form>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-4">
             <select id="select" class="mdb-select">
                 <option value="" disabled selected>Elige Modo Desplazamiento</option>
                 <option value="bicycling">Bicicleta</option>
@@ -142,9 +183,11 @@
                         map: map
                     });
                     addMarker(mark.position,map);
+
                 });
 
             }
+
             var geocoder = new google.maps.Geocoder;
             function addMarker(location, map) {
                 geocoder.geocode({'location': location}, function(results, status) {
@@ -155,6 +198,9 @@
                                 position: location,
                                 map: map,
                                 //draggable: true,
+                                {#icon: {#}
+                                {#    url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"#}
+                                {#}#}
                             });
 
                             {#saveMarker(marker);#}
@@ -164,7 +210,7 @@
                                 infowindow.open(map, marker);
                             });
                             markers.push(marker);
-                            varVue.addNewTodo(marker,results[2].formatted_address);
+                            app.addNewTodo(marker,results[2].formatted_address);
                             {#varVue.markers_list.push({id:varVue.cont, texto:results[2].formatted_address});#}
                             {#varVue.addNewTodo({id:varVue.cont, texto:results[2].formatted_address});#}
                             {#varVue.cont++;#}
@@ -174,7 +220,6 @@
                     }
                 });
             }
-
 
             // Deletes all markers in the array by removing references to them.
             function deleteMarkers() {
@@ -187,24 +232,19 @@
             google.maps.event.addDomListener(window, 'load', initMap);
 
             {#  VUE  delimiters:['[[',']]'] #}
-            Vue.component('todo-item', {
+
+            var app = new Vue({
+                el: "#app",
                 delimiters:['[[',']]'],
-                template: '\
-                        <li>\
-                          [[ list_elements ]]\
-                          <button type="button" class="btn btn-danger btn-sm" v-on:click="$emit(\'remove\')">Delete</button>\
-                        </li>\
-                      ',
-                props: ['list_elements']
-            });
+                selectAll: false,
+                data() {
+                    return {
+                        cont:0,
+                        markers_list: [
 
-            var varVue = new Vue({
-                el: '#todo-list-example',
-                data: {
-                    cont:0,
-                    markers_list: [
-
-                    ]
+                        ],
+                        checked:[]
+                    }
                 },
                 methods: {
                     addNewTodo: function (mark, text) {
@@ -220,11 +260,29 @@
                         var index = markers.indexOf(item.mark);
                         markers[index].setMap(null);
                         markers.splice(index, 1);
-                        varVue.markers_list.splice(index,1)
+                        this.markers_list.splice(index,1)
+                    },
+                    setCentralMarker: function (item) {
+                        console.log(item.id); //Funciona, llamada al servidor para pasar el nodo central.
+                        if(this.checked.indexOf(item)==-1){ //si entra, cambiar color a central
+                            console.log('central '+item.id);
+                            {#var index = markers.indexOf(item.mark);#}
+                            {#markers[index].setMap(null);#}
+                            {#var mark = new google.maps.Marker({#}
+                            {#    position: place.geometry.location,#}
+                            {#     map: map,#}
+                            {#    });#}
+                            {#this.markers_list[index].mark=mark;#}
+                        }else{
+                            //cambiar color a default
+                            console.log('default '+item.id);
+                        }
                     }
                 }
             });
-        });
+
+        }); //Close Document.ready
+
     </script>
 
 {% endblock %}
