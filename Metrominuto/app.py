@@ -5,10 +5,6 @@ from flask import Flask, url_for
 from flask_cors import CORS
 
 
-# app = Flask(__name__,
-#             static_folder='./frontend/dist/static',
-#             template_folder='frontend/dist/')
-
 app = Flask(__name__)
 cors = CORS(app, resources={r'/api/*': {'origins': '*'}})
 app.secret_key = Config.SECRET_KEY

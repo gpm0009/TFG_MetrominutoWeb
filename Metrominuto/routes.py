@@ -24,25 +24,25 @@ def show_map():
 @app.route("/setMarks", methods=['POST'])
 def set_marks():
     # Contiene latlng de los marcadores del mapa.
-    # markers = request.get_json()
-    # with open('marcadores.json', 'w') as outfile:
-    #     json.dump(markers, outfile)
-    with open('./static/marcadores.json') as markers_file:
-        new_markers = json.load(markers_file)
-    markers = []
-    for element in new_markers:
-        markers.append({'position': element})
+    markers = request.get_json()
+    with open('./static/marcadores.json', 'w') as outfile:
+        json.dump(markers, outfile)
+    # with open('./static/marcadores.json') as markers_file:
+    #     new_markers = json.load(markers_file)
+    # markers = []
+    # for element in new_markers:
+    #     markers.append({'position': element})
     origins = []
     destinations = []
     for mark in markers:
         origins.append(mark['position'])
         destinations.append(mark['position'])
     now = datetime.now()
-    # matrix = google_maps.distance_matrix(origins, destinations, mode=session['mode'], departure_time=now)
-    # with open('distance_matrix.json', 'w') as outfile_matrix:
-    #     json.dump(matrix, outfile_matrix)
-    with open('./static/distance_matrix.json') as matrix_file:
-        matrix = json.load(matrix_file)
+    matrix = google_maps.distance_matrix(origins, destinations, mode=session['mode'], departure_time=now)
+    with open('./static/distance_matrix.json', 'w') as outfile_matrix:
+        json.dump(matrix, outfile_matrix)
+    # with open('./static/distance_matrix.json') as matrix_file:
+    #     matrix = json.load(matrix_file)
     dist = Clr.get_distance_matrix_values(matrix)
     votes = gph.calculate_graph(dist, markers, matrix)
     svg_f.generate_svg(votes)
