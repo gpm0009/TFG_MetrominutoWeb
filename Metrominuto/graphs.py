@@ -1,34 +1,66 @@
-from random import sample
+from random import sample, randint
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
 from flask import session
-
+import copy
 import globals
 
 
-def calculate_graph(dista, nodes, matriz):
+def calculate_graph(dista, nodes, central_markers, matriz):
     graph = nx.Graph()
     min_graph = nx.Graph()
     nodes_name = 0
     for node in nodes:
-        graph.add_node(str(nodes_name), pos=(node['position']['lat'], node['position']['lng']))
-        min_graph.add_node(str(nodes_name), pos=(node['position']['lat'], node['position']['lng']))
-        globals.vote_global_graph.add_node(str(nodes_name), pos=(node['position']['lat'], node['position']['lng']))
+        graph.add_node(str(nodes_name), pos=(node['position']['lat'], node['position']['lng']), id=node['id'])
+        min_graph.add_node(str(nodes_name), pos=(node['position']['lat'], node['position']['lng']), id=node['id'])
+        globals.vote_global_graph.add_node(str(nodes_name),
+                                           pos=(node['position']['lat'], node['position']['lng']),
+                                           id=node['id'])
         nodes_name = nodes_name + 1
 
     for i in range(0, dista.__len__()):
         for j in range(0, dista.__len__()):
             if i != j:
-                graph.add_edge(str(i), str(j), weight=dista[i][j], duration=matriz['rows'][i]['elements'][j]['duration']['text'])
-    weight = nx.get_edge_attributes(graph, 'weight')
-    votes = nodes_votes(graph, nodes_name, min_graph, weight)
-    # draw_votes_graph(votes)
-    # svg_f.save_svg()
+                graph.add_edge(str(i), str(j), weight=dista[i][j],
+                               duration=matriz['rows'][i]['elements'][j]['duration']['text'])
+    # votes = nodes_votes(graph, nodes_name, min_graph)
+    votes = calculate_edges_votes(graph, nodes_name, central_markers)
     return votes
 
 
-def nodes_votes(graph, tam, min_graph, weight):
+def calculate_edges_votes(graph, tam, central_markers):
+    central_markers_id = []
+    for central_mark in central_markers:
+        central_markers_id.append(central_mark['id'])
+    votes = np.zeros((tam, tam))
+    graph_nodes = list(graph.nodes(data='id'))
+    for i in range(1, tam):
+        if graph_nodes[i][1] in central_markers_id:
+            print('IN')
+            # random_graph.remove_node(delete_node)
+        else:
+            random_graph = copy.deepcopy(graph)
+            print('OUT')
+            random_graph.remove_node(str(i))
+            mst = nx.minimum_spanning_edges(random_graph, weight='weight', data=True)
+            edge_list_min = list(mst)  # make a list of the minimum edges
+            for pair in edge_list_min:
+                x = int(pair[0])
+                y = int(pair[1])
+                votes[x, y] = votes[x, y] + 1
+                globals.vote_global_graph.add_edge(pair[0], pair[1],
+                                                   weight=pair[2]['weight'],
+                                                   votes=votes[x, y], duration=pair[2]['duration'])
+    print(votes)
+    session['max_votes'] = votes.max()
+    session['min_votes'] = votes.min()
+    return globals.vote_global_graph
+
+
+# old
+def nodes_votes(graph, tam, min_graph):
+    weight = nx.get_edge_attributes(graph, 'weight')
     votes = np.zeros((tam, tam))
     edge_list = list(graph.edges(data=True))  # make a list of the edges
     # votes_graph.clear()
@@ -62,7 +94,8 @@ def draw_votes_graph():
     # nx.draw_networkx_labels(votes, pos, font_size=20, font_family='sans-serif')
     plt.figure(figsize=[10, 10])
     plt.axis('off')
-    nx.draw_networkx(globals.vote_global_graph, pos=nx.get_node_attributes(globals.vote_global_graph, 'pos'), node_color='#80b41f')
+    nx.draw_networkx(globals.vote_global_graph, pos=nx.get_node_attributes(globals.vote_global_graph, 'pos'),
+                     node_color='#80b41f')
     plt.show()
     return 0
 
@@ -82,12 +115,13 @@ def connected_graph(num_votes):
         check_graph.add_node(node[0], pos=node[1]['pos'])
     for edge in (globals.vote_global_graph.edges(data=True)):
         if int(edge[2]['votes']) > num_votes:
-            check_graph.add_edge(edge[0], edge[1], weight=edge[2]['weight'], votes=edge[2]['votes'], duration=edge[2]['duration'])
+            check_graph.add_edge(edge[0], edge[1], weight=edge[2]['weight'], votes=edge[2]['votes'],
+                                 duration=edge[2]['duration'])
     connected_components_list = sorted(nx.connected_components(check_graph), key=len, reverse=True)
     # print(connected_components_list)
     # if the graph is not connected
     if connected_components_list.__len__() > 1:
-        for s in range(0, connected_components_list.__len__()-1):
+        for s in range(0, connected_components_list.__len__() - 1):
             node_x, node_y, dist = compare_distance_matrix(connected_components_list[0], connected_components_list[1])
             edge_duration = globals.vote_global_graph.get_edge_data(str(node_x), str(node_y))
             if edge_duration is not None:

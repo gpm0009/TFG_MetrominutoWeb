@@ -13,15 +13,5 @@ def get_distance_matrix_values(matrix_distance):
     return distances
 
 
-# recibe una lista con un diccionario.
-def read_direction(directions):
-    trace = directions[0]  # Diccionario
-    warnings = trace['warnings']
-    for warnin in warnings:
-        print(warnin)
-    legs = trace['legs']
-    return 0
-
-
 
 

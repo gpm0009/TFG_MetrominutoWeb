@@ -56,6 +56,7 @@
         </div>
         <div class="col-md-4 col-sm-12">
             <div id="app">
+                <h2>MARCADORES:</h2>
                 <table>
                     <thead>
                     <tr>
@@ -121,16 +122,13 @@
             $("#saveButton").click(function () {
                 //alert(markers[0].label);
                 var markers = []
-                for(let i=0; i< app.markers_list.length;i++){
-                    let marcador = {id: app.markers_list[i].id,'position' :  app.markers_list[i].mark.position};
-                    markers.push(marcador)
+                app.markers_list.forEach(myFunctionMarkers);
+                function myFunctionMarkers(item) {
+                    let  central_mark = {'id':item.id, 'position':item.mark.position};
+                    markers.push(central_mark);
                 }
                 var central_marks = []
-                {#for (let j=0;j<app.central_markers,length;j++){#}
-                {#    let  central_mark = {'id':app.central_markers[j].id, 'position':app.central_markers[j].mark.position};#}
-                {#    central_marks.push(central_mark);#}
-                {#}#}
-                central_marks.forEach(myFunction);
+                app.central_markers.forEach(myFunction);
                 function myFunction(item) {
                     let  central_mark = {'id':item.id, 'position':item.mark.position};
                     central_marks.push(central_mark);
@@ -242,6 +240,7 @@
                 {#        }#}
                 {#    }#}
                 {#});#}
+                //FIXME
                 var marker = new google.maps.Marker({
                                 position: location,
                                 map: map,

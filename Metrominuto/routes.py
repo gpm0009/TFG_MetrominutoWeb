@@ -13,7 +13,7 @@ from forms import Form
 def show_map():
     longitude = -3.69
     latitude = 42.34
-    with open('./static/marcadores.json') as markers_file:
+    with open('./static/markers_example1.json') as markers_file:
         new_markers = json.load(markers_file)
     markers = []
     for element in new_markers:
@@ -30,11 +30,11 @@ def show_map():
 def set_marks():
     # Contiene latlng de los marcadores del mapa.
     markers_aux = request.get_json()
-    # markers_prueba = markers_aux['marcadores']
-    # markers_centrales = markers_aux['centrales']
-    # with open('static/marcadores.json', 'w') as outfile:
+    markers = markers_aux['marcadores']
+    central_markers = markers_aux['centrales']
+    # with open('static/markers_example1.json', 'w') as outfile:
     #     json.dump(markers, outfile)
-    with open('./static/marcadores.json') as markers_file:
+    with open('./static/markers_example1.json') as markers_file:
         new_markers = json.load(markers_file)
     markers = []
     for element in new_markers:
@@ -46,12 +46,13 @@ def set_marks():
         destinations.append(mark['position'])
     now = datetime.now()
     # matrix = google_maps.distance_matrix(origins, destinations, mode=session['mode'], departure_time=now)
-    # with open('static/distance_matrix.json', 'w') as outfile_matrix:
+    # with open('static/distance_matrix_example1.json', 'w') as outfile_matrix:
     #     json.dump(matrix, outfile_matrix)
-    with open('static/distance_matrix.json') as matrix_file:
+    with open('static/distance_matrix_example1.json') as matrix_file:
         matrix = json.load(matrix_file)
+
     dist = Clr.get_distance_matrix_values(matrix)
-    votes = gph.calculate_graph(dist, markers, matrix)
+    votes = gph.calculate_graph(dist, markers, central_markers, matrix)
     svg_f.generate_svg(votes)
     return redirect(url_for('draw_svg'))
 
