@@ -294,25 +294,11 @@
                         this.markers_list.splice(index,1)
                     },
                     setCentralMarker: function (item) {
+                        let index = this.markers_list.indexOf(item);
                         if(this.central_markers.indexOf(item)==-1){ //si entra, cambiar color a central
-                            let index = this.markers_list.indexOf(item);
-                            this.markers_list[index].mark.icon = {url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"};
-                            this.central_markers.splice(index,1);console.log('central '+item.id);
-                            {#let index = this.markers_list.indexOf(item);#}
-                            {#this.markers_list[index].mark.setMap(null);#}
-                            {#var mark = new google.maps.Marker({#}
-                            {#    position: this.markers_list[index].mark.position,#}
-                            {#    map: map,#}
-                            {#    icon: {url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"}#}
-                            {#    });#}
-                            {#this.markers_list[index].mark=mark;#}
-                            {#this.central_markers.push({id:this.markers_list[index].id, position:this.markers_list[index].mark.position});#}
+                            this.markers_list[index].mark.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
                         }else{
-                            //cambiar color a default
-                            console.log('default '+item.id);
-                            {#let index = this.markers_list.indexOf(item);#}
-                            {#this.markers_list[index].mark.icon = {url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"};#}
-                            {#this.central_markers.splice(index,1);#}
+                            this.markers_list[index].mark.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
                         }
                     }
                 }
