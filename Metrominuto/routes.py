@@ -29,7 +29,9 @@ def show_map():
 @app.route("/setMarks", methods=['POST'])
 def set_marks():
     # Contiene latlng de los marcadores del mapa.
-    # markers = request.get_json()
+    markers_aux = request.get_json()
+    # markers_prueba = markers_aux['marcadores']
+    # markers_centrales = markers_aux['centrales']
     # with open('static/marcadores.json', 'w') as outfile:
     #     json.dump(markers, outfile)
     with open('./static/marcadores.json') as markers_file:
