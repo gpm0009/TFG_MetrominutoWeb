@@ -1,13 +1,17 @@
 import json
 from datetime import datetime
-from app import app, svgfunctions as svg_f, graphs as gph, calculateRoute as Clr
+from app import svgfunctions as svg_f, graphs as gph, calculateRoute as Clr
 from flask import render_template, request, session, jsonify, redirect, url_for
 from config import Config
-from app.forms import Form
+from app.main.forms import Form
+import googlemaps
+from app.main import main
 import os
 
+google_maps = googlemaps.Client(key=Config.GOOGLE_API_KEY)
 
-@app.route("/", methods=['GET', 'POST'])
+
+@main.route("/", methods=['GET', 'POST'])
 def show_map():
     longitude = -3.69
     latitude = 42.34
@@ -24,7 +28,7 @@ def show_map():
     )
 
 
-@app.route("/setMarks", methods=['POST'])
+@main.route("/setMarks", methods=['POST'])
 def set_marks():
     # Contiene latlng de los marcadores del mapa.
     markers_aux = request.get_json()
@@ -52,10 +56,10 @@ def set_marks():
     dist = Clr.get_distance_matrix_values(matrix)
     votes = gph.calculate_graph(dist, markers, central_markers, matrix)
     svg_f.generate_svg(votes)
-    return redirect(url_for('draw_svg'))
+    return redirect(url_for('main.draw_svg'))
 
 
-@app.route('/graph', methods=['GET', 'POST'])
+@main.route('/graph', methods=['GET', 'POST'])
 def draw_svg():
     form = Form()
     svg = None
@@ -63,7 +67,7 @@ def draw_svg():
         num = form.number.data
         graph = gph.connected_graph(num)
         svg_f.generate_svg(graph)
-        return redirect(url_for('draw_svg'))
+        return redirect(url_for('main.draw_svg'))
     elif request.method == 'GET':
         form.max_votes = session['max_votes']
         form.min_votes = session['min_votes']
@@ -87,7 +91,7 @@ def draw_svg():
 #     return render_template('map_template.html', form=mode_form)
 
 
-@app.route('/setMode', methods=['POST'])
+@main.route('/setMode', methods=['POST'])
 def set_mode():
     mode = request.form['mode']
     session['mode'] = mode
@@ -96,7 +100,7 @@ def set_mode():
     return jsonify('ERROR')
 
 
-@app.route('/api/mensaje')
+@main.route('/api/mensaje')
 def mensaje():
     return render_template('vue_template.html')
 
