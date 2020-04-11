@@ -1,10 +1,10 @@
-from random import sample, randint
+from random import sample
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
 from flask import session
 import copy
-import globals
+from app import globals
 
 
 def calculate_graph(dista, nodes, central_markers, matriz):
@@ -38,7 +38,6 @@ def calculate_edges_votes(graph, tam, central_markers):
     for i in range(1, tam):
         if graph_nodes[i][1] in central_markers_id:
             print('IN')
-            # random_graph.remove_node(delete_node)
         else:
             random_graph = copy.deepcopy(graph)
             print('OUT')

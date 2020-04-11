@@ -1,7 +1,7 @@
 import networkx as nx
 import svgwrite as svg
 from app import google_maps
-
+import os
 
 def save_svg():
     dwg = svg.Drawing('templates/test.svg', size=("800px", "600px"), profile='full')
@@ -26,7 +26,8 @@ def generate_svg(graph_votes):
     dif_y = (max_y - min_y)
     # print(max_x, min_x, max_y, min_y)
     radio = 0.025
-    file_name = 'templates/grafo_svg.svg'
+    print(os.getcwd())
+    file_name = 'app/templates/grafo_svg.svg'
     dwg = svg.Drawing(file_name, size=('100%', '100%'),
                       viewBox='0 0.2 1 1.5', profile='full')
     id_color = 0

@@ -1,19 +1,17 @@
 import json
 from datetime import datetime
-from app import app, google_maps
-import calculateRoute as Clr
+from app import app, svgfunctions as svg_f, graphs as gph, calculateRoute as Clr
 from flask import render_template, request, session, jsonify, redirect, url_for
 from config import Config
-import graphs as gph
-import svgfunctions as svg_f
-from forms import Form
+from app.forms import Form
+import os
 
 
 @app.route("/", methods=['GET', 'POST'])
 def show_map():
     longitude = -3.69
     latitude = 42.34
-    with open('./static/markers_example1.json') as markers_file:
+    with open('app/static/markers_example1.json') as markers_file:
         new_markers = json.load(markers_file)
     markers = []
     for element in new_markers:
@@ -34,7 +32,7 @@ def set_marks():
     central_markers = markers_aux['centrales']
     # with open('static/markers_example1.json', 'w') as outfile:
     #     json.dump(markers, outfile)
-    with open('./static/markers_example1.json') as markers_file:
+    with open('app/static/markers_example1.json') as markers_file:
         new_markers = json.load(markers_file)
     markers = []
     for element in new_markers:
@@ -48,7 +46,7 @@ def set_marks():
     # matrix = google_maps.distance_matrix(origins, destinations, mode=session['mode'], departure_time=now)
     # with open('static/distance_matrix_example1.json', 'w') as outfile_matrix:
     #     json.dump(matrix, outfile_matrix)
-    with open('static/distance_matrix_example1.json') as matrix_file:
+    with open('app/static/distance_matrix_example1.json') as matrix_file:
         matrix = json.load(matrix_file)
 
     dist = Clr.get_distance_matrix_values(matrix)

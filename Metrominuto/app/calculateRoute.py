@@ -1,5 +1,5 @@
 import numpy as np
-import globals
+from app import globals
 
 
 def get_distance_matrix_values(matrix_distance):
