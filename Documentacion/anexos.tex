@@ -16,7 +16,7 @@
 \RequirePackage{dirtree}
 
 % Links
-\usepackage[colorlinks]{hyperref}
+\PassOptionsToPackage{hyphens}{url}\usepackage[colorlinks]{hyperref}
 \hypersetup{
 	allcolors = {red}
 }
@@ -27,9 +27,16 @@
 % Rutas de fichero / paquete
 \newcommand{\ruta}[1]{{\sffamily #1}}
 
+
 % Párrafos
 \nonzeroparskip
 
+% Huérfanas y viudas
+\widowpenalty100000
+\clubpenalty100000
+
+% Evitar solapes en el header
+\nouppercaseheads
 
 % Imagenes
 \usepackage{graphicx}

@@ -18,8 +18,9 @@
 \usepackage{enumitem}
 \newlist{steps}{enumerate}{1}
 \setlist[steps, 1]{label = Paso \arabic*:}
+
 % Links
-\usepackage[colorlinks]{hyperref}
+\PassOptionsToPackage{hyphens}{url}\usepackage[colorlinks]{hyperref}
 \hypersetup{
 	allcolors = {red}
 }
@@ -33,6 +34,9 @@
 % Párrafos
 \nonzeroparskip
 
+% Huérfanas y viudas
+\widowpenalty100000
+\clubpenalty100000
 
 % Imagenes
 \usepackage{graphicx}
@@ -397,14 +401,14 @@ En Burgos, {\large \today}
 \begin{minipage}{0.45\textwidth}
 \begin{flushleft} %\large
 Vº. Bº. del Tutor:\\[2cm]
-D. nombre tutor
+D. Álvar Arnaiz González
 \end{flushleft}
 \end{minipage}
 \hfill
 \begin{minipage}{0.45\textwidth}
 \begin{flushleft} %\large
 Vº. Bº. del co-tutor:\\[2cm]
-D. nombre co-tutor
+D. César Ignacio García Osorio
 \end{flushleft}
 \end{minipage}
 \hfill

@@ -48,12 +48,15 @@ Este proyecto está desarrollado con la versión 3.6.3. Python se puede descarga
 \url{https://www.python.org/downloads/}
 
 \subsection{Instalación y configuración de PyCharm}
-Este \textit{IDE} tiene distribución para Linux, además de permitir a estudiantes usar la versión profesional. Para su instalación podemos usar la \cite{snap store} de Linux, que en caso de no tenerla instalada tenemos que ejecutar el siguiente comando:
+Este \textit{IDE} tiene distribución para Linux, además de permitir a estudiantes usar la versión profesional. Para su instalación podemos usar la \textit{snap store} de Linux, que en caso de no tenerla instalada tenemos que ejecutar el siguiente comando:
 
+\renewcommand{\lstlistingname}{Instalar PyCharm}% Listing -> Algorithm
+\renewcommand{\lstlistlistingname}{List of \lstlistingname s}
 \begin{lstlisting}[language=bash,caption={Instalar snapd}]
 $ sudo apt update
 $ sudo apt install snapd
 \end{lstlisting}
+
 Después de tener instalado esto, ejecutaríamos:
 \begin{lstlisting}[language=bash,caption={Instalar PyCharm}]
 $ sudo snap install 
@@ -61,6 +64,9 @@ $ sudo snap install
 \end{lstlisting}
 
 Una vez instalado \textit{PyCharm}, la forma más cómoda de obtener el código del proyecto es mediante \textit{git}, usando para ello el comando:
+
+\renewcommand{\lstlistingname}{Configurar PyCharm}% Listing -> Algorithm
+\renewcommand{\lstlistlistingname}{List of \lstlistingname s}
 \begin{lstlisting}[language=bash,caption={Descargar el repositorio}]
 $ git clone <url_del_repositorio>
 \end{lstlisting}
@@ -69,7 +75,7 @@ repositorio.
 
 Para instalar las dependencias ejecutar el comando:
 \begin{lstlisting}[language=bash,caption={Instalar requirements.txt}]
-$ pip install -r requirementes.txt
+$ pip install -r requirements.txt
 \end{lstlisting}
 
 \subsection{Claves de Google}
@@ -84,13 +90,14 @@ Después, dichos credenciales deben activarse para las APIs que utiliza este pro
 \end{itemize}
 
 Una vez que la tenemos, debemos incluirla en el proyecto. Para ello:
-
-\begin{lstlisting}[language=python,caption={Añadir API\_KEY}]
+\renewcommand{\lstlistingname}{Google Key}% Listing -> Algorithm
+\renewcommand{\lstlistlistingname}{List of \lstlistingname s}
+\begin{lstlisting}[language=python,caption={Añadir \texttt{API\_KEY}}]
 google_maps=googlemaps.Client(key='GOOGLE_API_KEY')
 \end{lstlisting}
 
 Además, no hay que olvidar incluirla en los templates:
-\begin{lstlisting}[language=html,caption={Añadir API\_KEY a los templates}]
+\begin{lstlisting}[language=html,caption={Añadir \texttt{API\_KEY} a los templates}]
 <script
  src="https://maps.googleapis.com/maps/api/
 	 js?key=API_KEY&libraries=places" 
@@ -110,6 +117,8 @@ En este caso, en PyCharm se configura de la siguiente manera:
 \subsection{\TeX studio}
 Esta herramienta para la compilación de documentación \LaTeX{} permite la instalación de diccionarios para aplicar las reglas al texto. Para ello, debemos acceder a:
 
+\renewcommand{\lstlistingname}{Configure \TeX studio}% Listing -> Algorithm
+\renewcommand{\lstlistlistingname}{List of \lstlistingname s}
 \begin{lstlisting}[language=bash,caption={Añadir diccionario}]
 Options -> Configure TeXstudio
 Language checking
@@ -124,13 +133,13 @@ Una vez ahí, vemos que nos ofrece dos opciones para buscar diccionarios: \url{h
 Como ya he mencionado, esta biblioteca nos permite trabajar de una forma muy amplia y completa con grafos. A lo largo del proyecto se han usado:
 \begin{itemize}
 	\item \texttt{graph()}: para crear un grafo no dirigido al que se añadirán nodos y arcos.
-	\item add\_node(): Diferentes nodos junto con atributos como la posición obtenida del API de Google y el nombre.
-	\item add\_edge(): Arco que conecta dos nodos. Además, los arcos contienen atributos como la distancia real que hay de nodo a nodo o el número de votos que tendrá.
-	\item get\_edge\_attributes(): para obtener los valores de un atributo perteneciente a los arcos. Devuelve una lista que contiene el nodo de origen, el nodo destino y el atributo deseado.
-	\item edges(data\=True): devuelve los arcos junto con los atributos.
-	\item nodes(data\=True): devuelve los nodos junto con los atributos.
-	\item minimum\_spanning\_edges(): devuelve un iterador con los arcos que forman el grafo de tal manera que la suma de distancias es la mínima.
-	\item draw\_networkx(): para dibujar el grafo.
+	\item \texttt{add\_node()}: Diferentes nodos junto con atributos como la posición obtenida del API de Google y el nombre.
+	\item \texttt{add\_edge()}: Arco que conecta dos nodos. Además, los arcos contienen atributos como la distancia real que hay de nodo a nodo o el número de votos que tendrá.
+	\item \texttt{get\_edge\_attributes()}: para obtener los valores de un atributo perteneciente a los arcos. Devuelve una lista que contiene el nodo de origen, el nodo destino y el atributo deseado.
+	\item \texttt{edges(data=True)}: devuelve los arcos junto con los atributos.
+	\item \texttt{nodes(data=True)}: devuelve los nodos junto con los atributos.
+	\item \texttt{minimum\_spanning\_edges()}: devuelve un iterador con los arcos que forman el grafo de tal manera que la suma de distancias es la mínima.
+	\item \texttt{draw\_networkx()}: para dibujar el grafo.
 \end{itemize}
 
 
