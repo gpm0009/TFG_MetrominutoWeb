@@ -87,25 +87,25 @@
     </div>
 
     <div class="row" id="buttons">
-        <div class="col-md-2 col-sm-4">
-            <input type='button' class="btn btn-primary" value='Delete' id='removeButton'>
-            <input type='button' class="btn btn-primary" value='Save' id='saveButton' href="/graph">
-            <a class="btn btn-primary" role="button" target="_blank" href="{{url_for('main.draw_svg')}}">Show</a>
-        </div>
-        <div class="col-md-2 col-sm-4 ">
-            <form class="form-inline">
-                <label for="example-number-input" class="col-2 col-form-label">Number</label>
-                <input class="form-control" type="number" value="5" id="votes_number">
-            </form>
-        </div>
-        <div class="col-md-4 col-sm-4">
+        <div class="col-md-4 col-sm-2">
             <select id="select" class="mdb-select">
                 <option value="" disabled selected>Elige Modo Desplazamiento</option>
                 <option value="bicycling">Bicicleta</option>
                 <option value="walking">A pie</option>
             </select>
+            <input type='button' class="btn btn-primary" value='Delete' id='removeButton'>
+            <input type='button' class="btn btn-primary" value='Save' id='saveButton' href="/graph">
         </div>
     </div>
+{#    <div>#}
+{#        <form action="{{url_for('main.set_marks')}}" method="post" class="form-inline">#}
+{#            {{ form.hidden_tag() }}#}
+{##}
+{#            {{ form.number.label }}: {{ form.number }}#}
+{#            #}
+{#            {{ form.submit(class="btn btn-primary") }}#}
+{#        </form>#}
+{#    </div>#}
 
     </body>
 {% endblock %}
@@ -138,9 +138,11 @@
                     contentType: "application/json;charset=utf-8",
                     url: "/setMarks",
                     traditional: "true",
-                    //data: JSON.stringify(list),
                     data: JSON.stringify({marcadores: markers, centrales:central_marks}),
-                    dataType: "json"
+                    dataType: "json",
+                    success:  window.setTimeout(function () {
+                        window.open('{{ url_for('main.draw_svg') }}','_blank')
+                     }, 1000)
                 });
             });
 
@@ -159,7 +161,7 @@
             function initMap() {
                 let map = new google.maps.Map(document.getElementById('map'), {
                     zoom: 15,
-                    center: {lat: {{latitud}}, lng: {{longitud}} }
+                    center: {lat: 42.34, lng: -3.69 }
                 });
 
                 var input = document.getElementById('pac-input');

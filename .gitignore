@@ -12,3 +12,7 @@ instance/
 /Metrominuto/templates/grafo_svg.svg
 
 venv/
+
+Metrominuto/app/static/img/grafo_svg.svg
+
+Metrominuto/app/templates/grafo_svg.svg

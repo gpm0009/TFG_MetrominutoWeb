@@ -47,10 +47,7 @@ def generate_svg(graph_votes):
                         start=(start_y, start_x),
                         end=(end_y, end_x),
                         stroke=color, fill=color, stroke_width=0.01)
-        medio_x, medio_y = mid_point((positions[edge[0]][0] - min_x) / (max_x - min_x),
-                                     (positions[edge[0]][1] - min_y) / (max_y - min_y),
-                                     (positions[edge[1]][0] - min_x) / (max_x - min_x),
-                                     (positions[edge[1]][1] - min_y) / (max_y - min_y))
+        medio_x, medio_y = mid_point(start_x, start_y, end_x, end_y)
         time = dwg.text(edge[2]['duration'], insert=(medio_y + radio * 1.5, medio_x), stroke='none',
                         fill=color,
                         font_size=str(radio),
@@ -72,7 +69,14 @@ def generate_svg(graph_votes):
         #                  font_size=str(radio),
         #                  font_weight="bold",
         #                  font_family="Arial")
-        # label.rotate(90, center=(coord_x + radio * 1.5, coord_y))
+        # dwg.add(label)
+        label = dwg.text('Marcador'+node[0],
+                         insert=(coord_y + radio * 1.5, coord_x + radio * 0.2),
+                         stroke='none',
+                         fill='black',
+                         font_size=str(radio),
+                         font_weight="bold",
+                         font_family="Arial")
         # dwg.add(label)
     dwg.save(pretty=True)
     return 0
