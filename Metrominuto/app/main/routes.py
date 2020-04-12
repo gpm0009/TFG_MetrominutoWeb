@@ -1,3 +1,8 @@
+"""
+    app.main.routes
+
+    This file contains the routes of the main module.
+"""
 import json
 from datetime import datetime
 from app import svgfunctions as svg_f, graphs as gph, calculateRoute as Clr

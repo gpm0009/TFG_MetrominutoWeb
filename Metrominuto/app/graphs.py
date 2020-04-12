@@ -1,3 +1,9 @@
+"""
+    app.graphs
+
+    This file contains NetworkX operations with graphs in order to calculate
+    votes and the final graph.
+"""
 from random import sample
 import networkx as nx
 import numpy as np
@@ -7,7 +13,27 @@ import copy
 from app import globals
 
 
-def calculate_graph(dista, nodes, central_markers, matriz):
+def calculate_graph(distances, nodes, central_markers, matrix):
+    """
+    
+    :param distances: Array with distances between all points.
+    :type distances: Array
+
+    :param nodes: One or more locations with latitude/longitude and id values
+    :type nodes: list
+
+    :param central_markers: One or more locations with latitude/longitude and id values
+        that indicates which points are going to be centrals. It means those points are
+        going to be always in the minimum spanning tree.
+    :type central_markers: list
+
+    :param matrix: Travel distances and times for a matrix of origins and destinations
+    :type matrix: dict
+
+    :return: votes: NetworkX graph that contains all nodes with position and id as attributes, and
+        edges with distance, duration and votes as attributes.
+    :rtype: NetworkX graph
+    """
     graph = nx.Graph()
     min_graph = nx.Graph()
     nodes_name = 0
@@ -19,17 +45,34 @@ def calculate_graph(dista, nodes, central_markers, matriz):
                                            id=node['id'])
         nodes_name = nodes_name + 1
 
-    for i in range(0, dista.__len__()):
-        for j in range(0, dista.__len__()):
+    for i in range(0, distances.__len__()):
+        for j in range(0, distances.__len__()):
             if i != j:
-                graph.add_edge(str(i), str(j), weight=dista[i][j],
-                               duration=matriz['rows'][i]['elements'][j]['duration']['text'])
+                graph.add_edge(str(i), str(j), weight=distances[i][j],
+                               duration=matrix['rows'][i]['elements'][j]['duration']['text'])
     # votes = nodes_votes(graph, nodes_name, min_graph)
     votes = calculate_edges_votes(graph, nodes_name, central_markers)
     return votes
 
 
 def calculate_edges_votes(graph, tam, central_markers):
+    """Functions that calculates edges votes and make corresponding graph.
+
+    :param graph: NetworkX graph that contains all nodes and edges with positions, distance and duration.
+    :type graph: NetworkX graph
+
+    :param tam: Number that indicates the total number of elements and the names of the nodes
+    :type tam: Integer
+
+    :param central_markers: One or more locations with latitude/longitude and id values
+        that indicates which points are going to be centrals. It means those points are
+        going to be always in the minimum spanning tree.
+    :type central_markers: list
+
+    :return: globals.vote_global_graph: global variable containing graph with all nodes and edges
+        with duration, distance and votes as attributes.
+    :rtype: NetworkX graph
+    """
     central_markers_id = []
     for central_mark in central_markers:
         central_markers_id.append(central_mark['id'])
@@ -109,6 +152,14 @@ def draw_graph(grafo):
 
 # posterior a que el usuario elija un parámetro.
 def connected_graph(num_votes):
+    """Function that receives a number and check if the global.votes_graph are connected.
+
+    :param num_votes: Number that indicates the number of votes that all edged have to have.
+    :type num_votes: Integer.
+
+    :return check_graph: fully connected graph whose arcs have the votes indicated by number_votes.
+    :rtype: NetworkX graph.
+    """
     check_graph = nx.Graph()
     for node in (globals.vote_global_graph.nodes(data=True)):
         check_graph.add_node(node[0], pos=node[1]['pos'])
@@ -135,6 +186,21 @@ def connected_graph(num_votes):
 
 
 def compare_distance_matrix(component_x, component_y):
+    """
+    Function that calculates what node that is closest.
+
+    :param component_x:
+    :type: set
+
+    :param component_y:
+    :type: set
+
+    :return: nodex, nodey: Point coordinates of the node that is closest
+    :rtype: int
+
+    :return: min: Minimum distance between the points.
+    :rtype: float
+    """
     min = 9999999
     for x in range(0, component_x.__len__()):
         element_x = int(component_x.pop())

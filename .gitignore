@@ -10,3 +10,5 @@ instance/
 .idea/
 
 /Metrominuto/templates/grafo_svg.svg
+
+venv/

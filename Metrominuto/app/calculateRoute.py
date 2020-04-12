@@ -1,8 +1,22 @@
+"""
+    app.calculateRoute
+
+    FThis file contains the functions needed to extract necesary data from
+    Google API.
+"""
 import numpy as np
 from app import globals
 
 
 def get_distance_matrix_values(matrix_distance):
+    """
+    Function
+    :param matrix_distance: Travel distances and times for a matrix of origins and destinations
+    :type matrix_distance: dict
+
+    :return distances: Array with distances between all points.
+    :rtype distances: Array
+    """
     x = matrix_distance['origin_addresses'].__len__()
     y = matrix_distance['destination_addresses'].__len__()
     distances = np.zeros((x, y))

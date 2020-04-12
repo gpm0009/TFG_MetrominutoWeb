@@ -1,3 +1,9 @@
+"""
+    config
+
+    This file contains classes to be uses as the configuration
+    for the application.
+"""
 import os
 
 

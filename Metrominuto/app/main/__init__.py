@@ -1,3 +1,8 @@
+"""
+    app.main
+
+    Main module of the application.
+"""
 from flask import Blueprint
 
 main = Blueprint('main', __name__)
