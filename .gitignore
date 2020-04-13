@@ -16,3 +16,5 @@ venv/
 Metrominuto/app/static/img/grafo_svg.svg
 
 Metrominuto/app/templates/grafo_svg.svg
+
+Metrominuto/env/
