@@ -3,9 +3,5 @@
 
     Launch the web application
 """
-from app import create_app
+from metrominuto_app.webapp import app
 
-app = create_app()
-
-if __name__ == '__main__':
-    app.run()

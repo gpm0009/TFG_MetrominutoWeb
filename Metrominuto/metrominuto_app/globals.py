@@ -1,5 +1,5 @@
 """
-    app.globals
+    metrominuto_app.globals
 
     This file contains global data needed in the application.
 """

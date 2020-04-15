@@ -45,6 +45,19 @@
             min-width: 120px;
             padding: 10px 20px;
         }
+        @media screen and (max-width: 1600px) {
+            .row  {
+                align-items: center;
+                margin-right: 10px;
+                margin-left: 10px;
+                height:600px;
+            }
+            .row > .col-md-8 > #map{
+                height: 600px;
+                width: auto;
+            }
+
+        }
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?key={{API_KEY}}&libraries=places"> type="text/javascript"</script>
     <div class="row">
@@ -88,11 +101,13 @@
 
     <div class="row" id="buttons">
         <div class="col-md-4 col-sm-2">
-            <select id="select" class="mdb-select">
-                <option value="" disabled selected>Elige Modo Desplazamiento</option>
-                <option value="bicycling">Bicicleta</option>
-                <option value="walking">A pie</option>
-            </select>
+            <div class="form-group col-md-4">
+                <select id="select" class="form-control">
+                    <option selected>Elige modo de desplazamiento</option>
+                    <option value="bicycling">Bicicleta</option>
+                    <option value="walking">A pie</option>
+                </select>
+            </div>
             <input type='button' class="btn btn-primary" value='Delete' id='removeButton'>
             <input type='button' class="btn btn-primary" value='Save' id='saveButton' href="/graph">
         </div>
@@ -233,7 +248,7 @@
                 {#                infowindow.open(map, marker);#}
                 {#            });#}
                 {#            markers.push(marker);#}
-                {#            app.addNewTodo(marker,results[2].formatted_address);#}
+                {#            metrominuto_app.addNewTodo(marker,results[2].formatted_address);#}
                             {#varVue.markers_list.push({id:varVue.cont, texto:results[2].formatted_address});#}
                             {#varVue.addNewTodo({id:varVue.cont, texto:results[2].formatted_address});#}
                             {#varVue.cont++;#}

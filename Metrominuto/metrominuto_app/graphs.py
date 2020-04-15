@@ -1,5 +1,5 @@
 """
-    app.graphs
+    metrominuto_app.graphs
 
     This file contains NetworkX operations with graphs in order to calculate
     votes and the final graph.
@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from flask import session
 import copy
-from app import globals
+from metrominuto_app import globals
 
 
 def calculate_graph(distances, nodes, central_markers, matrix):

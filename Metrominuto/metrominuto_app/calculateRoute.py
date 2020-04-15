@@ -1,11 +1,11 @@
 """
-    app.calculateRoute
+    metrominuto_app.calculateRoute
 
     FThis file contains the functions needed to extract necesary data from
     Google API.
 """
 import numpy as np
-from app import globals
+from metrominuto_app import globals
 
 
 def get_distance_matrix_values(matrix_distance):

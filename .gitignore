@@ -18,3 +18,11 @@ Metrominuto/app/static/img/grafo_svg.svg
 Metrominuto/app/templates/grafo_svg.svg
 
 Metrominuto/env/
+
+env/
+
+Metrominuto/.vscode/
+
+Metrominuto/.deployment
+
+Metrominuto/metrominuto_app/__pycache__/

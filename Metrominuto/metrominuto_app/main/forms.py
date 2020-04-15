@@ -1,5 +1,5 @@
 """
-    app.main.forms
+    metrominuto_app.main.forms
 
     This file contais the forms used by the main module.
 """
@@ -23,10 +23,9 @@ class Form(FlaskForm):
 
     """
     submit = SubmitField('SaveForm')
-    number = IntegerField('Votes', validators=[DataRequired()])
+    number = IntegerField('Number of votes:')
     min_votes = IntegerField()
     max_votes = IntegerField()
-    value = IntegerField()
 
 
 class ModeForm(FlaskForm):
@@ -40,4 +39,5 @@ class ModeForm(FlaskForm):
 
     """
     submit = SubmitField('SaveForm')
-    mode = SelectField('Modo', choices=[('bicycling', 'Bicicleta'), ('walking', 'A Pie')])
+    # mode = SelectField('Modo', choices=[('bicycling', 'Bicicleta'), ('walking', 'A Pie')])
+    number = IntegerField('Votes', validators=[DataRequired()])
