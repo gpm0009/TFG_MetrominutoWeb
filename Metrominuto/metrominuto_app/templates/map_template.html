@@ -99,28 +99,33 @@
         </div>
     </div>
 
-    <div class="row" id="buttons">
-        <div class="col-md-4 col-sm-2">
-            <div class="form-group col-md-4">
-                <select id="select" class="form-control">
-                    <option selected>Elige modo de desplazamiento</option>
-                    <option value="bicycling">Bicicleta</option>
-                    <option value="walking">A pie</option>
-                </select>
-            </div>
-            <input type='button' class="btn btn-primary" value='Delete' id='removeButton'>
-            <input type='button' class="btn btn-primary" value='Save' id='saveButton' href="/graph">
-        </div>
-    </div>
-{#    <div>#}
-{#        <form action="{{url_for('main.set_marks')}}" method="post" class="form-inline">#}
-{#            {{ form.hidden_tag() }}#}
-{##}
-{#            {{ form.number.label }}: {{ form.number }}#}
-{#            #}
-{#            {{ form.submit(class="btn btn-primary") }}#}
-{#        </form>#}
+{#    <div class="row" id="buttons">#}
+{#        <div class="col-md-4 col-sm-2">#}
+{#            <div class="form-group col-md-4">#}
+{#                <select id="select" class="form-control">#}
+{#                    <option selected>Elige modo de desplazamiento</option>#}
+{#                    <option value="bicycling">Bicicleta</option>#}
+{#                    <option value="walking">A pie</option>#}
+{#                </select>#}
+{#            </div>#}
+{#            <input type='button' class="btn btn-primary" value='Borrar marcadores' id='removeButton'>#}
+{#            <input type='button' class="btn btn-primary" value='Mostrar mapa' id='saveButton'>#}
+{#        </div>#}
 {#    </div>#}
+    <div class="row" id="buttons">
+        <form id="myform" action="{{url_for('main.set_marks')}}" method="post" class="form-inline">
+            {{ form.hidden_tag() }}
+            <select id="select" class="form-control">
+                <option selected>Elige modo de desplazamiento</option>
+                {% for o in form.mode.choices %}
+                    <option value="{{ o[0] }}">{{ o[1] }}</option>
+                {% endfor %}
+            </select>
+            <input type='button' class="btn btn-primary" value='Borrar marcadores' id='removeButton'>
+            <input type='button' class="btn btn-primary" value='Guardar Marcadores' id='saveButton'>
+            {{ form.submit(class="btn btn-primary") }}
+        </form>
+    </div>
 
     </body>
 {% endblock %}
@@ -148,30 +153,32 @@
                     let  central_mark = {'id':item.id, 'position':item.mark.position};
                     central_marks.push(central_mark);
                 }
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json;charset=utf-8",
-                    url: "/setMarks",
-                    traditional: "true",
-                    data: JSON.stringify({marcadores: markers, centrales:central_marks}),
-                    dataType: "json",
-                    success:  window.setTimeout(function () {
-                        window.open('{{ url_for('main.draw_svg') }}','_blank')
-                     }, 1000)
-                });
+
+                const myForm = document.getElementById('myform');
+                const input_markers = document.createElement('input');
+                input_markers.type = 'hidden';
+                input_markers.name = 'markers';
+                input_markers.value = JSON.stringify({markers: markers});
+                myForm.appendChild(input_markers);
+
+                const input_central = document.createElement('input');
+                input_central.type = 'hidden';
+                input_central.name = 'central_markers';
+                input_central.value = JSON.stringify({central_markers: central_marks});
+                myForm.appendChild(input_central);
             });
 
-            $("#select").change(function () {
-                $.post('/setMode', {
-                    mode: $('#select').val()
-                }).done(function(response) {
+            {#$("#select").change(function () {#}
+            {#    $.post('/setMode', {#}
+            {#        mode: $('#select').val()#}
+            {#    }).done(function(response) {#}
                     {#$(destElem).text(response['text'])#}
-                    console.log('OK');
-                }).fail(function() {
+            {#        console.log('OK');#}
+            {#    }).fail(function() {#}
                     {#$(destElem).text("{{ _('Error: Could not contact server.') }}");#}
-                    console.log('ERROR');
-                });
-            });
+            {#        console.log('ERROR');#}
+            {#    });#}
+            {#});#}
 
             function initMap() {
                 let map = new google.maps.Map(document.getElementById('map'), {

@@ -4,7 +4,7 @@
     This file contais the forms used by the main module.
 """
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, SelectField, FieldList
+from wtforms import SubmitField, IntegerField, SelectField
 from wtforms.validators import DataRequired
 
 
@@ -22,13 +22,13 @@ class Form(FlaskForm):
         Field containing the maximum number in the votes matrix.
 
     """
-    submit = SubmitField('SaveForm')
+    submit = SubmitField('Sign In')
     number = IntegerField('Number of votes:')
     min_votes = IntegerField()
     max_votes = IntegerField()
 
 
-class ModeForm(FlaskForm):
+class MapForm(FlaskForm):
     """Form that handles route type selection.
 
     :Attributes
@@ -38,6 +38,5 @@ class ModeForm(FlaskForm):
         Field containing possible route types.
 
     """
-    submit = SubmitField('SaveForm')
-    # mode = SelectField('Modo', choices=[('bicycling', 'Bicicleta'), ('walking', 'A Pie')])
-    number = IntegerField('Votes', validators=[DataRequired()])
+    submit = SubmitField('Mostrar Mapa')
+    mode = SelectField('Tipo de ruta: ', choices=[('bicycling', 'Bicicleta'), ('walking', 'A Pie')])
