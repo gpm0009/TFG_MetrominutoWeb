@@ -15,11 +15,11 @@
             margin-left: 10px;
         }
 
-         body {
-             font-family: Helvetica Neue, Arial, sans-serif;
-             font-size: 14px;
-             color: #444;
-         }
+        body {
+            font-family: Helvetica Neue, Arial, sans-serif;
+            font-size: 14px;
+            color: #444;
+        }
 
         table {
             border: 2px solid #42b983;
@@ -79,39 +79,25 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item, index) in markers_list">
-                            <td>
-                                <label class="form-checkbox">
-                                    <input type="checkbox" :id="item.id" :value="item" v-model="central_markers" @click="setCentralMarker(item)">
-                                    <i class="form-icon"></i>
-                                </label>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-default" @click="deleteMarker(item)" aria-label="Remove">
-                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                </button>
-                            </td>
-                            <td>[[ item.text ]]</td>
-                        </tr>
+                    <tr v-for="(item, index) in markers_list">
+                        <td>
+                            <label class="form-checkbox">
+                                <input type="checkbox" :id="item.id" :value="item" v-model="central_markers" @click="setCentralMarker(item)">
+                                <i class="form-icon"></i>
+                            </label>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-default" @click="deleteMarker(item)" aria-label="Remove">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
+                        </td>
+                        <td>[[ item.text ]]</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
-{#    <div class="row" id="buttons">#}
-{#        <div class="col-md-4 col-sm-2">#}
-{#            <div class="form-group col-md-4">#}
-{#                <select id="select" class="form-control">#}
-{#                    <option selected>Elige modo de desplazamiento</option>#}
-{#                    <option value="bicycling">Bicicleta</option>#}
-{#                    <option value="walking">A pie</option>#}
-{#                </select>#}
-{#            </div>#}
-{#            <input type='button' class="btn btn-primary" value='Borrar marcadores' id='removeButton'>#}
-{#            <input type='button' class="btn btn-primary" value='Mostrar mapa' id='saveButton'>#}
-{#        </div>#}
-{#    </div>#}
     <div class="row" id="buttons">
         <form id="myform" action="{{url_for('main.set_marks')}}" method="post" class="form-inline">
             {{ form.hidden_tag() }}
@@ -126,7 +112,28 @@
             {{ form.submit(class="btn btn-primary") }}
         </form>
     </div>
+    <!-- Botón en HTML (lanza el modal en Bootstrap) -->
+<a href="#victorModal" role="button" class="btn btn-large btn-primary" data-toggle="modal">Abrir ventana modal</a>
 
+<!-- Modal / Ventana / Overlay en HTML -->
+<div id="victorModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">¿Estás seguro?</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Seguro que quieres borrar este elemento?</p>
+                <p class="text-warning"><small>Si lo borras, nunca podrás recuperarlo.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-danger">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
     </body>
 {% endblock %}
 {% block scripts %}
@@ -172,160 +179,162 @@
             {#    $.post('/setMode', {#}
             {#        mode: $('#select').val()#}
             {#    }).done(function(response) {#}
-                    {#$(destElem).text(response['text'])#}
+            {#$(destElem).text(response['text'])#}
             {#        console.log('OK');#}
             {#    }).fail(function() {#}
-                    {#$(destElem).text("{{ _('Error: Could not contact server.') }}");#}
+            {#$(destElem).text("{{ _('Error: Could not contact server.') }}");#}
             {#        console.log('ERROR');#}
             {#    });#}
             {#});#}
 
-            function initMap() {
-                let map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 15,
-                    center: {lat: 42.34, lng: -3.69 }
-                });
-
-                var input = document.getElementById('pac-input');
-                map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-
-                google.maps.event.addListener(map, 'click', function(event) {
-                    addMarker(event.latLng, map);
-                });
-
-                //FIXME ONLY FOR NO API OPERATIONS
-                var positions = {{ positions|safe }};
-                for(var i=1;i<positions.length;i++){
-                    var marker = new google.maps.Marker({position: positions[i].position,
-                        map: map,
-                        icon: {
-                            url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
-                    }});
-                    //markers.push(marker);
-                    app.addNewTodo(marker,'Marcador'+i.toString());
-                }
-
-                {#Search for places#}
-                var autocomplete = new google.maps.places.Autocomplete(input);
-                autocomplete.bindTo('bounds', map);
-                // Specify just the place data fields that you need.
-                autocomplete.setFields(['place_id', 'geometry', 'name']);
-                autocomplete.addListener('place_changed', function() {
-
-                    var place = autocomplete.getPlace();
-                    if (!place.geometry) {
-                        return;
-                    }
-                    if (place.geometry.viewport) {
-                        map.fitBounds(place.geometry.viewport);
-                    } else {
-                        map.setCenter(place.geometry.location);
-                        map.setZoom(17);
-                    }
-                    var mark = new google.maps.Marker({
-                        position: place.geometry.location,
-                        map: map
-                    });
-                    addMarker(mark.position,map);
-
-                });
-
-            }
-            var cont_aux=0;
-            var geocoder = new google.maps.Geocoder;
-            function addMarker(location, map) {
-                {#geocoder.geocode({'location': location}, function(results, status) {#}
-                {#    if (status === google.maps.GeocoderStatus.OK) {#}
-                {#        if (results[1]) {#}
-                {#            //console.log(results[0].place_id);#}
-                {#            var marker = new google.maps.Marker({#}
-                {#                position: location,#}
-                {#                map: map,#}
-                {#                //draggable: true,#}
-                {#                icon: {#}
-                {#                    url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"#}
-                {#                }#}
-                {#            });#}
-                {##}
-                            {#saveMarker(marker);#}
-                {#            var infowindow = new google.maps.InfoWindow({content: results[2].formatted_address });#}
-                {#            infowindow.open(map,marker);#}
-                {#            marker.addListener('click', function() {#}
-                {#                infowindow.open(map, marker);#}
-                {#            });#}
-                {#            markers.push(marker);#}
-                {#            metrominuto_app.addNewTodo(marker,results[2].formatted_address);#}
-                            {#varVue.markers_list.push({id:varVue.cont, texto:results[2].formatted_address});#}
-                            {#varVue.addNewTodo({id:varVue.cont, texto:results[2].formatted_address});#}
-                            {#varVue.cont++;#}
-                {#        } else {#}
-                {#            window.alert('No results found');#}
-                {#        }#}
-                {#    }#}
-                {#});#}
-                //FIXME
-                var marker = new google.maps.Marker({
-                                position: location,
-                                map: map,
-                                //draggable: true,
-                                icon: {
-                                    url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
-                                }
-                            });
-                app.addNewTodo(marker,'Marcador'+cont_aux.toString());
-                cont_aux++;
-            }
-
-            // Deletes all markers in the array by removing references to them.
-            function deleteMarkers() {
-                for (var i = 0; i < app.markers_list.length; i++) {
-                    app.markers_list[i].mark.setMap(null);
-                }
-                app.markers_list = [];
-            }
-            google.maps.event.addDomListener(window, 'load', initMap);
-
-            {#  VUE  delimiters:['[[',']]'] #}
-
-            var app = new Vue({
-                el: "#app",
-                delimiters:['[[',']]'],
-                selectAll: false,
-                data() {
-                    return {
-                        cont:0,
-                        markers_list: [
-
-                        ],
-                        checked:[],
-                        central_markers:[]
-                    }
-                },
-                methods: {
-                    addNewTodo: function (mark, text) {
-                        this.markers_list.push({
-                            id:this.cont,
-                            mark:mark,
-                            text:text
-                        });
-                        this.cont++;
-                    },
-                    deleteMarker: function (item) {
-                        let index = this.markers_list.indexOf(item);
-                        app.markers_list[index].mark.setMap(null);
-                        this.markers_list.splice(index,1)
-                    },
-                    setCentralMarker: function (item) {
-                        let index = this.markers_list.indexOf(item);
-                        if(this.central_markers.indexOf(item)==-1){ //si entra, cambiar color a central
-                            this.markers_list[index].mark.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
-                        }else{
-                            this.markers_list[index].mark.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
-                        }
-                    }
-                }
+        function initMap() {
+            let map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: {lat: 42.34, lng: -3.69 }
             });
+
+            var input = document.getElementById('pac-input');
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+
+            google.maps.event.addListener(map, 'click', function(event) {
+                addMarker(event.latLng, map);
+            });
+
+            //FIXME ONLY FOR NO API OPERATIONS
+            var positions = {{ positions|safe }};
+            for(var i=1;i<positions.length;i++){
+                var marker = new google.maps.Marker({position: positions[i].position,
+                    map: map,
+                    icon: {
+                        url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+                    }});
+                //markers.push(marker);
+                app.addNewTodo(marker,'Marcador'+i.toString());
+            }
+
+            {#Search for places#}
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            autocomplete.bindTo('bounds', map);
+            // Specify just the place data fields that you need.
+            autocomplete.setFields(['place_id', 'geometry', 'name']);
+            autocomplete.addListener('place_changed', function() {
+
+                var place = autocomplete.getPlace();
+                if (!place.geometry) {
+                    return;
+                }
+                if (place.geometry.viewport) {
+                    map.fitBounds(place.geometry.viewport);
+                } else {
+                    map.setCenter(place.geometry.location);
+                    map.setZoom(17);
+                }
+                var mark = new google.maps.Marker({
+                    position: place.geometry.location,
+                    map: map
+                });
+                addMarker(mark.position,map);
+
+            });
+
+        }
+        var cont_aux=0;
+        var geocoder = new google.maps.Geocoder;
+        function addMarker(location, map) {
+            {#geocoder.geocode({'location': location}, function(results, status) {#}
+            {#    if (status === google.maps.GeocoderStatus.OK) {#}
+            {#        if (results[1]) {#}
+            {#            //console.log(results[0].place_id);#}
+            {#            var marker = new google.maps.Marker({#}
+            {#                position: location,#}
+            {#                map: map,#}
+            {#                //draggable: true,#}
+            {#                icon: {#}
+            {#                    url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"#}
+            {#                }#}
+            {#            });#}
+            {##}
+            {#saveMarker(marker);#}
+            {#            var infowindow = new google.maps.InfoWindow({content: results[2].formatted_address });#}
+            {#            infowindow.open(map,marker);#}
+            {#            marker.addListener('click', function() {#}
+            {#                infowindow.open(map, marker);#}
+            {#            });#}
+            {#            markers.push(marker);#}
+            {#            metrominuto_app.addNewTodo(marker,results[2].formatted_address);#}
+            {#varVue.markers_list.push({id:varVue.cont, texto:results[2].formatted_address});#}
+            {#varVue.addNewTodo({id:varVue.cont, texto:results[2].formatted_address});#}
+            {#varVue.cont++;#}
+            {#        } else {#}
+            {#            window.alert('No results found');#}
+            {#        }#}
+            {#    }#}
+            {#});#}
+        //FIXME
+        var marker = new google.maps.Marker({
+            position: location,
+            map: map,
+            //draggable: true,
+            icon: {
+                url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+            }
+        });
+        app.addNewTodo(marker,'Marcador'+cont_aux.toString());
+        cont_aux++;
+        }
+
+        // Deletes all markers in the array by removing references to them.
+        function deleteMarkers() {
+            for (var i = 0; i < app.markers_list.length; i++) {
+                app.markers_list[i].mark.setMap(null);
+            }
+            app.markers_list = [];
+        }
+        google.maps.event.addDomListener(window, 'load', initMap);
+
+        {#  VUE  delimiters:['[[',']]'] #}
+
+        var app = new Vue({
+            el: "#app",
+            delimiters:['[[',']]'],
+            selectAll: false,
+            data() {
+                return {
+                    cont:0,
+                    markers_list: [
+
+                    ],
+                    checked:[],
+                    central_markers:[]
+                }
+            },
+            methods: {
+                addNewTodo: function (mark, text) {
+                    this.markers_list.push({
+                        id:this.cont,
+                        mark:mark,
+                        text:text
+                    });
+                    this.cont++;
+                    if (this.markers_list.length>15)
+                        alert("Máximo 15 marcadores. Elimina alguno.");
+                },
+                deleteMarker: function (item) {
+                    let index = this.markers_list.indexOf(item);
+                    app.markers_list[index].mark.setMap(null);
+                    this.markers_list.splice(index,1)
+                },
+                setCentralMarker: function (item) {
+                    let index = this.markers_list.indexOf(item);
+                    if(this.central_markers.indexOf(item)==-1){ //si entra, cambiar color a central
+                        this.markers_list[index].mark.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+                    }else{
+                        this.markers_list[index].mark.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+                    }
+                }
+            }
+        });
 
         }); //Close Document.ready
 

@@ -16,54 +16,6 @@ import os
 google_maps = googlemaps.Client(key=Config.GOOGLE_API_KEY)
 
 
-# @main.route("/", methods=['GET', 'POST'])
-# def show_map():
-#     longitude = -3.69
-#     latitude = 42.34
-#     with open('metrominuto_app/static/markers_example1.json') as markers_file:
-#         new_markers = json.load(markers_file)
-#     markers = []
-#     for element in new_markers:
-#         markers.append(element)
-#     # Se puede introducir código de places para cargar directamente el mapa donde queramos.
-#     return render_template(
-#         "map_template.html",
-#         latitud=latitude,
-#         longitud=longitude, API_KEY=Config.GOOGLE_API_KEY, positions=json.dumps(markers)
-#     )
-
-
-# @main.route("/setMarks", methods=['POST'])
-# def set_marks():
-#     # Contiene latlng de los marcadores del mapa.
-#     markers_aux = request.get_json()
-#     markers = markers_aux['marcadores']
-#     central_markers = markers_aux['centrales']
-#     # with open('static/markers_example1.json', 'w') as outfile:
-#     #     json.dump(markers, outfile)
-#     with open('metrominuto_app/static/markers_example1.json') as markers_file:
-#         new_markers = json.load(markers_file)
-#     markers = []
-#     for element in new_markers:
-#         markers.append(element)
-#     origins = []
-#     destinations = []
-#     for mark in markers:
-#         origins.append(mark['position'])
-#         destinations.append(mark['position'])
-#     now = datetime.now()
-#     # matrix = google_maps.distance_matrix(origins, destinations, mode=session['mode'], departure_time=now)
-#     # with open('static/distance_matrix_example1.json', 'w') as outfile_matrix:
-#     #     json.dump(matrix, outfile_matrix)
-#     with open('metrominuto_app/static/distance_matrix_example1.json') as matrix_file:
-#         matrix = json.load(matrix_file)
-#
-#     dist = Clr.get_distance_matrix_values(matrix)
-#     votes = gph.calculate_graph(dist, markers, central_markers, matrix)
-#     svg_f.generate_svg(votes)
-#     session['votes_number'] = -1
-#     return redirect(url_for('main.draw_svg'))
-
 @main.route("/", methods=['GET', 'POST'])
 def set_marks():
     with open('metrominuto_app/static/markers_example1.json') as markers_file:
@@ -83,6 +35,8 @@ def set_marks():
             origins.append(mark['position'])
             destinations.append(mark['position'])
         central_markers = json.loads(request.form['central_markers'])
+        # now = datetime.now() FIXME
+        # matrix = google_maps.distance_matrix(origins, destinations, mode, departure_time=now)
         with open('metrominuto_app/static/distance_matrix_example1.json') as matrix_file:
             matrix = json.load(matrix_file)
         dist = Clr.get_distance_matrix_values(matrix)
@@ -117,22 +71,6 @@ def draw_svg():
             form.number = form.min_votes
         svg = render_template('./grafo_svg.svg')
     return render_template('show_graph.html', form=form, svg=svg)
-
-
-# @main.route("/saveNumber", methods=['POST', 'GET'])
-# def save_number():
-#     num = int(request.get_data())
-#     graph = gph.connected_graph(num)
-#     svg_f.generate_svg(graph)
-#     return redirect(url_for('draw_svg'))
-
-# @metrominuto_app.route('/setMode', methods=['POST'])
-# def set_mode():
-#     mode_form = ModeForm()
-#     if mode_form.validate_on_submit():
-#         num = mode_form.number.data
-#         mode = mode_form.mode.data
-#     return render_template('map_template.html', form=mode_form)
 
 
 @main.route('/setMode', methods=['POST'])

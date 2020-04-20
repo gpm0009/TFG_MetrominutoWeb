@@ -79,11 +79,9 @@ def calculate_edges_votes(graph, tam, central_markers):
     votes = np.zeros((tam, tam))
     graph_nodes = list(graph.nodes(data='id'))
     for i in range(1, tam):
-        if graph_nodes[i][1] in central_markers_id:
-            print('IN')
-        else:
+        if graph_nodes[i][1] not in central_markers_id:
             random_graph = copy.deepcopy(graph)
-            print('OUT')
+            # print('OUT')
             random_graph.remove_node(str(i))
             mst = nx.minimum_spanning_edges(random_graph, weight='weight', data=True)
             edge_list_min = list(mst)  # make a list of the minimum edges

@@ -4,8 +4,11 @@
     This file contais the operations needed to convert NetworkX graph into
     SVG data.
 """
+import math
+
 import networkx as nx
 import svgwrite as svg
+import numpy as np
 from metrominuto_app import globals
 # from metrominuto_app import google_maps
 import os
@@ -37,7 +40,7 @@ def generate_svg(graph_votes):
                       viewBox='0 0.2 1 1.5', profile='full')
     id_color = 0
     for edge in (graph_votes.edges(data=True)):
-        color = select_color(id_color)
+        color = get_color(id_color)
         id_color = id_color + 1
         if id_color > colors.__len__()-1:
             id_color = 0
@@ -50,7 +53,8 @@ def generate_svg(graph_votes):
                         end=(end_y, end_x),
                         stroke=color, fill=color, stroke_width=0.01)
         medio_x, medio_y = mid_point(start_x, start_y, end_x, end_y)
-        time = dwg.text(edge[2]['duration'], insert=(medio_y + radio * 1.5, medio_x), stroke='none',
+        xx, yy = time_position(start_x, start_y, end_x, end_y)
+        time = dwg.text(edge[2]['duration'], insert=(yy, xx), stroke='none',
                         fill=color,
                         font_size=str(radio),
                         font_weight="bold",
@@ -72,7 +76,6 @@ def generate_svg(graph_votes):
         #                  font_weight="bold",
         #                  font_family="Arial")
         # dwg.add(label)
-        check_directions(node, node[1]['pos'][0], node[1]['pos'][1])
         label = dwg.text('Marcador'+node[0],
                          insert=(coord_y + radio * 1.5, coord_x + radio * 0.2),
                          stroke='none',
@@ -80,7 +83,7 @@ def generate_svg(graph_votes):
                          font_size=str(radio),
                          font_weight="bold",
                          font_family="Arial")
-        dwg.add(label)
+        # dwg.add(label)
     dwg.save(pretty=True)
     return 0
 
@@ -94,29 +97,15 @@ def mid_point(c_x, c_y, c_xx, c_yy):
 colors = ['pink', 'orange', 'red', 'brown', 'green', 'blue', 'grey', 'purple']
 
 
-def select_color(cont):
-    color = colors[cont]
-    return color
+def get_color(cont):
+    return colors[cont]
 
 
-def check_directions(node, pos_x, pos_y):
-    graph_nodes = list(globals.vote_global_graph.nodes(data=True)) #graph_nodes[1][0]
-    neighbors = []
-    for n in globals.vote_global_graph.neighbors(node[0]):
-        neighbors.append(n)
-    print('Padre:', node[0])
-    print('\tVecino: ', neighbors)
-    direction = ''
-    arriba = False
-    derecha = False
-    izquierda = False
-    abajo = False
-    for neighbors in neighbors:
-        if graph_nodes[0][1]['pos'][0] >= pos_x and graph_nodes[0][1]['pos'][1] > pos_y:
-            arriba = True
-            derecha = True
-        elif graph_nodes[0][1]['pos'][0] > pos_x and graph_nodes[0][1]['pos'][1] < pos_y:
-            abajo = True
-            derecha = True
-
-    return 0
+def time_position(x1, y1, x2, y2):
+    distancia = math.sqrt((x2-x1)**2+(y2-y1)**2)
+    ax, ay = x2-x1, y2-y1
+    px_unitario, py_unitario = -ay/distancia, ax/distancia
+    pmx, pmy = (x2-x1)/2, (y2-y1)/2
+    x = 0.025 * px_unitario
+    y = 0.025 * py_unitario
+    return x, y
