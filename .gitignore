@@ -26,3 +26,6 @@ Metrominuto/.vscode/
 Metrominuto/.deployment
 
 Metrominuto/metrominuto_app/__pycache__/
+Google_API_Key.txt
+Metrominuto/metrominuto_app/templates/grafo_svg.svg
+Metrominuto/metrominuto_app/templates/grafo_svg.svg

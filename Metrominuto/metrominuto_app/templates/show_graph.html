@@ -1,35 +1,12 @@
 {% extends "base_template.html" %}
 
 {% block content %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename='css/show_graph.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <style>
 
-        .row{
-            margin-right: 10px;
-            margin-left: 10px;
-        }
-        .col-12{
-            display: flex;
-            align-items: center;
-            height: 1000px;
-        {#background: darkgreen;#}
-        }
-        .row > .col-12 > svg{
-        {#transform: rotate(-90deg);#}
-        {#background: purple;#}
-            align-items: center;
-        }
-        @media screen and (max-width: 1600px) {
-            .row > .col-12  {
-            {#transform: rotate(-90deg);#}
-                align-items: center;
-                margin-left: auto;
-                margin-right: auto;
-                width:900px;
-                height:600px;
-            }
-
-        }
     </style>
     <div class="row">
         <div class="col-md-6">
@@ -38,7 +15,6 @@
                 <input type="range" min="{{form.min_votes}}" value="{{form.number}}" max="{{form.max_votes}}"
                        class="form-control-range" id="formControlRange">
             </div>
-
         </div>
     </div>
     <div class="row" id="svg">
@@ -61,7 +37,7 @@
                 }).fail(function() {
                     console.log('ERROR');
                 });
-        });
+            });
         });
     </script>
 {% endblock %}

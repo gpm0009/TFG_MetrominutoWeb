@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <!-- Define a viewport for Bootstrap's responsive rendering -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metrominuto</title>
+
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <!-- Vuejs. Versión de desarrollo, incluye advertencias de ayuda en la consola -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle"
+                    data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <span class="navbar-brand">Metrominuto</span>
+            <a href="{{ url_for('main.set_marks') }}" class="navbar-brand">Mapa</a>
+        </div>
+    </div>
+</nav>
+
+<!-- "content" block that pages are expected to override -->
+<div class="container body-content">
+    {% block content %}{% endblock %}
+    <hr />
+    <footer>
+        <p>&copy; 21.04.20 - My Flask Application</p>
+    </footer>
+</div>
+
+<!-- Additional scripts; use the "scripts" block to add page-specific scripts.  -->
+
+{% block scripts %}{% endblock %}
+
+</body>
+</html>

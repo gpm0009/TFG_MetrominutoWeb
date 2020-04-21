@@ -3,6 +3,12 @@
 {% block title %}Metrominuto{% endblock %}
 
 {% block styles %}
+    <style>
+        .navbar-brand {
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+    </style>
     {{ super() }}
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static', filename='css/style.css') }}">
@@ -26,6 +32,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <span class="navbar-brand">Metrominuto</span>
+                <a href="{{ url_for('main.set_marks') }}" class="navbar-brand">Mapa</a>
             </div>
         </div>
     </nav>
