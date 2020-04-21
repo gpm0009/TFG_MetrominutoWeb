@@ -52,7 +52,6 @@ def generate_svg(graph_votes):
                         start=(start_y, start_x),
                         end=(end_y, end_x),
                         stroke=color, fill=color, stroke_width=0.01)
-        medio_x, medio_y = mid_point(start_x, start_y, end_x, end_y)
         xx, yy = time_position(start_x, start_y, end_x, end_y)
         time = dwg.text(edge[2]['duration'], insert=(yy, xx), stroke='none',
                         fill=color,
@@ -88,12 +87,6 @@ def generate_svg(graph_votes):
     return 0
 
 
-def mid_point(c_x, c_y, c_xx, c_yy):
-    x = (c_x + c_xx) / 2
-    y = (c_y + c_yy) / 2
-    return x, y
-
-
 colors = ['pink', 'orange', 'red', 'brown', 'green', 'blue', 'grey', 'purple']
 
 
@@ -102,10 +95,13 @@ def get_color(cont):
 
 
 def time_position(x1, y1, x2, y2):
-    distancia = math.sqrt((x2-x1)**2+(y2-y1)**2)
-    ax, ay = x2-x1, y2-y1
-    px_unitario, py_unitario = -ay/distancia, ax/distancia
-    pmx, pmy = (x2-x1)/2, (y2-y1)/2
-    x = 0.025 * px_unitario
-    y = 0.025 * py_unitario
+    vpx = -(y2 - y1)
+    vpy = x2 - x1
+    dist = np.sqrt(vpx ** 2 + vpy ** 2)
+    unitario_x = vpx/dist
+    unitario_y = vpy/dist
+    pm_x = (x1 + x2)/2
+    pm_y = (y1 + y2)/2
+    x = pm_x - 0.09 * unitario_x
+    y = pm_y - 0.09 * unitario_y
     return x, y

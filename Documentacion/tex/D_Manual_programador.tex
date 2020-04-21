@@ -11,18 +11,36 @@
 En este apéndice se va a definir todo aquello que es necesario conocer para que se pueda continuar con el desarrollo del proyecto, desde su estructura hasta una breve descripción de como instalar la aplicación y configurar nuestro entorno de trabajo para llevar a cabo el desarrollo.
 
 \section{Estructura de directorios}
+En este proyecto, aunque al principio se siguieron distintos tutoriales sobre cómo crear la estructura de directorios y ficheros, al final se optó por la opción que propone Azure. De este modo, a la hora de realizar el despliegue no tendríamos ningún tipo de problema, ya que esta plataforma requiere determinados ficheros de configuración que se explicarán a continuación.
 La estructura del proyecto se divide en:
 \dirtree{%
 	.1 / Directorio raíz.
-	.2 Documentacion/ -Documentación del proyecto.
+	.2 Documentación/ -Documentación del proyecto.
 	.3 img/ -Imágenes de la documentación.
 	.3 tex/ -Secciones de la documentación.
 	.3 anexos.pdf -Anexos del proyecto.
 	.3 memoria.pdf -Memoria del proyecto.
 	.2 HolaMundo/ -App web básica.
-	.2 Metrominuto/ -Aplicación web.
-	.3 static/ -ficheros JavaScript.
-	.3 templates/ -ficheros HTML.
+	.2 Metrominuto/ -Directorio del proyecto web.
+	.3 metrominuto\_app/ -Aplicación web.
+	.4 main/ -Directorio que inicializa el blueprint de la aplicación.
+	.5 \texttt{init.py} -Inicialización.
+	.5 forms.py -Contiene los formularios de la aplicación.
+	.5 routes.py -Contiene las rutas de la aplicación.
+	.4 static/ -ficheros JavaScript.
+	.5 css/ -Estilos.
+	.5 img/ -Imágenes.
+	.5 templates/ -ficheros HTML.
+	.4 init.py -Inicializa la aplicación.
+	.4 calculateRoute.py -Operaciones con el API de Google.
+	.4 globals.py -Variables globales del proyecto.
+	.4 graphs.py -Operaciones con grafos.
+	.4 svgfunctions.py -Operaciones para dibujar.
+	.4 webapp.py .
+	.3 config.py -Fichero de configuración.
+	.3 metrominuto.py -Punto de entrada para iniciar la aplicación.
+	.3 metrominuto.txt -Fichero necesario para desplegar en Azure.
+	.3 requirements.txt -Dependencias necesarias para ejecutar el proyecto.
 }
 
 \section{Manual del programador}

@@ -1,6 +1,7 @@
 {% extends "base_template.html" %}
 
 {% block content %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <style>
 
         .row{
@@ -32,11 +33,11 @@
     </style>
     <div class="row">
         <div class="col-md-6">
-                <div class="form-group">
-                    <label for="formControlRange">{{ form.number.label }}</label>
-                    <input type="range" min="{{form.min_votes}}" value="{{form.number}}" max="{{form.max_votes}}"
-                           class="form-control-range" id="formControlRange">
-                </div>
+            <div class="form-group">
+                <label for="formControlRange">{{ form.number.label }}</label>
+                <input type="range" min="{{form.min_votes}}" value="{{form.number}}" max="{{form.max_votes}}"
+                       class="form-control-range" id="formControlRange">
+            </div>
 
         </div>
     </div>
@@ -58,10 +59,9 @@
                      }, 1000)
                     console.log('OK');
                 }).fail(function() {
-                    {#$(destElem).text("{{ _('Error: Could not contact server.') }}");#}
                     console.log('ERROR');
                 });
-            });
+        });
         });
     </script>
 {% endblock %}

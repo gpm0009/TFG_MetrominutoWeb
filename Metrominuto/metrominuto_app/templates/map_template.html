@@ -1,75 +1,21 @@
 {% extends "base_template.html" %}
 
 {% block content %}
-    <style>
-        #map {
-            width: 100%;
-            height: 900px;
-        }
-        #buttons {
-            margin-left: 130px;
-            margin-top: 10px;
-        }
-        .row{
-            margin-right: 10px;
-            margin-left: 10px;
-        }
-
-        body {
-            font-family: Helvetica Neue, Arial, sans-serif;
-            font-size: 14px;
-            color: #444;
-        }
-
-        table {
-            border: 2px solid #42b983;
-            border-radius: 3px;
-            background-color: #fff;
-        }
-
-        th {
-            background-color: #42b983;
-            color: rgba(255,255,255,0.66);
-            cursor: pointer;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        td {
-            background-color: #f9f9f9;
-        }
-
-        th, td {
-            min-width: 120px;
-            padding: 10px 20px;
-        }
-        @media screen and (max-width: 1600px) {
-            .row  {
-                align-items: center;
-                margin-right: 10px;
-                margin-left: 10px;
-                height:600px;
-            }
-            .row > .col-md-8 > #map{
-                height: 600px;
-                width: auto;
-            }
-
-        }
-    </style>
+    {{ super() }}
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename='css/map_template.css') }}">
     <script src="https://maps.googleapis.com/maps/api/js?key={{API_KEY}}&libraries=places"> type="text/javascript"</script>
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename='css/modal.css') }}">
     <div class="row">
         <div class="col-md-8 col-sm-12">
             <input id="pac-input"
                    type="text"
                    placeholder="Enter a location">
-            <div id="map" v-if="markers_list"></div>
+            <div id="map"></div>
         </div>
         <div class="col-md-4 col-sm-12">
             <div id="app">
-                <h2>MARCADORES:</h2>
                 <table>
                     <thead>
                     <tr>
@@ -112,28 +58,6 @@
             {{ form.submit(class="btn btn-primary") }}
         </form>
     </div>
-    <!-- Botón en HTML (lanza el modal en Bootstrap) -->
-<a href="#victorModal" role="button" class="btn btn-large btn-primary" data-toggle="modal">Abrir ventana modal</a>
-
-<!-- Modal / Ventana / Overlay en HTML -->
-<div id="victorModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">¿Estás seguro?</h4>
-            </div>
-            <div class="modal-body">
-                <p>¿Seguro que quieres borrar este elemento?</p>
-                <p class="text-warning"><small>Si lo borras, nunca podrás recuperarlo.</small></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-danger">Eliminar</button>
-            </div>
-        </div>
-    </div>
-</div>
     </body>
 {% endblock %}
 {% block scripts %}
@@ -336,7 +260,7 @@
             }
         });
 
-        }); //Close Document.ready
+        }) //Close Document.ready
 
     </script>
 {% endblock %}

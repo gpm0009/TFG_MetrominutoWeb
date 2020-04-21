@@ -10,7 +10,7 @@ instance/
 .idea/
 
 /Metrominuto/templates/grafo_svg.svg
-
+/env37
 venv/
 
 Metrominuto/app/static/img/grafo_svg.svg

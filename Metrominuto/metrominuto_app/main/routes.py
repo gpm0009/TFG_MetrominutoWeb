@@ -26,8 +26,6 @@ def set_marks():
     origins = []
     destinations = []
     form = MapForm()
-    print(request.method)
-    print(form.validate_on_submit())
     if request.method == 'POST':
         mode = form.mode.data
         request_markers = json.loads(request.form['markers'])
@@ -61,7 +59,7 @@ def draw_svg():
         session['votes_number'] = form.number
         graph = gph.connected_graph(form.number)
         svg_f.generate_svg(graph)
-        # return redirect(url_for('main.draw_svg'))
+        return redirect(url_for('main.draw_svg'))
     elif request.method == 'GET':
         form.max_votes = session['max_votes']
         form.min_votes = session['min_votes']
@@ -84,16 +82,11 @@ def set_mode():
 
 @main.route('/api/mensaje')
 def mensaje():
-    return render_template('vue_template.html')
+    # return render_template('vue_template.html')
+    return render_template('template.html')
 
 
-@main.route('/api/mensaje/prueba', methods=['GET', 'POST'])
+@main.route('/modal')
 def prueba():
-    form = MapForm()
-    if form.validate_on_submit():
-        values = json.loads(request.form['lista'])
-        for val in values:
-            print(val)
-        return jsonify(values)
-    render_template('prueba.html', form=form)
+    return render_template('vue_template.html')
 

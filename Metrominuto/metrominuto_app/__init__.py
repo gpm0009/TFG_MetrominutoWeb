@@ -4,7 +4,7 @@
     Web application to automate the process of creating synoptics map,
     metrominutos
 """
-import googlemaps
+# import googlemaps
 from config import Config
 from flask_bootstrap import Bootstrap
 from flask import Flask
