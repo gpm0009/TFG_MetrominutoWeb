@@ -48,23 +48,26 @@ def draw(graph_votes):
             id_color = 0
         start = [1.4 - (positions[edge[0]][0] - min_x) / dif_x, (positions[edge[0]][1] - min_y) / dif_y]
         end = [1.4 - (positions[edge[1]][0] - min_x) / dif_x, (positions[edge[1]][1] - min_y) / dif_y]
+        # Linea entre nodos
         line = add_line(dwg, start, end, color)
         dwg.add(line)
-        time_pos = calculate_time_position(start[0], start[1], end[0], end[1])
+        time_pos = calculate_time_position(start[0], start[1], end[0], end[1])  # punto medio mas
         time_label = add_label(dwg, time_pos, edge[2]['duration'], radio, color)
         dwg.add(time_label)
-        w, h = get_text_metrics('Arial', int(radio * 1000), edge[2]['duration'])
-        l1 = Point(start[1] + 0.01, start[0])  # top izquierda
-        r1 = Point(end[1], end[0] + 0.01)  # bottom derecha
-        l2 = Point(time_pos[1], time_pos[0] - h)  # top izquierda
-        r2 = Point(time_pos[1] + w, time_pos[0])  # bottom derecha
-        rect = dwg.rect(insert=(time_pos[1], time_pos[0]-h), size=(w, h),
+        w, h = get_text_metrics('Arial', int(radio * 1000), edge[2]['duration'])  # weight and height text.
+        pm = [(start[0] + end[0]) / 2, (start[1] + end[1]) / 2]
+        rect_texto = Rect(Punto(time_pos[1], time_pos[0]), w, h)
+        rect_linea = Rect(Punto(pm[1], pm[0]),abs(end[1]-pm[1]), end[0]-pm[0])
+        line_pm_text = add_line(dwg, time_pos, pm, 'black')
+        rect = dwg.rect(insert=(time_pos[1], time_pos[0] - h), size=(w, h),
                         stroke=color, fill=color, stroke_width=0.01)
         dwg.add(rect)
-        if doOverlap(l1, r1, l2, r2):
+        dwg.add(line_pm_text)
+        if rect_texto.collide(rect_linea):  # doOverlap(l1_recta, r1_recta, l2_text, r2_text):
             print("Rectangles Overlap : ", edge[0], ' | ', edge[1])
         else:
-            print("Rectangles Don't Overlap")
+            print("Rectangles Don't Overlap: ", edge[0], ' | ', edge[1])
+
     for node in graph_votes.nodes(data=True):
         point = [1.4 - (node[1]['pos'][0] - min_x) / dif_x, (node[1]['pos'][1] - min_y) / dif_y]
         circle = add_circle(dwg, point, radio, node[0])
@@ -98,6 +101,10 @@ def add_circle(dwg, pos, radio, name):
 
 def get_color(cont):
     return colors[cont]
+
+
+def dist_pont_to_point(a, b):
+    return np.sqrt(abs(a[1] - b[1]) ** 2 + abs(a[1] - b[0]) ** 2)
 
 
 def calculate_time_position(x1, y1, x2, y2):
@@ -141,3 +148,35 @@ class Point:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+
+
+class Punto:
+    def __init__(self, x=0, y=0):
+        self.x = x
+        self.y = y
+
+    def __str__(self):
+        return "(" + str(self.x) + ", " + str(self.y) + ")"
+
+    def distance(self, p):
+        return math.sqrt(abs(p.x - self.x) ** 2 + abs(p.y - self.y) ** 2)
+
+
+class Rect:
+    def __init__(self, p, w=0, h=0):
+        self.p = p
+        self.w = w
+        self.h = h
+
+    def collide(self, r):
+        # calculamos los valores de los lados
+        left = self.p.x
+        right = self.p.y + self.w
+        top = self.p.y + self.h
+        bottom = self.p.y
+        r_left = r.p.x
+        r_right = r.p.x + r.w
+        r_top = r.p.y + r.h
+        r_bottom = r.p.y
+        return right >= r_left and left <= r_right and top >= r_bottom and bottom <= r_top
+
