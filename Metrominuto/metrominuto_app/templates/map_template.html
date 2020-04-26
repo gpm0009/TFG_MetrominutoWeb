@@ -1,12 +1,10 @@
-{% extends "base_template.html" %}
-
+{#{% extends "base_template.html" %}#}
+{#{% block app_content %}#}
+{% extends "base.html" %}
 {% block content %}
-    {{ super() }}
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static', filename='css/map_template.css') }}">
     <script src="https://maps.googleapis.com/maps/api/js?key={{API_KEY}}&libraries=places"> type="text/javascript"</script>
-    <link rel="stylesheet" type="text/css"
-          href="{{ url_for('static', filename='css/modal.css') }}">
     <div class="row">
         <div class="col-md-8 col-sm-12">
             <input id="pac-input"
@@ -15,6 +13,12 @@
             <div id="map"></div>
         </div>
         <div class="col-md-4 col-sm-12">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Demasiados marcadores!</strong> Debes eliminar alguno.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <div id="app">
                 <table>
                     <thead>
@@ -34,7 +38,11 @@
                         </td>
                         <td>
                             <button type="button" class="btn btn-default" @click="deleteMarker(item)" aria-label="Remove">
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+{#                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>#}
+                                <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z"/>
+                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 01-1-1V2a1 1 0 011-1H6a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" clip-rule="evenodd"/>
+                                </svg>
                             </button>
                         </td>
                         <td>[[ item.text ]]</td>
@@ -44,27 +52,27 @@
             </div>
         </div>
     </div>
-    <div class="row" id="buttons">
-        <form id="myform" action="{{url_for('main.set_marks')}}" method="post" class="form-inline">
-            {{ form.hidden_tag() }}
-            <select id="select" class="form-control">
-                <option selected>Elige modo de desplazamiento</option>
-                {% for o in form.mode.choices %}
-                    <option value="{{ o[0] }}">{{ o[1] }}</option>
-                {% endfor %}
-            </select>
-            <input type='button' class="btn btn-primary" value='Borrar marcadores' id='removeButton'>
-            <input type='button' class="btn btn-primary" value='Guardar Marcadores' id='saveButton'>
-            {{ form.submit(class="btn btn-primary") }}
-        </form>
+    <div class="row">
+        <div class="col-md-8 col-sm-12">
+            <form id="myform" action="{{url_for('main.set_marks')}}" method="post" class="form-inline">
+                {{ form.hidden_tag() }}
+                <select id="select" class="form-control">
+                    <option selected>Elige modo de desplazamiento</option>
+                    {% for o in form.mode.choices %}
+                        <option value="{{ o.label }}">{{ o }}</option>
+                    {% endfor %}
+                </select>
+                <input type='button' class="btn btn-primary" value='Borrar marcadores' id='removeButton'>
+                <input type='button' class="btn btn-primary" value='Guardar Marcadores' id='saveButton'>
+                {{ form.submit(class="btn btn-primary") }}
+            </form>
+        </div>
     </div>
-    </body>
 {% endblock %}
 {% block scripts %}
     <script>
         $(document).ready(function boxes(){
-            {#Array que contendrá los marcadores del mapa#}
-            //var markers = [];
+            $(".alert").hide()
 
             $("#removeButton").click(function () {
                 deleteMarkers();
@@ -223,6 +231,7 @@
             el: "#app",
             delimiters:['[[',']]'],
             selectAll: false,
+            flag: false,
             data() {
                 return {
                     cont:0,
@@ -241,13 +250,18 @@
                         text:text
                     });
                     this.cont++;
-                    if (this.markers_list.length>15)
-                        alert("Máximo 15 marcadores. Elimina alguno.");
+                    if (this.markers_list.length>15){
+                        $(".alert").show();
+                        this.flag = true;
+                    }
                 },
                 deleteMarker: function (item) {
                     let index = this.markers_list.indexOf(item);
                     app.markers_list[index].mark.setMap(null);
                     this.markers_list.splice(index,1)
+                    if (this.flag = true && this.markers_list.length<15){
+                        $(".alert").hide();
+                    }
                 },
                 setCentralMarker: function (item) {
                     let index = this.markers_list.indexOf(item);
@@ -259,8 +273,6 @@
                 }
             }
         });
-
         }) //Close Document.ready
-
     </script>
 {% endblock %}

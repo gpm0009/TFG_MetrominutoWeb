@@ -7,15 +7,11 @@
     margin-top: 10px;
 }
 .row{
-    margin-right: 10px;
-    margin-left: 10px;
+    margin-right: 10px;!important;
+    margin-left: 10px;!important;
 }
 
-body {
-    font-family: Helvetica Neue, Arial, sans-serif;
-    font-size: 14px;
-    color: #444;
-}
+
 
 table {
     border: 2px solid #42b983;
@@ -41,16 +37,23 @@ th, td {
     min-width: 120px;
     padding: 10px 20px;
 }
-@media screen and (max-width: 1570px) {
-    .row  {
-        align-items: center;
-        margin-right: 10px;
-        margin-left: 10px;
-        height:550px;
-    }
-    .row > .col-md-8 > #map{
-        height: 550px;
-        width: auto;
-    }
 
+@media (min-width: 1700px){
+    .container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 1700px;
+    }
 }
+
+/*@media screen and (max-width: 1570px) {*/
+/*    .row  {*/
+/*        align-items: center;*/
+/*        margin-right: 10px;*/
+/*        margin-left: 10px;*/
+/*        height:550px;*/
+/*    }*/
+/*    .row > .col-md-8 > #map{*/
+/*        height: 550px;*/
+/*        width: auto;*/
+/*    }*/
+
+/*}*/
