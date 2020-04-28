@@ -6,20 +6,26 @@
 .col-12{
     display: flex;
     align-items: center;
-    height: 1000px;
+    height: 900px;
 }
 
 .row > .col-12 > svg{
     align-items: center;
 }
 
-@media screen and (max-width: 1600px) {
-    .row > .col-12  {
-
-        align-items: center;
-        margin-left: auto;
-        margin-right: auto;
-        width:900px;
-        height:600px;
+@media (min-width: 1700px){
+    .container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 1700px;
     }
 }
+
+/*@media screen and (max-width: 1600px) {*/
+/*    .row > .col-12  {*/
+
+/*        align-items: center;*/
+/*        margin-left: auto;*/
+/*        margin-right: auto;*/
+/*        width:900px;*/
+/*        height:600px;*/
+/*    }*/
+/*}*/

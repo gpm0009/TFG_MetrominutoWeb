@@ -1,9 +1,9 @@
 #map {
     width: 100%;
-    height: 900px;
+    height: 100%;
 }
 #buttons {
-    margin-left: 130px;
+
     margin-top: 10px;
 }
 .row{
@@ -11,7 +11,9 @@
     margin-left: 10px;!important;
 }
 
-
+.body-content {
+    padding-top: 5px;
+}
 
 table {
     border: 2px solid #42b983;
@@ -44,6 +46,16 @@ th, td {
     }
 }
 
+@media (min-width: 1200px) {
+    .container, .container-lg, .container-md, .container-sm, .container-xl {
+        max-width: 1140px;
+        max-height: 900px;
+    }
+    #map {
+        width: 100%;
+        height: 490px;
+    }
+}
 /*@media screen and (max-width: 1570px) {*/
 /*    .row  {*/
 /*        align-items: center;*/
