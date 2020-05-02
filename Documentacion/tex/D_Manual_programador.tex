@@ -97,8 +97,12 @@ $ pip install -r requirements.txt
 \end{lstlisting}
 
 \subsection{Claves de Google}
-Para la obtención de un \textit{Google API KEY} es necesario obtener los credenciales en  \url{https://console.developers.google.com/apis/credentials}.
-Después, dichos credenciales deben activarse para las APIs que utiliza este proyecto:
+Para la obtención de una \textit{Google API KEY} es necesario obtener los credenciales en  \url{https://console.developers.google.com/apis/credentials}.\\
+Una vez registrados en Google, en el caso de que no lo estuviésemos ya, debemos acceder a la \textit{consola}\footnote{\url{https://console.cloud.google.com}} y desplegar el panel de la parte izquierda.
+\imagen{panelGoogle}{Panel Google Console}
+
+Hacemos click sobre <<APIs y servicios>> - <<Credenciales>> y después sobre la clave que se nos ha generado anteriormente. Desde el apartado <<Restricciones de API>> podremos seleccionar que servicios queremos que proporcione nuestra clave.\\
+En concreto, para este proyecto debemos tener activados:
 \begin{itemize}
 	\item Directions.
 	\item Distance Matrix.
@@ -106,6 +110,7 @@ Después, dichos credenciales deben activarse para las APIs que utiliza este pro
 	\item Maps JavaScript.
 	\item Places.
 \end{itemize}
+
 
 Una vez que la tenemos, debemos incluirla en el proyecto. Para ello:
 \renewcommand{\lstlistingname}{Google Key}% Listing -> Algorithm
@@ -145,7 +150,7 @@ Language checking
 Una vez ahí, vemos que nos ofrece dos opciones para buscar diccionarios: \url{https://extensions.openoffice.org/de/search?f[0]=field_project_tags} o \url{https://extensions.libreoffice.org/extensions?getCategories=Dictionary&getCompatibility=any}. Elegimos cualquiera de ellas y descargamos el paquete del diccionario que queramos, y después lo importamos.
 
 
-\section{Librerías}
+\section{Bibliotecas}
 
 \subsection{NetworkX}
 Como ya he mencionado, esta biblioteca nos permite trabajar de una forma muy amplia y completa con grafos. A lo largo del proyecto se han usado:
@@ -160,11 +165,43 @@ Como ya he mencionado, esta biblioteca nos permite trabajar de una forma muy amp
 	\item \texttt{draw\_networkx()}: para dibujar el grafo.
 \end{itemize}
 
-
-
+\subsection{Despliegue de la aplicación en Azure}
+Antes de incluirlo voy a intertar desplegarlo desde un repositorio git (ya que he elegido pycharm para no decir ahora que uso VS Code).
 
 
 \section{Compilación, instalación y ejecución del proyecto}
+Para el desarrollo de este proyecto se ha usado PyCharm, por lo que esta guía esta orientada a este editor. Para Visual Studio Code puede visitarse el enlace \url{https://code.visualstudio.com/docs/python/tutorial-flask}, ya que la creación y ejecución del entorno virtual no es igual.
 
+\subsection{Python}
+Este proyecto está desarrollado con la versión 3.7.5, pero con para desarrollar la mínima es 3.6. Python se puede descargar desde el siguiente enlace: \url{https://www.python.org/downloads/}.
 
+\subsection{Instalación}
+La forma más cómoda de obtener todo el proyecto es mediante \textit{git}, usando el comando:
+\renewcommand{\lstlistingname}{Isntalación}% Listing -> Algorithm
+\renewcommand{\lstlistlistingname}{List of \lstlistingname s}
+\begin{lstlisting}[language=python,caption={Descargar el repositorio.}]
+ $ git clone <url_del_repositiorio>
+\end{lstlisting}
+Siendo \url{https://github.com/gpm0009/TFG_MetrominutoWeb} la URL del repositorio en \textit{GitHub}.
+\\
+Ya con el proyecto descargado, el siguiente paso es instalar las dependencias. Aunque se pueden instalar sobre la instalación global de Python, es recomendable usar un entorno virtual. Para ello, debemos abrir el directorio del proyecto desde Pycharm, y una vez que lo tengamos ir a \textit{Files - Settings - Project Interpreter - Add}, y seleccionar la opción de \textit{Virtual Envirorment} y a continuación creamos uno nuevo.
+\imagen{NewVirtualEnvirorment}{Creación del entorno virtual.}
+Después, el editor detectará automáticamente el fichero \textit{requirements.txt} y nos preguntará si queremos instalar las dependencias, a lo que le diremos que sí. De no ser así, hay que abrir la terminal en la parte inferior del editor y ejecutar el comando:
+\begin{lstlisting}[language=python,caption={Instalar dependencias en el entorno virtual.}]
+$ pip -r install requirements.txt
+\end{lstlisting}
+
+\subsection{Variables de entorno}
+Para que la aplicación funcione correctamente hay que definir las siguientes variables de entorno:
+\begin{itemize}
+	\item \textbf{GOOGLE\_API\_KEY:} clave obtenida anteriormente necesaria para obtener datos de Google.
+	\item \textbf{SECRET\_KEY:} clave necesaria por Flask.
+	\item \textbf{ENVIRORMENT:} en el que se está actualmente: development o production.
+\end{itemize}
+
+\subsection{Ejecución}
+Para la ejecución desde el editor, es necesario que hagamos una última configuración. Debemos ir a la parte superior derecha del editor y seleccionar \textit{Edit Configurations$\dots$}
+\imagen{ejecucion}{Ejecución del proyecto.}
+
+En esta pantalla tenemos que elegir el punto de entrada a la aplicación, que será el fichero \textit{metrominuto.py}, escribir el entorno en el que queremos ejecutar la aplicación y marcar la opción de Debug. Una vez hecho esto, ya podemos ejecutar la aplicación desde el panel superior derecho.
 \section{Pruebas del sistema}

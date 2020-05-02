@@ -1,3 +1,10 @@
+\lstset{basicstyle=\ttfamily,
+	showstringspaces=false,
+	commentstyle=\color{red},
+	keywordstyle=\color{blue},
+	frame=single
+}
+
 \capitulo{4}{Técnicas y herramientas}
 
 
@@ -20,31 +27,10 @@ Git maneja los distintos archivos del proyecto como un conjunto de copias instan
 
 
 \section{Herramientas}
-\subsection{Flask}
-Flask es un \textit{framework} de Python que nos permite crear aplicaciones cliente - servidor de una manera mas sencilla, y que no impone ninguna limitación respecto a estructura del proyecto ni a los componentes que usar durante el desarrollo~\cite{grinberg2014flask}.
-\\
-Ofrece servicios HTTP, pero para poder hacer uso de los contenidos HTML requiere de la utilización del motor de templates \textit{Jinja2}: lenguaje de plantillas que permite insertar datos procesados y texto predeterminado.
 
-\subsection{Bibliotecas}
-
-\subsubsection{Networkx}
-NetworkX es la biblioteca por excelencia de Python para trabajar con grafos y redes. Permite crear, manipular y estudiar su estructura.
-\\
-Características:
-\begin{itemize}
-	\item Estructuras de datos para grafos simples, grafos dirigidos y multigrafos.
-	\item Contiene la gran parte de algoritmos utilizados para el estudio y modificación de grafos.
-	\item Los nodos pueden ser <<cualquier cosa>> como por ejemplo texto, imágenes o números.
-	\item Los arcos pueden tener diferentes atributos o datos, como el peso, distancia\dots
-	\item Es de código abierto.
-\end{itemize}
-
-
-\subsubsection{Tube Map - D3}
-//incluir estructura archivo JSON y explicar lo que significan las diferentes opciones de dirección.
-Esta biblioteca permite dibujar mapas muy similares a los mapas que hoy podemos ver en el metro, con sus estaciones, paradas e intersecciones.
-\\
-Se intentó implementar en el proyecto durante dos Sprints, pero se llegó a la conclusión que no se podía generar la estructura necesaria en el archivo JSON para el dibujado del mapa. Esta estructura debía contener coordenadas con números enteros y estar ordenadas de tal forma que se indicasen las esquinas y cruces que debía haber.
+\subsection{Estándar Python Enhancement Proposal número 8- PEP8}
+En este proyecto se ha seguido la guía de estilos \textit{PEP8}, guía única que define cómo debería estar escrito el código y la forma de nombrar variables, funciones, clases o los comentarios del mismo.
+¿Mencionar algunos aspectos importante de ella, o no hace falta?
 
 \subsection{Entorno de desarrollo Integrado (IDE)}
 Para el desarrollo del proyecto, se valoraron inicialmente dos editores:
@@ -53,6 +39,11 @@ Para el desarrollo del proyecto, se valoraron inicialmente dos editores:
 	\item PyCharm
 \end{itemize}
 Al inicio del proyecto se empezó trabajando con Visual Studio Code, pero tras darle una vuelta más se decidió usar Pycharm, ya que al estar orientado el proyecto a Python este IDE ofreceía mejores opciones para el desarrollo.
+
+\subsection{Flask}
+Flask es un \textit{framework} de Python que nos permite crear aplicaciones cliente - servidor de una manera mas sencilla, y que no impone ninguna limitación respecto a estructura del proyecto ni a los componentes que usar durante el desarrollo~\cite{grinberg2014flask}.
+\\
+Ofrece servicios HTTP, pero para poder hacer uso de los contenidos HTML requiere de la utilización del motor de templates \textit{Jinja2}: lenguaje de plantillas que permite insertar datos procesados y texto predeterminado.
 
 
 \subsection{Google API}
@@ -72,7 +63,48 @@ Las APIs que se usan en este proyecto son:
 	\item \textbf{Directions API}: como respuesta nos devuelve las indicaciones a seguir para llegar desde el punto de inicio hasta el punto de destino. Además, puede configurarse para diferentes modos de trasporte, diferentes momentos de salida o llegada.
 \end{itemize}
 
+\subsection{Vue.js}
+\textit{Vue} es un framework progresivo utilizado para construir interfaces de usuario. Está enfocado únicamente a la capa de visualización, por lo que resulta sencillo integrarlo con otras librerías o incluso en proyectos ya existentes, como es este caso.
+Vue ofrece la posibilidad de instalar el cliente mediante \textit{Node.js}\footnote{\url{https://es.vuejs.org/v2/guide/installation.html}}, aunque también permite integrarlo directamente en la capa de visualización incluyendo en los templates del proyecto el \textit{cdn}:
 
+\renewcommand{\lstlistingname}{Vue.js cdn}% Listing -> Algorithm
+\renewcommand{\lstlistlistingname}{List of \lstlistingname s}
+\begin{lstlisting}[language=html,caption={Versión de desarrollo.}]
+<script
+src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"
+</script>
+\end{lstlisting}
+o con
+\begin{lstlisting}[language=html,caption={Versión de producción.}]
+<script
+src="https://cdn.jsdelivr.net/npm/vue"
+</script>
+\end{lstlisting}
+La versión de desarrollo ofrece distintas alertas o advertencias que permiten realizar diferentes trazas a la hora de localizar posibles errores, mientras que la versión de producción está optimizada en cuanto a tamaño y velocidad.
+\\
+Para poder utilizar \textit{Vue} en nuestros templates, además de incluir el \textit{cdn} debemos crear un componente\footnote{\url{https://vuejs.org/v2/guide/components.html}}, al que le añadiremos una variable. Esto se debe a que realmente la estructura y el nombre de los elementos de Vue es algo diferente a los que ya conocemos de \textit{HTML5}. También es importante tener en cuenta que Vue utiliza los mismos delimitadores que \textit{Flask}: <<\{\{ variable \}\}>>. Es por esto por lo que a nuestro componente o variable debemos añadir la línea <<delimiters:['[[',']]']>> para cambiarlos.
+
+
+\section{Bibliotecas}
+
+\subsection{Networkx}
+NetworkX es la biblioteca por excelencia de Python para trabajar con grafos y redes. Permite crear, manipular y estudiar su estructura.
+\\
+Características:
+\begin{itemize}
+	\item Estructuras de datos para grafos simples, grafos dirigidos y multigrafos.
+	\item Contiene la gran parte de algoritmos utilizados para el estudio y modificación de grafos.
+	\item Los nodos pueden ser <<cualquier cosa>> como por ejemplo texto, imágenes o números.
+	\item Los arcos pueden tener diferentes atributos o datos, como el peso, distancia\dots
+	\item Es de código abierto.
+\end{itemize}
+
+
+\subsection{Tube Map - D3}
+//incluir estructura archivo JSON y explicar lo que significan las diferentes opciones de dirección.
+Esta biblioteca permite dibujar mapas muy similares a los mapas que hoy podemos ver en el metro, con sus estaciones, paradas e intersecciones.
+\\
+Se intentó implementar en el proyecto durante dos Sprints, pero se llegó a la conclusión que no se podía generar la estructura necesaria en el archivo JSON para el dibujado del mapa. Esta estructura debía contener coordenadas con números enteros y estar ordenadas de tal forma que se indicasen las esquinas y cruces que debía haber.
 
 
 \subsection{Documentación}
