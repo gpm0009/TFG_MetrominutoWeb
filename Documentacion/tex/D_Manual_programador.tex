@@ -10,7 +10,7 @@
 \section{Introducción}
 En este apéndice se va a definir todo aquello que es necesario conocer para que se pueda continuar con el desarrollo del proyecto, desde su estructura hasta una breve descripción de como instalar la aplicación y configurar nuestro entorno de trabajo para llevar a cabo el desarrollo.
 
-\section{Estructura de directorios}
+\section{Estructura de directorios}\label{cap:Estructura}
 En este proyecto, aunque al principio se siguieron distintos tutoriales sobre cómo crear la estructura de directorios y ficheros, al final se optó por la opción que propone Azure. De este modo, a la hora de realizar el despliegue no tendríamos ningún tipo de problema, ya que esta plataforma requiere determinados ficheros de configuración que se explicarán a continuación.
 La estructura del proyecto se divide en:
 \dirtree{%
@@ -204,4 +204,11 @@ Para la ejecución desde el editor, es necesario que hagamos una última configu
 \imagen{ejecucion}{Ejecución del proyecto.}
 
 En esta pantalla tenemos que elegir el punto de entrada a la aplicación, que será el fichero \textit{metrominuto.py}, escribir el entorno en el que queremos ejecutar la aplicación y marcar la opción de Debug. Una vez hecho esto, ya podemos ejecutar la aplicación desde el panel superior derecho.
+
+\subsection{Despliegue en Azure}
+Para realizar el despligue de la aplicación en Azure es necesario que el proyecto tenga una estructura concreta, ya que serán los servicios de Azure los que instalen las dependencias necesarias y ejecuten el código. 
+Para ello, esta estructura en la que se contempla y define en el apartado Estructura de directorios \ref{cap:Estructura}.
+
+He hecho el despliegue usando VS Code, igual no queda bonito decir que lo he usado después de usar PyCharm. Voy a probar a desplegarlo desde git y lo incluyo. 
+
 \section{Pruebas del sistema}
