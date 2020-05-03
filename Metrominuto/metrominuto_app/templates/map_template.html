@@ -118,7 +118,12 @@
 
 
             google.maps.event.addListener(map, 'click', function(event) {
-                addMarker(event.latLng, map);
+                if (app.markers_list.length>=15){
+                    $(".alert").show();
+                }else {
+                    addMarker(event.latLng, map);
+                }
+
             });
 
             //FIXME ONLY FOR NO API OPERATIONS
@@ -234,16 +239,13 @@
                         text:text
                     });
                     this.cont++;
-                    if (this.markers_list.length>15){
-                        $(".alert").show();
-                        this.flag = true;
-                    }
+
                 },
                 deleteMarker: function (item) {
                     let index = this.markers_list.indexOf(item);
                     app.markers_list[index].mark.setMap(null);
                     this.markers_list.splice(index,1)
-                    if (this.flag = true && this.markers_list.length<15){
+                    if (this.markers_list.length<15){
                         $(".alert").hide();
                     }
                 },
