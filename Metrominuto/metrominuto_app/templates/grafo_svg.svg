@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <svg baseProfile="full" height="100%" version="1.1" viewBox="0 0.2 1 1.5" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs/>
-  <text fill="pink" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.4798353850189797" y="1.3859571846428342">6 mins</text>
   <line fill="pink" id="line" stroke="pink" stroke-width="0.01" x1="0.3977635782747604" x2="0.6622312331524568" y1="1.2224650912033492" y2="1.4"/>
-  <text fill="orange" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.19829408173365992" y="1.1337657522472029">7 mins</text>
+  <text fill="pink" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.5160635110762116" y="1.3319893897797743">6 mins</text>
   <line fill="orange" id="line" stroke="orange" stroke-width="0.01" x1="0.3977635782747604" x2="0.0" y1="1.2224650912033492" y2="1.22506257547245"/>
-  <text fill="red" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.6132499195045906" y="0.8963143789011624">8 mins</text>
-  <line fill="red" id="line" stroke="red" stroke-width="0.01" x1="0.3977635782747604" x2="0.6597444089456869" y1="1.2224650912033492" y2="0.5081817819147015"/>
-  <text fill="brown" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.9044753591729957" y="0.9930306156960125">3 mins</text>
-  <line fill="brown" id="line" stroke="brown" stroke-width="0.01" x1="1.0" x2="0.9888178913738019" y1="0.8510315867481831" y2="1.1419434038950473"/>
-  <text fill="green" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="1.0872431101543072" y="0.624418311802848">4 mins</text>
-  <line fill="green" id="line" stroke="green" stroke-width="0.01" x1="1.0" x2="0.9944996037594855" y1="0.8510315867481831" y2="0.3999999999999999"/>
-  <text fill="blue" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.8547977231454668" y="0.5397299865854589">5 mins</text>
-  <line fill="blue" id="line" stroke="blue" stroke-width="0.01" x1="0.6597444089456869" x2="0.9944996037594855" y1="0.5081817819147015" y2="0.3999999999999999"/>
-  <text fill="grey" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.76972660753915" y="1.200355922913226">8 mins</text>
-  <line fill="grey" id="line" stroke="grey" stroke-width="0.01" x1="0.9888178913738019" x2="0.6622312331524568" y1="1.1419434038950473" y2="1.4"/>
+  <text fill="orange" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.19871853708079124" y="1.1987643663682614">7 mins</text>
+  <line fill="red" id="line" stroke="red" stroke-width="0.01" x1="0.0" x2="0.9888178913738019" y1="1.22506257547245" y2="1.1419434038950473"/>
+  <text fill="red" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.4965030385928929" y="1.2084151307980944">default</text>
+  <line fill="brown" id="line" stroke="brown" stroke-width="0.01" x1="0.0" x2="0.9944996037594855" y1="1.22506257547245" y2="0.3999999999999999"/>
+  <text fill="brown" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.5132122745745361" y="0.8317718559572516">default</text>
+  <line fill="green" id="line" stroke="green" stroke-width="0.01" x1="1.0" x2="0.6622312331524568" y1="0.8510315867481831" y2="1.4"/>
+  <text fill="green" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.7138231554878924" y="1.0744149880247362">default</text>
+  <line fill="blue" id="line" stroke="blue" stroke-width="0.01" x1="0.6597444089456869" x2="0.6622312331524568" y1="0.5081817819147015" y2="1.4"/>
+  <text fill="blue" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.6359879182443066" y="0.9541606028809255">default</text>
   <circle cx="0.3977635782747604" cy="1.2224650912033492" fill="black" id="node0" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.3977635782747604" y="1.2224650912033492">Marcador0</text>
   <circle cx="0.0" cy="1.22506257547245" fill="black" id="node1" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.0" y="1.22506257547245">Marcador1</text>
   <circle cx="1.0" cy="0.8510315867481831" fill="black" id="node2" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="1.0" y="0.8510315867481831">Marcador2</text>
   <circle cx="0.6597444089456869" cy="0.5081817819147015" fill="black" id="node3" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.6597444089456869" y="0.5081817819147015">Marcador3</text>
   <circle cx="0.9888178913738019" cy="1.1419434038950473" fill="black" id="node4" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.9888178913738019" y="1.1419434038950473">Marcador4</text>
   <circle cx="0.6622312331524568" cy="1.4" fill="black" id="node5" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.6622312331524568" y="1.4">Marcador5</text>
   <circle cx="0.9944996037594855" cy="0.3999999999999999" fill="black" id="node6" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.9944996037594855" y="0.3999999999999999">Marcador6</text>
 </svg>

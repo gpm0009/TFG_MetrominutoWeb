@@ -29,12 +29,13 @@ def set_marks():
     if request.method == 'POST':
         mode = form.mode.data
         request_markers = json.loads(request.form['markers'])
-        for mark in request_markers['markers']:
-            origins.append(mark['position'])
-            destinations.append(mark['position'])
+        # for mark in request_markers['markers']:
+        #     markers.append(mark)
+        #     origins.append(mark['position'])
+        #     destinations.append(mark['position'])
         central_markers = json.loads(request.form['central_markers'])
-        # now = datetime.now() FIXME
-        # matrix = google_maps.distance_matrix(origins, destinations, mode, departure_time=now)
+        # now = datetime.now()
+        # matrix = google_maps.distance_matrix(origins, destinations, 'walking', departure_time=now)
         with open('metrominuto_app/static/distance_matrix_example1.json') as matrix_file:
             matrix = json.load(matrix_file)
         dist = Clr.get_distance_matrix_values(matrix)
@@ -47,7 +48,7 @@ def set_marks():
     return render_template(
         'map_template.html',
         longitude=longitude,
-        latitude=latitude, API_KEY=Config.GOOGLE_API_KEY, positions=json.dumps(markers), form=form)
+        latitude=latitude, API_KEY=Config.GOOGLE_API_KEY, form=form, positions=json.dumps(markers))  # positions=json.dumps(markers)
 
 
 # @main.route('/graph', methods=['GET', 'POST'])

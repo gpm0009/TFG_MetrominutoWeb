@@ -5,8 +5,8 @@
     SVG data.
 """
 import math
-import tkinter.font as tkFont
-import tkinter as Tkinter
+#import tkinter as Tkinter
+#import tkinter.font as tkFont
 import networkx as nx
 import svgwrite as svg
 import numpy as np
@@ -42,6 +42,7 @@ def draw(graph_votes):
                       viewBox='0 0.2 1 1.5', profile='full')
     id_color = 0
     for edge in graph_votes.edges(data=True):
+        print("Start -> End: ", edge[0], ' | ', edge[1])
         color = get_color(id_color)
         id_color += 1
         if id_color > colors.__len__() - 1:
@@ -51,27 +52,35 @@ def draw(graph_votes):
         # Linea entre nodos
         line = add_line(dwg, start, end, color)
         dwg.add(line)
-        time_pos = calculate_time_position(start[0], start[1], end[0], end[1])  # punto medio mas
-        time_label = add_label(dwg, time_pos, edge[2]['duration'], radio, color)
-        dwg.add(time_label)
-        w, h = get_text_metrics('Arial', int(radio * 1000), edge[2]['duration'])  # weight and height text.
+        # punto de la recta perpendicular.
+        time_pos_negativa, time_pos_positiva = calculate_time_position(start[0], start[1], end[0], end[1])
+        # weight and height text.
+        text_weight, text_height = 0.096, 0.038  # get_text_metrics('Arial', int(radio * 1000), edge[2]['duration'])
+        # Punto medio sobre la recta.
         pm = [(start[0] + end[0]) / 2, (start[1] + end[1]) / 2]
-        rect_texto = Rect(Punto(time_pos[1], time_pos[0]), w, h)
-        rect_linea = Rect(Punto(pm[1], pm[0]),abs(end[1]-pm[1]), end[0]-pm[0])
-        line_pm_text = add_line(dwg, time_pos, pm, 'black')
-        rect = dwg.rect(insert=(time_pos[1], time_pos[0] - h), size=(w, h),
+
+        # text_pos = calculate_overlap(text_weight, text_height, start, end, time_pos_negativa, time_pos_positiva)
+        text_pos = calculate_overlap_bis(text_weight, text_height, start, end, time_pos_negativa, time_pos_positiva)
+        print('POSICIÓN = ', text_pos)
+        time_label = add_label(dwg, text_pos, edge[2]['duration'], radio, color)
+        dwg.add(time_label)
+
+        # dibujo rectangulo texto
+        rect = dwg.rect(insert=(text_pos[1], text_pos[0] - text_height),
+                        size=(text_weight, text_height),
                         stroke=color, fill=color, stroke_width=0.01)
-        dwg.add(rect)
-        dwg.add(line_pm_text)
-        if rect_texto.collide(rect_linea):  # doOverlap(l1_recta, r1_recta, l2_text, r2_text):
-            print("Rectangles Overlap : ", edge[0], ' | ', edge[1])
-        else:
-            print("Rectangles Don't Overlap: ", edge[0], ' | ', edge[1])
+        # dwg.add(rect)
+        # line_pm_text = add_line(dwg, time_pos_negativa, pm, 'black')
+        # dwg.add(line_pm_text)
+        # Rectangulo recta. Punto esquina inferior izquierda
+        # rect_linea = Rect(Punto(pm[1], pm[0]), abs(end[1] - pm[1]), end[0] - pm[0])
 
     for node in graph_votes.nodes(data=True):
         point = [1.4 - (node[1]['pos'][0] - min_x) / dif_x, (node[1]['pos'][1] - min_y) / dif_y]
         circle = add_circle(dwg, point, radio, node[0])
         dwg.add(circle)
+        text_weight, text_height = 0.12, 0.038  # get_text_metrics('Arial', int(radio * 1000), 'Marcador' + node[0])
+        pos_label = node_label_overlap(node, point, radio, text_weight, text_height, graph_votes)
         # text_label = google_maps.reverse_geocode((node[1]['pos'][0], node[1]['pos'][1]))[0]['formatted_address']
         node_label = add_label(dwg, point, 'Marcador' + node[0], radio, 'black')
         dwg.add(node_label)
@@ -108,26 +117,29 @@ def dist_pont_to_point(a, b):
 
 
 def calculate_time_position(x1, y1, x2, y2):
-    pos = []
+    pos_negativa = []
+    pos_positiva = []
     vpx = -(y2 - y1)
     vpy = x2 - x1
     dist = np.sqrt(vpx ** 2 + vpy ** 2)
     pm_x = (x1 + x2) / 2
     pm_y = (y1 + y2) / 2
-    pos.append(pm_x - 0.02 * (vpx / dist))
-    pos.append(pm_y - 0.02 * (vpy / dist))
-    return pos
+    pos_negativa.append(pm_x - 0.025 * (vpx / dist))
+    pos_negativa.append(pm_y - 0.025 * (vpy / dist))
+    pos_positiva.append(pm_x + 0.025 * (vpx / dist))
+    pos_positiva.append(pm_y + 0.025 * (vpy / dist))
+    return pos_negativa, pos_positiva
 
 
-def get_text_metrics(family, size, text):
+# def get_text_metrics(family, size, text):
     # initialize Tk so that font metrics will work
-    tk_root = Tkinter.Tk()
-    font = None
-    key = (family, size)
-    font = tkFont.Font(family=family, size=size)
-    assert font is not None
-    (w, h) = (font.measure(text), font.metrics('linespace'))
-    return w / 1000, h / 1000
+    # tk_root = Tkinter.Tk()
+    # font = None
+   #  key = (family, size)
+   #  font = Tkinter.font.Font(family=family, size=size)
+   # #  assert font is not None
+    # (w, h) = (font.measure(text), font.metrics('linespace'))
+  #  return w / 1000, h / 1000
 
 
 # Returns true if two rectangles(l1, r1)
@@ -142,12 +154,6 @@ def doOverlap(l1, r1, l2, r2):
         return False
 
     return True
-
-
-class Point:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
 
 
 class Punto:
@@ -180,3 +186,104 @@ class Rect:
         r_bottom = r.p.y
         return right >= r_left and left <= r_right and top >= r_bottom and bottom <= r_top
 
+
+def calculate_overlap(text_weight, text_height, start, end, time_pos_negativa, time_pos_positiva):
+    pm = [(start[0] + end[0]) / 2, (start[1] + end[1]) / 2]
+    weight_rect = abs(end[1] - pm[1])
+    height_rect = abs(end[0] - pm[0])
+    list_rect_text = []
+    rect_texto_negativa= Rect(Punto(time_pos_negativa[1], time_pos_negativa[0]), text_weight, text_height)
+    rect_texto_positiva = Rect(Punto(time_pos_positiva[1], time_pos_positiva[0]), text_weight, text_height)
+    list_rect_text.append(rect_texto_positiva)
+    list_rect_text.append(rect_texto_negativa)
+    list_pos = [time_pos_positiva, time_pos_negativa]
+
+    rect_right_top = Rect(Punto(pm[1], pm[0]), weight_rect, height_rect)
+    rect_right_bottom = Rect(Punto(pm[1], pm[0]-height_rect), weight_rect, height_rect)
+    rect_left_top = Rect(Punto(pm[1], pm[0] - height_rect), weight_rect, height_rect)
+    rect_left_bottom = Rect(Punto(pm[1]-weight_rect, pm[0]-height_rect), weight_rect, height_rect)
+
+    # 4 ifs para comprobar la dirección
+    if start[1] < end[1]:  # izq derecha
+        if end[0] > start[0]:  #sube
+            return [time_pos_positiva[0]+text_height/2, time_pos_positiva[1]]
+        else:
+            return [time_pos_negativa[0]+text_height/2, time_pos_negativa[1]]
+    if start[1] > end[1]:
+        if end[0] > start[0] or start[0] - end[0] < 0.004:
+            return [time_pos_positiva[0]+text_height/2, time_pos_positiva[1]]
+        else:
+            return [time_pos_negativa[0]+text_height/2, time_pos_negativa[1]]
+
+
+def calculate_overlap_bis(text_weight, text_height, start, end, time_pos_negativa, time_pos_positiva):
+    pm = [(start[0] + end[0]) / 2, (start[1] + end[1]) / 2]
+    weight_rect = abs(end[1] - pm[1])
+    height_rect = abs(end[0] - pm[0])
+
+    list_rect_text = []
+    list_rect_text.append(Rect(Punto(time_pos_negativa[1], time_pos_negativa[0]), text_weight, text_height))
+    list_rect_text.append(Rect(Punto(time_pos_negativa[1]-text_weight/2, time_pos_negativa[0]), text_weight, text_height))
+    list_rect_text.append(Rect(Punto(time_pos_negativa[1]-text_weight, time_pos_negativa[0]), text_weight, text_height))
+    list_rect_text.append(Rect(Punto(time_pos_negativa[1]-text_weight, time_pos_negativa[0]-text_height/2), text_weight, text_height))
+    list_rect_text.append(Rect(Punto(time_pos_negativa[1]-text_weight, time_pos_negativa[0]-text_height), text_weight, text_height))
+    list_rect_text.append(Rect(Punto(time_pos_negativa[1]-text_weight/2, time_pos_negativa[0]-text_height), text_weight, text_height))
+    list_rect_text.append(Rect(Punto(time_pos_negativa[1], time_pos_negativa[0]-text_height), text_weight, text_height))
+    list_rect_text.append(Rect(Punto(time_pos_negativa[1], time_pos_negativa[0]-text_height/2), text_weight, text_height))
+
+    list_rect_text.append(Rect(Punto(time_pos_positiva[1], time_pos_positiva[0]), text_weight, text_height))
+    list_rect_text.append(Rect(Punto(time_pos_positiva[1] + text_weight / 2, time_pos_positiva[0]), text_weight, text_height))
+    list_rect_text.append(Rect(Punto(time_pos_positiva[1] + text_weight, time_pos_positiva[0]), text_weight, text_height))
+    list_rect_text.append(Rect(Punto(time_pos_positiva[1] + text_weight, time_pos_positiva[0] + text_height / 2), text_weight, text_height))
+    list_rect_text.append(Rect(Punto(time_pos_positiva[1] + text_weight, time_pos_positiva[0] + text_height), text_weight, text_height))
+    list_rect_text.append(Rect(Punto(time_pos_positiva[1] + text_weight / 2, time_pos_positiva[0] + text_height), text_weight, text_height))
+    list_rect_text.append(Rect(Punto(time_pos_positiva[1], time_pos_positiva[0] + text_height), text_weight, text_height))
+    list_rect_text.append(Rect(Punto(time_pos_positiva[1], time_pos_positiva[0] + text_height / 2), text_weight, text_height))
+
+    rect_right_top = Rect(Punto(pm[1], pm[0]), weight_rect, height_rect)
+    rect_right_bottom = Rect(Punto(pm[1], pm[0] - height_rect), weight_rect, height_rect)
+    rect_left_top = Rect(Punto(pm[1], pm[0] - height_rect), weight_rect, height_rect)
+    rect_left_bottom = Rect(Punto(pm[1] - weight_rect, pm[0] - height_rect), weight_rect, height_rect)
+    list_rect = []
+    if start[1] < end[1] and abs(end[0] - start[0]) > 0.004:  # izq derecha
+        if end[0] < start[0]:  #sube
+            list_rect.append(rect_left_bottom)
+            list_rect.append(rect_right_top)
+        else:
+            list_rect.append(rect_left_top)
+            list_rect.append(rect_right_bottom)
+    elif start[1] > end[1] and abs(end[0] - start[0]) > 0.004:
+        if end[0] < start[0]:  #sube
+            list_rect.append(rect_right_bottom)
+            list_rect.append(rect_left_top)
+        else:
+            list_rect.append(rect_left_bottom)
+            list_rect.append(rect_right_top)
+    else:
+        return time_pos_negativa
+
+    for rect_text in list_rect_text:
+        for rect_line in list_rect:
+            if not rect_text.collide(rect_line):
+                return [rect_text.p.y, rect_text.p.x]
+
+    return 0
+
+
+def node_label_overlap(node, point, radio, text_weight, text_height, graph_votes):
+    point_rect = Rect(Rect(Punto(point[1], point[0]), radio, radio))
+    list_text_rects = []
+    # 8 esquinas alrededor del punto.
+    list_text_rects.append(Rect(Punto(point[1]+radio, point[0]+radio), text_weight, text_height))
+    list_text_rects.append(Rect(Punto(point[1]+radio, point[0]), text_weight, text_height))
+    list_text_rects.append(Rect(Punto(point[1]+radio, point[0]-radio), text_weight, text_height))
+    list_text_rects.append(Rect(Punto(point[1], point[0]-radio), text_weight, text_height))
+    list_text_rects.append(Rect(Punto(point[1]-radio, point[0]), text_weight, text_height))
+    list_text_rects.append(Rect(Punto(point[1]-radio, point[0]-radio), text_weight, text_height))
+    list_text_rects.append(Rect(Punto(point[1]-radio, point[0]), text_weight, text_height))
+    list_text_rects.append(Rect(Punto(point[1]-radio, point[0]+radio), text_weight, text_height))
+
+    for edge in graph_votes.edges(node[0], data=True):
+        print(edge)
+
+    return 0
