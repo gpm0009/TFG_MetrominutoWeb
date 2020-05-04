@@ -8,7 +8,7 @@ from datetime import datetime
 from metrominuto_app import svgfunctions as svg_f, graphs as gph, calculateRoute as Clr
 from flask import render_template, request, session, jsonify, redirect, url_for
 from config import Config
-from metrominuto_app.main.forms import Form, MapForm
+from metrominuto_app.main.forms import MapForm
 import googlemaps
 from metrominuto_app.main import main
 import os
@@ -74,12 +74,9 @@ def set_marks():
 
 @main.route('/graph', methods=['GET', 'POST'])
 def draw_svg():
-    form = Form()
     svg = None
-    form.max_votes = session['max_votes']
-    form.min_votes = session['min_votes']
     array = []
-    for i in range(0, int(form.max_votes)):
+    for i in range(0, int(session['max_votes'])):
         graph = gph.connected_graph(i)
         svg_f.draw(graph)
         svg = render_template('./grafo_svg.svg')
@@ -88,7 +85,7 @@ def draw_svg():
     # svg_f.draw(graph)
     # svg = render_template('./grafo_svg.svg')
     # array.append(svg)
-    return render_template('show_graph.html', form=form, lista=array)
+    return render_template('show_graph.html', max=session['max_votes'], min=session['min_votes'], lista=array)
 
 
 @main.route('/setMode', methods=['POST'])

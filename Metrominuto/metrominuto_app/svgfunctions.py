@@ -5,8 +5,8 @@
     SVG data.
 """
 import math
-#import tkinter as Tkinter
-#import tkinter.font as tkFont
+# import tkinter as Tkinter
+# import tkinter.font as tkFont
 import networkx as nx
 import svgwrite as svg
 import numpy as np
@@ -56,9 +56,6 @@ def draw(graph_votes):
         time_pos_negativa, time_pos_positiva = calculate_time_position(start[0], start[1], end[0], end[1])
         # weight and height text.
         text_weight, text_height = 0.096, 0.038  # get_text_metrics('Arial', int(radio * 1000), edge[2]['duration'])
-        # Punto medio sobre la recta.
-        pm = [(start[0] + end[0]) / 2, (start[1] + end[1]) / 2]
-
         # text_pos = calculate_overlap(text_weight, text_height, start, end, time_pos_negativa, time_pos_positiva)
         text_pos = calculate_overlap_bis(text_weight, text_height, start, end, time_pos_negativa, time_pos_positiva)
         print('POSICIÓN = ', text_pos)
@@ -132,14 +129,14 @@ def calculate_time_position(x1, y1, x2, y2):
 
 
 # def get_text_metrics(family, size, text):
-    # initialize Tk so that font metrics will work
-    # tk_root = Tkinter.Tk()
-    # font = None
-   #  key = (family, size)
-   #  font = Tkinter.font.Font(family=family, size=size)
-   # #  assert font is not None
-    # (w, h) = (font.measure(text), font.metrics('linespace'))
-  #  return w / 1000, h / 1000
+# initialize Tk so that font metrics will work
+# tk_root = Tkinter.Tk()
+# font = None
+#  key = (family, size)
+#  font = Tkinter.font.Font(family=family, size=size)
+# #  assert font is not None
+# (w, h) = (font.measure(text), font.metrics('linespace'))
+#  return w / 1000, h / 1000
 
 
 # Returns true if two rectangles(l1, r1)
@@ -192,28 +189,28 @@ def calculate_overlap(text_weight, text_height, start, end, time_pos_negativa, t
     weight_rect = abs(end[1] - pm[1])
     height_rect = abs(end[0] - pm[0])
     list_rect_text = []
-    rect_texto_negativa= Rect(Punto(time_pos_negativa[1], time_pos_negativa[0]), text_weight, text_height)
+    rect_texto_negativa = Rect(Punto(time_pos_negativa[1], time_pos_negativa[0]), text_weight, text_height)
     rect_texto_positiva = Rect(Punto(time_pos_positiva[1], time_pos_positiva[0]), text_weight, text_height)
     list_rect_text.append(rect_texto_positiva)
     list_rect_text.append(rect_texto_negativa)
     list_pos = [time_pos_positiva, time_pos_negativa]
 
     rect_right_top = Rect(Punto(pm[1], pm[0]), weight_rect, height_rect)
-    rect_right_bottom = Rect(Punto(pm[1], pm[0]-height_rect), weight_rect, height_rect)
+    rect_right_bottom = Rect(Punto(pm[1], pm[0] - height_rect), weight_rect, height_rect)
     rect_left_top = Rect(Punto(pm[1], pm[0] - height_rect), weight_rect, height_rect)
-    rect_left_bottom = Rect(Punto(pm[1]-weight_rect, pm[0]-height_rect), weight_rect, height_rect)
+    rect_left_bottom = Rect(Punto(pm[1] - weight_rect, pm[0] - height_rect), weight_rect, height_rect)
 
     # 4 ifs para comprobar la dirección
     if start[1] < end[1]:  # izq derecha
-        if end[0] > start[0]:  #sube
-            return [time_pos_positiva[0]+text_height/2, time_pos_positiva[1]]
+        if end[0] > start[0]:  # sube
+            return [time_pos_positiva[0] + text_height / 2, time_pos_positiva[1]]
         else:
-            return [time_pos_negativa[0]+text_height/2, time_pos_negativa[1]]
+            return [time_pos_negativa[0] + text_height / 2, time_pos_negativa[1]]
     if start[1] > end[1]:
         if end[0] > start[0] or start[0] - end[0] < 0.004:
-            return [time_pos_positiva[0]+text_height/2, time_pos_positiva[1]]
+            return [time_pos_positiva[0] + text_height / 2, time_pos_positiva[1]]
         else:
-            return [time_pos_negativa[0]+text_height/2, time_pos_negativa[1]]
+            return [time_pos_negativa[0] + text_height / 2, time_pos_negativa[1]]
 
 
 def calculate_overlap_bis(text_weight, text_height, start, end, time_pos_negativa, time_pos_positiva):
@@ -223,22 +220,40 @@ def calculate_overlap_bis(text_weight, text_height, start, end, time_pos_negativ
 
     list_rect_text = []
     list_rect_text.append(Rect(Punto(time_pos_negativa[1], time_pos_negativa[0]), text_weight, text_height))
-    list_rect_text.append(Rect(Punto(time_pos_negativa[1]-text_weight/2, time_pos_negativa[0]), text_weight, text_height))
-    list_rect_text.append(Rect(Punto(time_pos_negativa[1]-text_weight, time_pos_negativa[0]), text_weight, text_height))
-    list_rect_text.append(Rect(Punto(time_pos_negativa[1]-text_weight, time_pos_negativa[0]-text_height/2), text_weight, text_height))
-    list_rect_text.append(Rect(Punto(time_pos_negativa[1]-text_weight, time_pos_negativa[0]-text_height), text_weight, text_height))
-    list_rect_text.append(Rect(Punto(time_pos_negativa[1]-text_weight/2, time_pos_negativa[0]-text_height), text_weight, text_height))
-    list_rect_text.append(Rect(Punto(time_pos_negativa[1], time_pos_negativa[0]-text_height), text_weight, text_height))
-    list_rect_text.append(Rect(Punto(time_pos_negativa[1], time_pos_negativa[0]-text_height/2), text_weight, text_height))
+    list_rect_text.append(
+        Rect(Punto(time_pos_negativa[1] - text_weight / 2, time_pos_negativa[0]), text_weight, text_height))
+    list_rect_text.append(
+        Rect(Punto(time_pos_negativa[1] - text_weight, time_pos_negativa[0]), text_weight, text_height))
+    list_rect_text.append(
+        Rect(Punto(time_pos_negativa[1] - text_weight, time_pos_negativa[0] - text_height / 2), text_weight,
+             text_height))
+    list_rect_text.append(
+        Rect(Punto(time_pos_negativa[1] - text_weight, time_pos_negativa[0] - text_height), text_weight, text_height))
+    list_rect_text.append(
+        Rect(Punto(time_pos_negativa[1] - text_weight / 2, time_pos_negativa[0] - text_height), text_weight,
+             text_height))
+    list_rect_text.append(
+        Rect(Punto(time_pos_negativa[1], time_pos_negativa[0] - text_height), text_weight, text_height))
+    list_rect_text.append(
+        Rect(Punto(time_pos_negativa[1], time_pos_negativa[0] - text_height / 2), text_weight, text_height))
 
     list_rect_text.append(Rect(Punto(time_pos_positiva[1], time_pos_positiva[0]), text_weight, text_height))
-    list_rect_text.append(Rect(Punto(time_pos_positiva[1] + text_weight / 2, time_pos_positiva[0]), text_weight, text_height))
-    list_rect_text.append(Rect(Punto(time_pos_positiva[1] + text_weight, time_pos_positiva[0]), text_weight, text_height))
-    list_rect_text.append(Rect(Punto(time_pos_positiva[1] + text_weight, time_pos_positiva[0] + text_height / 2), text_weight, text_height))
-    list_rect_text.append(Rect(Punto(time_pos_positiva[1] + text_weight, time_pos_positiva[0] + text_height), text_weight, text_height))
-    list_rect_text.append(Rect(Punto(time_pos_positiva[1] + text_weight / 2, time_pos_positiva[0] + text_height), text_weight, text_height))
-    list_rect_text.append(Rect(Punto(time_pos_positiva[1], time_pos_positiva[0] + text_height), text_weight, text_height))
-    list_rect_text.append(Rect(Punto(time_pos_positiva[1], time_pos_positiva[0] + text_height / 2), text_weight, text_height))
+    list_rect_text.append(
+        Rect(Punto(time_pos_positiva[1] + text_weight / 2, time_pos_positiva[0]), text_weight, text_height))
+    list_rect_text.append(
+        Rect(Punto(time_pos_positiva[1] + text_weight, time_pos_positiva[0]), text_weight, text_height))
+    list_rect_text.append(
+        Rect(Punto(time_pos_positiva[1] + text_weight, time_pos_positiva[0] + text_height / 2), text_weight,
+             text_height))
+    list_rect_text.append(
+        Rect(Punto(time_pos_positiva[1] + text_weight, time_pos_positiva[0] + text_height), text_weight, text_height))
+    list_rect_text.append(
+        Rect(Punto(time_pos_positiva[1] + text_weight / 2, time_pos_positiva[0] + text_height), text_weight,
+             text_height))
+    list_rect_text.append(
+        Rect(Punto(time_pos_positiva[1], time_pos_positiva[0] + text_height), text_weight, text_height))
+    list_rect_text.append(
+        Rect(Punto(time_pos_positiva[1], time_pos_positiva[0] + text_height / 2), text_weight, text_height))
 
     rect_right_top = Rect(Punto(pm[1], pm[0]), weight_rect, height_rect)
     rect_right_bottom = Rect(Punto(pm[1], pm[0] - height_rect), weight_rect, height_rect)
@@ -246,14 +261,14 @@ def calculate_overlap_bis(text_weight, text_height, start, end, time_pos_negativ
     rect_left_bottom = Rect(Punto(pm[1] - weight_rect, pm[0] - height_rect), weight_rect, height_rect)
     list_rect = []
     if start[1] < end[1] and abs(end[0] - start[0]) > 0.004:  # izq derecha
-        if end[0] < start[0]:  #sube
+        if end[0] < start[0]:  # sube
             list_rect.append(rect_left_bottom)
             list_rect.append(rect_right_top)
         else:
             list_rect.append(rect_left_top)
             list_rect.append(rect_right_bottom)
     elif start[1] > end[1] and abs(end[0] - start[0]) > 0.004:
-        if end[0] < start[0]:  #sube
+        if end[0] < start[0]:  # sube
             list_rect.append(rect_right_bottom)
             list_rect.append(rect_left_top)
         else:
@@ -274,16 +289,17 @@ def node_label_overlap(node, point, radio, text_weight, text_height, graph_votes
     point_rect = Rect(Rect(Punto(point[1], point[0]), radio, radio))
     list_text_rects = []
     # 8 esquinas alrededor del punto.
-    list_text_rects.append(Rect(Punto(point[1]+radio, point[0]+radio), text_weight, text_height))
-    list_text_rects.append(Rect(Punto(point[1]+radio, point[0]), text_weight, text_height))
-    list_text_rects.append(Rect(Punto(point[1]+radio, point[0]-radio), text_weight, text_height))
-    list_text_rects.append(Rect(Punto(point[1], point[0]-radio), text_weight, text_height))
-    list_text_rects.append(Rect(Punto(point[1]-radio, point[0]), text_weight, text_height))
-    list_text_rects.append(Rect(Punto(point[1]-radio, point[0]-radio), text_weight, text_height))
-    list_text_rects.append(Rect(Punto(point[1]-radio, point[0]), text_weight, text_height))
-    list_text_rects.append(Rect(Punto(point[1]-radio, point[0]+radio), text_weight, text_height))
+    list_text_rects.append(Rect(Punto(point[1] + radio, point[0] + radio), text_weight, text_height))
+    list_text_rects.append(Rect(Punto(point[1] + radio, point[0]), text_weight, text_height))
+    list_text_rects.append(Rect(Punto(point[1] + radio, point[0] - radio), text_weight, text_height))
+    list_text_rects.append(Rect(Punto(point[1], point[0] - radio), text_weight, text_height))
+    list_text_rects.append(Rect(Punto(point[1] - radio, point[0]), text_weight, text_height))
+    list_text_rects.append(Rect(Punto(point[1] - radio, point[0] - radio), text_weight, text_height))
+    list_text_rects.append(Rect(Punto(point[1] - radio, point[0]), text_weight, text_height))
+    list_text_rects.append(Rect(Punto(point[1] - radio, point[0] + radio), text_weight, text_height))
 
     for edge in graph_votes.edges(node[0], data=True):
         print(edge)
+        print(graph_votes.nodes[edge[1]])
 
     return 0
