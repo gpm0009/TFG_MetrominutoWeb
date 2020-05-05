@@ -34,14 +34,24 @@ def calculate_graph(distances, nodes, central_markers, matrix):
         edges with distance, duration and votes as attributes.
     :rtype: NetworkX graph
     """
+    coords_x = []
+    coords_y = []
+    for node in nodes:
+        coords_x.append(node['position']['lng'])
+        coords_y.append(node['position']['lat'])
+    max_x, min_x = max(coords_x), min(coords_x)
+    max_y, min_y = max(coords_y), min(coords_y)
+    dif_x = (max_x - min_x)
+    dif_y = (max_y - min_y)
+
     graph = nx.Graph()
     min_graph = nx.Graph()
     nodes_name = 0
     for node in nodes:
-        graph.add_node(str(nodes_name), pos=(node['position']['lat'], node['position']['lng']), id=node['id'])
-        min_graph.add_node(str(nodes_name), pos=(node['position']['lat'], node['position']['lng']), id=node['id'])
+        graph.add_node(str(nodes_name), pos=((node['position']['lng'] - min_x) / dif_x, 1.4 - (node['position']['lat'] - min_y) / dif_y), id=node['id'])
+        min_graph.add_node(str(nodes_name), pos=((node['position']['lng'] - min_x) / dif_x, 1.4 - (node['position']['lat'] - min_y) / dif_y), id=node['id'])
         globals.vote_global_graph.add_node(str(nodes_name),
-                                           pos=(node['position']['lat'], node['position']['lng']),
+                                           pos=((node['position']['lng'] - min_x) / dif_x, 1.4 - (node['position']['lat'] - min_y) / dif_y),
                                            id=node['id'])
         nodes_name = nodes_name + 1
 
