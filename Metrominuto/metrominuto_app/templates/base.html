@@ -21,7 +21,25 @@
     <span class="navbar-brand">Metrominuto</span>
     <a href="{{ url_for('main.set_marks') }}" class="navbar-brand">Mapa</a>
 </nav>
-
+<div class="modal fade cookieModal" id="cookieModal" tabindex="-1" role="dialog" aria-labelledby="cookieModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="cookieModalLabel">Cookie Information and Consent Request</h2>
+                </div>
+                <div class="modal-body">
+                    <h4>Cookie Policy</h4>
+                    <p>[COOKIE MESSAGE HERE]</p>
+                    <p>
+                        <a href="" target="_blank">Click here to view our cookie policy</a>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button id="cookieModalConsent" type="button" class="btn btn-primary btn-lg btn-block" data-dismiss="modal">Accept</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {#<nav class="site-header sticky-top py-1">#}
 {#  <div class="container d-flex flex-column flex-md-row justify-content-between">#}
 {#    #}
@@ -47,6 +65,70 @@
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-{% block scripts %}{% endblock %}
+{% block scripts %}
+    <script>
+        (function () {
+            "use strict";
+
+            var cookieName = 'tplCookieConsent'; // The cookie name
+            var cookieLifetime = 0.001; // Cookie expiry in days
+
+            /**
+             * Set a cookie
+             * @param cname - cookie name
+             * @param cvalue - cookie value
+             * @param exdays - expiry in days
+             */
+            var _setCookie = function (cname, cvalue, exdays) {
+                var d = new Date();
+                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                var expires = "expires=" + d.toUTCString();
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            };
+
+            /**
+             * Get a cookie
+             * @param cname - cookie name
+             * @returns string
+             */
+            var _getCookie = function (cname) {
+                var name = cname + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
+            };
+
+            /**
+             * Should the cookie popup be shown?
+             */
+            var _shouldShowPopup = function () {
+                if (_getCookie(cookieName)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            };
+
+            // Show the cookie popup on load if not previously accepted
+            if (_shouldShowPopup()) {
+                $('#cookieModal').modal('show');
+            }
+
+            // Modal dismiss btn - consent
+            $('#cookieModalConsent').on('click', function () {
+                _setCookie(cookieName, 1, cookieLifetime);
+            });
+
+        })();
+    </script>
+{% endblock %}
 </body>
 </html>
