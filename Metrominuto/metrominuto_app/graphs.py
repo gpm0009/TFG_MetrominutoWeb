@@ -13,6 +13,53 @@ import copy
 from metrominuto_app import globals
 
 
+def calculate_positions(nodes):
+    coords_x = []
+    coords_y = []
+    for node in nodes:
+        coords_x.append(node['position']['lng'])
+        coords_y.append(node['position']['lat'])
+    max_x, min_x = max(coords_x), min(coords_x)
+    max_y, min_y = max(coords_y), min(coords_y)
+    dif_x = (max_x - min_x)
+    dif_y = (max_y - min_y)
+    node_positions = []
+    x_normalize = []
+    y_normalize = []
+    for node in nodes:
+        pos_x = (node['position']['lng'] - min_x) / dif_x
+        pos_y = 1.4 - (node['position']['lat'] - min_y) / dif_y
+        if pos_x == 0.0:
+            pos_x = -1.0
+        else:
+            pos_x = np.log10(pos_x)
+        x_normalize.append(pos_x)
+        if pos_y == 0.0:
+            pos_y = -1.0
+        else:
+            pos_y = np.log10(pos_y)
+            y_normalize.append(pos_y)
+        # print('ANTES', pos_x)
+        # pos_x = np.log10(pos_x)
+        # x_normalize.append(pos_x)
+        # print(pos_x)
+        # print('ANTES', pos_y)
+        # pos_y = np.log10(pos_y)
+        # y_normalize.append(pos_y)
+        # print(pos_y)
+        node_positions.append([pos_x, pos_y])
+    max_x_normalize, min_x_normalize = max(x_normalize), min(x_normalize)
+    max_y_normalize, min_y_normalize = max(y_normalize), min(y_normalize)
+    dif_x_normalize = (max_x_normalize - min_x_normalize)
+    dif_y_normalize = (max_y_normalize - min_y_normalize)
+    return_positions = []
+    for pos in node_positions:
+        x = (pos[0] - min_x_normalize) / dif_x_normalize
+        y = (pos[1] - min_y_normalize) / dif_y_normalize
+        return_positions.append([x, y])
+    return return_positions
+
+
 def calculate_graph(distances, nodes, central_markers, matrix):
     """
     
@@ -47,11 +94,24 @@ def calculate_graph(distances, nodes, central_markers, matrix):
     graph = nx.Graph()
     min_graph = nx.Graph()
     nodes_name = 0
+    new_positions = calculate_positions(nodes)
+    calculate_rejilla = []
     for node in nodes:
-        graph.add_node(str(nodes_name), pos=((node['position']['lng'] - min_x) / dif_x, 1.4 - (node['position']['lat'] - min_y) / dif_y), id=node['id'])
-        min_graph.add_node(str(nodes_name), pos=((node['position']['lng'] - min_x) / dif_x, 1.4 - (node['position']['lat'] - min_y) / dif_y), id=node['id'])
+        pos_x = (node['position']['lng'] - min_x) / dif_x
+        pos_y = 1.4 - (node['position']['lat'] - min_y) / dif_y
+        calculate_rejilla.append([pos_x, pos_y])
+    positions = rejilla(calculate_rejilla)
+    for node in nodes:
+        pos_x = positions[node['id']][0]
+        pos_y = positions[node['id']][1]
+        # pos_x = new_positions[node['id']][0]
+        # pos_y = new_positions[node['id']][1]
+        # print('POS = ', pos_x, ' | ', pos_y)
+        # print('POS_AUX = ', pos_x_aux, ' | ', pos_y_aux)
+        graph.add_node(str(nodes_name), pos=(pos_x, pos_y), id=node['id'])
+        min_graph.add_node(str(nodes_name), pos=(pos_x, pos_y), id=node['id'])
         globals.vote_global_graph.add_node(str(nodes_name),
-                                           pos=((node['position']['lng'] - min_x) / dif_x, 1.4 - (node['position']['lat'] - min_y) / dif_y),
+                                           pos=(pos_x, pos_y),
                                            id=node['id'])
         nodes_name = nodes_name + 1
 
@@ -63,6 +123,28 @@ def calculate_graph(distances, nodes, central_markers, matrix):
     # votes = nodes_votes(graph, nodes_name, min_graph)
     votes = calculate_edges_votes(graph, nodes_name, central_markers)
     return votes
+
+
+def rejilla(positions):
+    max_x, min_x = max(positions[:][0]), min(positions[:][0])
+    max_y, min_y = max(positions[:][1]), min(positions[:][1])
+    print('MIN ', min_x)
+    print('MAX ', max_x)
+
+    for tramo_x in np.arange(min_x, max_x, 0.07):
+        for i in range(0, positions.__len__()):
+
+            if tramo_x <= positions[i][0] <= (tramo_x+0.07):
+                print(tramo_x, '  ', positions[i][0], '  ', (tramo_x + 0.07))
+                positions[i][0] = (tramo_x + tramo_x+0.07) / 2
+                print('cambio X')
+
+    for tramo_y in np.arange(min_y, max_y, 0.07):
+        for j in range(0, positions.__len__()):
+            if tramo_y <= positions[j][1] <= tramo_y+0.07:
+                positions[j][1] = (tramo_y + tramo_y+0.07) / 2
+                print('cambio Y')
+    return positions
 
 
 def calculate_edges_votes(graph, tam, central_markers):
