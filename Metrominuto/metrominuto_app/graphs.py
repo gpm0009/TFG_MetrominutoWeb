@@ -120,12 +120,19 @@ def calculate_graph(distances, nodes, central_markers, matrix):
             if i != j:
                 graph.add_edge(str(i), str(j), weight=distances[i][j],
                                duration=matrix['rows'][i]['elements'][j]['duration']['text'])
-    # votes = nodes_votes(graph, nodes_name, min_graph)
     votes = calculate_edges_votes(graph, nodes_name, central_markers)
     return votes
 
 
 def rejilla(positions):
+    """Function that recalculates the positions of the nodes in order to establish a grid and align said nodes.
+
+    :param positions: list of nodes positions in order to be replace.
+    :type positions: list
+
+    :return positions: List of nodes with new position.
+    :rtype positions: list
+    """
     max_x, min_x = max(positions[:][0]), min(positions[:][0])
     max_y, min_y = max(positions[:][1]), min(positions[:][1])
     print('MIN ', min_x)
@@ -184,33 +191,6 @@ def calculate_edges_votes(graph, tam, central_markers):
                 globals.vote_global_graph.add_edge(pair[0], pair[1],
                                                    weight=pair[2]['weight'],
                                                    votes=votes[x, y], duration=pair[2]['duration'])
-    session['max_votes'] = votes.max()
-    session['min_votes'] = votes.min()
-    return globals.vote_global_graph
-
-
-# old
-def nodes_votes(graph, tam, min_graph):
-    weight = nx.get_edge_attributes(graph, 'weight')
-    votes = np.zeros((tam, tam))
-    edge_list = list(graph.edges(data=True))  # make a list of the edges
-    # votes_graph.clear()
-    # Bucle para sacar los votos aleatorios del grafo
-    for i in range(0, 50):
-        random_graph = sample(edge_list, k=tam - 2)
-        min_graph.clear()
-        for z in range(0, random_graph.__len__()):
-            min_graph.add_edge(random_graph[z][0], random_graph[z][1], weight=random_graph[z][2]['weight'])
-        mst = nx.minimum_spanning_edges(min_graph, weight='weight', data=True)
-        edge_list_min = list(mst)  # make a list of the edges
-        for pair in edge_list_min:
-            x = int(pair[0])
-            y = int(pair[1])
-            votes[x, y] = votes[x, y] + 1
-            globals.vote_global_graph.add_edge(random_graph[z][0], random_graph[z][1],
-                                               weight=weight[(random_graph[z][0], random_graph[z][1])],
-                                               votes=votes[x, y] + 1, duration=random_graph[z][2]['duration'])
-    # print(votes)
     session['max_votes'] = votes.max()
     session['min_votes'] = votes.min()
     return globals.vote_global_graph
