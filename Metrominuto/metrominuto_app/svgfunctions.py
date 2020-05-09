@@ -68,10 +68,11 @@ def draw(graph_votes):
     dwg = svg.Drawing(file_name, size=('100%', '100%'), viewBox='0 0.2 1 1.5', profile='full')
     id_color = 0
     lines_points = []
-    # for edge in graph_votes.edges(data=True):
-    #     start = [positions[edge[0]][0], positions[edge[0]][1]]
-    #     end = [positions[edge[1]][0], positions[edge[1]][1]]
-    #     lines_points = discretizar(lines_points, start[0], start[1], end[0], end[1])
+    for edge in graph_votes.edges(data=True):
+        start = Point(positions[edge[0]][0], positions[edge[0]][1])
+        end = Point(positions[edge[1]][0], positions[edge[1]][1])
+        lines_points = discretizar(lines_points, start, end)
+        lines_points_nodes = discretizar_nodes(lines_points, start, end)
     for edge in graph_votes.edges(data=True):
         # print("Start -> End: ", edge[0], ' | ', edge[1])
         color = get_color(id_color)
@@ -104,12 +105,15 @@ def draw(graph_votes):
         point = [node[1]['pos'][0], node[1]['pos'][1]]
         circle = add_circle(dwg, point, radio, 0.010, node[0])
         dwg.add(circle)
-        text_weight, text_height = 0.12, 0.038  # get_text_metrics('Arial', int(radio * 1000), 'Marcador' + node[0])
+        text_weight, text_height = 0.12, 0.013  # get_text_metrics('Arial', int(radio * 1000), 'Marcador' + node[0])
         # pos_label = node_label_overlap(node, point, radio, text_weight, text_height, graph_votes)
-        pos_label = discretizar_nodo(node, point, radio, text_weight, text_height, graph_votes)
+        pos_label = discretizar_nodo(point, radio, text_weight, text_height, lines_points_nodes)
         # text_label = google_maps.reverse_geocode((node[1]['pos'][0], node[1]['pos'][1]))[0]['formatted_address']
         node_label = add_label(dwg, pos_label, 'Marcador' + node[0], radio, 'black')
-        dwg.add(node_label)
+        # dwg.add(node_label)
+        rect = dwg.rect(insert=(pos_label[0], pos_label[1] - text_height), size=(text_weight, text_height),
+                        stroke=color, fill=color, stroke_width=0.01)
+        dwg.add(rect)
     dwg.save(pretty=True)
     return dwg.tostring()
 
@@ -279,20 +283,36 @@ def node_label_overlap(node, point, radio, text_weight, text_height, graph_votes
     return [abs(point[0] + radio), point[1] - radio]
 
 
-# def discretizar(list, x1, y1, x2, y2):
-#     vector = Point(x2 - x1, y2 - y1)
-#     separacion = 0.009
-#     pm = Point((x2 + x1) / 2, (y2 + y1) / 2)
-#     for x in np.arange(pm.x - separacion * 6, pm.x + separacion * 6, separacion):
-#         if vector.x != 0:
-#             y = (((x - x1) * vector.y) / vector.x) + y1
-#         else:
-#             x = pm.x
-#             y = pm.y
-#             list.append(Point(x, y))
-#             break
-#         list.append(Point(x, y))
-#     return list
+def discretizar(list, start, end):
+    vector = Point(start.x - end.x, start.y - end.y)
+    separacion = 0.009
+    pm = Point((end.x + start.x) / 2, (end.y + start.y) / 2)
+    for x in np.arange(pm.x - separacion * 6, pm.x + separacion * 6, separacion):
+        if vector.x != 0:
+            y = (((x - start.x) * vector.y) / vector.x) + start.y
+        else:
+            x = pm.x
+            y = pm.y
+            list.append(Point(x, y))
+            break
+        list.append(Point(x, y))
+    return list
+
+
+def discretizar_nodes(list, start, end):
+    vector = Point(start.x - end.x, start.y - end.y)
+    separacion = 0.009
+    pm = Point((end.x + start.x) / 2, (end.y + start.y) / 2)
+    for x in np.arange(start.x, pm.x, separacion):
+        if vector.x != 0:
+            y = (((x - start.x) * vector.y) / vector.x) + start.y
+        else:
+            x = pm.x
+            y = pm.y
+            list.append(Point(x, y))
+            break
+        list.append(Point(x, y))
+    return list
 
 
 def check_points(x1, y1, x2, y2, text_weight, text_height, time_pos_positiva, time_pos_negativa, edge):
@@ -347,41 +367,44 @@ def check_points(x1, y1, x2, y2, text_weight, text_height, time_pos_positiva, ti
 
 def is_over_rect(points_list, cuadrado):
     for punto in points_list:
-        if cuadrado.p.x < punto.x < cuadrado.p.x + cuadrado.w and cuadrado.p.y < punto.y < cuadrado.p.y + cuadrado.h:
+        if cuadrado.p.x <= punto.x <= (cuadrado.p.x + cuadrado.w) and cuadrado.p.y <= punto.y <= (cuadrado.p.y + cuadrado.h):
             return True
     return False
 
 
-def discretizar_nodo(node, point, radio, text_weight, text_height, graph_votes):
+def discretizar_nodo(point, radio, text_weight, text_height, lines_points):
     rect_nodo = Rect(Point(point[0] - radio, point[1] - radio), radio, radio)
+    beta = text_height  # 0.013
     list_text_rects = []
-    list_text_rects.append(Rect(Point(point[0] + radio, point[1] + radio), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0] + radio, point[1]), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0] + radio, point[1] - radio), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0], point[1] - radio), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0] - radio, point[1]), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0] - radio, point[1] - radio), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0] - radio, point[1]), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0] - radio, point[1] + radio), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0], point[1] + radio + beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0]+radio+beta, point[1]+radio+beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0]+radio+beta, point[1]), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0]+radio+beta, point[1]-radio-beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0], point[1]-radio-beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0]-radio-beta, point[1]-radio-beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0]-radio-beta-text_weight, point[1]), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0]-radio-beta, point[1]+radio+beta), text_weight, text_height))
+    # pos media y final arriba izquierda
+    list_text_rects.append(Rect(Point(point[0] - radio - beta - text_weight / 2, point[1] + radio + beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0] - radio - beta - text_weight, point[1] + radio + beta), text_weight, text_height))
+    #pos media y final arriba centro
+    list_text_rects.append(Rect(Point(point[0]-text_weight/2, point[1] + radio + beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0]-text_weight, point[1] + radio + beta), text_weight, text_height))
+    # pos media y final arriba derecha
+    list_text_rects.append(Rect(Point(point[0] + radio + beta-text_weight/2, point[1] + radio + beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0] + radio + beta-text_weight, point[1] + radio + beta), text_weight, text_height))
+    # pos media y final abajo derecha
+    list_text_rects.append(Rect(Point(point[0] + radio + beta-text_weight/2, point[1] - radio - beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0] + radio + beta-text_weight, point[1] - radio - beta), text_weight, text_height))
+    # pos media y final abajo centro
+    list_text_rects.append(Rect(Point(point[0] - text_weight / 2, point[1] - radio - beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0] - text_weight, point[1] - radio - beta), text_weight, text_height))
+    # pos media y final abajo izquierda
+    list_text_rects.append(Rect(Point(point[0] - radio - beta-text_weight/2, point[1] - radio - beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0] - radio - beta-text_weight, point[1] - radio - beta), text_weight, text_height))
 
-    points_list = []
-    positions = nx.get_node_attributes(graph_votes, 'pos')
-    start = [positions[node[0]][0], positions[node[0]][1]]
-    for edge in graph_votes.edges(node[0], data=True):
-        end = [positions[edge[1]][0], positions[edge[1]][1]]
-        pm = [(start[0] + end[0]) / 2, (start[1] + end[1]) / 2]
-        vector = Point(pm[0] - start[0], pm[1] - start[1])
-        separacion = text_weight - 0.06
-
-        rect_list = []
-        for x in np.arange(start[0], pm[0], separacion):
-            y = (((x - start[0]) * vector.y) / vector.x) + start[1]
-            points_list.append(Point(x, y))
-            rect_list.append(Rect(Point(x, y), text_weight, text_height))
-    # añadir y no overlap con el rectangulo que forma el nodo
-    for rect_text in list_text_rects:
-        for rect_line in rect_list:
-            if not rect_text.collide(rect_line) and not rect_text.collide(rect_nodo):
-                return [rect_text.p.x, rect_text.p.y]
-
-    return [start[0] + radio * 1.2, start[1]]
+    for rect in list_text_rects:
+        if not is_over_rect(lines_points, rect):
+            return [rect.p.x, rect.p.y]
+    print('default')
+    return [rect_nodo.x - text_weight, rect_nodo.y]
