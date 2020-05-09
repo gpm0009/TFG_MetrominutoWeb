@@ -84,8 +84,14 @@ def calculate_graph(distances, nodes, central_markers, matrix):
     coords_x = []
     coords_y = []
     for node in nodes:
-        coords_x.append(node['position']['lng'])
-        coords_y.append(node['position']['lat'])
+        if node['position']['lng'] < 0:
+            coords_x.append(-np.log10(abs(node['position']['lng'])))
+        else:
+            coords_x.append(np.log10(node['position']['lng']))
+        if node['position']['lat'] < 0:
+            coords_y.append(-np.log10(abs(node['position']['lat'])))
+        else:
+            coords_y.append(np.log10(node['position']['lat']))
     max_x, min_x = max(coords_x), min(coords_x)
     max_y, min_y = max(coords_y), min(coords_y)
     dif_x = (max_x - min_x)
@@ -94,11 +100,11 @@ def calculate_graph(distances, nodes, central_markers, matrix):
     graph = nx.Graph()
     min_graph = nx.Graph()
     nodes_name = 0
-    new_positions = calculate_positions(nodes)
+    # new_positions = calculate_positions(nodes)
     calculate_rejilla = []
     for node in nodes:
-        pos_x = (node['position']['lng'] - min_x) / dif_x
-        pos_y = 1.4 - (node['position']['lat'] - min_y) / dif_y
+        pos_x = (coords_x[node['id']] - min_x) / dif_x
+        pos_y = 1.4 - (coords_y[node['id']] - min_y) / dif_y
         calculate_rejilla.append([pos_x, pos_y])
     positions = rejilla(calculate_rejilla)
     for node in nodes:
@@ -135,22 +141,16 @@ def rejilla(positions):
     """
     max_x, min_x = max(positions[:][0]), min(positions[:][0])
     max_y, min_y = max(positions[:][1]), min(positions[:][1])
-    print('MIN ', min_x)
-    print('MAX ', max_x)
-
     for tramo_x in np.arange(min_x, max_x, 0.07):
         for i in range(0, positions.__len__()):
-
             if tramo_x <= positions[i][0] <= (tramo_x+0.07):
-                print(tramo_x, '  ', positions[i][0], '  ', (tramo_x + 0.07))
                 positions[i][0] = (tramo_x + tramo_x+0.07) / 2
-                print('cambio X')
 
     for tramo_y in np.arange(min_y, max_y, 0.07):
         for j in range(0, positions.__len__()):
             if tramo_y <= positions[j][1] <= tramo_y+0.07:
                 positions[j][1] = (tramo_y + tramo_y+0.07) / 2
-                print('cambio Y')
+
     return positions
 
 

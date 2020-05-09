@@ -56,7 +56,7 @@ def draw_svg():
     for i in range(0, int(session['max_votes'])):
         graph = gph.connected_graph(i)
         svg_list.append(svg_f.draw(graph))
-    return render_template('show_graph.html', max=session['max_votes'], min=session['min_votes'], lista=svg_list)
+    return render_template('show_graph.html', max=session['max_votes']-1, min=session['min_votes'], lista=svg_list)
 
 
 @main.route('/setMode', methods=['POST'])
