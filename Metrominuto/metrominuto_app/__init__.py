@@ -8,13 +8,17 @@
 from config import Config
 from flask_bootstrap import Bootstrap
 from flask import Flask
+import os
+import config
 
 bootstrap = Bootstrap()
 
 
 def create_app():
     app = Flask(__name__)
-    app.secret_key = Config.SECRET_KEY
+    config_name = os.environ.get('ENVIRONMENT') or 'default'
+    # app.secret_key = Config.SECRET_KEY
+    app.config.from_object(config.config[config_name])
     bootstrap.init_app(app)
 
     from metrominuto_app.main import main as main_bp

@@ -241,58 +241,69 @@ var myNodelist = document.getElementsByTagName("LI");
 
 
 
+Solapamiento de cuadrados (mío)
 
+def calculate_overlap(text_weight, text_height, start, end, time_pos_negativa, time_pos_positiva):
+    pm = [(start[0] + end[0]) / 2, (start[1] + end[1]) / 2]
+    weight_rect = abs(end[0] - pm[0])
+    height_rect = abs(end[1] - pm[1])
 
-l1_recta = Point(start[1], start[0])  # top izquierda
-        r1_recta = Point(end[1], end[0])  # bottom derecha
-        l2_text = Point(time_pos[1], time_pos[0]-h)  # top izquierda
-        r2_text = Point(time_pos[1] + w, time_pos[0])  # bottom derecha
-        pm = [(start[0] + end[0]) / 2, (start[1] + end[1]) / 2]
-        line_pm_text = add_line(dwg, time_pos, pm, 'black')
-        rect = dwg.rect(insert=(time_pos[1], time_pos[0]-h), size=(w, h),
-                        stroke=color, fill=color, stroke_width=0.01)
-        dwg.add(rect)
-        dwg.add(line_pm_text)
+    list_rect_text = [Rect(Point(time_pos_negativa[0], time_pos_negativa[1]), text_weight, text_height),
+                      Rect(Point(time_pos_negativa[0] - text_weight / 2, time_pos_negativa[1]), text_weight,
+                           text_height),
+                      Rect(Point(time_pos_negativa[0] - text_weight, time_pos_negativa[1]), text_weight, text_height),
+                      Rect(Point(time_pos_negativa[0] - text_weight, time_pos_negativa[1] - text_height / 2),
+                           text_weight,
+                           text_height),
+                      Rect(Point(time_pos_negativa[0] - text_weight, time_pos_negativa[1] - text_height), text_weight,
+                           text_height),
+                      Rect(Point(time_pos_negativa[0] - text_weight / 2, time_pos_negativa[1] - text_height),
+                           text_weight,
+                           text_height),
+                      Rect(Point(time_pos_negativa[0], time_pos_negativa[1] - text_height), text_weight, text_height),
+                      Rect(Point(time_pos_negativa[0], time_pos_negativa[1] - text_height / 2), text_weight,
+                           text_height),
+                      Rect(Point(time_pos_positiva[0], time_pos_positiva[1]), text_weight, text_height),
+                      Rect(Point(time_pos_positiva[0] + text_weight / 2, time_pos_positiva[1]), text_weight,
+                           text_height),
+                      Rect(Point(time_pos_positiva[0] + text_weight, time_pos_positiva[1]), text_weight, text_height),
+                      Rect(Point(time_pos_positiva[0] + text_weight, time_pos_positiva[1] + text_height / 2),
+                           text_weight,
+                           text_height),
+                      Rect(Point(time_pos_positiva[0] + text_weight, time_pos_positiva[1] + text_height), text_weight,
+                           text_height),
+                      Rect(Point(time_pos_positiva[0] + text_weight / 2, time_pos_positiva[1] + text_height),
+                           text_weight,
+                           text_height),
+                      Rect(Point(time_pos_positiva[0], time_pos_positiva[1] + text_height), text_weight, text_height),
+                      Rect(Point(time_pos_positiva[0], time_pos_positiva[1] + text_height / 2), text_weight,
+                           text_height)]
 
-
-class Point:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-l1_recta = Point(pm[1], end[0])  # top izquierda
-        r1_recta = Point(end[1], pm[0])  # bottom derecha
-        l2_text = Point(time_pos[1], time_pos[0] - h)  # top izquierda
-        r2_text = Point(time_pos[1] + w, time_pos[0])  # bottom derecha
-
-
-
-
-r1 = Rectangulo([time_pos[1], time_pos[0]+h], [time_pos[1]+w, time_pos[0]+h], [time_pos[1], time_pos[0]])  # texto
-        r2 = Rectangulo([start[1], start[0]+0.01], [end[1], end[0]+h], [time_pos[1], time_pos[0]-0.01])   # recta
-class Rectangulo:
-    def __init__(self, x, y, c):
-        self.x = x  # top left
-        self.y = y  # top right
-        self.c = c  # bottom left
-
-    def haycolision(self, rect):
-        if (((self.x[0] < rect.x[0] < self.y[0]) or (self.x[0] < rect.y[0] < self.y[0])) and (
-                (self.x[1] < rect.x[1] < self.c[1]) or (self.x[1] < rect.c[1] < self.c[1]))):
-            return True
-        return False
-
-
-
-
-     if rect_texto_positiva.collide(rect_right_top) or rect_texto_positiva.collide(rect_left_top):
-        print('ARRIBA')
-        if start[1] < end[1]:
-            return time_pos_negativa
-        return time_pos_positiva
-    if rect_texto_negativa.collide(rect_right_bottom) or rect_texto_negativa.collide(rect_left_bottom):
-        print('ABAJO')
-        if start[1] < end[1]:
-            return time_pos_positiva
+    rect_right_top = Rect(Point(pm[0], pm[1]), weight_rect, height_rect)
+    rect_right_bottom = Rect(Point(pm[0], pm[1] - height_rect), weight_rect, height_rect)
+    rect_left_top = Rect(Point(pm[0], pm[1] - height_rect), weight_rect, height_rect)
+    rect_left_bottom = Rect(Point(pm[0] - weight_rect, pm[1] - height_rect), weight_rect, height_rect)
+    list_rect = []
+    if start[0] < end[0] and abs(end[1] - start[1]) > 0.004:  # izq derecha
+        if end[1] < start[1]:  # sube
+            list_rect.append(rect_left_bottom)
+            list_rect.append(rect_right_top)
+        else:
+            list_rect.append(rect_left_top)
+            list_rect.append(rect_right_bottom)
+    elif start[0] > end[0] and abs(end[1] - start[1]) > 0.004:
+        if end[1] < start[1]:  # sube
+            list_rect.append(rect_right_bottom)
+            list_rect.append(rect_left_top)
+        else:
+            list_rect.append(rect_right_bottom)
+            list_rect.append(rect_right_top)
+    else:
         return time_pos_negativa
-    return time_pos_negativa
+
+    for rect_text in list_rect_text:
+        for rect_line in list_rect:
+            if not rect_text.collide(rect_line):
+                return [rect_text.p.x, rect_text.p.y]
+
+    return 0

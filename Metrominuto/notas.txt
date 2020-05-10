@@ -34,3 +34,9 @@ if (elInput3) {
     }, false);
   }
 }
+
+
+
+
+https://es.slideshare.net/ozkarYn1/algoritmos2d
+https://sisteme-ig.com/questions/33237/como-discretizar-una-linea-en-cuadriculas
