@@ -68,10 +68,14 @@ def draw_metrominuto(graph_votes):
     id_color = 0
     lines_points = []
     lines_points_nodes = []
+    list_aux = []
     for edge in graph_votes.edges():
+        print("Start -> End: ", edge[0], ' | ', edge[1])
         start = Point(positions[edge[0]][0], positions[edge[0]][1])
         end = Point(positions[edge[1]][0], positions[edge[1]][1])
         lines_points = time_discretize(lines_points, start, end)
+        list_aux = discretizar_linea_proyeccion(list_aux, start, end, 0.013)
+        # if edge[0] == '0' and edge[1] == '5':
         lines_points_nodes = node_discretize(lines_points_nodes, start, end)
 
     for edge in graph_votes.edges(data=True):
@@ -90,9 +94,10 @@ def draw_metrominuto(graph_votes):
         # weight and height text.
         text_weight, text_height = 0.08, 0.013  # get_text_metrics('Arial', int(radio * 1000), edge[2]['duration'])
         # text_pos = calculate_overlap(text_weight, text_height, start, end, time_pos_negativa, time_pos_positiva)
-        text_pos, points_list = check_points(Point(start[0], start[1]), Point(end[0], end[1]), text_weight, text_height,
-                                            time_pos_positiva,
-                                            time_pos_negativa, edge)
+        # text_pos, points_list = check_points(Point(start[0], start[1]), Point(end[0], end[1]), text_weight, text_height,
+        #                                     time_pos_positiva,
+        #                                     time_pos_negativa, edge)
+        text_pos = discretizar_time_pos(list_aux, text_weight, text_height, time_pos_positiva, time_pos_negativa)
         # for point in points_list:
         #     circle = add_circle(dwg, [point.x, point.y], 0.009, 0, 'disc')
         #     dwg.add(circle)
@@ -108,14 +113,16 @@ def draw_metrominuto(graph_votes):
         dwg.add(circle)
         text_weight, text_height = 0.12, 0.013  # get_text_metrics('Arial', int(radio * 1000), 'Marcador' + node[0])
         # pos_label = node_label_overlap(node, point, radio, text_weight, text_height, graph_votes)
-        pos_label = discretizar_nodo(point, radio, text_weight, text_height, lines_points_nodes)
+        pos_label = discretizar_nodo(point, radio, text_weight, text_height, list_aux)
         # text_label = google_maps.reverse_geocode((node[1]['pos'][0], node[1]['pos'][1]))[0]['formatted_address']
         node_label = add_label(dwg, pos_label, 'Marcador' + node[0], radio, 'black')
         dwg.add(node_label)
-        rect = dwg.rect(insert=(pos_label[0], pos_label[1] - text_height), size=(text_weight, text_height),
-                        stroke=color, fill=color, stroke_width=0.01)
+        # rect = dwg.rect(insert=(pos_label[0], pos_label[1] - text_height), size=(text_weight, text_height),
+        #                 stroke=color, fill=color, stroke_width=0.01)
         # dwg.add(rect)
-        # for point in lines_points_nodes:
+        # corner = add_circle(dwg, pos_label, 0.009, 0, 'disc')
+        # dwg.add(corner)
+        # for point in list_aux:
         #     circle = add_circle(dwg, [point.x, point.y], 0.009, 0, 'disc')
         #     dwg.add(circle)
     dwg.save(pretty=True)
@@ -283,6 +290,45 @@ def node_discretize(poinsts_list, start, end):
     return poinsts_list
 
 
+def discretizar_time_pos(poinsts_list, text_weight, text_height, time_pos_positiva, time_pos_negativa):
+    text_height = text_height+ 0.004
+    list_rect_text = [Rect(Point(time_pos_negativa[0], time_pos_negativa[1]), text_weight, text_height),
+                      Rect(Point(time_pos_negativa[0] - text_weight / 2, time_pos_negativa[1]), text_weight,
+                           text_height),
+                      Rect(Point(time_pos_negativa[0] - text_weight, time_pos_negativa[1]), text_weight, text_height),
+                      Rect(Point(time_pos_negativa[0] - text_weight, time_pos_negativa[1] - text_height / 2),
+                           text_weight,
+                           text_height),
+                      Rect(Point(time_pos_negativa[0] - text_weight, time_pos_negativa[1] - text_height), text_weight,
+                           text_height),
+                      Rect(Point(time_pos_negativa[0] - text_weight / 2, time_pos_negativa[1] - text_height),
+                           text_weight,
+                           text_height),
+                      Rect(Point(time_pos_negativa[0], time_pos_negativa[1] - text_height), text_weight, text_height),
+                      Rect(Point(time_pos_negativa[0], time_pos_negativa[1] - text_height / 2), text_weight,
+                           text_height),
+                      Rect(Point(time_pos_positiva[0], time_pos_positiva[1]), text_weight, text_height),
+                      Rect(Point(time_pos_positiva[0] + text_weight / 2, time_pos_positiva[1]), text_weight,
+                           text_height),
+                      Rect(Point(time_pos_positiva[0] + text_weight, time_pos_positiva[1]), text_weight, text_height),
+                      Rect(Point(time_pos_positiva[0] + text_weight, time_pos_positiva[1] + text_height / 2),
+                           text_weight,
+                           text_height),
+                      Rect(Point(time_pos_positiva[0] + text_weight, time_pos_positiva[1] + text_height), text_weight,
+                           text_height),
+                      Rect(Point(time_pos_positiva[0] + text_weight / 2, time_pos_positiva[1] + text_height),
+                           text_weight,
+                           text_height),
+                      Rect(Point(time_pos_positiva[0], time_pos_positiva[1] + text_height), text_weight, text_height),
+                      Rect(Point(time_pos_positiva[0], time_pos_positiva[1] + text_height / 2), text_weight,
+                           text_height)]
+    for rect in list_rect_text:
+        if not is_over_rect(poinsts_list, rect):
+            return [rect.p.x, rect.p.y]
+    print('default')
+    return 0
+
+
 def check_points(start, end, text_weight, text_height, time_pos_positiva, time_pos_negativa, edge):
     list_rect_text = [Rect(Point(time_pos_negativa[0], time_pos_negativa[1]), text_weight, text_height),
                       Rect(Point(time_pos_negativa[0] - text_weight / 2, time_pos_negativa[1]), text_weight,
@@ -328,15 +374,14 @@ def check_points(start, end, text_weight, text_height, time_pos_positiva, time_p
         for x in np.arange(pm.x - separacion * 6, pm.x + separacion * 6, separacion):
             y = (((x - start.x) * vector.y) / vector.x) + start.y
             poinsts_list.append(Point(x, y))
-    print("Start -> End: ", edge[0], ' | ', edge[1])
     for rect in list_rect_text:
         if not is_over_rect(poinsts_list, rect):
             return [rect.p.x, rect.p.y], poinsts_list
 
 
-def is_over_rect(points_list, cuadrado):
-    for punto in points_list:
-        if cuadrado.p.x <= punto.x <= (cuadrado.p.x + cuadrado.w) and cuadrado.p.y <= punto.y <= (cuadrado.p.y + cuadrado.h):
+def is_over_rect(points_list, rectangle):
+    for point in points_list:
+        if rectangle.p.x <= point.x <= (rectangle.p.x + rectangle.w) and rectangle.p.y <= point.y <= (rectangle.p.y + rectangle.h):
             return True
     return False
 
@@ -374,6 +419,46 @@ def discretizar_nodo(point, radio, text_weight, text_height, lines_points):
 
     for rect in list_text_rects:
         if not is_over_rect(lines_points, rect):
+            print([rect.p.x, rect.p.y])
             return [rect.p.x, rect.p.y]
     print('default')
     return [rect_nodo.x - text_weight, rect_nodo.y]
+
+
+def discretizar_linea_proyeccion(poinsts_list, start, end, text_height=0.013):
+    vector_recta = Point(start.x - end.x, start.y - end.y)
+    vector_origen = Point(start.x-end.x, 0)
+    angulo = np.arccos(abs(vector_recta.x * vector_origen.x + vector_recta.y * vector_origen.y)/(np.sqrt(vector_recta.x**2+vector_recta.y**2)+np.sqrt(vector_origen.x**2+vector_origen.y**2)))
+    separacion = text_height * np.cos(angulo)
+    if vector_recta.x == 0.0:  # vertical
+        if start.y < end.y:  # sube
+            origin = start.y
+            final = end.y
+        else:  # baja
+            origin = end.y
+            final = start.y
+        for y in np.arange(origin, final, text_height-0.003):
+            poinsts_list.append(Point(start.x, y))
+
+    elif vector_recta.y == 0.0:  # horizontal
+        if start.x < end.x:  # izq -> derecha
+            origin = start.x
+            final = end.x
+        else:  # derecha -> izq
+            origin = end.x
+            final = start.x
+        for x in np.arange(origin, final, separacion-0.003):
+            poinsts_list.append(Point(x, start.y))
+
+    else:  # si no es horizontal ni vertical, formula
+        if start.x < end.x:  # izq -> derecha
+            origin = start.x
+            final = end.x
+        else:
+            origin = end.x
+            final = start.x
+        for x in np.arange(origin, final, separacion):
+            y = (((x - start.x) * vector_recta.y) / vector_recta.x) + start.y
+            poinsts_list.append(Point(x, y))
+
+    return poinsts_list
