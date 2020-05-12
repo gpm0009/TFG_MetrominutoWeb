@@ -28,9 +28,8 @@ Git maneja los distintos archivos del proyecto como un conjunto de copias instan
 
 \section{Herramientas}
 
-\subsection{Estándar Python Enhancement Proposal número 8- PEP8}
-En este proyecto se ha seguido la guía de estilos \textit{PEP8}, guía única que define cómo debería estar escrito el código y la forma de nombrar variables, funciones, clases o los comentarios del mismo.
-¿Mencionar algunos aspectos importante de ella, o no hace falta?
+\subsection{Estándar Python Enhancement Proposal 8 -- PEP8}
+En este proyecto se ha seguido la guía de estilo \textit{PEP8}, guía única que define cómo debería estar escrito el código \textit{Python} y la forma de nombrar variables, funciones, clases o los comentarios del mismo.
 
 \subsection{Entorno de desarrollo Integrado (IDE)}
 Para el desarrollo del proyecto, se valoraron inicialmente dos editores:
@@ -38,12 +37,14 @@ Para el desarrollo del proyecto, se valoraron inicialmente dos editores:
 	\item Visual Studio Code
 	\item PyCharm
 \end{itemize}
-Al inicio del proyecto se empezó trabajando con Visual Studio Code, pero tras darle una vuelta más se decidió usar Pycharm, ya que al estar orientado el proyecto a Python este IDE ofreceía mejores opciones para el desarrollo.
+Al inicio del proyecto se empezó trabajando con Visual Studio Code, pero tras darle una vuelta más se decidió usar Pycharm, ya que al estar programado el proyecto en Python este IDE ofrecía mejores opciones para el desarrollo.
 
 \subsection{Flask}
-Flask es un \textit{framework} de Python que nos permite crear aplicaciones cliente - servidor de una manera mas sencilla, y que no impone ninguna limitación respecto a estructura del proyecto ni a los componentes que usar durante el desarrollo~\cite{grinberg2014flask}.
+Flask es un \textit{framework} de Python que nos permite crear aplicaciones cliente -- servidor de una manera mas sencilla, y que no impone ninguna limitación respecto a estructura del proyecto ni a los componentes que usar durante el desarrollo~\cite{grinberg2014flask}.
 \\
-Ofrece servicios HTTP, pero para poder hacer uso de los contenidos HTML requiere de la utilización del motor de templates \textit{Jinja2}: lenguaje de plantillas que permite insertar datos procesados y texto predeterminado.
+Ofrece servicios HTTP, pero para poder hacer uso de los contenidos HTML requiere de la utilización del motor de templates \textit{Jinja2}.
+\\
+Lenguaje de plantillas que permite insertar datos procesados y texto predeterminado.
 
 
 \subsection{Google API}
@@ -82,7 +83,7 @@ src="https://cdn.jsdelivr.net/npm/vue"
 \end{lstlisting}
 La versión de desarrollo ofrece distintas alertas o advertencias que permiten realizar diferentes trazas a la hora de localizar posibles errores, mientras que la versión de producción está optimizada en cuanto a tamaño y velocidad.
 \\
-Para poder utilizar \textit{Vue} en nuestros templates, además de incluir el \textit{cdn} debemos crear un componente\footnote{\url{https://vuejs.org/v2/guide/components.html}}, al que le añadiremos una variable. Esto se debe a que realmente la estructura y el nombre de los elementos de Vue es algo diferente a los que ya conocemos de \textit{HTML5}. También es importante tener en cuenta que Vue utiliza los mismos delimitadores que \textit{Flask}: <<\{\{ variable \}\}>>. Es por esto por lo que a nuestro componente o variable debemos añadir la línea <<delimiters:['[[',']]']>> para cambiarlos.
+Para poder utilizar \textit{Vue} en nuestros templates, además de incluir el \textit{cdn} debemos crear un componente\footnote{\url{https://vuejs.org/v2/guide/components.html}}, al que le añadiremos una variable. Esto se debe a que realmente la estructura y el nombre de los elementos de Vue es algo diferente a los que ya conocemos de \textit{HTML5}. También es importante tener en cuenta que Vue utiliza los mismos delimitadores que \textit{Flask}: \verb|{{variable}}|. Es por esto por lo que a nuestro componente o variable debemos añadir la línea \verb|delimiters:['[[',']]']| para cambiarlos.
 
 
 \section{Bibliotecas}
