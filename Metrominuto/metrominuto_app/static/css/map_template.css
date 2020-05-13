@@ -44,8 +44,14 @@ th, td {
     .container, .container-lg, .container-md, .container-sm, .container-xl {
     max-width: 1700px;
     }
-
 }
+/*.col-lg-8 > #map{*/
+/*    max-height: 1000px;*/
+/*}*/
+
+/*.col-md-8 > #map{*/
+/*    max-height: 600px;*/
+/*}*/
 
 /*@media (min-width: 1300px){*/
 /*    .container, .container-lg, .container-md, .container-sm, .container-xl {*/

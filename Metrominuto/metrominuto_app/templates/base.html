@@ -18,10 +18,21 @@
 
 <body>
 <!-- Navbar -->
-<nav class="navbar navbar-dark bg-dark sticky-top py-1">
-    <span class="navbar-brand">Metrominuto</span>
-    <a href="{{ url_for('main.set_marks') }}" class="navbar-brand">Mapa</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top py-1">
+  <a class="navbar-brand" href="#">Metrominuto</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" href="{{ url_for('main.set_marks') }}">Mapa <!--span class="sr-only">(current)</span--></a>
+{#      <a class="nav-item nav-link active" href="{{ url_for('main.set_marks') }}">Mapa <!--span class="sr-only">(current)</span--></a>#}
+      <a class="nav-item nav-link disabled" href="#">Grafo</a>
+    </div>
+  </div>
 </nav>
+
+<!-- Cookies modal -->
 <div class="modal fade cookieModal" id="cookieModal" tabindex="-1" role="dialog" aria-labelledby="cookieModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -41,25 +52,13 @@
             </div>
         </div>
     </div>
-{#<nav class="site-header sticky-top py-1">#}
-{#  <div class="container d-flex flex-column flex-md-row justify-content-between">#}
-{#    #}
-{#    <a class="py-2 d-none d-md-inline-block" href="#">Tour</a>#}
-{#    <a class="py-2 d-none d-md-inline-block" href="#">Product</a>#}
-{#    <a class="py-2 d-none d-md-inline-block" href="#">Features</a>#}
-{#    <a class="py-2 d-none d-md-inline-block" href="#">Enterprise</a>#}
-{#    <a class="py-2 d-none d-md-inline-block" href="#">Support</a>#}
-{#    <a class="py-2 d-none d-md-inline-block" href="#">Pricing</a>#}
-{#    <a class="py-2 d-none d-md-inline-block" href="#">Cart</a>#}
-{#  </div>#}
-{#</nav>#}
 
 <!-- "content" block that pages are expected to override -->
 <div class="container body-content">
     {% block content %}{% endblock %}
     <hr />
     <footer>
-        <p>&copy; 28.04.20 - TFG Metrominuto. Guillermo Paredes Muga</p>
+        <p>&copy; 28.05.13 - TFG Metrominuto. Guillermo Paredes Muga</p>
     </footer>
 </div>
 <!-- Additional scripts; use the "scripts" block to add page-specific scripts.  -->

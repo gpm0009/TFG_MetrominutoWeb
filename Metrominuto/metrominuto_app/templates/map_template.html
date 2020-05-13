@@ -6,13 +6,13 @@
           href="{{ url_for('static', filename='css/map_template.css') }}">
     <script src="https://maps.googleapis.com/maps/api/js?key={{API_KEY}}&libraries=places"> type="text/javascript"</script>
     <div class="row">
-        <div class="col-md-8 col-sm-12">
+        <div class="col-lg-8 col-md-8 col-sm-12">
             <input id="pac-input"
                    type="text"
                    placeholder="Enter a location">
             <div id="map"></div>
         </div>
-        <div class="col-md-4 col-sm-12">
+        <div class="col-lg-4 col-md-4 col-sm-12">
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <strong>Demasiados marcadores!</strong> Debes eliminar alguno.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -51,10 +51,10 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <form id="myform" action="{{url_for('main.set_marks')}}" method="post" class="form-inline">
-            {{ form.hidden_tag() }}
-            <div class="col-md-5 col-sm-12" style="margin-top: 8px">
+    <form id="myform" action="{{url_for('main.set_marks')}}" method="post" style="margin-top: 8px">
+        {{ form.hidden_tag() }}
+        <div class="form-row">
+            <div class="form-group col-lg-3 col-md-9 col-sm-9">
                 <select id="select" class="form-control">
                     <option selected>Elige modo de desplazamiento</option>
                     {% for o in form.mode.choices %}
@@ -62,14 +62,17 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-md-4 col-sm-12" style="margin-top: 8px">
-                <input type='button' class="btn btn-primary" value='Borrar marcadores' id='removeButton'>
+            <div class="form-group col-lg-1 col-md-12 col-sm-12">
+{#                {{ form.submit(class="btn btn-outline-success") }}#}
+                {{ form.submit(class="btn alert-success") }}
             </div>
-            <div class="col-md-4 col-sm-12" style="margin-top: 8px">
-                {{ form.submit(class="btn btn-primary") }}
+            <div class="form-group col-md-2 col-sm-12">
+{#                <input type='button' class="btn btn-outline-danger" value='Borrar marcadores' id='removeButton'>#}
+                <input type='button' class="btn alert-danger" value='Borrar marcadores' id='removeButton'>
             </div>
-        </form>
-    </div>
+
+        </div>
+    </form>
 {% endblock %}
 {% block scripts %}
     {{ super() }}
