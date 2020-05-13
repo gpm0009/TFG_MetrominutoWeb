@@ -96,7 +96,9 @@ def draw_metrominuto(graph_votes):
         # rect = dwg.rect(insert=(text_pos[0], text_pos[1] - text_height), size=(text_weight, text_height),
         #                 stroke=color, fill=color, stroke_width=0.01)
         # dwg.add(rect)
-
+    # for point in lines_points:
+    #     circle = add_circle(dwg, [point.x, point.y], 0.009, 0, 'disc')
+    #     dwg.add(circle)
     for node in graph_votes.nodes(data=True):
         point = [node[1]['pos'][0], node[1]['pos'][1]]
         circle = add_circle(dwg, point, radio, 0.010, node[0])
@@ -110,9 +112,9 @@ def draw_metrominuto(graph_votes):
         # rect = dwg.rect(insert=(pos_label[0], pos_label[1] - text_height), size=(text_weight, text_height),
         #                 stroke=color, fill=color, stroke_width=0.01)
         # dwg.add(rect)
-        for point in lines_points:
-            circle = add_circle(dwg, [point.x, point.y], 0.009, 0, 'disc')
-            dwg.add(circle)
+        # for point in lines_points:
+        #     circle = add_circle(dwg, [point.x, point.y], 0.009, 0, 'disc')
+        #     dwg.add(circle)
     dwg.save(pretty=True)
     return dwg.tostring()
 
@@ -194,6 +196,10 @@ def calculate_time_overlap(poinsts_list, text_weight, text_height, time_pos_posi
                            text_height)]
     for rect in list_rect_text:
         if not is_over_rect(poinsts_list, rect):
+            poinsts_list.append(Point(rect.p.x + text_weight, rect.p.y + text_height))
+            poinsts_list.append(Point(rect.p.x + text_weight, rect.p.y))
+            poinsts_list.append(Point(rect.p.x, rect.p.y + text_height))
+            poinsts_list.append(Point(rect.p.x, rect.p.y))
             return [rect.p.x, rect.p.y]
     print('default')
     return 0
@@ -209,7 +215,7 @@ def is_over_rect(points_list, rectangle):
 def calculate_node_overlap(point, radio, text_weight, text_height, lines_points):
     rect_nodo = Rect(Point(point[0] - radio, point[1] - radio), radio, radio)
     beta = text_height + 0.006  # 0.013
-    point[1] = point[1] + text_height
+    # point[1] = point[1] + text_height
     list_text_rects = []
     list_text_rects.append(Rect(Point(point[0], point[1] + radio + beta), text_weight, text_height))
     list_text_rects.append(Rect(Point(point[0]+radio+beta, point[1]+radio+beta), text_weight, text_height))
@@ -240,6 +246,10 @@ def calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
 
     for rect in list_text_rects:
         if not is_over_rect(lines_points, rect):
+            lines_points.append(Point(rect.p.x + text_weight, rect.p.y + text_height))
+            lines_points.append(Point(rect.p.x + text_weight, rect.p.y))
+            lines_points.append(Point(rect.p.x, rect.p.y + text_height))
+            lines_points.append(Point(rect.p.x, rect.p.y))
             return [rect.p.x, rect.p.y]
     print('default')
     return [rect_nodo.x - text_weight, rect_nodo.y]
@@ -267,7 +277,7 @@ def discretizar_linea_proyeccion(poinsts_list, start, end, text_height=0.013):
         else:  # derecha -> izq
             origin = end.x
             final = start.x
-        for x in np.arange(origin, final, separacion-0.003):
+        for x in np.arange(origin, final, text_height-0.003):
             poinsts_list.append(Point(x, start.y))
 
     else:  # si no es horizontal ni vertical, formula
