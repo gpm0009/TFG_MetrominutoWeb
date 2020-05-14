@@ -14,6 +14,12 @@ from metrominuto_app import globals
 
 
 def calculate_positions(nodes):
+    """Funcion that calculate new position bases in Ln scale.
+    :param nodes: Points or markers selected in the map.
+    :type: dict.
+    :return: node positions.
+    :rtype: list.
+    """
     coords_x = []
     coords_y = []
     for node in nodes:
@@ -246,7 +252,7 @@ def connected_graph(num_votes):
             if edge_duration is not None:
                 time = edge_duration['duration']
             else:
-                time = 'default'
+                time = ''
             check_graph.add_edge(str(node_x), str(node_y), weight=dist, duration=time)
             # draw_graph(check_graph)
             connected_components_list = sorted(nx.connected_components(check_graph), key=len, reverse=True)
