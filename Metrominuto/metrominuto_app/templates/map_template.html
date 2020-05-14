@@ -51,28 +51,30 @@
             </div>
         </div>
     </div>
-    <form id="myform" action="{{url_for('main.set_marks')}}" method="post" style="margin-top: 8px">
-        {{ form.hidden_tag() }}
-        <div class="form-row">
-            <div class="form-group col-lg-3 col-md-9 col-sm-9">
-                <select id="select" class="form-control">
-                    <option selected>Elige modo de desplazamiento</option>
-                    {% for o in form.mode.choices %}
-                        <option value="{{ o.label }}">{{ o }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group col-lg-1 col-md-12 col-sm-12">
-{#                {{ form.submit(class="btn btn-outline-success") }}#}
-                {{ form.submit(class="btn alert-success") }}
-            </div>
-            <div class="form-group col-md-2 col-sm-12">
-{#                <input type='button' class="btn btn-outline-danger" value='Borrar marcadores' id='removeButton'>#}
-                <input type='button' class="btn alert-danger" value='Borrar marcadores' id='removeButton'>
-            </div>
+{#    <div class="row">#}
+        <form id="myform" action="{{url_for('main.set_marks')}}" method="post" class="col-12" style="margin-top: 8px">
+            {{ form.hidden_tag() }}
+            <div class="form-row">
+                <div class="form-group col-lg-3 col-md-9 col-sm-9">
+                    <select id="select" class="form-control">
+                        <option selected>Elige modo de desplazamiento</option>
+                        {% for o in form.mode.choices %}
+                            <option value="{{ o.label }}">{{ o }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-lg-1 col-md-12 col-sm-12">
+    {#                {{ form.submit(class="btn btn-outline-success") }}#}
+                    {{ form.submit(class="btn alert-success") }}
+                </div>
+                <div class="form-group col-md-2 col-sm-12">
+    {#                <input type='button' class="btn btn-outline-danger" value='Borrar marcadores' id='removeButton'>#}
+                    <input type='button' class="btn alert-danger" value='Borrar marcadores' id='removeButton'>
+                </div>
 
-        </div>
-    </form>
+            </div>
+        </form>
+{#    </div>#}
 {% endblock %}
 {% block scripts %}
     {{ super() }}
