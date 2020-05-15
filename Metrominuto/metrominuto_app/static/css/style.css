@@ -3,9 +3,10 @@ html {
     min-height: 100%;
 }
 
-body {
+.body {
     font-size: 16px;
     margin-bottom: 180px;
+    background-color: #e2dfed;!important;
 }
 
 /*body {*/

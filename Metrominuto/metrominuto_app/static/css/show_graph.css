@@ -4,7 +4,6 @@
 }
 
 .col-12{
-    display: flex;
     align-items: center;
     height: 900px;
 }
@@ -13,11 +12,11 @@
     align-items: center;
 }
 
-@media (min-width: 1700px){
-    .container, .container-lg, .container-md, .container-sm, .container-xl {
-    max-width: 1700px;
-    }
-}
+/*@media (min-width: 1700px){*/
+/*    .container, .container-lg, .container-md, .container-sm, .container-xl {*/
+/*    max-width: 1700px;*/
+/*    }*/
+/*}*/
 
 /*@media screen and (max-width: 1600px) {*/
 /*    .row > .col-12  {*/

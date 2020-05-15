@@ -20,12 +20,12 @@
                 </button>
             </div>
             <div id="app">
-                <table>
-                    <thead>
+                <table class="table table-sm">
+                    <thead class="thead-light">
                     <tr>
-                        <th>Central Point</th>
-                        <th>Delete</th>
-                        <th>Location</th>
+                        <th scope="col">Central Point</th>
+                        <th scope="col">Delete</th>
+                        <th scope="col">Location</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -51,7 +51,7 @@
             </div>
         </div>
     </div>
-{#    <div class="row">#}
+    <div class="row">
         <form id="myform" action="{{url_for('main.set_marks')}}" method="post" class="col-12" style="margin-top: 8px">
             {{ form.hidden_tag() }}
             <div class="form-row">
@@ -74,7 +74,7 @@
 
             </div>
         </form>
-{#    </div>#}
+    </div>
 {% endblock %}
 {% block scripts %}
     {{ super() }}
