@@ -40,11 +40,12 @@ Para el desarrollo del proyecto, se valoraron inicialmente dos editores:
 Al inicio del proyecto se empezó trabajando con Visual Studio Code, pero tras darle una vuelta más se decidió usar Pycharm, ya que al estar programado el proyecto en Python este IDE ofrecía mejores opciones para el desarrollo.
 
 \subsection{Flask}
-Flask es un \textit{framework} de Python que nos permite crear aplicaciones cliente -- servidor de una manera mas sencilla, y que no impone ninguna limitación respecto a estructura del proyecto ni a los componentes que usar durante el desarrollo~\cite{grinberg2014flask}.
-\\
-Ofrece servicios HTTP, pero para poder hacer uso de los contenidos HTML requiere de la utilización del motor de templates \textit{Jinja2}.
-\\
-Lenguaje de plantillas que permite insertar datos procesados y texto predeterminado.
+Flask es un \textit{framework} de Python que nos permite crear aplicaciones cliente -- servidor de una manera mas sencilla, y que no impone ninguna limitación respecto a estructura del proyecto ni a los componentes que usar durante el desarrollo~\cite{grinberg2014flask}, aunque cave destacar que en este proyecto se ha seguido la estructura planteada por \textit{Azure} para poder realizar el despliegue.
+
+
+\subsection{Jinja2}
+Para que \textit{Flask} pueda hacer uso de los contenidos \textit{HTML} requiere de la utilización de este motor de plantillas, \textit{Jinja2}, que consiste en un lenguaje de que permite insertar datos procesados y texto predeterminado en una página \textit{HTML} mediante las etiquetas \verb|{{variable}}| ó \verb|{% expresión %}|.
+
 
 
 \subsection{Google API}
@@ -108,6 +109,6 @@ Se intentó implementar en el proyecto durante dos Sprints, pero se llegó a la 
 
 
 \subsection{Documentación}
-
+Como herramienta para realizar la documentación se ha escogido \LaTeX{}, lenguaje orientaado a la creación de documentos que presenten una alta calidad tipográfica.
 
 

@@ -32,11 +32,18 @@ oficial también ha sido consultada en varias ocasiones, están disponibles en:
 \end{itemize}
 
 \subsection{Dibujado de grafos}
-El principal objetivo de este proyecto se basa en obtener un grafo final de manera que éste sea fácilmente entendible por todos. Es por ello que a la hora de dibujar dicho grafo se plantean cuestiones y problemas como dónde colocar los textos, a que distancias, cómo orientar esos textos$\dots$
-
-Estos problemas han resultado de gran complejidad en el desarrollo final del proyecto, ya que como mencionaba antes, es el resultado final de todo el proyecto. Para solucionar el problema de que los textos no se superpongan, tanto en las líneas o \textit{caminos} como en los puntos o \textit{paradas}, he tenido en cuenta dos opciones:
+El principal objetivo de este proyecto se basa en obtener un grafo final de manera que éste sea fácilmente entendible por todos. Es por ello que a la hora de dibujar dicho grafo se plantean cuestiones y problemas como:
 \begin{itemize}
-	\item \textbf{Discretización de las líneas:} este método consiste en dividir la parte de la línea no muy lejana al punto medio en varios puntos separados por una distancia $\delta$. De este modo, conociendo las dimensiones del texto que queremos colocar, y siendo la posición conocida, podemos calcular si el texto se superpone a la línea. La elección de puntos cercanos al punto medio se debe a que la intención es colocar dicho texto en una poción centrada respecto de los dos puntos a los que hace referencia. En el caso de colocar el texto que referencia a los puntos o \textit{paradas} la división en puntos separados $\delta$ se haría entorno al punto que se quiere referenciar.
-	\item \textbf{Superposición de cuadrados:} Este método consiste en calcular primeramente el cuadrado que contiene el texto. Una vez que sabemos esto, podemos construir varios rectángulos en torno al punto donde queremos colocar el texto, tanto a un lado de la línea como al otro. Posteriormente, dividiremos la línea que une los dos puntos para los que queremos colocar el texto en cuatro cuadrados partiendo del punto medio. De este modo, en dos de ellos la diagonal sería parte de la línea que une los puntos, mientras que en los otros dos no habría nada. De esto modo, y conociendo la dirección de la línea podemos calcular si, sobre los rectángulos que forman parte de la línea, existe una superposición con alguno de los posibles rectángulos del texto. En el caso del texto que referencia el punto, el rectángulo, o en este caso cuadrado, que se construye sería el que contiene al círculo y se evaluaría el rectángulo correspondiente del que la línea forma parte.
+	\item Dónde colocar los textos y a que distancia de la línea.
+	\item Cómo orientar esos textos.
+	\item Evitar la superposición de los textos, tanto los referentes al punto como los referentes a la información del trayecto, con las líneas o puntos.
+	\item Evitar la superposición de unos textos con otros.
+	\item Tener en cuenta los colores a la hora de agrupar elementos.
+	\item Mantener la posición de los puntos lo mas similar posible a los marcados en el mapa.
+	\item Reposicionar los puntos que vertical u horizontalmente sean casi similares para evitar líneas diagonales.
 \end{itemize}
 
+Estos problemas han resultado de gran complejidad en el desarrollo final del proyecto, ya que como mencionaba antes, es el resultado final de todo el proyecto.
+
+
+\subsection{Visualización}
