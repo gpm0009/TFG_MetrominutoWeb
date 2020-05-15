@@ -49,6 +49,39 @@ class Rect:
         return "(" + str(self.p.x) + ", " + str(self.p.y) + ") Base = " + str(self.w) + " Altura = " + str(self.h)
 
 
+class Color:
+    def __init__(self):
+        self.cont_green = 0
+        self.cont_red = 0
+        self.cont_blue = 0
+        self.cont_purple = 0
+        self.cont_brown = 0
+        self.green = ['#31a84f', '#259f48', '#179740', '#008f39', '#008732', '#007f2a', '#007723']
+        self.red = ['#e52b15', '#dc210e', '#d41406', '#cc0000', '#c40000', '#bc0000', '#b40000']
+        self.blue = ['#3d9fe7', '#2f87de', '#1f8fd5', '#0087cc', '#007fc3', '#0077bb', '#006fb2']
+        self.purple = ['#905996', '#8a5390', '#844e8a', '#7e4884', '#78427e', '#723d78', '#6c3873']
+        self.brown = ['#ab6b49', '#a36543', '#9c5e3d', '#955837', '#8e5231', '#874c2b', '#804626']
+
+    def get_color(self, time_str):
+        time = int(time_str.split(' mins')[0]) or int(time_str.split(' hours')[0])
+        if time <= 5:
+            return_color = self.green[self.cont_green]
+            self.cont_green += 1
+        elif time <= 8:
+            return_color = self.brown[self.cont_brown]
+            self.cont_brown += 1
+        elif time <= 12:
+            return_color = self.purple[self.cont_purple]
+            self.cont_purple += 1
+        elif time <= 12:
+            return_color = self.blue[self.cont_blue]
+            self.cont_blue += 1
+        else:
+            return_color = self.red[self.cont_red]
+            self.cont_red += 1
+        return return_color
+
+
 colors = ['pink', 'orange', 'red', 'brown', 'green', 'blue', 'grey', 'purple']
 
 
@@ -59,6 +92,7 @@ def draw_metrominuto(graph_votes):
         :return: svg element.
         :rtype: str.
         """
+    var_color = Color()
     positions = nx.get_node_attributes(graph_votes, 'pos')
     radio = 0.025  # Nodes radio.
     file_name = 'metrominuto_app/templates/grafo_svg.svg'
@@ -79,18 +113,19 @@ def draw_metrominuto(graph_votes):
             id_color = 0
         start = [positions[edge[0]][0], positions[edge[0]][1]]
         end = [positions[edge[1]][0], positions[edge[1]][1]]
+        color_aux = var_color.get_color(edge[2]['duration'])
         # Linea entre nodos
-        line = add_line(dwg, start, end, color)
+        line = add_line(dwg, start, end, color_aux)
         dwg.add(line)
         # punto de la recta perpendicular.
         time_pos_positiva, time_pos_negativa = calculate_time_position(start[0], start[1], end[0], end[1])
         # weight and height text.
         text_weight, text_height = 0.08, 0.013  # get_text_metrics('Arial', int(radio * 1000), edge[2]['duration'])
-        text_pos, lines_points = calculate_time_overlap(lines_points, text_weight, text_height, time_pos_positiva, time_pos_negativa)
+        text_pos = calculate_time_overlap(lines_points, text_weight, text_height, time_pos_positiva, time_pos_negativa)
         # for point in lines_points:
         #     circle = add_circle(dwg, [point.x, point.y], 0.009, 0, 'disc')
         #     dwg.add(circle)
-        time_label = add_label(dwg, text_pos, edge[2]['duration'], radio, color)
+        time_label = add_label(dwg, text_pos, edge[2]['duration'], radio, color_aux)
         dwg.add(time_label)
         # rect = dwg.rect(insert=(text_pos[0], text_pos[1] - text_height), size=(text_weight, text_height),
         #                 stroke=color, fill=color, stroke_width=0.01)
@@ -102,7 +137,7 @@ def draw_metrominuto(graph_votes):
         dwg.add(circle)
         text_weight, text_height = 0.12, 0.013  # get_text_metrics('Arial', int(radio * 1000), 'Marcador' + node[0])
         # pos_label = node_label_overlap(node, point, radio, text_weight, text_height, graph_votes)
-        pos_label, lines_points = calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
+        pos_label = calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
         # text_label = google_maps.reverse_geocode((node[1]['pos'][0], node[1]['pos'][1]))[0]['formatted_address']
         node_label = add_label(dwg, pos_label, 'Marcador' + node[0], radio, 'black')
         dwg.add(node_label)
@@ -222,8 +257,6 @@ def calculate_time_overlap(poinsts_list, text_weight, text_height, time_pos_posi
     :rtype: Array
     """
     text_height = text_height + 0.004
-    # time_pos_positiva[1] = time_pos_positiva[1] + text_height
-    # time_pos_negativa[1] = time_pos_negativa[1] + text_height
     list_rect_text = [Rect(Point(time_pos_negativa[0], time_pos_negativa[1]), text_weight, text_height),
                       Rect(Point(time_pos_negativa[0] - text_weight / 2, time_pos_negativa[1]), text_weight,
                            text_height),
@@ -260,7 +293,7 @@ def calculate_time_overlap(poinsts_list, text_weight, text_height, time_pos_posi
             poinsts_list.append(Point(rect.p.x + text_weight, rect.p.y))
             poinsts_list.append(Point(rect.p.x, rect.p.y + text_height))
             poinsts_list.append(Point(rect.p.x, rect.p.y))
-            return [rect.p.x, rect.p.y], poinsts_list
+            return [rect.p.x, rect.p.y]
     # print('default')
     return 0
 
@@ -300,28 +333,22 @@ def calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
     text_weight = text_weight + 0.01
     # point[1] = point[1] + text_height
     list_text_rects = []
-    # pos media y final arriba centro
-    list_text_rects.append(Rect(Point(point[0] - text_weight / 2, point[1] + radio + beta), text_weight, text_height))
-    # arriba
     list_text_rects.append(Rect(Point(point[0], point[1] + radio + beta), text_weight, text_height))
-    # pos media y final abajo centro
-    list_text_rects.append(Rect(Point(point[0] - text_weight / 2, point[1] - radio - beta), text_weight, text_height))
-    # abajo
-    list_text_rects.append(Rect(Point(point[0], point[1] - radio - beta), text_weight, text_height))
-    # izquierda
-    list_text_rects.append(Rect(Point(point[0] - radio - beta - text_weight, point[1]), text_weight, text_height))
-    # derecha
+    list_text_rects.append(Rect(Point(point[0] + radio + beta, point[1] + radio + beta), text_weight, text_height))
     list_text_rects.append(Rect(Point(point[0] + radio + beta, point[1]), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0] + radio, point[1] - radio - beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0], point[1] - radio - beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0] - radio - beta, point[1] - radio - beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0] - radio - beta - text_weight, point[1]), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0] - radio - beta, point[1] + radio + beta), text_weight, text_height))
     # pos media y final arriba izquierda
     list_text_rects.append(
         Rect(Point(point[0] - radio - beta - text_weight / 2, point[1] + radio + beta), text_weight, text_height))
     list_text_rects.append(
         Rect(Point(point[0] - radio - beta - text_weight, point[1] + radio + beta), text_weight, text_height))
-    # pos media y final abajo izquierda
-    list_text_rects.append(
-        Rect(Point(point[0] - radio - beta - text_weight / 2, point[1] - radio - beta), text_weight, text_height))
-    list_text_rects.append(
-        Rect(Point(point[0] - radio - beta - text_weight, point[1] - radio - beta), text_weight, text_height))
+    # pos media y final arriba centro
+    list_text_rects.append(Rect(Point(point[0] - text_weight / 2, point[1] + radio + beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0] - text_weight, point[1] + radio + beta), text_weight, text_height))
     # pos media y final arriba derecha
     list_text_rects.append(
         Rect(Point(point[0] + radio + beta - text_weight / 2, point[1] + radio + beta), text_weight, text_height))
@@ -332,20 +359,23 @@ def calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
         Rect(Point(point[0] + radio + beta - text_weight / 2, point[1] - radio - beta), text_weight, text_height))
     list_text_rects.append(
         Rect(Point(point[0] + radio + beta - text_weight, point[1] - radio - beta), text_weight, text_height))
+    # pos media y final abajo centro
+    list_text_rects.append(Rect(Point(point[0] - text_weight / 2, point[1] - radio - beta), text_weight, text_height))
     list_text_rects.append(Rect(Point(point[0] - text_weight, point[1] - radio - beta), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0]+radio+beta, point[1]+radio+beta), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0]+radio, point[1]-radio-beta), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0]-radio-beta, point[1]-radio-beta), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0]-radio-beta, point[1]+radio+beta), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0] - text_weight, point[1] + radio + beta), text_weight, text_height))
+    # pos media y final abajo izquierda
+    list_text_rects.append(
+        Rect(Point(point[0] - radio - beta - text_weight / 2, point[1] - radio - beta), text_weight, text_height))
+    list_text_rects.append(
+        Rect(Point(point[0] - radio - beta - text_weight, point[1] - radio - beta), text_weight, text_height))
+
     for rect in list_text_rects:
         if not is_over_rect(lines_points, rect):
-            lines_points.append(Point(rect.p.x + text_weight, rect.p.y - text_height))
+            lines_points.append(Point(rect.p.x + text_weight, rect.p.y + text_height))
             lines_points.append(Point(rect.p.x + text_weight, rect.p.y))
-            lines_points.append(Point(rect.p.x, rect.p.y - text_height))
+            lines_points.append(Point(rect.p.x, rect.p.y + text_height))
             lines_points.append(Point(rect.p.x, rect.p.y))
-            return [rect.p.x, rect.p.y], lines_points
-    # print('default')
+            return [rect.p.x, rect.p.y]
+    print('default')
     return [rect_nodo.x - text_weight, rect_nodo.y]
 
 
