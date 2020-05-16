@@ -67,22 +67,19 @@ class Color:
         if time <= 5:
             return_color = self.green[self.cont_green]
             self.cont_green += 1
-        elif time <= 8:
+        elif time <= 7:
             return_color = self.brown[self.cont_brown]
             self.cont_brown += 1
-        elif time <= 12:
+        elif time <= 10:
             return_color = self.purple[self.cont_purple]
             self.cont_purple += 1
-        elif time <= 12:
+        elif time <= 13:
             return_color = self.blue[self.cont_blue]
             self.cont_blue += 1
         else:
             return_color = self.red[self.cont_red]
             self.cont_red += 1
         return return_color
-
-
-colors = ['pink', 'orange', 'red', 'brown', 'green', 'blue', 'grey', 'purple']
 
 
 def draw_metrominuto(graph_votes):
@@ -98,7 +95,6 @@ def draw_metrominuto(graph_votes):
     file_name = 'metrominuto_app/templates/grafo_svg.svg'
     # vb = str(min_x - radio) + ' ' + str(min_y - radio) + ' ' + str(dif_x + radio) + ' ' + str(dif_y + radio)
     dwg = svg.Drawing(file_name, size=('100%', '100%'), viewBox='0 0.2 1 1.5', profile='full')
-    id_color = 0
     lines_points = []
     for edge in graph_votes.edges():
         start = Point(positions[edge[0]][0], positions[edge[0]][1])
@@ -107,10 +103,6 @@ def draw_metrominuto(graph_votes):
 
     for edge in graph_votes.edges(data=True):
         # print("Start -> End: ", edge[0], ' | ', edge[1])
-        color = get_color(id_color)
-        id_color += 1
-        if id_color > colors.__len__() - 1:
-            id_color = 0
         start = [positions[edge[0]][0], positions[edge[0]][1]]
         end = [positions[edge[1]][0], positions[edge[1]][1]]
         color_aux = var_color.get_color(edge[2]['duration'])
@@ -120,7 +112,7 @@ def draw_metrominuto(graph_votes):
         # punto de la recta perpendicular.
         time_pos_positiva, time_pos_negativa = calculate_time_position(start[0], start[1], end[0], end[1])
         # weight and height text.
-        text_weight, text_height = 0.08, 0.013  # get_text_metrics('Arial', int(radio * 1000), edge[2]['duration'])
+        text_weight, text_height = 0.08 + 0.01, 0.013
         text_pos = calculate_time_overlap(lines_points, text_weight, text_height, time_pos_positiva, time_pos_negativa)
         # for point in lines_points:
         #     circle = add_circle(dwg, [point.x, point.y], 0.009, 0, 'disc')
@@ -135,7 +127,7 @@ def draw_metrominuto(graph_votes):
         point = [node[1]['pos'][0], node[1]['pos'][1]]
         circle = add_circle(dwg, point, radio, 0.010, node[0])
         dwg.add(circle)
-        text_weight, text_height = 0.12, 0.013  # get_text_metrics('Arial', int(radio * 1000), 'Marcador' + node[0])
+        text_weight, text_height = 0.12, 0.013
         # pos_label = node_label_overlap(node, point, radio, text_weight, text_height, graph_votes)
         pos_label = calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
         # text_label = google_maps.reverse_geocode((node[1]['pos'][0], node[1]['pos'][1]))[0]['formatted_address']
@@ -214,10 +206,6 @@ def add_circle(dwg, pos, radio, stroke, name):
                       fill='black', stroke='white', stroke_width=stroke)
 
 
-def get_color(cont):
-    return colors[cont]
-
-
 def calculate_time_position(x1, y1, x2, y2):
     """Function that calculate mid point between 2 points and give it some distance from the line. To the positive and
     negative side.
@@ -257,43 +245,40 @@ def calculate_time_overlap(poinsts_list, text_weight, text_height, time_pos_posi
     :rtype: Array
     """
     text_height = text_height + 0.004
-    list_rect_text = [Rect(Point(time_pos_negativa[0], time_pos_negativa[1]), text_weight, text_height),
-                      Rect(Point(time_pos_negativa[0] - text_weight / 2, time_pos_negativa[1]), text_weight,
-                           text_height),
-                      Rect(Point(time_pos_negativa[0] - text_weight, time_pos_negativa[1]), text_weight, text_height),
-                      Rect(Point(time_pos_negativa[0] - text_weight, time_pos_negativa[1] - text_height / 2),
-                           text_weight,
-                           text_height),
-                      Rect(Point(time_pos_negativa[0] - text_weight, time_pos_negativa[1] - text_height), text_weight,
-                           text_height),
-                      Rect(Point(time_pos_negativa[0] - text_weight / 2, time_pos_negativa[1] - text_height),
-                           text_weight,
-                           text_height),
-                      Rect(Point(time_pos_negativa[0], time_pos_negativa[1] - text_height), text_weight, text_height),
-                      Rect(Point(time_pos_negativa[0], time_pos_negativa[1] - text_height / 2), text_weight,
-                           text_height),
-                      Rect(Point(time_pos_positiva[0], time_pos_positiva[1]), text_weight, text_height),
-                      Rect(Point(time_pos_positiva[0] + text_weight / 2, time_pos_positiva[1]), text_weight,
-                           text_height),
-                      Rect(Point(time_pos_positiva[0] + text_weight, time_pos_positiva[1]), text_weight, text_height),
-                      Rect(Point(time_pos_positiva[0] + text_weight, time_pos_positiva[1] + text_height / 2),
-                           text_weight,
-                           text_height),
-                      Rect(Point(time_pos_positiva[0] + text_weight, time_pos_positiva[1] + text_height), text_weight,
-                           text_height),
-                      Rect(Point(time_pos_positiva[0] + text_weight / 2, time_pos_positiva[1] + text_height),
-                           text_weight,
-                           text_height),
-                      Rect(Point(time_pos_positiva[0], time_pos_positiva[1] + text_height), text_weight, text_height),
-                      Rect(Point(time_pos_positiva[0], time_pos_positiva[1] + text_height / 2), text_weight,
-                           text_height)]
+    time_pos_positiva[1] = time_pos_positiva[1] - text_height
+    time_pos_negativa[1] = time_pos_negativa[1] - text_height
+    list_rect_text = []
+    # mid, left and right position top negative
+    list_rect_text.append(Rect(Point(time_pos_negativa[0] - text_weight / 2, time_pos_negativa[1]), text_weight, text_height))
+    list_rect_text.append(Rect(Point(time_pos_negativa[0] - text_weight, time_pos_negativa[1]), text_weight, text_height))
+    list_rect_text.append(Rect(Point(time_pos_negativa[0], time_pos_negativa[1]), text_weight, text_height))
+    # mid, left right position bottom negative
+    list_rect_text.append(Rect(Point(time_pos_negativa[0] - text_weight / 2, time_pos_negativa[1] - text_height), text_weight, text_height))
+    list_rect_text.append(Rect(Point(time_pos_negativa[0] - text_weight, time_pos_negativa[1] - text_height), text_weight, text_height))
+    list_rect_text.append(Rect(Point(time_pos_negativa[0], time_pos_negativa[1] - text_height), text_weight, text_height))
+    # mid left, mid right negative
+    list_rect_text.append(Rect(Point(time_pos_negativa[0] - text_weight, time_pos_negativa[1] - text_height / 2), text_weight, text_height))
+    list_rect_text.append(Rect(Point(time_pos_negativa[0], time_pos_negativa[1] - text_height / 2), text_weight, text_height))
+
+    # mid, left and right position top positive
+    list_rect_text.append(Rect(Point(time_pos_positiva[0] - text_weight / 2, time_pos_positiva[1]), text_weight, text_height))
+    list_rect_text.append(Rect(Point(time_pos_positiva[0] - text_weight, time_pos_positiva[1]), text_weight, text_height))
+    list_rect_text.append(Rect(Point(time_pos_positiva[0], time_pos_positiva[1]), text_weight, text_height))
+    # mid, left right position bottom positive
+    list_rect_text.append(Rect(Point(time_pos_positiva[0] - text_weight / 2, time_pos_positiva[1] - text_height),text_weight, text_height))
+    list_rect_text.append(Rect(Point(time_pos_positiva[0] - text_weight, time_pos_positiva[1] - text_height), text_weight, text_height))
+    list_rect_text.append(Rect(Point(time_pos_positiva[0], time_pos_positiva[1] - text_height), text_weight, text_height))
+    # mid left, mid right positive
+    list_rect_text.append(Rect(Point(time_pos_positiva[0] - text_weight, time_pos_positiva[1] - text_height / 2), text_weight,text_height))
+    list_rect_text.append(Rect(Point(time_pos_positiva[0], time_pos_positiva[1] - text_height / 2), text_weight, text_height))
+
     for rect in list_rect_text:
         if not is_over_rect(poinsts_list, rect):
             poinsts_list.append(Point(rect.p.x + text_weight, rect.p.y + text_height))
             poinsts_list.append(Point(rect.p.x + text_weight, rect.p.y))
             poinsts_list.append(Point(rect.p.x, rect.p.y + text_height))
             poinsts_list.append(Point(rect.p.x, rect.p.y))
-            return [rect.p.x, rect.p.y]
+            return [rect.p.x + text_height, rect.p.y + text_height]
     # print('default')
     return 0
 
@@ -333,40 +318,50 @@ def calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
     text_weight = text_weight + 0.01
     # point[1] = point[1] + text_height
     list_text_rects = []
+    # bottom mid
+    list_text_rects.append(Rect(Point(point[0]-(text_weight/2), point[1] + radio + beta), text_weight, text_height))
+    # Top mid
+    list_text_rects.append(Rect(Point(point[0]-(text_weight/2), point[1] - radio - beta), text_weight, text_height))
+    # left mid -> a la izquierda no tiene sentido probar texto a la derecha, siempre va a solapar con el circulo
+    list_text_rects.append(Rect(Point(point[0] - radio - beta - text_weight, point[1] + text_height /2), text_weight, text_height))
+    # right mid
+    list_text_rects.append(Rect(Point(point[0] + radio + beta, point[1] + text_height / 2), text_weight, text_height))
+    # bottom left and right
     list_text_rects.append(Rect(Point(point[0], point[1] + radio + beta), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0] + radio + beta, point[1] + radio + beta), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0] + radio + beta, point[1]), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0] + radio, point[1] - radio - beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0]+text_weight, point[1] + radio + beta), text_weight, text_height))
+    # top left and right
     list_text_rects.append(Rect(Point(point[0], point[1] - radio - beta), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0] - radio - beta, point[1] - radio - beta), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0] - radio - beta - text_weight, point[1]), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0] - radio - beta, point[1] + radio + beta), text_weight, text_height))
-    # pos media y final arriba izquierda
-    list_text_rects.append(
-        Rect(Point(point[0] - radio - beta - text_weight / 2, point[1] + radio + beta), text_weight, text_height))
-    list_text_rects.append(
-        Rect(Point(point[0] - radio - beta - text_weight, point[1] + radio + beta), text_weight, text_height))
-    # pos media y final arriba centro
-    list_text_rects.append(Rect(Point(point[0] - text_weight / 2, point[1] + radio + beta), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0] - text_weight, point[1] + radio + beta), text_weight, text_height))
-    # pos media y final arriba derecha
-    list_text_rects.append(
-        Rect(Point(point[0] + radio + beta - text_weight / 2, point[1] + radio + beta), text_weight, text_height))
-    list_text_rects.append(
-        Rect(Point(point[0] + radio + beta - text_weight, point[1] + radio + beta), text_weight, text_height))
-    # pos media y final abajo derecha
-    list_text_rects.append(
-        Rect(Point(point[0] + radio + beta - text_weight / 2, point[1] - radio - beta), text_weight, text_height))
-    list_text_rects.append(
-        Rect(Point(point[0] + radio + beta - text_weight, point[1] - radio - beta), text_weight, text_height))
-    # pos media y final abajo centro
-    list_text_rects.append(Rect(Point(point[0] - text_weight / 2, point[1] - radio - beta), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0] - text_weight, point[1] - radio - beta), text_weight, text_height))
-    # pos media y final abajo izquierda
-    list_text_rects.append(
-        Rect(Point(point[0] - radio - beta - text_weight / 2, point[1] - radio - beta), text_weight, text_height))
-    list_text_rects.append(
-        Rect(Point(point[0] - radio - beta - text_weight, point[1] - radio - beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0] + text_weight, point[1] - radio - beta), text_weight, text_height))
+
+    # corners bottom left
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight - text_weight, point[1] + radio + text_height/2 + beta), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight - text_weight / 2, point[1] + radio + text_height/2 + beta), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight, point[1] + radio + text_height/2), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight -text_weight, point[1] + radio + beta), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight -text_weight/2, point[1] + radio + beta), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight, point[1] + radio + beta), text_weight, text_height)))
+    # corners bottom right
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio, point[1] + radio + text_height / 2 + beta), text_weight,text_height)))
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio + text_weight / 2, point[1] + radio + text_height / 2 + beta), text_weight,text_height)))
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio + text_weight, point[1] + radio + text_height / 2 + beta), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio, point[1] + radio + text_height + beta), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio + text_weight / 2, point[1] + radio + text_height + beta), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio + text_weight, point[1] + radio + text_height + beta), text_weight, text_height)))
+
+    # corners top left
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight - text_weight, point[1] - radio - text_height / 2), text_weight,text_height)))
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight - text_weight / 2, point[1] - radio - text_height / 2), text_weight,text_height)))
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight, point[1] - radio - text_height / 2), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight - text_weight, point[1] - radio - beta), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight - text_weight / 2, point[1] - radio - beta), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight, point[1] - radio - beta), text_weight, text_height)))
+    # corners top right
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio, point[1] - radio - text_height / 2), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio + text_weight / 2, point[1] - radio - text_height / 2), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio + text_weight, point[1] - radio - text_height / 2), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio, point[1] - radio - text_height), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio + text_weight / 2, point[1] - radio - text_height), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio + text_weight, point[1] - radio - text_height), text_weight, text_height)))
 
     for rect in list_text_rects:
         if not is_over_rect(lines_points, rect):
