@@ -63,6 +63,7 @@ class Color:
         self.brown = ['#ab6b49', '#a36543', '#9c5e3d', '#955837', '#8e5231', '#874c2b', '#804626']
 
     def get_color(self, time_str):
+        self.check_cont()
         time = int(time_str.split(' mins')[0]) or int(time_str.split(' hours')[0])
         if time <= 5:
             return_color = self.green[self.cont_green]
@@ -81,6 +82,18 @@ class Color:
             self.cont_red += 1
         return return_color
 
+    def check_cont(self):
+        if self.cont_red > self.red.__len__()-1:
+            self.cont_red = 0
+        if self.cont_green > self.green.__len__()-1:
+            self.cont_green = 0
+        if self.cont_blue > self.blue.__len__()-1:
+            self.cont_blue = 0
+        if self.cont_purple > self.purple.__len__()-1:
+            self.cont_purple = 0
+        if self.cont_brown > self.brown.__len__()-1:
+            self.cont_brown = 0
+
 
 def draw_metrominuto(graph_votes):
     """Functions that save graph as SVG.
@@ -89,6 +102,7 @@ def draw_metrominuto(graph_votes):
         :return: svg element.
         :rtype: str.
         """
+    edges_change = []
     var_color = Color()
     positions = nx.get_node_attributes(graph_votes, 'pos')
     radio = 0.025  # Nodes radio.
@@ -106,6 +120,10 @@ def draw_metrominuto(graph_votes):
         start = [positions[edge[0]][0], positions[edge[0]][1]]
         end = [positions[edge[1]][0], positions[edge[1]][1]]
         color_aux = var_color.get_color(edge[2]['duration'])
+        change, start_change, end_change, edges_change = check_line_overlap(edges_change, edge, graph_votes, positions, Point(start[0], start[1]), Point(end[0], end[1]))
+        if change:
+            start = start_change
+            end = end_change
         # Linea entre nodos
         line = add_line(dwg, start, end, color_aux)
         dwg.add(line)
@@ -144,6 +162,28 @@ def draw_metrominuto(graph_votes):
     #     circle = add_circle(dwg, [point.x, point.y], 0.009, 0, 'disc')
     #     dwg.add(circle)
     return dwg.tostring()
+
+
+def check_line_overlap(edges_change, edge, graph_votes, positions, start, end):
+    vector_recta = Point(start.x - end.x, start.y - end.y)
+    for arco in graph_votes.edges(data=True):
+        if arco != edge and arco not in edges_change:
+            arco_start = Point(positions[arco[0]][0], positions[arco[0]][1])
+            arco_end = Point(positions[arco[1]][0], positions[arco[1]][1])
+            vector_position = Point(positions[arco[0]][0] - positions[arco[1]][0], positions[arco[0]][1] - positions[arco[1]][1])
+            if vector_recta.x == 0.0 and vector_position.x == 0.0:  # vertical
+                if arco_start.x == start.x and arco_end.x == end.x:  # misma ubicación
+                    edges_change.append(arco)
+                    return True, [start.x-0.01, start.y], [end.x-0.01, end.y], edges_change
+            elif vector_recta.y == 0.0 and vector_position.y == 0.0:  # horizontal
+                if arco_start.y == start.y and arco_end.y == end.y:  # misma ubicación
+                    edges_change.append(arco)
+                    return True, [start.x, start.y-0.01], [end.x, end.y-0.01], edges_change
+            # else:  # si no es horizontal ni vertical, formula
+            #     for x in np.arange(origin, final, separacion):
+            #         y = (((x - start.x) * vector_recta.y) / vector_recta.x) + start.y
+
+    return False, None, None, edges_change
 
 
 def add_line(dwg, start, end, color):
@@ -316,7 +356,6 @@ def calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
     rect_nodo = Rect(Point(point[0] - radio, point[1] - radio), radio, radio)
     beta = text_height + 0.006  # 0.013
     text_weight = text_weight + 0.01
-    # point[1] = point[1] + text_height
     list_text_rects = []
     # bottom mid
     list_text_rects.append(Rect(Point(point[0]-(text_weight/2), point[1] + radio + beta), text_weight, text_height))
