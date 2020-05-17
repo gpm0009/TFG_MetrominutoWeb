@@ -64,7 +64,10 @@ class Color:
 
     def get_color(self, time_str):
         self.check_cont()
-        time = int(time_str.split(' mins')[0]) or int(time_str.split(' hours')[0])
+        if time_str != '':
+            time = int(time_str.split(' mins')[0]) or int(time_str.split(' hours')[0])
+        else:
+            time = 20
         if time <= 5:
             return_color = self.green[self.cont_green]
             self.cont_green += 1
@@ -362,9 +365,9 @@ def calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
     # Top mid
     list_text_rects.append(Rect(Point(point[0]-(text_weight/2), point[1] - radio - beta), text_weight, text_height))
     # left mid -> a la izquierda no tiene sentido probar texto a la derecha, siempre va a solapar con el circulo
-    list_text_rects.append(Rect(Point(point[0] - radio - beta - text_weight, point[1] + text_height /2), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0] - radio - beta - text_weight, point[1] - text_height /2), text_weight, text_height))
     # right mid
-    list_text_rects.append(Rect(Point(point[0] + radio + beta, point[1] + text_height / 2), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0] + radio + beta, point[1] - text_height / 2), text_weight, text_height))
     # bottom left and right
     list_text_rects.append(Rect(Point(point[0], point[1] + radio + beta), text_weight, text_height))
     list_text_rects.append(Rect(Point(point[0]+text_weight, point[1] + radio + beta), text_weight, text_height))
