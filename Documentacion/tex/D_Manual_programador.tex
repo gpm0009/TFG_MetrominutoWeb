@@ -56,9 +56,9 @@ Estos problemas han resultado de gran complejidad en el desarrollo final del pro
 \end{itemize}
 
 Un aspecto clave, y a tener \textbf{muy} en cuenta en la evaluación de todo lo comentado anteriormente, es que debemos recordar en todo momento que estos cálculos se hacen para dibujar en SVG, por lo que el punto mas pequeño de la <<coordenada x>> y de la <<coordenada y>> se encuentra en la esquina superior izquierda. Esto nos lleva a que cada posible ancla (punto inferior izquierdo) del rectángulo del texto debemos restarle la altura de dicho texto para que la evaluación de los puntos coincida, ya que al dibujarlo en SVG el texto siempre se dibuja hace arriba desde el punto que indicamos. Para entender mejor esto, los puntos \textit{A} y \textit{C} de la imagen~\ref{fig:rectangulos} corresponderían con el punto inferior izquierdo del rectángulo que queremos evaluar, mientras que los puntos \textit{B} y \textit{D} serían los puntos que debemos indicar al dibujar el SVG.
-\imagen{rectangulos}{Panel Google Console}
+\imagen{rectangulos}{Puntos del rectángulo.}
 
-Cruza la referencia con la Figura de abajo <<inslar PyCharm D.1>> y no termino de enender muy bien por qué.
+Cruza la referencia con la Figura de abajo <<instalar PyCharm D.1>> y no termino de entender muy bien por qué.
 
 
 \section{Aplicaciones utilizadas}
@@ -71,9 +71,12 @@ Para el desarrollo de este proyecto se tuvieron en cuenta principalmente dos edi
 	\item \textbf{GitCraken}
 \end{itemize}
 Después de analizar y configurar ambos editores de texto, se llegó a la conclusión de que era mucho mas cómodo y útil utilizar PyCharm, ya que ofrece una configuración mas sencilla, además de permitir importar diversas librerías de una manera mas amigable. También ofrece la posibilidad de seguir los estándares de programación \textit{PEP8} y \textit{ECMAScript}.
+Para el control de versiones se ha utilizado GitCraken.
 
 \section{Instalación y configuración}
 Para la instalación del proyecto se explicarán los pasos a seguir en un sistema operativo de Linux, que en este caso se trata de la versión Linux Mint 18.3 Sylvia.
+Tras varias pruebas, la instalación y ejecución del proyecto es idéntica salvo la propia instalción de Pycharm y Python.
+¿Me extiendo un poco más? La ejecución y configuración del entorno es exactamente igual dentro de PyCharm.
 
 \subsection{Python}
 
@@ -103,8 +106,7 @@ Una vez instalado \textit{PyCharm}, la forma más cómoda de obtener el código 
 \begin{lstlisting}[language=bash,caption={Descargar el repositorio}]
 $ git clone <url_del_repositorio>
 \end{lstlisting}
-Siendo \url{https://github.com/gpm0009/TFG_MetrominutoWeb.git} la URL del 
-repositorio.
+Siendo \url{https://github.com/gpm0009/TFG_MetrominutoWeb.git} la URL del repositorio.
 
 Para instalar las dependencias ejecutar el comando:
 \begin{lstlisting}[language=bash,caption={Instalar requirements.txt}]
@@ -116,7 +118,7 @@ Para la obtención de una \textit{Google API KEY} es necesario obtener los crede
 Una vez registrados en Google, en el caso de que no lo estuviésemos ya, debemos acceder a la \textit{consola}\footnote{\url{https://console.cloud.google.com}} y desplegar el panel de la parte izquierda.
 \imagen{panelGoogle}{Panel Google Console}
 
-Hacemos click sobre <<APIs y servicios>> - <<Credenciales>> y después sobre la clave que se nos ha generado anteriormente. Desde el apartado <<Restricciones de API>> podremos seleccionar que servicios queremos que proporcione nuestra clave.\\
+Hacemos click sobre <<APIs y servicios>> - <<Credenciales>> y después sobre la clave que se nos ha generado anteriormente. Desde el apartado <<Restricciones de API>> podremos seleccionar que servicios queremos que proporcione nuestra clave y restringir desde dónde se va a usar.\\
 En concreto, para este proyecto debemos tener activados:
 \begin{itemize}
 	\item Directions.
@@ -167,7 +169,7 @@ Una vez ahí, vemos que nos ofrece dos opciones para buscar diccionarios: \url{h
 
 \section{Bibliotecas}
 
-\subsection{NetworkX}
+\subsection{NetworkX}\label{networkx}
 Como ya he mencionado, esta biblioteca nos permite trabajar de una forma muy amplia y completa con grafos. A lo largo del proyecto se han usado:
 \begin{itemize}
 	\item \texttt{graph()}: para crear un grafo no dirigido al que se añadirán nodos y arcos.
@@ -180,7 +182,10 @@ Como ya he mencionado, esta biblioteca nos permite trabajar de una forma muy amp
 	\item \texttt{draw\_networkx()}: para dibujar el grafo.
 \end{itemize}
 
-\subsection{Despliegue de la aplicación en Azure}
+\subsection{SVGWRITE}\label{svgwrite}
+
+
+\section{Despliegue de la aplicación en Azure}
 Antes de incluirlo voy a intertar desplegarlo desde un repositorio git (ya que he elegido pycharm para no decir ahora que uso VS Code).
 
 
@@ -206,13 +211,15 @@ Después, el editor detectará automáticamente el fichero \textit{requirements.
 $ pip -r install requirements.txt
 \end{lstlisting}
 
-\subsection{Variables de entorno}
+\subsection{Variables de entorno}\label{variables_entorno}
 Para que la aplicación funcione correctamente hay que definir las siguientes variables de entorno:
 \begin{itemize}
 	\item \textbf{\texttt{GOOGLE\_API\_KEY}:} clave obtenida anteriormente necesaria para obtener datos de Google.
 	\item \textbf{\texttt{SECRET\_KEY}:} clave necesaria por Flask.
 	\item \textbf{\texttt{ENVIRORMENT}:} en el que se está actualmente: development o production.
 \end{itemize}
+Para su configuración, acceder desde la parte superior derecha del editor a \textit{Edit Configurations$\dots$} y después seleccionar \textit{Envirorment variables} como vemos en la figura~\ref{fig:envirorment_variables}:
+\imagen{envirorment_variables}{Variables de entorno}.
 
 \subsection{Ejecución}
 Para la ejecución desde el editor, es necesario que hagamos una última configuración. Debemos ir a la parte superior derecha del editor y seleccionar \textit{Edit Configurations$\dots$}
@@ -225,5 +232,11 @@ Para realizar el despligue de la aplicación en Azure es necesario que el proyec
 Para ello, esta estructura en la que se contempla y define en el apartado Estructura de directorios \ref{cap:Estructura}.
 
 He hecho el despliegue usando VS Code, igual no queda bonito decir que lo he usado después de usar PyCharm. Voy a probar a desplegarlo desde git y lo incluyo. 
+
+Tras hacer el despliegue, es importante acordarse de configurar en Azure las variables de entorno que teníamos definidas~\ref{variables_entorno}. Para ello debemos entrar, en Azure, a nuestro \textit{APP Service} y añadirlas en el apartado de \textit{Configuración} que aparece en el menú desplegable de la izquierda,  véase la figura~\ref{fig:configuracion_paso1}.
+\imagen{configuracion_paso1}{Configuración Variables de entorno en Azure, paso 1.}
+
+A continuación, seleccionar \textit{Configuración de la aplicación} y \textit{Nueva configuración de la aplicación}, como vemos en la figura~\ref{fig:configuracion_paso2}.
+\imagen{configuracion_paso2}{Configuración Variables de entorno en Azure, paso 2.}
 
 \section{Pruebas del sistema}

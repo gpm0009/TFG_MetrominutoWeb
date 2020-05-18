@@ -4,10 +4,15 @@
 En este apartado de la documentación se expone el diseño que ha dado lugar a la aplicación, el cual incluye el diseño de las distintas estructuras de datos, el diseño procedimental y diseño arquitectónico.
 
 \section{Diseño de datos}
-La estructura del proyecto podemos dividirla en varias partes ya que, debido al uso de bibliotecas como la de Google Maps o de la biblioteca de Networkx para la generación de grafos, se han usado todos o parte de los datos que nos devuelven como resultado de las consultas.
+En esta sección se explican las entidades usadas por la aplicación:
+\begin{itemize}
+	\item Grafos: Conjunto de datos necesarios para tratar los puntos y arcos que representan los caminos entre los distintos marcadores seleccionados.
+	\item Datos de Google: Datos que proporciona la API de Google, como distancias y tiempos entre puntos, así como datos acerca de la ubicación del marcador.
+	\item SVG: entidad que se usa para representar el grafo obtenido tras realizar distintas comprobaciones sobre los datos obtenidos anteriormente.
+\end{itemize}
 
 \subsection{NetworkX}
-En este proyecto se usa networkX para generar, modificar y visualizar grafos, en los cuales el elemento <<\textit{nodes}>> representa los diferentes puntos seleccionados por el usuario, y el elemento <<\textit{edges}>> representa las conexiones entre ellos.
+En este proyecto se usa networkX, \ref{networkx}, para generar, modificar y visualizar grafos, en los cuales el elemento <<\textit{nodes}>> representa los diferentes puntos seleccionados por el usuario, y el elemento <<\textit{edges}>> representa las conexiones entre ellos.
 
 \subsection{Google API}
 Google se ha usado para la obtención de todos los datos necesarios para el cálculo de distancias y tiempos, así como para la selección de los diferentes puntos en el mapa. Para ello, Google proporciona un API para \textit{Python} y otro para \textit{JavaScript}. Las funciones que se han usado han sido:
@@ -16,6 +21,15 @@ Google se ha usado para la obtención de todos los datos necesarios para el cál
 	\item \texttt{directions()}: devuelve las direcciones que hay que seguir para llegar de un punto a otro.
 \end{itemize}
 
+\subsection{SVG}
+Mediante la biblioteca \textit{svgwrite}~\ref{svgwrite} obtenemos el grafo mediante el dibujado de:
+\begin{itemize}
+	\item Círculos: corresponden con los marcadores seleccionados previamente en el mapa.
+	\item Líneas: corresponden a la distancia entre los puntos de sus extremos.
+	\item Labels: texto con información acerca de los puntos y de la distancia entre ellos
+\end{itemize}
+
+¿Esto podrían ser las entidades para el diagrama de entidades?
 
 \section{Diseño procedimental}
 En esta sección se explican las interacciones más destacadas de la aplicación. La principal de ellas es, dentro de la visualización de los puntos, cuando se pasa a la vista del mapa sinóptico, ya que aquí entran en juego todas las partes de la aplicación.
