@@ -1,6 +1,8 @@
 {#{% extends "base_template.html" %}#}
 {#{% block app_content %}#}
 {% extends "base.html" %}
+{% set active_page="mapa" %}
+
 {% block content %}
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static', filename='css/map_template.css') }}">
@@ -10,6 +12,7 @@
             <input id="pac-input"
                    type="text"
                    placeholder="Enter a location">
+            <!--style="height: 250px;width: 52%;margin-left: auto;margin-right: auto"-->
             <div id="map"></div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-12">
@@ -23,9 +26,9 @@
                 <table class="table table-sm">
                     <thead class="thead-light">
                     <tr>
-                        <th scope="col">Central Point</th>
-                        <th scope="col">Delete</th>
-                        <th scope="col">Location</th>
+                        <th style="width: 20%" scope="col">Central Point</th>
+                        <th style="width: 20%" scope="col">Delete</th>
+                        <th style="width: 60%;text-align: left" scope="col">Location</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -44,7 +47,7 @@
                                 </svg>
                             </button>
                         </td>
-                        <td>[[ item.text ]]</td>
+                        <td style="text-align: left">[[ item.text ]]</td>
                     </tr>
                     </tbody>
                 </table>

@@ -19,39 +19,48 @@
 <body>
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top py-1">
-  <a class="navbar-brand" href="#">Metrominuto</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <a class="nav-item nav-link" href="{{ url_for('main.set_marks') }}">Mapa <!--span class="sr-only">(current)</span--></a>
-{#      <a class="nav-item nav-link active" href="{{ url_for('main.set_marks') }}">Mapa <!--span class="sr-only">(current)</span--></a>#}
-      <a class="nav-item nav-link disabled" href="#">Grafo</a>
+    <a class="navbar-brand" href="#">Metrominuto</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link{% if active_page == 'mapa' %} active{% endif %}" href="{{ url_for('main.set_marks') }}">Mapa</a>
+            {% if session['grafo'] %}
+                <a class="nav-item nav-link{% if active_page == 'grafo' %} active{% endif %}" href="{{ url_for('main.draw_svg') }}">Grafo</a>
+            {% else %}
+                <a class="nav-item nav-link{% if active_page == 'grafo' %} active{% endif %} disabled" href="{{ url_for('main.draw_svg') }}">Grafo</a>
+            {% endif %}
+        </div>
     </div>
-  </div>
+    <a class="navbar-brand" href="{{ url_for('main.help_page') }}" target="_blank" aria-label="Ayuda" rel="noopener">
+        <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>
+            <path d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+        </svg>
+    </a>
 </nav>
 
 <!-- Cookies modal -->
 <div class="modal fade cookieModal" id="cookieModal" tabindex="-1" role="dialog" aria-labelledby="cookieModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 id="cookieModalLabel">Cookie Information and Consent Request</h2>
-                </div>
-                <div class="modal-body">
-                    <h4>Cookie Policy</h4>
-                    <p>[COOKIE MESSAGE HERE]</p>
-                    <p>
-                        <a href="" target="_blank">Click here to view our cookie policy</a>
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button id="cookieModalConsent" type="button" class="btn btn-primary btn-lg btn-block" data-dismiss="modal">Accept</button>
-                </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="cookieModalLabel">Cookie Information and Consent Request</h2>
+            </div>
+            <div class="modal-body">
+                <h4>Cookie Policy</h4>
+                <p>[COOKIE MESSAGE HERE]</p>
+                <p>
+                    <a href="" target="_blank">Click here to view our cookie policy</a>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button id="cookieModalConsent" type="button" class="btn btn-primary btn-lg btn-block" data-dismiss="modal">Accept</button>
             </div>
         </div>
     </div>
+</div>
 
 <!-- "content" block that pages are expected to override -->
 <div class="container body-content col-12">
@@ -61,6 +70,14 @@
         <p>&copy; 20.05.13 - TFG Metrominuto. Guillermo Paredes Muga</p>
     </footer>
 </div>
+{#<footer class="footer">#}
+{#    <div class="container">#}
+{#            <span class="text-muted pull-left">&copy; 0.1.20.05.18 - TFG Metrominuto.<span#}
+{#                    class="text-info"> Guillermo Paredes Muga</span></span>#}
+{#            <span class="text-muted pull-right">Tutores: <span#}
+{#                    class="text-info">Álvar Arnaiz González y César Ignacio García-Osorio</span></span>#}
+{#        </div>#}
+{#</footer>#}
 <!-- Additional scripts; use the "scripts" block to add page-specific scripts.  -->
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
