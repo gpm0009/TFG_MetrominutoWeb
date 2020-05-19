@@ -20,6 +20,7 @@ google_maps = googlemaps.Client(key=Config.GOOGLE_API_KEY)
 def set_marks():
     with open('metrominuto_app/static/markers_example1.json') as markers_file:
         new_markers = json.load(markers_file)
+    # new_markers = new_markers['markers']
     markers = []
     for element in new_markers:
         markers.append(element)
@@ -39,24 +40,26 @@ def set_marks():
         with open('metrominuto_app/static/distance_matrix_example1.json') as matrix_file:
             matrix = json.load(matrix_file)
         dist = Clr.get_distance_matrix_values(matrix)
-        votes = gph.calculate_graph(dist, markers, central_markers['central_markers'], matrix)
-        svg_f.draw(votes)
+        gph.calculate_graph(dist, markers, central_markers['central_markers'], matrix)
+        session['marcadores'] = json.dumps(markers)
+        session['grafo'] = 1
         return redirect(url_for('main.draw_svg'))
     longitude = -3.69
     latitude = 42.34
     return render_template(
         'map_template.html',
         longitude=longitude,
-        latitude=latitude, API_KEY=Config.GOOGLE_API_KEY, form=form, positions=json.dumps(markers))  # positions=json.dumps(markers)
+        latitude=latitude, API_KEY=Config.GOOGLE_API_KEY, form=form,
+        positions=json.dumps(markers))  # positions=json.dumps(markers)
 
 
 @main.route('/graph', methods=['GET', 'POST'])
 def draw_svg():
     svg_list = []
-    for i in range(0, int(session['max_votes'])):
+    for i in range(0, int(session['max_votes'])):  # 1):  #int(session['max_votes'])):  # 1):
         graph = gph.connected_graph(i)
-        svg_list.append(svg_f.draw(graph))
-    return render_template('show_graph.html', max=session['max_votes']-1, min=session['min_votes'], lista=svg_list)
+        svg_list.append(svg_f.draw_metrominuto(graph))
+    return render_template('show_graph.html', max=session['max_votes'] - 1, min=session['min_votes'], lista=svg_list)
 
 
 @main.route('/setMode', methods=['POST'])
@@ -77,3 +80,8 @@ def mensaje():
 @main.route('/modal')
 def prueba():
     return render_template('vue_template.html')
+
+
+@main.route('/ayuda')
+def help_page():
+    return render_template('ayuda.html')

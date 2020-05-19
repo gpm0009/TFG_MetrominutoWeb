@@ -136,6 +136,21 @@
 
             });
 
+{#            {%if session['marcadores'] %}#}
+{#                console.log('TRUE marcadores');#}
+{#                var aux = {{ session['marcadores']|safe }};#}
+{#                console.log(aux);#}
+{#                for(var i=1;i<aux.length;i++) {#}
+{#                    var marker = new google.maps.Marker({#}
+{#                        position: aux[i].position,#}
+{#                        map: map,#}
+{#                        icon: {#}
+{#                            url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"#}
+{#                        }#}
+{#                    });#}
+{#                    app.addNewTodo(marker, 'Marcador' + i.toString());#}
+{#                }#}
+{#            {% endif %}#}
             //FIXME ONLY FOR NO API OPERATIONS
             var positions = {{ positions|safe }};
             for(var i=1;i<positions.length;i++){
