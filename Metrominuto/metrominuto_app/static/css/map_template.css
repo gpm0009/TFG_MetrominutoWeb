@@ -1,6 +1,6 @@
 #map {
     width: 100%;
-    height: 760px;
+    height: 600px;
 }
 #buttons {
 
@@ -23,15 +23,15 @@ table {
     background-color: #e2dfed;
 }
 
-th {
-    background-color: #42b983;
-    color: rgba(255,255,255,0.66);
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
+/*th {*/
+/*    background-color: rgba(6, 163, 92, 0.88);*/
+/*    color: rgba(255,255,255,0.66);*/
+/*    cursor: pointer;*/
+/*    -webkit-user-select: none;*/
+/*    -moz-user-select: none;*/
+/*    -ms-user-select: none;*/
+/*    user-select: none;*/
+/*}*/
 
 /*td {*/
 /*    background-color: #f9f9f9;*/
@@ -39,15 +39,14 @@ th {
 
 th, td, tr {
     min-width: 120px;
-    padding: 10px 20px;
     text-align: center;
 }
 
-/*@media (max-width: 1558px){*/
+/*@media (min-width: 990px){*/
 /*    .container, .container-lg, .container-md, .container-sm, .container-xl {*/
-/*    max-width: 1700px;*/
+/*    !*max-width: 992px;*!*/
 /*    }*/
 /*    #map{*/
-/*        height: 500px;*/
+/*        height: 550px;*/
 /*    }*/
 /*}*/

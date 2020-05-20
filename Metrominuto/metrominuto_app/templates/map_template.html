@@ -8,21 +8,35 @@
           href="{{ url_for('static', filename='css/map_template.css') }}">
     <script src="https://maps.googleapis.com/maps/api/js?key={{API_KEY}}&libraries=places"> type="text/javascript"</script>
     <div class="row">
-        <div class="col-lg-8 col-md-8 col-sm-12">
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
             <input id="pac-input"
                    type="text"
                    placeholder="Enter a location">
             <!--style="height: 250px;width: 52%;margin-left: auto;margin-right: auto"-->
             <div id="map"></div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <strong>Demasiados marcadores!</strong> Debes eliminar alguno.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div id="app">
+            <div id="panel-info">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Haz tu propio Metrominuto</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            <li><p>Seleccione sobre el mapa los puntos que desee.</p></li>
+                            <li><p>Marque como centrales los que desee.</p></li>
+                            <li><p>Pulse sobre <b>Mostrar Mapa.</b></p></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="app" style="display: none">
                 <table class="table table-sm">
                     <thead class="thead-light">
                     <tr>
@@ -152,6 +166,7 @@
 {#                }#}
 {#            {% endif %}#}
             //FIXME ONLY FOR NO API OPERATIONS
+            {% if  positions %}
             var positions = {{ positions|safe }};
             for(var i=1;i<positions.length;i++){
                 var marker = new google.maps.Marker({position: positions[i].position,
@@ -162,6 +177,7 @@
                 //markers.push(marker);
                 app.addNewTodo(marker,'Marcador'+i.toString());
             }
+            {% endif %}
 
             {#Search for places#}
             var autocomplete = new google.maps.places.Autocomplete(input);
@@ -239,8 +255,7 @@
         }
         google.maps.event.addDomListener(window, 'load', initMap);
 
-        {#  VUE  delimiters:['[[',']]'] #}
-
+        //VUE
         var app = new Vue({
             el: "#app",
             delimiters:['[[',']]'],
@@ -264,6 +279,10 @@
                         text:text
                     });
                     this.cont++;
+                    var el = document.getElementById('app'); //se define la variable "el" igual a nuestro div
+                    var info = document.getElementById('panel-info'); //se define la variable "el" igual a nuestro div
+                    el.style.display = 'block';
+                    info.style.display = 'none';
 
                 },
                 deleteMarker: function (item) {
@@ -272,6 +291,12 @@
                     this.markers_list.splice(index,1)
                     if (this.markers_list.length<15){
                         $(".alert").hide();
+                    }
+                    if (this.markers_list.length == 0){
+                        var el = document.getElementById('app'); //se define la variable "el" igual a nuestro div
+                        var info = document.getElementById('panel-info'); //se define la variable "el" igual a nuestro div
+                        el.style.display = 'none'
+                        info.style.display = 'block'
                     }
                 },
                 setCentralMarker: function (item) {
