@@ -5,18 +5,27 @@
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static', filename='css/show_graph.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="customRange1">Número de arcos:</label>
+
+
+    <form id="form-graph" action="{{url_for('main.draw_svg')}}" method="post" class="col-12">
+        {{ form.hidden_tag() }}
+        <div class="form-row">
+            <div class="col-md-6">
+                <label for="formControlRange">Número de arcos:</label>
                 <input type="range" min="{{min}}" value="{{min}}" max="{{max}}"
-                       class="custom-range" id="formControlRange">
+                       class="custom-range" id="formControlRange" name="formControlRange">
+            </div>
+            <div class="col-md-1 col-lg-1" style="padding-top: 8px">
+                {{ form.submit(class="btn alert-success") }}
+{#                <a class="btn btn-primary"#}
+{#                           href="{{ url_for('main.edit_graph') }}">Mis ficheros</a>#}
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-12" id="mysvg"></div>
-    </div>
+        <div class="form-row">
+            <div class="col-md-12 col-sm-12" id="mysvg" name="my-svg" style="height: 800px"></div>
+        </div>
+    </form>
+
 {% endblock %}
 {% block scripts %}
     <script src="{{ url_for('static', filename='js/grafo.js') }}"></script>

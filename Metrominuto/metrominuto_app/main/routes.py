@@ -8,7 +8,7 @@ from datetime import datetime
 from metrominuto_app import svgfunctions as svg_f, graphs as gph, calculateRoute as Clr
 from flask import render_template, request, session, jsonify, redirect, url_for
 from config import Config
-from metrominuto_app.main.forms import MapForm
+from metrominuto_app.main.forms import MapForm, Form
 import googlemaps
 from metrominuto_app.main import main
 import os
@@ -18,9 +18,9 @@ google_maps = googlemaps.Client(key=Config.GOOGLE_API_KEY)
 
 @main.route("/", methods=['GET', 'POST'])
 def set_marks():
-    with open('metrominuto_app/static/markers_example1.json') as markers_file:
+    with open('metrominuto_app/static/markers_example2.json') as markers_file:
         new_markers = json.load(markers_file)
-    # new_markers = new_markers['markers']
+    new_markers = new_markers['markers']
     markers = []
     for element in new_markers:
         markers.append(element)
@@ -37,7 +37,7 @@ def set_marks():
         central_markers = json.loads(request.form['central_markers'])
         # now = datetime.now()
         # matrix = google_maps.distance_matrix(origins, destinations, 'walking', departure_time=now)
-        with open('metrominuto_app/static/distance_matrix_example1.json') as matrix_file:
+        with open('metrominuto_app/static/distance_matrix_example2.json') as matrix_file:
             matrix = json.load(matrix_file)
         dist = Clr.get_distance_matrix_values(matrix)
         gph.calculate_graph(dist, markers, central_markers['central_markers'], matrix)
@@ -55,11 +55,22 @@ def set_marks():
 
 @main.route('/graph', methods=['GET', 'POST'])
 def draw_svg():
+    form = Form()
+    if request.method == 'POST':
+        session['id_svg_selected'] = int(request.form['formControlRange'])
+        return redirect(url_for('main.edit_graph'))
     svg_list = []
     for i in range(0, int(session['max_votes'])):  # 1):  #int(session['max_votes'])):  # 1):
         graph = gph.connected_graph(i)
         svg_list.append(svg_f.draw_metrominuto(graph))
-    return render_template('show_graph.html', max=session['max_votes'] - 1, min=session['min_votes'], lista=svg_list)
+    session['svg_list_sent'] = svg_list
+    return render_template('show_graph.html', max=session['max_votes'] - 1, min=session['min_votes'], lista=svg_list, form=form)
+
+
+@main.route('/graph/edit', methods=['GET', 'POST'])
+def edit_graph():
+    svg = session['svg_list_sent'][session['id_svg_selected']]
+    return render_template('edit_graph.html', svg=svg)
 
 
 @main.route('/setMode', methods=['POST'])

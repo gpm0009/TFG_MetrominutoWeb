@@ -20,3 +20,8 @@ class MapForm(FlaskForm):
     """
     submit = SubmitField('Mostrar Mapa')
     mode = SelectField('Tipo de ruta: ', choices=[('bicycling', 'Bicicleta'), ('walking', 'A Pie')])
+
+
+class Form(FlaskForm):
+    submit = SubmitField('Enviar')
+
