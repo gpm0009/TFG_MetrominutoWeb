@@ -1,28 +1,6 @@
-#menu_horizontal ul {
-    list-style-type: none;
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
-}
-
-#menu_horizontal li {
-    float: left;
-}
-
-#menu_horizontal li a {
-    display: inline-block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-#menu_horizontal li a:hover {
-    /*background-color: #111;*/
-}
 
 #menu_horizontal .active {
-    background-color: red;
+    /*background-color: black;*/
+    text-underline: #1e7e34;
+    background-color: #d1ecf1;
 }
