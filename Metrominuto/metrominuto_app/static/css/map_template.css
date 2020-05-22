@@ -1,7 +1,13 @@
-#map {
+#map
+{
     width: 100%;
     height: 600px;
+    /*@media(max-width: 992px)
+    {
+        height: 500px;
+    }*/
 }
+
 #buttons {
 
     margin-top: 10px;
@@ -42,11 +48,8 @@ th, td, tr {
     text-align: center;
 }
 
-/*@media (min-width: 990px){*/
-/*    .container, .container-lg, .container-md, .container-sm, .container-xl {*/
-/*    !*max-width: 992px;*!*/
-/*    }*/
-/*    #map{*/
-/*        height: 550px;*/
-/*    }*/
-/*}*/
+@media (max-width: 992px){
+    #map{
+        height: 550px;
+    }
+}

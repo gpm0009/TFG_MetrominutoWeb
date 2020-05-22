@@ -106,6 +106,7 @@ def draw_metrominuto(graph_votes):
         :rtype: str.
         """
     edges_change = []
+    edges_change.clear()
     var_color = Color()
     positions = nx.get_node_attributes(graph_votes, 'pos')
     radio = 0.025  # Nodes radio.
@@ -125,10 +126,10 @@ def draw_metrominuto(graph_votes):
         color_aux = var_color.get_color(edge[2]['duration'])
         change, start_change, end_change, edges_change = check_line_overlap(edges_change, edge, graph_votes, positions, Point(start[0], start[1]), Point(end[0], end[1]))
         if change:
-            start = start_change
-            end = end_change
+            line = add_line(dwg, start_change, end_change, color_aux)
+        else:
+            line = add_line(dwg, start, end, color_aux)
         # Linea entre nodos
-        line = add_line(dwg, start, end, color_aux)
         dwg.add(line)
         # punto de la recta perpendicular.
         time_pos_positiva, time_pos_negativa = calculate_time_position(start[0], start[1], end[0], end[1])
@@ -176,11 +177,11 @@ def check_line_overlap(edges_change, edge, graph_votes, positions, start, end):
             vector_position = Point(positions[arco[0]][0] - positions[arco[1]][0], positions[arco[0]][1] - positions[arco[1]][1])
             if vector_recta.x == 0.0 and vector_position.x == 0.0:  # vertical
                 if arco_start.x == start.x and arco_end.x == end.x:  # misma ubicación
-                    edges_change.append(arco)
+                    edges_change.append(edge)
                     return True, [start.x-0.01, start.y], [end.x-0.01, end.y], edges_change
             elif vector_recta.y == 0.0 and vector_position.y == 0.0:  # horizontal
                 if arco_start.y == start.y and arco_end.y == end.y:  # misma ubicación
-                    edges_change.append(arco)
+                    edges_change.append(edge)
                     return True, [start.x, start.y-0.01], [end.x, end.y-0.01], edges_change
             # else:  # si no es horizontal ni vertical, formula
             #     for x in np.arange(origin, final, separacion):
@@ -363,7 +364,7 @@ def calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
     # bottom mid
     list_text_rects.append(Rect(Point(point[0]-(text_weight/2), point[1] + radio + beta), text_weight, text_height))
     # Top mid
-    list_text_rects.append(Rect(Point(point[0]-(text_weight/2), point[1] - radio - beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0]-(text_weight/2), point[1] - text_height - radio - beta), text_weight, text_height))
     # left mid -> a la izquierda no tiene sentido probar texto a la derecha, siempre va a solapar con el circulo
     list_text_rects.append(Rect(Point(point[0] - radio - beta - text_weight, point[1] - text_height /2), text_weight, text_height))
     # right mid
@@ -372,8 +373,8 @@ def calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
     list_text_rects.append(Rect(Point(point[0], point[1] + radio + beta), text_weight, text_height))
     list_text_rects.append(Rect(Point(point[0]+text_weight, point[1] + radio + beta), text_weight, text_height))
     # top left and right
-    list_text_rects.append(Rect(Point(point[0], point[1] - radio - beta), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0] + text_weight, point[1] - radio - beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0], point[1] - text_height - radio - beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0] + text_weight, point[1] - text_height - radio - beta), text_weight, text_height))
 
     # corners bottom left
     list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight - text_weight, point[1] + radio + text_height/2 + beta), text_weight, text_height)))
