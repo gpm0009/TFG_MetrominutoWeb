@@ -120,6 +120,8 @@ def draw_metrominuto(graph_votes):
 
     for edge in graph_votes.edges(data=True):
         # print("Start -> End: ", edge[0], ' | ', edge[1])
+        id_edge = 'edge_' + str(edge[0]) + '_' + str(edge[1])
+        id_label_edge = 'edge_label_' + str(edge[0]) + '_' + str(edge[1])
         start = [positions[edge[0]][0], positions[edge[0]][1]]
         end = [positions[edge[1]][0], positions[edge[1]][1]]
         color_aux = var_color.get_color(edge[2]['duration'])
@@ -128,7 +130,7 @@ def draw_metrominuto(graph_votes):
             start = start_change
             end = end_change
         # Linea entre nodos
-        line = add_line(dwg, start, end, color_aux)
+        line = add_line(dwg, start, end, color_aux, id_edge)
         dwg.add(line)
         # punto de la recta perpendicular.
         time_pos_positiva, time_pos_negativa = calculate_time_position(start[0], start[1], end[0], end[1])
@@ -138,21 +140,23 @@ def draw_metrominuto(graph_votes):
         # for point in lines_points:
         #     circle = add_circle(dwg, [point.x, point.y], 0.009, 0, 'disc')
         #     dwg.add(circle)
-        time_label = add_label(dwg, text_pos, edge[2]['duration'], radio, color_aux)
+        time_label = add_label(dwg, text_pos, edge[2]['duration'], radio, color_aux, id_label_edge)
         dwg.add(time_label)
         # rect = dwg.rect(insert=(text_pos[0], text_pos[1] - text_height), size=(text_weight, text_height),
         #                 stroke=color, fill=color, stroke_width=0.01)
         # dwg.add(rect)
 
     for node in graph_votes.nodes(data=True):
+        id_node = 'node_' + node[0]
+        id_node_label = 'node_label_' + node[0]
         point = [node[1]['pos'][0], node[1]['pos'][1]]
-        circle = add_circle(dwg, point, radio, 0.010, node[0])
+        circle = add_circle(dwg, point, radio, 0.010, id_node)
         dwg.add(circle)
         text_weight, text_height = 0.12, 0.013
         # pos_label = node_label_overlap(node, point, radio, text_weight, text_height, graph_votes)
         pos_label = calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
         # text_label = google_maps.reverse_geocode((node[1]['pos'][0], node[1]['pos'][1]))[0]['formatted_address']
-        node_label = add_label(dwg, pos_label, 'Marcador' + node[0], radio, 'black')
+        node_label = add_label(dwg, pos_label, 'Marcador' + node[0], radio, 'black', id_node_label)
         dwg.add(node_label)
         # rect = dwg.rect(insert=(pos_label[0], pos_label[1] - text_height), size=(text_weight, text_height),
         #                 stroke=color, fill=color, stroke_width=0.01)
@@ -189,8 +193,9 @@ def check_line_overlap(edges_change, edge, graph_votes, positions, start, end):
     return False, None, None, edges_change
 
 
-def add_line(dwg, start, end, color):
+def add_line(dwg, start, end, color, id_edge):
     """Function that adds a label to SVG.
+    :param id_edge:
     :param dwg: SVG data.
     :type dwg: svgwrite.
     :param start: Start point of the line.
@@ -202,14 +207,15 @@ def add_line(dwg, start, end, color):
     :return: svgwrite line element.
     :rtype: svgwrite.
     """
-    return dwg.line(id='line',
+    return dwg.line(id=id_edge,
                     start=(start[0], start[1]),
                     end=(end[0], end[1]),
-                    stroke=color, fill=color, stroke_width=0.01)
+                    stroke=color, fill=color, stroke_width=0.01, class_='static')
 
 
-def add_label(dwg, pos, text, radio, color):
+def add_label(dwg, pos, text, radio, color, id_label_edge):
     """Function that adds a label to SVG.
+    :param id_label_edge:
     :param dwg: SVG data.
     :type dwg: svgwrite.
     :param pos: label position. Left bottom corner.
@@ -227,10 +233,10 @@ def add_label(dwg, pos, text, radio, color):
                     fill=color,
                     font_size=str(radio),
                     font_weight="bold",
-                    font_family="Arial")  # text_anchor='middle'
+                    font_family="Arial", id=id_label_edge)  # text_anchor='middle'
 
 
-def add_circle(dwg, pos, radio, stroke, name):
+def add_circle(dwg, pos, radio, stroke, id_node):
     """Function that adds a circle to SVG.
     :param dwg: SVG data.
     :type dwg: svgwrite.
@@ -245,8 +251,8 @@ def add_circle(dwg, pos, radio, stroke, name):
     :return: svgwrite circle element.
     :rtype: svgwrite.
     """
-    return dwg.circle(id='node' + name, center=(pos[0], pos[1]), r=str(radio),
-                      fill='black', stroke='white', stroke_width=stroke)
+    return dwg.circle(id=id_node, center=(pos[0], pos[1]), r=str(radio),
+                      fill='black', stroke='white', stroke_width=stroke, class_='draggable')
 
 
 def calculate_time_position(x1, y1, x2, y2):

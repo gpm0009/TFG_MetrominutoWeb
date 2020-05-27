@@ -4,6 +4,14 @@
     {{ super() }}
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static', filename='css/show_graph.css') }}">
+    <style>
+        .static {
+            cursor: not-allowed;
+        }
+        .draggable {
+            cursor: move;
+        }
+    </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 
@@ -15,9 +23,35 @@
 
 {% endblock %}
 {% block scripts %}
-    <script src="{{ url_for('static', filename='js/grafo.js') }}"></script>
+    {{ super() }}
+    {#    <script src="{{ url_for('static', filename='js/grafo.js') }}"></script>#}
     <script>
+        el=document.getElementById("node_3");
+        sv=document.getElementById("mysvg");
+        flag=false; //to check if the mouse is currently down?
 
+        sv.onmousedown=function(e){
+            flag=true;
+            x1=e.clientX;
+            y1=e.clientY;
+            var t=el.getAttribute('transform');
+            if(t){
+                var parts  = /translate\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(t);
+                var firstX = parts[1], firstY = parts[2];
+                x1=x1-firstX*1;
+                y1=y1-firstY*1;
+            }
+            /* x1 and y1 now contain the previous position*/
+        };
+        sv.onmousemove=function(e){
+            if(flag){
+                x=e.clientX;
+                y=e.clientY;
+                t="translate("+(x-x1)+","+(y-y1)+")"
+                el.setAttribute('transform',t);
+            }
+        };
+        sv.onmouseup=function(){flag=false};
     </script>
 
 {% endblock %}

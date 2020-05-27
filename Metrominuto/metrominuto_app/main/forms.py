@@ -19,7 +19,8 @@ class MapForm(FlaskForm):
 
     """
     submit = SubmitField('Mostrar Mapa')
-    mode = SelectField('Tipo de ruta: ', choices=[('bicycling', 'Bicicleta'), ('walking', 'A Pie')])
+    mode = SelectField('Tipo de ruta: ', choices=[('', 'Selcciona un modo de desplazamiento'),
+                                                  ('bicycling', 'Bicicleta'), ('walking', 'A Pie')])
 
 
 class Form(FlaskForm):
