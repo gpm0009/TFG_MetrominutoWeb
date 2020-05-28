@@ -252,7 +252,7 @@ def connected_graph(num_votes):
             if edge_duration is not None:
                 time = edge_duration['duration']
             else:
-                time = ''
+                time = globals.global_durations[node_x][node_y]
             check_graph.add_edge(str(node_x), str(node_y), weight=dist, duration=time)
             # draw_graph(check_graph)
             connected_components_list = sorted(nx.connected_components(check_graph), key=len, reverse=True)
