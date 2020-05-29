@@ -105,6 +105,7 @@ def draw_metrominuto(graph_votes):
         :return: svg element.
         :rtype: str.
         """
+    position_labels_list = {'node': [], 'edges': []}
     edges_change = []
     var_color = Color()
     positions = nx.get_node_attributes(graph_votes, 'pos')
@@ -142,6 +143,7 @@ def draw_metrominuto(graph_votes):
         #     dwg.add(circle)
         time_label = add_label(dwg, text_pos, edge[2]['duration'], radio, color_aux, id_label_edge)
         dwg.add(time_label)
+        position_labels_list['edges'].append({'pos': text_pos, 'label': edge[2]['duration']})
         # rect = dwg.rect(insert=(text_pos[0], text_pos[1] - text_height), size=(text_weight, text_height),
         #                 stroke=color, fill=color, stroke_width=0.01)
         # dwg.add(rect)
@@ -158,6 +160,7 @@ def draw_metrominuto(graph_votes):
         # text_label = google_maps.reverse_geocode((node[1]['pos'][0], node[1]['pos'][1]))[0]['formatted_address']
         node_label = add_label(dwg, pos_label, 'Marcador' + node[0], radio, 'black', id_node_label)
         dwg.add(node_label)
+        position_labels_list['node'].append({'pos': pos_label, 'label': 'Marcador' + node[0]})
         # rect = dwg.rect(insert=(pos_label[0], pos_label[1] - text_height), size=(text_weight, text_height),
         #                 stroke=color, fill=color, stroke_width=0.01)
         # dwg.add(rect)
@@ -168,7 +171,7 @@ def draw_metrominuto(graph_votes):
     # for point in lines_points:
     #     circle = add_circle(dwg, [point.x, point.y], 0.009, 0, 'disc')
     #     dwg.add(circle)
-    return dwg.tostring()
+    return dwg.tostring(), position_labels_list
 
 
 def check_line_overlap(edges_change, edge, graph_votes, positions, start, end):

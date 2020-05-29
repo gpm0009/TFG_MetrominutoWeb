@@ -5,6 +5,9 @@
 """
 import json
 from datetime import datetime
+
+import networkx as nx
+
 from metrominuto_app import svgfunctions as svg_f, graphs as gph, calculateRoute as Clr
 from flask import render_template, request, session, jsonify, redirect, url_for
 from config import Config
@@ -62,7 +65,19 @@ def draw_svg():
     svg_list = []
     for i in range(0, int(session['max_votes'])):  # 1):  #int(session['max_votes'])):  # 1):
         graph = gph.connected_graph(i)
-        svg_list.append(svg_f.draw_metrominuto(graph))
+        svg, positions_list = svg_f.draw_metrominuto(graph)
+        svg_list.append(svg)
+        if i == 0:
+            # positions = nx.get_node_attributes(graph, 'pos')
+            dict_graph = {'nodes': [], 'edges': []}
+            for node in graph.nodes(data=True):
+                dict_graph['nodes'].append(node)
+            for edge in graph.edges(data=True):
+                dict_graph['edges'].append(edge)
+            with open('metrominuto_app/static/prueba_grafo.json', 'w') as outfile:
+                json.dump(dict_graph, outfile)
+            with open('metrominuto_app/static/prueba_positions.json', 'w') as outfile:
+                json.dump(positions_list, outfile)
     session['svg_list_sent'] = svg_list
     return render_template('show_graph.html', max=session['max_votes'] - 1, min=session['min_votes'], lista=svg_list, form=form)
 
@@ -82,10 +97,13 @@ def set_mode():
     return jsonify('ERROR')
 
 
-@main.route('/api/mensaje')
+@main.route('/prueba')
 def mensaje():
-    # return render_template('vue_template.html')
-    return render_template('template.html')
+    with open('metrominuto_app/static/prueba_grafo.json') as markers_file:
+        new_markers = json.load(markers_file)
+    with open('metrominuto_app/static/prueba_positions.json') as post:
+        positions = json.load(post)
+    return render_template('template.html', grafo=new_markers, positions=positions)
 
 
 @main.route('/modal')

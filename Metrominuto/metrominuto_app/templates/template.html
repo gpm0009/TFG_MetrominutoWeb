@@ -1,7 +1,130 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>COOKIE</h1>
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename='css/show_graph.css') }}">
+    <script src="{{ url_for('static', filename='js/snap.svg-min.js') }}"></script>
+
+    <div class="row">
+        <div class="col-12">
+            <svg id="svgout" version="1.1" xmlns="http://www.w3.org/2000/svg" style="width: 100%;height: 100%;padding-top: 10px;margin-left: auto;margin-right: auto"></svg>
+        </div>
+    </div>
 {% endblock %}
 {% block scripts %}
+    <script>
+        Snap.plugin(function (Snap, Element, Paper, global, Fragment) {
+            function dragStart(x, y, e) {
+                this.current_transform = this.transform();
+            }
 
+            function dragMove(dx, dy, x, y, e) {
+                this.transform(this.current_transform+'T'+dx/1000+','+dy/1000);
+                this.updatePaths();
+            }
+
+            function dragEnd(e) {
+                this.current_transform = this.transform();
+            }
+
+            function updatePaths() {
+                var key;
+                for(key in this.paths) {
+                    this.paths[key][0].attr({"path" : this.getPathString(this.paths[key][1])});
+                    this.paths[key][0].prependTo(this.paper);
+                }
+            }
+
+            function getCoordinates() {
+                return [this.matrix.e + (this.node.width.baseVal.value / 2),
+                    this.matrix.f + (this.node.height.baseVal.value / 2)];
+            }
+
+            function getPathString(obj) {
+                var p1 = this.getCoordinates();
+                var p2 = obj.getCoordinates();
+                return "M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1];
+            }
+
+            function addPath(obj) {
+                var id = obj.id;
+                var path = this.paper.path(this.getPathString(obj)).attr({fill:'none', stroke:'blue', strokeWidth:0.009});
+                path.prependTo(this.paper);
+                this.paths[id] = [path, obj];
+                obj.paths[this.id] = [path, this];
+            }
+
+            function removePath(obj) {
+                var id = obj.id;
+                if (this.paths[id] != null) {
+                    this.paths[id][0].remove();
+                    this.paths[id][1] = null;
+                    delete this.paths[id];
+
+                    obj.paths[this.id][1] = null;
+                    delete obj.paths[this.id];
+                }
+            }
+
+            Paper.prototype.draggableRect = function (x, y, w, h) {
+                var rect = this.rect(0,0,w,h).transform("T"+x+","+y);
+                rect.paths = {};
+                rect.drag(dragMove, dragStart, dragEnd);
+                rect.updatePaths = updatePaths;
+                rect.getCoordinates = getCoordinates;
+                rect.getPathString = getPathString;
+                rect.addPath = addPath;
+                rect.removePath = removePath;
+                return rect;
+            };
+
+            function getCoordinatesCircle() {
+                return [this.matrix.e, this.matrix.f];
+            }
+
+            Paper.prototype.draggableCircle = function (x, y, r) {
+                var circle = this.circle(0, 0, r).transform("T"+x+","+y);
+                circle.paths = {};
+                circle.drag(dragMove, dragStart, dragEnd);
+                circle.updatePaths = updatePaths;
+                circle.getCoordinates = getCoordinatesCircle;
+                circle.getPathString = getPathString;
+                circle.addPath = addPath;
+                circle.removePath = removePath;
+                return circle;
+            };
+        });
+
+        var papers = Snap("#svgout");
+        papers.attr({viewBox:"0, 0.2, 1, 1.5"});
+
+        var lista = []
+        var grafo = {{ grafo|safe }}
+
+        for(var i=0;i<grafo['nodes'].length;i++){
+            //lista.push(papers.draggableRect(grafo['nodes'][i][1]['pos'][0],grafo['nodes'][i][1]['pos'][1],0.05,0.05));
+            lista.push(papers.draggableCircle(grafo['nodes'][i][1]['pos'][0],grafo['nodes'][i][1]['pos'][1],0.02));
+        }
+
+        for(var i=0;i<grafo['edges'].length;i++) {
+            console.log(grafo['edges'][i][0], ' -> ', grafo['edges'][i][1])
+            lista[parseInt(grafo['edges'][i][0])].addPath(lista[parseInt(grafo['edges'][i][1])])
+        }
+
+        var position_labels = {{ positions|safe }}
+
+        for(var i=0;i<position_labels['node'].length;i++) {
+            cx =position_labels['node'][i]['pos'][0];
+            cy =position_labels['node'][i]['pos'][1];
+            clabel = position_labels['node'][i]['label']
+            papers.text(cx, cy, clabel).attr({'font-size':0.025, 'font-weight': 'bold'});
+        }
+
+        for(var i=0;i<position_labels['edges'].length;i++) {
+            cx =position_labels['edges'][i]['pos'][0];
+            cy =position_labels['edges'][i]['pos'][1];
+            clabel = position_labels['edges'][i]['label']
+            papers.text(cx, cy, clabel).attr({'font-size':0.025, 'font-weight': 'bold'});
+        }
+
+    </script>
 {% endblock %}
