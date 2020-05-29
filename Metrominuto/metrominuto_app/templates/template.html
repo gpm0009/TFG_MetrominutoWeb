@@ -92,6 +92,19 @@
                 circle.removePath = removePath;
                 return circle;
             };
+
+            Paper.prototype.draggableText = function (cx, cy, label,w,h) {
+                var circle = this.text(0, 0, clabel).attr({'font-size':0.025, 'font-weight': 'bold'}).transform("T"+cx+","+cy);
+                circle.paths = {};
+                circle.drag(dragMove, dragStart, dragEnd);
+                circle.updatePaths = updatePaths;
+                circle.getCoordinates = getCoordinatesCircle;
+                circle.getPathString = getPathString;
+                circle.addPath = addPath;
+                circle.removePath = removePath;
+                return circle;
+            };
+
         });
 
         var papers = Snap("#svgout");
@@ -116,14 +129,16 @@
             cx =position_labels['node'][i]['pos'][0];
             cy =position_labels['node'][i]['pos'][1];
             clabel = position_labels['node'][i]['label']
-            papers.text(cx, cy, clabel).attr({'font-size':0.025, 'font-weight': 'bold'});
+            //papers.text(cx, cy, clabel).attr({'font-size':0.025, 'font-weight': 'bold'});
+            papers.draggableText(cx, cy, clabel,0.13,0.08);
+
         }
 
         for(var i=0;i<position_labels['edges'].length;i++) {
             cx =position_labels['edges'][i]['pos'][0];
             cy =position_labels['edges'][i]['pos'][1];
             clabel = position_labels['edges'][i]['label']
-            papers.text(cx, cy, clabel).attr({'font-size':0.025, 'font-weight': 'bold'});
+            papers.draggableText(cx, cy, clabel,0.13,0.08);
         }
 
     </script>
