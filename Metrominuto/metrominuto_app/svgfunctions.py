@@ -98,6 +98,22 @@ class Color:
             self.cont_brown = 0
 
 
+class Graphs:
+    def __init__(self, g_nodes, g_edges, g_labels_nodes, g_labels_edges):
+        self.nodes = []
+        self.edges = []
+        self.labels_nodes = []
+        self.labels_edges = []
+        for node in g_nodes:
+            self.nodes.append({'pos': [node[1]['pos'][0], node[1]['pos'][1]]})
+        for edge in g_edges:
+            self.edges.append([edge[0], edge[1]])
+        for label_node in g_labels_nodes:
+            self.labels_nodes.append(label_node)
+        for label_edge in g_labels_edges:
+            self.labels_edges.append(label_edge)
+
+
 def draw_metrominuto(graph_votes):
     """Functions that save graph as SVG.
         :param graph_votes: Graph that contais all data about nodes and edges.
@@ -138,9 +154,6 @@ def draw_metrominuto(graph_votes):
         # weight and height text.
         text_weight, text_height = 0.08 + 0.01, 0.013
         text_pos = calculate_time_overlap(lines_points, text_weight, text_height, time_pos_positiva, time_pos_negativa)
-        # for point in lines_points:
-        #     circle = add_circle(dwg, [point.x, point.y], 0.009, 0, 'disc')
-        #     dwg.add(circle)
         time_label = add_label(dwg, text_pos, edge[2]['duration'], radio, color_aux, id_label_edge)
         dwg.add(time_label)
         position_labels_list['edges'].append({'pos': text_pos, 'label': edge[2]['duration']})
@@ -155,7 +168,6 @@ def draw_metrominuto(graph_votes):
         circle = add_circle(dwg, point, radio, 0.010, id_node)
         dwg.add(circle)
         text_weight, text_height = 0.12, 0.013
-        # pos_label = node_label_overlap(node, point, radio, text_weight, text_height, graph_votes)
         pos_label = calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
         # text_label = google_maps.reverse_geocode((node[1]['pos'][0], node[1]['pos'][1]))[0]['formatted_address']
         node_label = add_label(dwg, pos_label, 'Marcador' + node[0], radio, 'black', id_node_label)
@@ -164,13 +176,7 @@ def draw_metrominuto(graph_votes):
         # rect = dwg.rect(insert=(pos_label[0], pos_label[1] - text_height), size=(text_weight, text_height),
         #                 stroke=color, fill=color, stroke_width=0.01)
         # dwg.add(rect)
-        # for point in lines_points:
-        #     circle = add_circle(dwg, [point.x, point.y], 0.009, 0, 'disc')
-        #     dwg.add(circle)
     dwg.save(pretty=True)
-    # for point in lines_points:
-    #     circle = add_circle(dwg, [point.x, point.y], 0.009, 0, 'disc')
-    #     dwg.add(circle)
     return dwg.tostring(), position_labels_list
 
 
@@ -473,4 +479,3 @@ def discretizar_linea_proyeccion(poinsts_list, start, end, text_height=0.013):
             y = (((x - start.x) * vector_recta.y) / vector_recta.x) + start.y
             poinsts_list.append(Point(x, y))
     return poinsts_list
-

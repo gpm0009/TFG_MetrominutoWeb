@@ -5,6 +5,7 @@
 """
 import json
 from datetime import datetime
+from pprint import pprint
 
 import networkx as nx
 
@@ -63,22 +64,14 @@ def draw_svg():
         session['id_svg_selected'] = int(request.form['formControlRange'])
         return redirect(url_for('main.edit_graph'))
     svg_list = []
+    svg_dict = {}
     for i in range(0, int(session['max_votes'])):  # 1):  #int(session['max_votes'])):  # 1):
         graph = gph.connected_graph(i)
         svg, positions_list = svg_f.draw_metrominuto(graph)
         svg_list.append(svg)
-        if i == 0:
-            # positions = nx.get_node_attributes(graph, 'pos')
-            dict_graph = {'nodes': [], 'edges': []}
-            for node in graph.nodes(data=True):
-                dict_graph['nodes'].append(node)
-            for edge in graph.edges(data=True):
-                dict_graph['edges'].append(edge)
-            with open('metrominuto_app/static/prueba_grafo.json', 'w') as outfile:
-                json.dump(dict_graph, outfile)
-            with open('metrominuto_app/static/prueba_positions.json', 'w') as outfile:
-                json.dump(positions_list, outfile)
+        svg_dict[str(i)] = svg_f.Graphs(graph.nodes(data=True), graph.edges(data=True), positions_list['node'], positions_list['edges']).__dict__
     session['svg_list_sent'] = svg_list
+    session['svg_graphs_dict'] = svg_dict
     return render_template('show_graph.html', max=session['max_votes'] - 1, min=session['min_votes'], lista=svg_list, form=form)
 
 
@@ -99,11 +92,12 @@ def set_mode():
 
 @main.route('/prueba')
 def mensaje():
-    with open('metrominuto_app/static/prueba_grafo.json') as markers_file:
-        new_markers = json.load(markers_file)
-    with open('metrominuto_app/static/prueba_positions.json') as post:
-        positions = json.load(post)
-    return render_template('template.html', grafo=new_markers, positions=positions)
+    # with open('metrominuto_app/static/prueba_grafo.json') as markers_file:
+    #     new_markers = json.load(markers_file)
+    # with open('metrominuto_app/static/prueba_positions.json') as post:
+    #     positions = json.load(post)
+    # return render_template('template.html', grafo=session['svg_graphs_dict'][str(session['id_svg_selected'])])
+    return render_template('template.html', grafo=session['svg_graphs_dict']['0'])
 
 
 @main.route('/modal')

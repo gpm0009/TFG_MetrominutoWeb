@@ -94,7 +94,7 @@
             };
 
             Paper.prototype.draggableText = function (cx, cy, label,w,h) {
-                var circle = this.text(0, 0, clabel).attr({'font-size':0.025, 'font-weight': 'bold'}).transform("T"+cx+","+cy);
+                var circle = this.text(0, 0, label).attr({'font-size':0.025, 'font-weight': 'bold'}).transform("T"+cx+","+cy);
                 circle.paths = {};
                 circle.drag(dragMove, dragStart, dragEnd);
                 circle.updatePaths = updatePaths;
@@ -115,29 +115,25 @@
 
         for(var i=0;i<grafo['nodes'].length;i++){
             //lista.push(papers.draggableRect(grafo['nodes'][i][1]['pos'][0],grafo['nodes'][i][1]['pos'][1],0.05,0.05));
-            lista.push(papers.draggableCircle(grafo['nodes'][i][1]['pos'][0],grafo['nodes'][i][1]['pos'][1],0.02));
+            lista.push(papers.draggableCircle(grafo['nodes'][i]['pos'][0],grafo['nodes'][i]['pos'][1],0.02));
         }
 
         for(var i=0;i<grafo['edges'].length;i++) {
-            console.log(grafo['edges'][i][0], ' -> ', grafo['edges'][i][1])
             lista[parseInt(grafo['edges'][i][0])].addPath(lista[parseInt(grafo['edges'][i][1])])
         }
 
-        var position_labels = {{ positions|safe }}
-
-        for(var i=0;i<position_labels['node'].length;i++) {
-            cx =position_labels['node'][i]['pos'][0];
-            cy =position_labels['node'][i]['pos'][1];
-            clabel = position_labels['node'][i]['label']
+        for(var i=0;i<grafo['labels_nodes'].length;i++) {
+            cx =grafo['labels_nodes'][i]['pos'][0];
+            cy =grafo['labels_nodes'][i]['pos'][1];
+            clabel = grafo['labels_nodes'][i]['label']
             //papers.text(cx, cy, clabel).attr({'font-size':0.025, 'font-weight': 'bold'});
             papers.draggableText(cx, cy, clabel,0.13,0.08);
-
         }
 
-        for(var i=0;i<position_labels['edges'].length;i++) {
-            cx =position_labels['edges'][i]['pos'][0];
-            cy =position_labels['edges'][i]['pos'][1];
-            clabel = position_labels['edges'][i]['label']
+        for(var i=0;i<grafo['labels_edges'].length;i++) {
+            cx =grafo['labels_edges'][i]['pos'][0];
+            cy =grafo['labels_edges'][i]['pos'][1];
+            clabel = grafo['labels_edges'][i]['label']
             papers.draggableText(cx, cy, clabel,0.13,0.08);
         }
 
