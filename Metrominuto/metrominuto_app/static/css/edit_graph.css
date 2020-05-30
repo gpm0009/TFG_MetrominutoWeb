@@ -1,0 +1,13 @@
+.row{
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.col-12{
+    align-items: center;
+    height: 900px;
+}
+
+.row > .col-12 > svg{
+    align-items: center;
+}

@@ -78,7 +78,7 @@ def draw_svg():
 @main.route('/graph/edit', methods=['GET', 'POST'])
 def edit_graph():
     svg = session['svg_list_sent'][session['id_svg_selected']]
-    return render_template('edit_graph.html', svg=svg)
+    return render_template('edit_graph.html', grafo=session['svg_graphs_dict'][str(session['id_svg_selected'])])
 
 
 @main.route('/setMode', methods=['POST'])
@@ -92,11 +92,6 @@ def set_mode():
 
 @main.route('/prueba')
 def mensaje():
-    # with open('metrominuto_app/static/prueba_grafo.json') as markers_file:
-    #     new_markers = json.load(markers_file)
-    # with open('metrominuto_app/static/prueba_positions.json') as post:
-    #     positions = json.load(post)
-    # return render_template('template.html', grafo=session['svg_graphs_dict'][str(session['id_svg_selected'])])
     return render_template('template.html', grafo=session['svg_graphs_dict']['0'])
 
 
