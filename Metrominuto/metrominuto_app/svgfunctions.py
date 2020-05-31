@@ -99,15 +99,19 @@ class Color:
 
 
 class Graphs:
-    def __init__(self, g_nodes, g_edges, g_labels_nodes, g_labels_edges):
+    def __init__(self):
         self.nodes = []
         self.edges = []
         self.labels_nodes = []
         self.labels_edges = []
-        for node in g_nodes:
-            self.nodes.append({'pos': [node[1]['pos'][0], node[1]['pos'][1]]})
-        for edge in g_edges:
-            self.edges.append([edge[0], edge[1]])
+
+    def add_nodes(self, node):
+        self.nodes.append({'pos': [node[1]['pos'][0], node[1]['pos'][1]]})
+
+    def add_edges(self, edge, color):
+        self.edges.append({'edge': [edge[0], edge[1]], 'color': color})
+
+    def add_labels(self, g_labels_nodes, g_labels_edges):
         for label_node in g_labels_nodes:
             self.labels_nodes.append(label_node)
         for label_edge in g_labels_edges:
@@ -121,6 +125,7 @@ def draw_metrominuto(graph_votes):
         :return: svg element.
         :rtype: str.
         """
+    return_graph = Graphs()
     position_labels_list = {'node': [], 'edges': []}
     edges_change = []
     var_color = Color()
@@ -142,6 +147,7 @@ def draw_metrominuto(graph_votes):
         start = [positions[edge[0]][0], positions[edge[0]][1]]
         end = [positions[edge[1]][0], positions[edge[1]][1]]
         color_aux = var_color.get_color(edge[2]['duration'])
+        return_graph.add_edges(edge, color_aux)
         change, start_change, end_change, edges_change = check_line_overlap(edges_change, edge, graph_votes, positions, Point(start[0], start[1]), Point(end[0], end[1]))
         if change:
             start = start_change
@@ -156,12 +162,13 @@ def draw_metrominuto(graph_votes):
         text_pos = calculate_time_overlap(lines_points, text_weight, text_height, time_pos_positiva, time_pos_negativa)
         time_label = add_label(dwg, text_pos, edge[2]['duration'], radio, color_aux, id_label_edge)
         dwg.add(time_label)
-        position_labels_list['edges'].append({'pos': text_pos, 'label': edge[2]['duration']})
+        position_labels_list['edges'].append({'pos': text_pos, 'label': edge[2]['duration'], 'color': color_aux})
         # rect = dwg.rect(insert=(text_pos[0], text_pos[1] - text_height), size=(text_weight, text_height),
         #                 stroke=color, fill=color, stroke_width=0.01)
         # dwg.add(rect)
 
     for node in graph_votes.nodes(data=True):
+        return_graph.add_nodes(node)
         id_node = 'node_' + node[0]
         id_node_label = 'node_label_' + node[0]
         point = [node[1]['pos'][0], node[1]['pos'][1]]
@@ -172,12 +179,13 @@ def draw_metrominuto(graph_votes):
         # text_label = google_maps.reverse_geocode((node[1]['pos'][0], node[1]['pos'][1]))[0]['formatted_address']
         node_label = add_label(dwg, pos_label, 'Marcador' + node[0], radio, 'black', id_node_label)
         dwg.add(node_label)
-        position_labels_list['node'].append({'pos': pos_label, 'label': 'Marcador' + node[0]})
+        position_labels_list['node'].append({'pos': pos_label, 'label': 'Marcador' + node[0], 'color': 'balck'})
         # rect = dwg.rect(insert=(pos_label[0], pos_label[1] - text_height), size=(text_weight, text_height),
         #                 stroke=color, fill=color, stroke_width=0.01)
         # dwg.add(rect)
     dwg.save(pretty=True)
-    return dwg.tostring(), position_labels_list
+    return_graph.add_labels(position_labels_list['node'], position_labels_list['edges'])
+    return dwg.tostring(), return_graph
 
 
 def check_line_overlap(edges_change, edge, graph_votes, positions, start, end):

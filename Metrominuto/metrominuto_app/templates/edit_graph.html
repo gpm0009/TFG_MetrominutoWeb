@@ -60,9 +60,9 @@
                 return "M"+p1[0]+","+p1[1]+"L"+p2[0]+","+p2[1];
             }
 
-            function addPath(obj) {
+            function addPath(obj, color) {
                 var id = obj.id;
-                var path = this.paper.path(this.getPathString(obj)).attr({fill:'none', stroke:'blue', strokeWidth:0.009});
+                var path = this.paper.path(this.getPathString(obj)).attr({fill:'none', stroke:color, strokeWidth:0.009});
                 path.prependTo(this.paper);
                 this.paths[id] = [path, obj];
                 obj.paths[this.id] = [path, this];
@@ -96,8 +96,8 @@
                 return [this.matrix.e, this.matrix.f];
             }
 
-            Paper.prototype.draggableCircle = function (x, y, r) {
-                var circle = this.circle(0, 0, r).transform("T"+x+","+y);
+            Paper.prototype.draggableCircle = function (x, y, r, id_circle) {
+                var circle = this.circle(0, 0, r).attr({id: id_circle}).transform("T"+x+","+y);
                 circle.paths = {};
                 circle.drag(dragMove, dragStart, dragEnd);
                 circle.updatePaths = updatePaths;
@@ -108,8 +108,8 @@
                 return circle;
             };
 
-            Paper.prototype.draggableText = function (cx, cy, label,w,h) {
-                var circle = this.text(0, 0, label).attr({'font-size':0.025, 'font-weight': 'bold'}).transform("T"+cx+","+cy);
+            Paper.prototype.draggableText = function (cx, cy, label,w,h, id_label, label_color) {
+                var circle = this.text(0, 0, label).attr({id: id_label, 'font-size':0.025, 'font-weight': 'bold', fill:label_color}).transform("T"+cx+","+cy);
                 circle.paths = {};
                 circle.drag(dragMove, dragStart, dragEnd);
                 circle.updatePaths = updatePaths;
@@ -130,11 +130,11 @@
 
         for(var i=0;i<grafo['nodes'].length;i++){
             //lista.push(papers.draggableRect(grafo['nodes'][i][1]['pos'][0],grafo['nodes'][i][1]['pos'][1],0.05,0.05));
-            lista.push(papers.draggableCircle(grafo['nodes'][i]['pos'][0],grafo['nodes'][i]['pos'][1],0.02));
+            lista.push(papers.draggableCircle(grafo['nodes'][i]['pos'][0],grafo['nodes'][i]['pos'][1],0.02, 'node_'+i.toString()));
         }
 
         for(var i=0;i<grafo['edges'].length;i++) {
-            lista[parseInt(grafo['edges'][i][0])].addPath(lista[parseInt(grafo['edges'][i][1])])
+            lista[parseInt(grafo['edges'][i]['edge'][0])].addPath(lista[parseInt(grafo['edges'][i]['edge'][1])], grafo['edges'][i]['color'])
         }
 
         for(var i=0;i<grafo['labels_nodes'].length;i++) {
@@ -142,15 +142,14 @@
             cy =grafo['labels_nodes'][i]['pos'][1];
             clabel = grafo['labels_nodes'][i]['label']
             //papers.text(cx, cy, clabel).attr({'font-size':0.025, 'font-weight': 'bold'});
-            papers.draggableText(cx, cy, clabel,0.13,0.08);
+            papers.draggableText(cx, cy, clabel,0.13,0.08, 'label_node'+i.toString(), grafo['labels_nodes'][i]['color']);
         }
 
         for(var i=0;i<grafo['labels_edges'].length;i++) {
             cx =grafo['labels_edges'][i]['pos'][0];
             cy =grafo['labels_edges'][i]['pos'][1];
             clabel = grafo['labels_edges'][i]['label']
-            papers.draggableText(cx, cy, clabel,0.13,0.08);
+            papers.draggableText(cx, cy, clabel,0.13,0.08, 'label_edge_',  grafo['labels_edges'][i]['color']);
         }
     </script>
-
 {% endblock %}

@@ -67,17 +67,15 @@ def draw_svg():
     svg_dict = {}
     for i in range(0, int(session['max_votes'])):  # 1):  #int(session['max_votes'])):  # 1):
         graph = gph.connected_graph(i)
-        svg, positions_list = svg_f.draw_metrominuto(graph)
+        svg, graph_class = svg_f.draw_metrominuto(graph)
         svg_list.append(svg)
-        svg_dict[str(i)] = svg_f.Graphs(graph.nodes(data=True), graph.edges(data=True), positions_list['node'], positions_list['edges']).__dict__
-    session['svg_list_sent'] = svg_list
+        svg_dict[str(i)] = graph_class.__dict__
     session['svg_graphs_dict'] = svg_dict
     return render_template('show_graph.html', max=session['max_votes'] - 1, min=session['min_votes'], lista=svg_list, form=form)
 
 
 @main.route('/graph/edit', methods=['GET', 'POST'])
 def edit_graph():
-    svg = session['svg_list_sent'][session['id_svg_selected']]
     return render_template('edit_graph.html', grafo=session['svg_graphs_dict'][str(session['id_svg_selected'])])
 
 
