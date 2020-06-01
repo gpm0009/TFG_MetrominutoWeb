@@ -35,16 +35,17 @@
                 this.current_transform = this.transform();
                 //console.log(this.matrix.e, this.matrix.f);
                 //FIXME Incluir función recalcular labels
-                grafo['nodes'][lista.indexOf(this)]['pos'] = [this.matrix.e, this.matrix.f];
+                grap['nodes'][lista.indexOf(this)]['pos'] = [this.matrix.e, this.matrix.f];
                 //papers.clear();
                 //draw_graph();
                 $.ajax({
                     type : 'POST',
                     url : "{{url_for('main.recalcule')}}",
                     contentType: 'application/json;charset=UTF-8',
-                    data : JSON.stringify(grafo)
+                    data : JSON.stringify(grap)
                 }).done(function(response) {
                     papers.clear();
+                    lista = []
                     draw_graph(response);
                 }).fail(function() {
                     console.log('FAIL');
@@ -152,16 +153,6 @@
                 clabel = grafo['labels_nodes'][i]['label']
                 //papers.text(cx, cy, clabel).attr({'font-size':0.025, 'font-weight': 'bold'});
                 text_n = papers.draggableText(cx, cy, clabel,0.13,0.08, 'label_node'+i.toString(), grafo['labels_nodes'][i]['color']);
-                /*text_n.click(function (event) {
-                    document.getElementById("input-text").style.visibility = "visible";
-                    $('#change').click(function() {
-                       var new_text = document.getElementById("fname").value;
-                       console.log(event.target.id);
-                       var_au = Snap('#'+event.target.id);
-                       var_au.attr({'text': new_text});
-                       document.getElementById("input-text").style.visibility = "hidden";
-                    });
-                });*/
             }
 
             for(var i=0;i<grafo['labels_edges'].length;i++) {
@@ -176,7 +167,7 @@
         papers.attr({viewBox:"0, 0.2, 1, 1.5"});
 
         var lista = []
-        var grafo = {{ grafo|safe }}
-            draw_graph(grafo);
+        var grap = {{ grafo|safe }};
+        draw_graph(grap);
     </script>
 {% endblock %}

@@ -307,3 +307,60 @@ def calculate_overlap(text_weight, text_height, start, end, time_pos_negativa, t
                 return [rect_text.p.x, rect_text.p.y]
 
     return 0
+
+
+
+
+
+function discretizar(lines) {
+        text_height = 0.013;
+        var points_list = [];
+        for(var i=0;i<lines.length;i++){
+            start = lines[i]['pos'][0];
+            end = lines[i]['pos'][1];
+            v_recta = {'x':start[0]-end[0], 'y':start[1]-end[1]};
+            v_origen = {'x':start[0]-end[0], 'y':0};
+            angulo = Math.acos(Math.abs(v_recta.x*v_origen.x+v_recta.y*v_origen.y)/(Math.sqrt(v_recta.x**2+v_recta.y**2)+Math.sqrt(v_origen.x**2+v_origen.y**2)));
+            space = text_height * Math.cos(angulo);
+            if(v_recta.x == 0.0){
+                if(start[1] < end[1]){
+                    origin = start[1];
+                    final = end[1];
+                }else {
+                    origin = end[1];
+                    final = start[1];
+                }
+                for(var j=origin;j<final; j+=space-0.003){
+                    points_list.push({'x':start[0], 'y':j});
+                    console.log('vertical');
+                }
+            }
+            if (v_recta.y == 0.0){
+                if(start[0] < end[0]){
+                    origin = start[0];
+                    final = end[0];
+                }else{
+                    origin = end[0];
+                    final = start[0];
+                }
+                for(var x=origin;x<final; x+=space-0.003){
+                    points_list.push({'x':x, 'y':start[1]});
+                    console.log('horizontal');
+                }
+            }else {
+                if(start[0] < end[0]){
+                    origin = start[0];
+                    final = end[0];
+                }else{
+                    origin = end[0];
+                    final = start[0];
+                }
+                for(var x=origin;x<final; x+=space-0.003){
+                    y = (((x-start[0])*v_recta.y) / v_recta.x) + start[1]
+                    points_list.push({'x':x, 'y':y});
+                    console.log('formula');
+                }
+            }
+        }
+        return points_list
+    }
