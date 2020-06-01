@@ -7,6 +7,8 @@
 import math
 # import tkinter as Tkinter
 # import tkinter.font as tkFont
+from pprint import pprint
+
 import networkx as nx
 import svgwrite as svg
 import numpy as np
@@ -86,15 +88,15 @@ class Color:
         return return_color
 
     def check_cont(self):
-        if self.cont_red > self.red.__len__()-1:
+        if self.cont_red > self.red.__len__() - 1:
             self.cont_red = 0
-        if self.cont_green > self.green.__len__()-1:
+        if self.cont_green > self.green.__len__() - 1:
             self.cont_green = 0
-        if self.cont_blue > self.blue.__len__()-1:
+        if self.cont_blue > self.blue.__len__() - 1:
             self.cont_blue = 0
-        if self.cont_purple > self.purple.__len__()-1:
+        if self.cont_purple > self.purple.__len__() - 1:
             self.cont_purple = 0
-        if self.cont_brown > self.brown.__len__()-1:
+        if self.cont_brown > self.brown.__len__() - 1:
             self.cont_brown = 0
 
 
@@ -106,10 +108,18 @@ class Graphs:
         self.labels_edges = []
 
     def add_nodes(self, node):
-        self.nodes.append({'pos': [node[1]['pos'][0], node[1]['pos'][1]]})
+        self.nodes.append({'id': node[0], 'pos': [node[1]['pos'][0], node[1]['pos'][1]]})
 
-    def add_edges(self, edge, color):
-        self.edges.append({'edge': [edge[0], edge[1]], 'color': color})
+    def add_nodes_aux(self, node):
+        self.nodes.append({'id': node['id'], 'pos': node['pos']})
+
+    def add_edges(self, edge, color, position):
+        self.edges.append(
+            {'edge': [edge[0], edge[1]], 'color': color, 'pos': position, 'duration': edge[2]['duration']})
+
+    def add_edges_aux(self, edge):
+        self.edges.append(
+            {'edge': [edge['edge'][0], edge['edge'][1]], 'color': edge['color'], 'pos': edge['pos'], 'duration': edge['duration']})
 
     def add_labels(self, g_labels_nodes, g_labels_edges):
         for label_node in g_labels_nodes:
@@ -147,8 +157,10 @@ def draw_metrominuto(graph_votes):
         start = [positions[edge[0]][0], positions[edge[0]][1]]
         end = [positions[edge[1]][0], positions[edge[1]][1]]
         color_aux = var_color.get_color(edge[2]['duration'])
-        return_graph.add_edges(edge, color_aux)
-        change, start_change, end_change, edges_change = check_line_overlap(edges_change, edge, graph_votes, positions, Point(start[0], start[1]), Point(end[0], end[1]))
+        return_graph.add_edges(edge, color_aux, [start, end])
+        change, start_change, end_change, edges_change = check_line_overlap(edges_change, edge, graph_votes, positions,
+                                                                            Point(start[0], start[1]),
+                                                                            Point(end[0], end[1]))
         if change:
             start = start_change
             end = end_change
@@ -194,15 +206,16 @@ def check_line_overlap(edges_change, edge, graph_votes, positions, start, end):
         if arco != edge and arco not in edges_change:
             arco_start = Point(positions[arco[0]][0], positions[arco[0]][1])
             arco_end = Point(positions[arco[1]][0], positions[arco[1]][1])
-            vector_position = Point(positions[arco[0]][0] - positions[arco[1]][0], positions[arco[0]][1] - positions[arco[1]][1])
+            vector_position = Point(positions[arco[0]][0] - positions[arco[1]][0],
+                                    positions[arco[0]][1] - positions[arco[1]][1])
             if vector_recta.x == 0.0 and vector_position.x == 0.0:  # vertical
                 if arco_start.x == start.x and arco_end.x == end.x:  # misma ubicación
                     edges_change.append(arco)
-                    return True, [start.x-0.01, start.y], [end.x-0.01, end.y], edges_change
+                    return True, [start.x - 0.01, start.y], [end.x - 0.01, end.y], edges_change
             elif vector_recta.y == 0.0 and vector_position.y == 0.0:  # horizontal
                 if arco_start.y == start.y and arco_end.y == end.y:  # misma ubicación
                     edges_change.append(arco)
-                    return True, [start.x, start.y-0.01], [end.x, end.y-0.01], edges_change
+                    return True, [start.x, start.y - 0.01], [end.x, end.y - 0.01], edges_change
             # else:  # si no es horizontal ni vertical, formula
             #     for x in np.arange(origin, final, separacion):
             #         y = (((x - start.x) * vector_recta.y) / vector_recta.x) + start.y
@@ -315,28 +328,46 @@ def calculate_time_overlap(poinsts_list, text_weight, text_height, time_pos_posi
     time_pos_negativa[1] = time_pos_negativa[1] - text_height
     list_rect_text = []
     # mid, left and right position top negative
-    list_rect_text.append(Rect(Point(time_pos_negativa[0] - text_weight / 2, time_pos_negativa[1]), text_weight, text_height))
-    list_rect_text.append(Rect(Point(time_pos_negativa[0] - text_weight, time_pos_negativa[1]), text_weight, text_height))
+    list_rect_text.append(
+        Rect(Point(time_pos_negativa[0] - text_weight / 2, time_pos_negativa[1]), text_weight, text_height))
+    list_rect_text.append(
+        Rect(Point(time_pos_negativa[0] - text_weight, time_pos_negativa[1]), text_weight, text_height))
     list_rect_text.append(Rect(Point(time_pos_negativa[0], time_pos_negativa[1]), text_weight, text_height))
     # mid, left right position bottom negative
-    list_rect_text.append(Rect(Point(time_pos_negativa[0] - text_weight / 2, time_pos_negativa[1] - text_height), text_weight, text_height))
-    list_rect_text.append(Rect(Point(time_pos_negativa[0] - text_weight, time_pos_negativa[1] - text_height), text_weight, text_height))
-    list_rect_text.append(Rect(Point(time_pos_negativa[0], time_pos_negativa[1] - text_height), text_weight, text_height))
+    list_rect_text.append(
+        Rect(Point(time_pos_negativa[0] - text_weight / 2, time_pos_negativa[1] - text_height), text_weight,
+             text_height))
+    list_rect_text.append(
+        Rect(Point(time_pos_negativa[0] - text_weight, time_pos_negativa[1] - text_height), text_weight, text_height))
+    list_rect_text.append(
+        Rect(Point(time_pos_negativa[0], time_pos_negativa[1] - text_height), text_weight, text_height))
     # mid left, mid right negative
-    list_rect_text.append(Rect(Point(time_pos_negativa[0] - text_weight, time_pos_negativa[1] - text_height / 2), text_weight, text_height))
-    list_rect_text.append(Rect(Point(time_pos_negativa[0], time_pos_negativa[1] - text_height / 2), text_weight, text_height))
+    list_rect_text.append(
+        Rect(Point(time_pos_negativa[0] - text_weight, time_pos_negativa[1] - text_height / 2), text_weight,
+             text_height))
+    list_rect_text.append(
+        Rect(Point(time_pos_negativa[0], time_pos_negativa[1] - text_height / 2), text_weight, text_height))
 
     # mid, left and right position top positive
-    list_rect_text.append(Rect(Point(time_pos_positiva[0] - text_weight / 2, time_pos_positiva[1]), text_weight, text_height))
-    list_rect_text.append(Rect(Point(time_pos_positiva[0] - text_weight, time_pos_positiva[1]), text_weight, text_height))
+    list_rect_text.append(
+        Rect(Point(time_pos_positiva[0] - text_weight / 2, time_pos_positiva[1]), text_weight, text_height))
+    list_rect_text.append(
+        Rect(Point(time_pos_positiva[0] - text_weight, time_pos_positiva[1]), text_weight, text_height))
     list_rect_text.append(Rect(Point(time_pos_positiva[0], time_pos_positiva[1]), text_weight, text_height))
     # mid, left right position bottom positive
-    list_rect_text.append(Rect(Point(time_pos_positiva[0] - text_weight / 2, time_pos_positiva[1] - text_height),text_weight, text_height))
-    list_rect_text.append(Rect(Point(time_pos_positiva[0] - text_weight, time_pos_positiva[1] - text_height), text_weight, text_height))
-    list_rect_text.append(Rect(Point(time_pos_positiva[0], time_pos_positiva[1] - text_height), text_weight, text_height))
+    list_rect_text.append(
+        Rect(Point(time_pos_positiva[0] - text_weight / 2, time_pos_positiva[1] - text_height), text_weight,
+             text_height))
+    list_rect_text.append(
+        Rect(Point(time_pos_positiva[0] - text_weight, time_pos_positiva[1] - text_height), text_weight, text_height))
+    list_rect_text.append(
+        Rect(Point(time_pos_positiva[0], time_pos_positiva[1] - text_height), text_weight, text_height))
     # mid left, mid right positive
-    list_rect_text.append(Rect(Point(time_pos_positiva[0] - text_weight, time_pos_positiva[1] - text_height / 2), text_weight,text_height))
-    list_rect_text.append(Rect(Point(time_pos_positiva[0], time_pos_positiva[1] - text_height / 2), text_weight, text_height))
+    list_rect_text.append(
+        Rect(Point(time_pos_positiva[0] - text_weight, time_pos_positiva[1] - text_height / 2), text_weight,
+             text_height))
+    list_rect_text.append(
+        Rect(Point(time_pos_positiva[0], time_pos_positiva[1] - text_height / 2), text_weight, text_height))
 
     for rect in list_rect_text:
         if not is_over_rect(poinsts_list, rect):
@@ -359,7 +390,8 @@ def is_over_rect(points_list, rectangle):
     :rtype: Boolean.
     """
     for point in points_list:
-        if rectangle.p.x <= point.x <= (rectangle.p.x + rectangle.w) and rectangle.p.y <= point.y <= (rectangle.p.y + rectangle.h):
+        if rectangle.p.x <= point.x <= (rectangle.p.x + rectangle.w) and rectangle.p.y <= point.y <= (
+                rectangle.p.y + rectangle.h):
             return True
     return False
 
@@ -384,49 +416,81 @@ def calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
     text_weight = text_weight + 0.01
     list_text_rects = []
     # bottom mid
-    list_text_rects.append(Rect(Point(point[0]-(text_weight/2), point[1] + radio + beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0] - (text_weight / 2), point[1] + radio + beta), text_weight, text_height))
     # Top mid
-    list_text_rects.append(Rect(Point(point[0]-(text_weight/2), point[1] - radio - beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0] - (text_weight / 2), point[1] - radio - beta), text_weight, text_height))
     # left mid -> a la izquierda no tiene sentido probar texto a la derecha, siempre va a solapar con el circulo
-    list_text_rects.append(Rect(Point(point[0] - radio - beta - text_weight, point[1] - text_height /2), text_weight, text_height))
+    list_text_rects.append(
+        Rect(Point(point[0] - radio - beta - text_weight, point[1] - text_height / 2), text_weight, text_height))
     # right mid
     list_text_rects.append(Rect(Point(point[0] + radio + beta, point[1] - text_height / 2), text_weight, text_height))
     # bottom left and right
     list_text_rects.append(Rect(Point(point[0], point[1] + radio + beta), text_weight, text_height))
-    list_text_rects.append(Rect(Point(point[0]+text_weight, point[1] + radio + beta), text_weight, text_height))
+    list_text_rects.append(Rect(Point(point[0] + text_weight, point[1] + radio + beta), text_weight, text_height))
     # top left and right
     list_text_rects.append(Rect(Point(point[0], point[1] - radio - beta), text_weight, text_height))
     list_text_rects.append(Rect(Point(point[0] + text_weight, point[1] - radio - beta), text_weight, text_height))
 
     # corners bottom left
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight - text_weight, point[1] + radio + text_height/2 + beta), text_weight, text_height)))
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight - text_weight / 2, point[1] + radio + text_height/2 + beta), text_weight, text_height)))
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight, point[1] + radio + text_height/2), text_weight, text_height)))
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight -text_weight, point[1] + radio + beta), text_weight, text_height)))
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight -text_weight/2, point[1] + radio + beta), text_weight, text_height)))
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight, point[1] + radio + beta), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] - text_weight - text_weight, point[1] + radio + text_height / 2 + beta), text_weight,
+             text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] - text_weight - text_weight / 2, point[1] + radio + text_height / 2 + beta), text_weight,
+             text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] - text_weight, point[1] + radio + text_height / 2), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] - text_weight - text_weight, point[1] + radio + beta), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] - text_weight - text_weight / 2, point[1] + radio + beta), text_weight, text_height)))
+    list_text_rects.append(
+        list_text_rects.append(Rect(Point(point[0] - text_weight, point[1] + radio + beta), text_weight, text_height)))
     # corners bottom right
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio, point[1] + radio + text_height / 2 + beta), text_weight,text_height)))
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio + text_weight / 2, point[1] + radio + text_height / 2 + beta), text_weight,text_height)))
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio + text_weight, point[1] + radio + text_height / 2 + beta), text_weight, text_height)))
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio, point[1] + radio + text_height + beta), text_weight, text_height)))
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio + text_weight / 2, point[1] + radio + text_height + beta), text_weight, text_height)))
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio + text_weight, point[1] + radio + text_height + beta), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] + radio, point[1] + radio + text_height / 2 + beta), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] + radio + text_weight / 2, point[1] + radio + text_height / 2 + beta), text_weight,
+             text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] + radio + text_weight, point[1] + radio + text_height / 2 + beta), text_weight,
+             text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] + radio, point[1] + radio + text_height + beta), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] + radio + text_weight / 2, point[1] + radio + text_height + beta), text_weight,
+             text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] + radio + text_weight, point[1] + radio + text_height + beta), text_weight, text_height)))
 
     # corners top left
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight - text_weight, point[1] - radio - text_height / 2), text_weight,text_height)))
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight - text_weight / 2, point[1] - radio - text_height / 2), text_weight,text_height)))
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight, point[1] - radio - text_height / 2), text_weight, text_height)))
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight - text_weight, point[1] - radio - beta), text_weight, text_height)))
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight - text_weight / 2, point[1] - radio - beta), text_weight, text_height)))
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] - text_weight, point[1] - radio - beta), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] - text_weight - text_weight, point[1] - radio - text_height / 2), text_weight,
+             text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] - text_weight - text_weight / 2, point[1] - radio - text_height / 2), text_weight,
+             text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] - text_weight, point[1] - radio - text_height / 2), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] - text_weight - text_weight, point[1] - radio - beta), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] - text_weight - text_weight / 2, point[1] - radio - beta), text_weight, text_height)))
+    list_text_rects.append(
+        list_text_rects.append(Rect(Point(point[0] - text_weight, point[1] - radio - beta), text_weight, text_height)))
     # corners top right
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio, point[1] - radio - text_height / 2), text_weight, text_height)))
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio + text_weight / 2, point[1] - radio - text_height / 2), text_weight, text_height)))
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio + text_weight, point[1] - radio - text_height / 2), text_weight, text_height)))
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio, point[1] - radio - text_height), text_weight, text_height)))
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio + text_weight / 2, point[1] - radio - text_height), text_weight, text_height)))
-    list_text_rects.append(list_text_rects.append(Rect(Point(point[0] + radio + text_weight, point[1] - radio - text_height), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] + radio, point[1] - radio - text_height / 2), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] + radio + text_weight / 2, point[1] - radio - text_height / 2), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] + radio + text_weight, point[1] - radio - text_height / 2), text_weight, text_height)))
+    list_text_rects.append(
+        list_text_rects.append(Rect(Point(point[0] + radio, point[1] - radio - text_height), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] + radio + text_weight / 2, point[1] - radio - text_height), text_weight, text_height)))
+    list_text_rects.append(list_text_rects.append(
+        Rect(Point(point[0] + radio + text_weight, point[1] - radio - text_height), text_weight, text_height)))
 
     for rect in list_text_rects:
         if not is_over_rect(lines_points, rect):
@@ -453,8 +517,10 @@ def discretizar_linea_proyeccion(poinsts_list, start, end, text_height=0.013):
     :rtype: List
     """
     vector_recta = Point(start.x - end.x, start.y - end.y)
-    vector_origen = Point(start.x-end.x, 0)
-    angulo = np.arccos(abs(vector_recta.x * vector_origen.x + vector_recta.y * vector_origen.y)/(np.sqrt(vector_recta.x**2+vector_recta.y**2)+np.sqrt(vector_origen.x**2+vector_origen.y**2)))
+    vector_origen = Point(start.x - end.x, 0)
+    angulo = np.arccos(abs(vector_recta.x * vector_origen.x + vector_recta.y * vector_origen.y) / (
+                np.sqrt(vector_recta.x ** 2 + vector_recta.y ** 2) + np.sqrt(
+            vector_origen.x ** 2 + vector_origen.y ** 2)))
     separacion = text_height * np.cos(angulo)
     if vector_recta.x == 0.0:  # vertical
         if start.y < end.y:  # sube
@@ -463,7 +529,7 @@ def discretizar_linea_proyeccion(poinsts_list, start, end, text_height=0.013):
         else:  # baja
             origin = end.y
             final = start.y
-        for y in np.arange(origin, final, text_height-0.003):
+        for y in np.arange(origin, final, text_height - 0.003):
             poinsts_list.append(Point(start.x, y))
 
     elif vector_recta.y == 0.0:  # horizontal
@@ -473,7 +539,7 @@ def discretizar_linea_proyeccion(poinsts_list, start, end, text_height=0.013):
         else:  # derecha -> izq
             origin = end.x
             final = start.x
-        for x in np.arange(origin, final, text_height-0.003):
+        for x in np.arange(origin, final, text_height - 0.003):
             poinsts_list.append(Point(x, start.y))
 
     else:  # si no es horizontal ni vertical, formula
@@ -487,3 +553,46 @@ def discretizar_linea_proyeccion(poinsts_list, start, end, text_height=0.013):
             y = (((x - start.x) * vector_recta.y) / vector_recta.x) + start.y
             poinsts_list.append(Point(x, y))
     return poinsts_list
+
+
+def recalcule_positions(grafo):
+    pprint(grafo)
+    radio = 0.025
+    var_color = Color()
+    return_graph = Graphs()
+    position_labels_list = {'node': [], 'edges': []}
+    lines_points = []
+    for edge in grafo['edges']:
+        edge_1 = int(edge['edge'][0])
+        edge_2 = int(edge['edge'][1])
+        start = Point(grafo['nodes'][edge_1]['pos'][0], grafo['nodes'][edge_1]['pos'][1])
+        end = Point(grafo['nodes'][edge_2]['pos'][0], grafo['nodes'][edge_2]['pos'][1])
+        lines_points = discretizar_linea_proyeccion(lines_points, start, end, 0.013)
+
+    for edge in grafo['edges']:
+        # print("Start -> End: ", edge[0], ' | ', edge[1])
+        id_edge = 'edge_' + edge['edge'][0] + '_' + edge['edge'][1]
+        id_label_edge = 'edge_label_' + edge['edge'][0] + '_' + edge['edge'][1]
+        edge_1 = int(edge['edge'][0])
+        edge_2 = int(edge['edge'][1])
+        start = Point(grafo['nodes'][edge_1]['pos'][0], grafo['nodes'][edge_1]['pos'][1])
+        end = Point(grafo['nodes'][edge_2]['pos'][0], grafo['nodes'][edge_2]['pos'][1])
+        color_aux = var_color.get_color(edge['duration'])
+        # punto de la recta perpendicular.
+        time_pos_positiva, time_pos_negativa = calculate_time_position(start.x, start.y, end.x, end.y)
+        # weight and height text.
+        text_weight, text_height = 0.08 + 0.01, 0.013
+        text_pos = calculate_time_overlap(lines_points, text_weight, text_height, time_pos_positiva, time_pos_negativa)
+        return_graph.add_edges_aux(edge)
+        position_labels_list['edges'].append({'pos': text_pos, 'label': edge['duration'], 'color': color_aux})
+
+    for node in grafo['nodes']:
+        return_graph.add_nodes_aux(node)
+        id_node = 'node_' + node['id']
+        id_node_label = 'node_label_' + node['id']
+        point = [node['pos'][0], node['pos'][1]]
+        text_weight, text_height = 0.12, 0.013
+        pos_label = calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
+        position_labels_list['node'].append({'pos': pos_label, 'label': 'Marcador' + node['id'], 'color': 'balck'})
+    return_graph.add_labels(position_labels_list['node'], position_labels_list['edges'])
+    return return_graph

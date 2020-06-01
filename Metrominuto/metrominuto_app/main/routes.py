@@ -88,6 +88,13 @@ def set_mode():
     return jsonify('ERROR')
 
 
+@main.route('/recalcule', methods=['POST'])
+def recalcule():
+    grafo = json.loads(request.data)
+    g = svg_f.recalcule_positions(grafo)
+    return g.__dict__
+
+
 @main.route('/prueba')
 def mensaje():
     return render_template('template.html', grafo=session['svg_graphs_dict']['0'])

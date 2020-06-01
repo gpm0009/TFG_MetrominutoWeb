@@ -1,20 +1,14 @@
 {% extends "base.html" %}
 {% set active_page="edit_graph" %}
 {% block content %}
-    {{ super() }}
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static', filename='css/show_graph.css') }}">
     <script src="{{ url_for('static', filename='js/snap.svg-min.js') }}"></script>
-    <style>
-        .static {
-            cursor: not-allowed;
-        }
-        .draggable {
-            cursor: move;
-        }
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
+    <span id="input-text" style="padding-top: 10px;visibility: hidden">
+            Change name: <input type="text" id="fname" size="20" name="fname">
+            <input id="change" type="button" value="Submit">
+        </span>
 
     <div class="row">
         <div class="col-12">
@@ -25,7 +19,7 @@
 {% endblock %}
 {% block scripts %}
     {{ super() }}
-    {#    <script src="{{ url_for('static', filename='js/grafo.js') }}"></script>#}
+    {#    <script src="{{ url_for('static', filename='js/edit_graph.js') }}"></script>#}
     <script>
         Snap.plugin(function (Snap, Element, Paper, global, Fragment) {
             function dragStart(x, y, e) {
@@ -35,6 +29,26 @@
             function dragMove(dx, dy, x, y, e) {
                 this.transform(this.current_transform+'T'+dx/1000+','+dy/1000);
                 this.updatePaths();
+            }
+
+            function dragEndCircle(e) {
+                this.current_transform = this.transform();
+                //console.log(this.matrix.e, this.matrix.f);
+                //FIXME Incluir función recalcular labels
+                grafo['nodes'][lista.indexOf(this)]['pos'] = [this.matrix.e, this.matrix.f];
+                //papers.clear();
+                //draw_graph();
+                $.ajax({
+                    type : 'POST',
+                    url : "{{url_for('main.recalcule')}}",
+                    contentType: 'application/json;charset=UTF-8',
+                    data : JSON.stringify(grafo)
+                }).done(function(response) {
+                    papers.clear();
+                    draw_graph(response);
+                }).fail(function() {
+                    console.log('FAIL');
+                });
             }
 
             function dragEnd(e) {
@@ -99,7 +113,7 @@
             Paper.prototype.draggableCircle = function (x, y, r, id_circle) {
                 var circle = this.circle(0, 0, r).attr({id: id_circle}).transform("T"+x+","+y);
                 circle.paths = {};
-                circle.drag(dragMove, dragStart, dragEnd);
+                circle.drag(dragMove, dragStart, dragEndCircle);
                 circle.updatePaths = updatePaths;
                 circle.getCoordinates = getCoordinatesCircle;
                 circle.getPathString = getPathString;
@@ -109,47 +123,60 @@
             };
 
             Paper.prototype.draggableText = function (cx, cy, label,w,h, id_label, label_color) {
-                var circle = this.text(0, 0, label).attr({id: id_label, 'font-size':0.025, 'font-weight': 'bold', fill:label_color}).transform("T"+cx+","+cy);
-                circle.paths = {};
-                circle.drag(dragMove, dragStart, dragEnd);
-                circle.updatePaths = updatePaths;
-                circle.getCoordinates = getCoordinatesCircle;
-                circle.getPathString = getPathString;
-                circle.addPath = addPath;
-                circle.removePath = removePath;
-                return circle;
+                var text = this.text(0, 0, label).attr({id: id_label, 'font-size':0.025, 'font-weight': 'bold', fill:label_color}).transform("T"+cx+","+cy);
+                text.paths = {};
+                text.drag(dragMove, dragStart, dragEnd);
+                text.updatePaths = updatePaths;
+                text.getCoordinates = getCoordinatesCircle;
+                text.getPathString = getPathString;
+                text.addPath = addPath;
+                text.removePath = removePath;
+                return text;
             };
 
         });
+
+        function draw_graph(grafo) {
+            for(var i=0;i<grafo['nodes'].length;i++){
+                //lista.push(papers.draggableRect(grafo['nodes'][i][1]['pos'][0],grafo['nodes'][i][1]['pos'][1],0.05,0.05));
+                lista.push(papers.draggableCircle(grafo['nodes'][i]['pos'][0],grafo['nodes'][i]['pos'][1],0.02, 'node_'+i.toString()));
+            }
+
+            for(var i=0;i<grafo['edges'].length;i++) {
+                lista[parseInt(grafo['edges'][i]['edge'][0])].addPath(lista[parseInt(grafo['edges'][i]['edge'][1])], grafo['edges'][i]['color'])
+            }
+
+            for(var i=0;i<grafo['labels_nodes'].length;i++) {
+                cx =grafo['labels_nodes'][i]['pos'][0];
+                cy =grafo['labels_nodes'][i]['pos'][1];
+                clabel = grafo['labels_nodes'][i]['label']
+                //papers.text(cx, cy, clabel).attr({'font-size':0.025, 'font-weight': 'bold'});
+                text_n = papers.draggableText(cx, cy, clabel,0.13,0.08, 'label_node'+i.toString(), grafo['labels_nodes'][i]['color']);
+                /*text_n.click(function (event) {
+                    document.getElementById("input-text").style.visibility = "visible";
+                    $('#change').click(function() {
+                       var new_text = document.getElementById("fname").value;
+                       console.log(event.target.id);
+                       var_au = Snap('#'+event.target.id);
+                       var_au.attr({'text': new_text});
+                       document.getElementById("input-text").style.visibility = "hidden";
+                    });
+                });*/
+            }
+
+            for(var i=0;i<grafo['labels_edges'].length;i++) {
+                cx =grafo['labels_edges'][i]['pos'][0];
+                cy =grafo['labels_edges'][i]['pos'][1];
+                clabel = grafo['labels_edges'][i]['label']
+                text = papers.draggableText(cx, cy, clabel,0.13,0.08, 'label_edge_',  grafo['labels_edges'][i]['color']);
+            }
+        }
 
         var papers = Snap("#svgout");
         papers.attr({viewBox:"0, 0.2, 1, 1.5"});
 
         var lista = []
         var grafo = {{ grafo|safe }}
-
-        for(var i=0;i<grafo['nodes'].length;i++){
-            //lista.push(papers.draggableRect(grafo['nodes'][i][1]['pos'][0],grafo['nodes'][i][1]['pos'][1],0.05,0.05));
-            lista.push(papers.draggableCircle(grafo['nodes'][i]['pos'][0],grafo['nodes'][i]['pos'][1],0.02, 'node_'+i.toString()));
-        }
-
-        for(var i=0;i<grafo['edges'].length;i++) {
-            lista[parseInt(grafo['edges'][i]['edge'][0])].addPath(lista[parseInt(grafo['edges'][i]['edge'][1])], grafo['edges'][i]['color'])
-        }
-
-        for(var i=0;i<grafo['labels_nodes'].length;i++) {
-            cx =grafo['labels_nodes'][i]['pos'][0];
-            cy =grafo['labels_nodes'][i]['pos'][1];
-            clabel = grafo['labels_nodes'][i]['label']
-            //papers.text(cx, cy, clabel).attr({'font-size':0.025, 'font-weight': 'bold'});
-            papers.draggableText(cx, cy, clabel,0.13,0.08, 'label_node'+i.toString(), grafo['labels_nodes'][i]['color']);
-        }
-
-        for(var i=0;i<grafo['labels_edges'].length;i++) {
-            cx =grafo['labels_edges'][i]['pos'][0];
-            cy =grafo['labels_edges'][i]['pos'][1];
-            clabel = grafo['labels_edges'][i]['label']
-            papers.draggableText(cx, cy, clabel,0.13,0.08, 'label_edge_',  grafo['labels_edges'][i]['color']);
-        }
+            draw_graph(grafo);
     </script>
 {% endblock %}
