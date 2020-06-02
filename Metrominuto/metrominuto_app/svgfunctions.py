@@ -160,6 +160,13 @@ class Graphs:
             {'edge': [edge['edge'][0], edge['edge'][1]], 'color': edge['color'], 'pos': edge['pos'], 'duration': edge['duration']})
 
     def add_labels(self, g_labels_nodes, g_labels_edges):
+        """
+        Method that adds labels the Graph.
+        :param g_labels_nodes: list with node's labels and positions.
+        :type g_labels_nodes: list.
+        :param g_labels_edges: list with edge's labels and positions.
+        :type g_labels_edges: list.
+        """
         for label_node in g_labels_nodes:
             self.labels_nodes.append(label_node)
         for label_edge in g_labels_edges:
@@ -170,8 +177,8 @@ def draw_metrominuto(graph_votes):
     """Functions that save graph as SVG.
         :param graph_votes: Graph that contais all data about nodes and edges.
         :type graph_votes: NetworkX graph
-        :return: svg element.
-        :rtype: str.
+        :return: string with svg element, and graph with all nodes, edges and labels.
+        :rtype: str, Graphs.
         """
     return_graph = Graphs()
     position_labels_list = {'node': [], 'edges': []}
@@ -239,6 +246,23 @@ def draw_metrominuto(graph_votes):
 
 
 def check_line_overlap(edges_change, edge, graph_votes, positions, start, end):
+    """
+    Funcition that calcule if one line overlap other line and change one of them.
+    :param edges_change: list with edges that was changed.
+    :type edges_change: list.
+    :param edge: current node's edge.
+    :type edge: list.
+    :param graph_votes: graph with all nodes and edges.
+    :type graph_votes: networkX.graph
+    :param positions: list with all node's positions.
+    :type positions: list.
+    :param start: position of one node in the edge.
+    :type start: Point.
+    :param end: position of the other node in the edge.
+    :type end: Point.
+    :return: if edge change, return True, start position, end position and list of edges changed.
+            if not, return False, None, None and same list with previous changed edges.
+    """
     vector_recta = Point(start.x - end.x, start.y - end.y)
     for arco in graph_votes.edges(data=True):
         if arco != edge and arco not in edges_change:
@@ -594,6 +618,13 @@ def discretizar_linea_proyeccion(poinsts_list, start, end, text_height=0.013):
 
 
 def recalcule_positions(grafo):
+    """
+    Function that receives a graph provided by the client and calculate new label positions.
+    :param grafo: graph provided by the client (with some node position modified).
+    :type grafo: dict.
+    :return: new graph with same nodes and edges that graph received, but new label positions.
+    :rtype: Graphs.
+    """
     pprint(grafo)
     radio = 0.025
     var_color = Color()

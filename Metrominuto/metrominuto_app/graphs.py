@@ -45,14 +45,6 @@ def calculate_positions(nodes):
         else:
             pos_y = np.log10(pos_y)
             y_normalize.append(pos_y)
-        # print('ANTES', pos_x)
-        # pos_x = np.log10(pos_x)
-        # x_normalize.append(pos_x)
-        # print(pos_x)
-        # print('ANTES', pos_y)
-        # pos_y = np.log10(pos_y)
-        # y_normalize.append(pos_y)
-        # print(pos_y)
         node_positions.append([pos_x, pos_y])
     max_x_normalize, min_x_normalize = max(x_normalize), min(x_normalize)
     max_y_normalize, min_y_normalize = max(y_normalize), min(y_normalize)
@@ -202,30 +194,6 @@ def calculate_edges_votes(graph, tam, central_markers):
     return globals.vote_global_graph
 
 
-def draw_votes_graph():
-    # nodes
-    # nx.draw_networkx_nodes(votes, pos, label=votes.nodes, node_color='#80b41f')
-    # # edges
-    # nx.draw_networkx_edges(votes, pos, edgelist=elarge, width=6)
-    # # labels
-    # nx.draw_networkx_labels(votes, pos, font_size=20, font_family='sans-serif')
-    plt.figure(figsize=[10, 10])
-    plt.axis('off')
-    nx.draw_networkx(globals.vote_global_graph, pos=nx.get_node_attributes(globals.vote_global_graph, 'pos'),
-                     node_color='#80b41f')
-    plt.show()
-    return 0
-
-
-def draw_graph(grafo):
-    plt.figure(figsize=[10, 10])
-    plt.axis('off')
-    nx.draw_networkx(grafo, pos=nx.get_node_attributes(grafo, 'pos'), node_color='#80b41f')
-    plt.show()
-    return 0
-
-
-# posterior a que el usuario elija un parámetro.
 def connected_graph(num_votes):
     """Function that receives a number and check if the global.votes_graph are connected.
 
