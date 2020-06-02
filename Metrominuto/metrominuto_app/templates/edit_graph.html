@@ -5,10 +5,9 @@
           href="{{ url_for('static', filename='css/show_graph.css') }}">
     <script src="{{ url_for('static', filename='js/snap.svg-min.js') }}"></script>
 
-    <span id="input-text" style="padding-top: 10px;visibility: hidden">
-            Change name: <input type="text" id="fname" size="20" name="fname">
-            <input id="change" type="button" value="Submit">
-        </span>
+    <div id="form" style="visibility: hidden;padding-top: 10px">
+        <label>First name:</label>
+    </div>
 
     <div class="row">
         <div class="col-12">
@@ -33,11 +32,7 @@
 
             function dragEndCircle(e) {
                 this.current_transform = this.transform();
-                //console.log(this.matrix.e, this.matrix.f);
-                //FIXME Incluir función recalcular labels
                 grap['nodes'][lista.indexOf(this)]['pos'] = [this.matrix.e, this.matrix.f];
-                //papers.clear();
-                //draw_graph();
                 $.ajax({
                     type : 'POST',
                     url : "{{url_for('main.recalcule')}}",
@@ -159,7 +154,7 @@
                 cx =grafo['labels_edges'][i]['pos'][0];
                 cy =grafo['labels_edges'][i]['pos'][1];
                 clabel = grafo['labels_edges'][i]['label']
-                text = papers.draggableText(cx, cy, clabel,0.13,0.08, 'label_edge_',  grafo['labels_edges'][i]['color']);
+                text = papers.draggableText(cx, cy, clabel,0.13,0.08, 'label_edge_'+grafo['labels_edges'][i]['edge'][0]+grafo['labels_edges'][i]['edge'][1],  grafo['labels_edges'][i]['color']);
             }
         }
 
@@ -169,5 +164,30 @@
         var lista = []
         var grap = {{ grafo|safe }};
         draw_graph(grap);
+
+        $("[id^=label_node]").click(function (event) {
+            document.getElementById("form").style.visibility = "visible";
+            var id = event.target.id
+            var x = document.createElement("INPUT");
+            x.setAttribute("type", "text");
+            x.setAttribute("id", "change_text");
+            var form = document.getElementById("form")
+            form.appendChild(x);
+            var btn = document.createElement("BUTTON");   // Create a <button> element
+            btn.innerHTML = "Cambiar";
+            btn.setAttribute("id", "but");
+            btn.classList.add("btn-primary");
+            form.appendChild(btn);
+            $('#but').click(function () {
+                console.log(id);
+                var new_tex = document.getElementById("change_text").value;
+                Snap('#'+id).attr({'text': new_tex});
+                document.getElementById("change_text").remove();
+                document.getElementById("but").remove();
+                document.getElementById("form").style.visibility = "hidden";
+            });
+        });
+
+
     </script>
 {% endblock %}

@@ -101,23 +101,61 @@ class Color:
 
 
 class Graphs:
+    """
+    Class that represents and create graph structure in order to pass it to the views.
+    """
     def __init__(self):
+        """
+        Graphs class init.
+        :param nodes: List that contains nodes with their attributes.
+        :type nodes: list.
+        :param edges: List that contains edges and ther attributes.
+        :type edges: list.
+        :param labels_nodes: List that contains node labels and their positions.
+        :type labels_nodes: list.
+        :param labels_edges: List that contains edge labels and their positions.
+        :type labels_edges: list.
+        """
         self.nodes = []
         self.edges = []
         self.labels_nodes = []
         self.labels_edges = []
 
     def add_nodes(self, node):
+        """
+        Method that adds a node to the Graph.
+        :param node: list with node attributes.
+        :type node: list.
+        """
         self.nodes.append({'id': node[0], 'pos': [node[1]['pos'][0], node[1]['pos'][1]]})
 
     def add_nodes_aux(self, node):
+        """
+        Method that adds a node form view graph to the Graph.
+        :param node: Node with attributes.
+        :type node: dict.
+        """
         self.nodes.append({'id': node['id'], 'pos': node['pos']})
 
     def add_edges(self, edge, color, position):
+        """
+        Method that adds edge to the Graph.
+        :param edge: node origin and node end
+        :type edge: list.
+        :param color: edge's color.
+        :type color: Color.
+        :param position: Start's and End's Node positions.
+        :type position: list.
+        """
         self.edges.append(
             {'edge': [edge[0], edge[1]], 'color': color, 'pos': position, 'duration': edge[2]['duration']})
 
     def add_edges_aux(self, edge):
+        """
+        Method that adds edge from view to the Graph.
+        :param edge: Edge with attributes.
+        :type edge: dict.
+        """
         self.edges.append(
             {'edge': [edge['edge'][0], edge['edge'][1]], 'color': edge['color'], 'pos': edge['pos'], 'duration': edge['duration']})
 
@@ -174,7 +212,7 @@ def draw_metrominuto(graph_votes):
         text_pos = calculate_time_overlap(lines_points, text_weight, text_height, time_pos_positiva, time_pos_negativa)
         time_label = add_label(dwg, text_pos, edge[2]['duration'], radio, color_aux, id_label_edge)
         dwg.add(time_label)
-        position_labels_list['edges'].append({'pos': text_pos, 'label': edge[2]['duration'], 'color': color_aux})
+        position_labels_list['edges'].append({'edge': [edge[0], edge[1]], 'pos': text_pos, 'label': edge[2]['duration'], 'color': color_aux})
         # rect = dwg.rect(insert=(text_pos[0], text_pos[1] - text_height), size=(text_weight, text_height),
         #                 stroke=color, fill=color, stroke_width=0.01)
         # dwg.add(rect)
@@ -584,7 +622,7 @@ def recalcule_positions(grafo):
         text_weight, text_height = 0.08 + 0.01, 0.013
         text_pos = calculate_time_overlap(lines_points, text_weight, text_height, time_pos_positiva, time_pos_negativa)
         return_graph.add_edges_aux(edge)
-        position_labels_list['edges'].append({'pos': text_pos, 'label': edge['duration'], 'color': color_aux})
+        position_labels_list['edges'].append({'edge': [edge['edge'][0], edge['edge'][1]], 'pos': text_pos, 'label': edge['duration'], 'color': color_aux})
 
     for node in grafo['nodes']:
         return_graph.add_nodes_aux(node)
