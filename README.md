@@ -31,6 +31,8 @@ Files - Settings - Project Interpreter - Add - Virtual Envirorment - New
 A continuación, instala las dependencias del proyecto ejecutando en la consola:
 `pip -r install requirements .txt`
 
+Para obtener una API_KEY de Google puedes hacerlo desde la propia página de [documentación](https://developers.google.com/maps/documentation/javascript/get-api-key?hl=es) de Google. 
+
 Configura las variables de entorno:
 ```
 GOOGLE_API_KEY
