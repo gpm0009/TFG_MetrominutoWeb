@@ -2,25 +2,64 @@ import math
 
 
 class Point:
+    """
+    Class that represent a point P(x,y).
+    """
     def __init__(self, x=0, y=0):
+        """
+        Initialize coordinate x and coordinate y.
+        :param x: coordinate X.
+        :type x: float.
+        :param y: coordinate Y.
+        :type y: float.
+        """
         self.x = x
         self.y = y
 
     def __str__(self):
+        """
+        Method that print the point.
+        :return: point str.
+        :rtype: str.
+        """
         return "(" + str(self.x) + ", " + str(self.y) + ")"
 
     def distance(self, p):
+        """
+        Method that calculate the distance between two points.
+        :param p: secod point.
+        :type p: Point.
+        :return: distance.
+        :rtype: float.
+        """
         return math.sqrt(abs(p.x - self.x) ** 2 + abs(p.y - self.y) ** 2)
 
 
 class Rect:
+    """
+    Class representing the rectangle that includes the text.
+    """
     def __init__(self, p, w=0, h=0):
+        """
+        Initialize left bottom corner of the rectangle, weight and height.
+        :param p: Right corner.
+        :type p: Point.
+        :param w: base of the rectangle. Weight.
+        :type w: float.
+        :param h: Height of the rectangle.
+        :type h: float.
+        """
         self.p = p
         self.w = w
         self.h = h
 
     def collide(self, r):
-        # calculamos los valores de los lados
+        """
+        Method that check if one rectangle collide with other rectangle.
+        :param r: second rectangle.
+        :type r: Rect.
+        :return: True if rectangles collide and False if don't.
+        """
         left = self.p.x
         right = self.p.y + self.w
         top = self.p.y + self.h
@@ -32,11 +71,21 @@ class Rect:
         return right >= r_left and left <= r_right and top >= r_bottom and bottom <= r_top
 
     def __str__(self):
+        """
+        Method to print rectangle attributes.
+        :return: str representing Rect's point, base and height.
+        """
         return "(" + str(self.p.x) + ", " + str(self.p.y) + ") Base = " + str(self.w) + " Altura = " + str(self.h)
 
 
 class Color:
+    """
+    Class to get color edge.
+    """
     def __init__(self):
+        """
+        Put all counts to 0 and initialize color values.
+        """
         self.cont_green = 0
         self.cont_red = 0
         self.cont_blue = 0
@@ -49,6 +98,13 @@ class Color:
         self.brown = ['#ab6b49', '#a36543', '#9c5e3d', '#955837', '#8e5231', '#874c2b', '#804626']
 
     def get_color(self, time_str):
+        """
+        Method that receives string distance and calculate what color should be.
+        :param time_str: Time string. Format 'number mins'
+        :type time_str: str.
+        :return: specific color.
+        :rtype str color.
+        """
         self.check_cont()
         if time_str != '':
             time = int(time_str.split(' mins')[0]) or int(time_str.split(' hours')[0])
@@ -72,6 +128,9 @@ class Color:
         return return_color
 
     def check_cont(self):
+        """
+        Function that checks that no counter is greater than the list.
+        """
         if self.cont_red > self.red.__len__() - 1:
             self.cont_red = 0
         if self.cont_green > self.green.__len__() - 1:
