@@ -29,10 +29,9 @@ Mediante la biblioteca \textit{svgwrite}~\ref{svgwrite} obtenemos el grafo media
 	\item Labels: texto con información acerca de los puntos y de la distancia entre ellos
 \end{itemize}
 
-¿Esto podrían ser las entidades para el diagrama de entidades?
 
 \section{Diseño procedimental}
-En esta sección se explican las interacciones más destacadas de la aplicación. La principal de ellas es, dentro de la visualización de los puntos, cuando se pasa a la vista del mapa sinóptico, ya que aquí entran en juego todas las partes de la aplicación.
+En esta sección se explican las interacciones más destacadas de la aplicación. La principal de ellas es, dentro de la visualización de los puntos, cuando se pasa a la vista del mapa sinóptico, ya que aquí entran en juego todas las funcionalidades más destacadas de la aplicación.
 // Diagrama de secuencia.
 
 
@@ -46,10 +45,11 @@ La estructura del proyecto esta condicionada por el tipo de proyecto que es. Se 
 \imagen{mvc}{Diagrama Modelo-Vista-Controlador}
 
 \section{Maquetación}
-Al tratarse de una aplicación web es muy importante que la apariencia de la misma este cuidada y sea adaptable a cualquier tipo de dispositivo.
+Al tratarse de una aplicación web es muy importante que la apariencia de la misma se haya cuidado y sea adaptable a cualquier tipo de dispositivo.
 \\
 
 Para la construcción de las distintas páginas de este proyecto, se ha heredado una estructura común definida en el fichero \textit{base.html}. Este fichero importa diferentes librerías, como \textit{Bootstrap} y \textit{Vue}. También añade la barra de navegación y otros elementos comunes a todas las páginas. Es por ello que desde el comienzo del proyecto y con la finalidad de evitar futuros problemas a la hora de ordenar y alinear los elementos \textit{HTML} conviene tenerlo bien estructurado y ordenado. 
 \\
+
 A la hora de situar los diferentes elementos HTML en la página, como por ejemplo los botones de \textit{<<Aceptar>>} y \textit{<<Cancelar>>}, es importante tener en cuenta la usabilidad de los mismos.
 

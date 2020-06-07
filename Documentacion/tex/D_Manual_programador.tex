@@ -4,6 +4,36 @@
 	keywordstyle=\color{blue},
 	frame=single
 }
+\lstdefinelanguage{JavaScript}{
+	keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+	keywordstyle=\color{blue}\bfseries,
+	ndkeywords={class, export, boolean, throw, implements, import, this},
+	ndkeywordstyle=\color{darkgray}\bfseries,
+	identifierstyle=\color{black},
+	sensitive=false,
+	comment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	commentstyle=\color{purple}\ttfamily,
+	stringstyle=\color{red}\ttfamily,
+	morestring=[b]',
+	morestring=[b]"
+}
+
+\lstset{
+	language=JavaScript,
+	backgroundcolor=\color{lightgray},
+	extendedchars=true,
+	basicstyle=\footnotesize\ttfamily,
+	showstringspaces=false,
+	showspaces=false,
+	numbers=left,
+	numberstyle=\footnotesize,
+	numbersep=9pt,
+	tabsize=2,
+	breaklines=true,
+	showtabs=false,
+	captionpos=b
+}
 
 \apendice{Documentación técnica de programación}
 
@@ -13,36 +43,39 @@ En este apéndice se va a definir todo aquello que es necesario conocer para que
 \section{Estructura de directorios}\label{cap:Estructura}
 En este proyecto, aunque al principio se siguieron distintos tutoriales sobre cómo crear la estructura de directorios y ficheros, al final se optó por la opción que propone Azure. De este modo, a la hora de realizar el despliegue no tendríamos ningún tipo de problema, ya que esta plataforma requiere determinados ficheros de configuración que se explicarán a continuación.
 La estructura del proyecto se divide en:
+\begin{figure}
+
 \dirtree{%
 	.1 / Directorio raíz.
-	.2 Documentación/ -Documentación del proyecto.
-	.3 img/ -Imágenes de la documentación.
-	.3 tex/ -Secciones de la documentación.
-	.3 anexos.pdf -Anexos del proyecto.
-	.3 memoria.pdf -Memoria del proyecto.
-	.2 HolaMundo/ -App web básica.
-	.2 Metrominuto/ -Directorio del proyecto web.
-	.3 metrominuto\_app/ -Aplicación web.
-	.4 main/ -Directorio que inicializa el blueprint de la aplicación.
-	.5 \texttt{init.py} -Inicialización.
-	.5 forms.py -Contiene los formularios de la aplicación.
-	.5 routes.py -Contiene las rutas de la aplicación.
-	.4 static/ -ficheros JavaScript.
-	.5 css/ -Estilos.
-	.5 img/ -Imágenes.
-	.5 templates/ -ficheros HTML.
-	.4 init.py -Inicializa la aplicación.
-	.4 calculateRoute.py -Operaciones con el API de Google.
-	.4 globals.py -Variables globales del proyecto.
-	.4 graphs.py -Operaciones con grafos.
-	.4 svgfunctions.py -Operaciones para dibujar.
-	.4 webapp.py .
-	.3 config.py -Fichero de configuración.
-	.3 metrominuto.py -Punto de entrada para iniciar la aplicación.
-	.3 metrominuto.txt -Fichero necesario para desplegar en Azure.
-	.3 requirements.txt -Dependencias necesarias para ejecutar el proyecto.
+	.2 Documentación/ - Documentación del proyecto.
+	.3 img/ - Imágenes de la documentación.
+	.3 tex/ - Secciones de la documentación.
+	.3 anexos.pdf - Anexos del proyecto.
+	.3 memoria.pdf - Memoria del proyecto.
+	.2 HolaMundo/ - App web básica.
+	.2 Metrominuto/ - Directorio del proyecto web.
+	.3 metrominuto\_app/ - Aplicación web.
+	.4 main/ - Directorio que inicializa el blueprint de la aplicación.
+	.5 init.py - Inicialización.
+	.5 forms.py - Contiene los formularios de la aplicación.
+	.5 routes.py - Contiene las rutas de la aplicación.
+	.4 static/ - Ficheros JavaScript.
+	.5 css/ - Estilos.
+	.5 img/ - Imágenes.
+	.5 templates/ - Ficheros HTML.
+	.4 init.py - Inicializa la aplicación.
+	.4 models.py - Clases definidas en la aplicación.
+	.4 calculateRoute.py -O peraciones con el API de Google.
+	.4 globals.py - Variables globales del proyecto.
+	.4 graphs.py - Operaciones con grafos.
+	.4 svgfunctions.py - Operaciones para dibujar.
+	.4 webapp.py - Punto de entrada para la aplicación en Azure.
+	.3 config.py - Fichero de configuración.
+	.3 metrominuto.py - Punto de entrada para iniciar la aplicación.
+	.3 metrominuto.txt - Fichero necesario para desplegar en Azure.
+	.3 requirements.txt - Dependencias necesarias para ejecutar el proyecto.
 }
-
+\end{figure}
 \section{Manual del programador}
 En este apartado se explican los puntos a tener en cuenta por futuros desarrolladores que tengan la intención de mantener o mejorar el proyecto.
 \subsection{Dibujado de grafos}
@@ -50,15 +83,16 @@ El principal objetivo de este proyecto se basa en obtener un grafo final de mane
 
 Estos problemas han resultado de gran complejidad en el desarrollo final del proyecto, ya que como mencionaba antes, es el resultado final de todo el proyecto. Para solucionar el problema de que los textos no se superpongan, tanto en las líneas o \textit{caminos} como en los puntos o \textit{paradas}, he tenido en cuenta dos opciones:
 \begin{itemize}
-	\item \textbf{Discretización de las líneas:} este método consiste en dividir los arcos del grafo en varios puntos separados una distancia $\delta$ y comprobar si alguno de esos puntos está en el interior del rectángulo que contiene el texto que queremos colocar. Ese $\delta$ se calcula proyectando sobre cada recta una distancia en el eje x mínimamente inferior a la altura del texto, y para lo cuál nos hace falta calcular el ángulo entre dicha recta y la horizontal. Para cada texto comprendido en el punto medio de cada arco, se evalúan 8 distintas posiciones a cada lado del arco\footnote{\url{https://github.com/gpm0009/TFG_MetrominutoWeb/issues/91}}. Para el texto relativo a la información de cada nodo se evalúan estas posiciones para la posicion inferior, superior, izquierda y derecha del nodo, y si no se encontrase ninguna se pasaría a evaluar las esquinas del cuadrado que contiene al círculo
+	\item \textbf{Discretización de las líneas:} este método consiste en dividir los arcos del grafo en varios puntos separados una distancia $\delta$ y comprobar si alguno de esos puntos está en el interior del rectángulo que contiene el texto que queremos colocar. Ese $\delta$ se calcula proyectando sobre cada recta una distancia en el eje x mínimamente inferior a la altura del texto, y para lo cuál nos hace falta calcular el ángulo entre dicha recta y la horizontal. Para cada texto comprendido en el punto medio de cada arco, se evalúan 8 distintas posiciones a cada lado del arco\footnote{\url{https://github.com/gpm0009/TFG_MetrominutoWeb/issues/91}}. Para el texto relativo a la información de cada nodo se evalúan estas posiciones para la posición inferior, superior, izquierda y derecha del nodo, y si no se encontrase ninguna se pasaría a evaluar las esquinas del cuadrado que contiene al círculo. En la figura \ref{fig:discretizacion} vemos un ejemplo de las 8 anclas en el rectángulo A. ¿Explicar el proceso de los dos puntos sobre los que se evalúan las anclas? o quedaría demasiado extenso?
+	\imagen{discretizacion}{Discretización.}
 	
-	\item \textbf{Superposición de cuadrados:} Este método consiste en calcular primeramente el cuadrado que contiene el texto. Una vez que sabemos esto, podemos construir varios rectángulos en torno al punto donde queremos colocar el texto, tanto a un lado de la línea como al otro. Posteriormente, dividiremos la línea que une los dos puntos para los que queremos colocar el texto en cuatro cuadrados partiendo del punto medio. De este modo, en dos de ellos la diagonal sería parte de la línea que une los puntos, mientras que en los otros dos no habría nada. De esto modo, y conociendo la dirección de la línea podemos calcular si, sobre los rectángulos que forman parte de la línea, existe una superposición con alguno de los posibles rectángulos del texto. En el caso del texto que referencia el punto, el rectángulo, o en este caso cuadrado, que se construye sería el que contiene al círculo y se evaluaría el rectángulo correspondiente del que la línea forma parte.
+	\item \textbf{Superposición de cuadrados:} Este método consiste en calcular primeramente el cuadrado que contiene el texto. Una vez que sabemos esto, podemos construir varios rectángulos en torno al punto donde queremos colocar el texto, tanto a un lado de la línea como al otro. Posteriormente, dividiremos la línea que une los dos puntos para los que queremos colocar el texto en cuatro cuadrados partiendo del punto medio. De este modo, en dos de ellos la diagonal sería parte de la línea que une los puntos, mientras que en los otros dos no habría nada. De este modo, y conociendo la dirección de la línea podemos calcular si, sobre los rectángulos que forman parte de la línea, existe una superposición con alguno de los posibles rectángulos del texto. En el caso del texto que referencia el punto, el rectángulo, o en este caso cuadrado, que se construye sería el que contiene al círculo y se evaluaría el rectángulo correspondiente del que la línea forma parte. En la figura \ref{fig:rectangulos-metodo} vemos un ejemplo: los rectángulos que contienen a la línea serían B, D, H y F, mientras que los rectángulos A, C, E y G no. Por ello, siempre que el rectángulo se encuentre dentro del segundo grupo no tendremos problemas de superposición con las líneas.
+	\imagen{rectangulos-metodo}{Superposición de rectángulos.}
 \end{itemize}
+Finalmente, se optó por la primera opción, ya que después de comprobar que los textos no se superponían con las líneas, había que tener en cuenta que no se superpusiesen entre ellos. Para ello, sobre la lista de puntos discretizados, se añaden las 4 esquinas de los rectángulos que contienen al texto. Con esta operación lo que hacemos es que si al colocar el siguiente texto en una de las posiciones establecidas nos encontramos con que uno de estos puntos esta en el interior de este último rectángulo, significará que ya hay un texto en esa posición y debemos probar con la siguiente.
 
-Un aspecto clave, y a tener \textbf{muy} en cuenta en la evaluación de todo lo comentado anteriormente, es que debemos recordar en todo momento que estos cálculos se hacen para dibujar en SVG, por lo que el punto mas pequeño de la <<coordenada x>> y de la <<coordenada y>> se encuentra en la esquina superior izquierda. Esto nos lleva a que cada posible ancla (punto inferior izquierdo) del rectángulo del texto debemos restarle la altura de dicho texto para que la evaluación de los puntos coincida, ya que al dibujarlo en SVG el texto siempre se dibuja hace arriba desde el punto que indicamos. Para entender mejor esto, los puntos \textit{A} y \textit{C} de la imagen~\ref{fig:rectangulos} corresponderían con el punto inferior izquierdo del rectángulo que queremos evaluar, mientras que los puntos \textit{B} y \textit{D} serían los puntos que debemos indicar al dibujar el SVG.
+Un aspecto clave, y a tener muy en cuenta en la evaluación de todo lo comentado anteriormente, es que debemos recordar en todo momento que estos cálculos se hacen para dibujar en SVG, por lo que el punto mas pequeño de la <<coordenada x>> y de la <<coordenada y>> se encuentra en la esquina superior izquierda. Esto nos lleva a que cada posible ancla (punto inferior izquierdo) del rectángulo del texto debemos restarle la altura de dicho texto para que la evaluación de los puntos coincida, ya que al dibujarlo en SVG el texto siempre se dibuja hace arriba desde el punto que indicamos. Para entender mejor esto, los puntos \textit{A} y \textit{C} de la imagen~\ref{fig:rectangulos} corresponderían con el punto inferior izquierdo del rectángulo que queremos evaluar, mientras que los puntos \textit{B} y \textit{D} serían los puntos que debemos indicar al dibujar el SVG.
 \imagen{rectangulos}{Puntos del rectángulo.}
-
-Cruza la referencia con la Figura de abajo <<instalar PyCharm D.1>> y no termino de entender muy bien por qué.
 
 
 \section{Aplicaciones utilizadas}
@@ -71,12 +105,12 @@ Para el desarrollo de este proyecto se tuvieron en cuenta principalmente dos edi
 	\item \textbf{GitCraken}
 \end{itemize}
 Después de analizar y configurar ambos editores de texto, se llegó a la conclusión de que era mucho mas cómodo y útil utilizar PyCharm, ya que ofrece una configuración mas sencilla, además de permitir importar diversas librerías de una manera mas amigable. También ofrece la posibilidad de seguir los estándares de programación \textit{PEP8} y \textit{ECMAScript}.
-Para el control de versiones se ha utilizado GitCraken.
+Para el control de versiones se ha utilizado GitCraken al comienzo del proyecto. Después, se utilizó el propio editor de texto.
+
 
 \section{Instalación y configuración}
 Para la instalación del proyecto se explicarán los pasos a seguir en un sistema operativo de Linux, que en este caso se trata de la versión Linux Mint 18.3 Sylvia.
-Tras varias pruebas, la instalación y ejecución del proyecto es idéntica salvo la propia instalción de Pycharm y Python.
-¿Me extiendo un poco más? La ejecución y configuración del entorno es exactamente igual dentro de PyCharm.
+Tras varias pruebas, la instalación y ejecución del proyecto es idéntica salvo la propia instalación de Pycharm y Python.
 
 \subsection{Python}
 
@@ -170,7 +204,7 @@ Una vez ahí, vemos que nos ofrece dos opciones para buscar diccionarios: \url{h
 \section{Bibliotecas}
 
 \subsection{NetworkX}\label{networkx}
-Como ya he mencionado, esta biblioteca nos permite trabajar de una forma muy amplia y completa con grafos. A lo largo del proyecto se han usado:
+Como ya he mencionado, esta biblioteca nos permite trabajar de una forma muy amplia y completa con grafos~\cite{doc:networkx}. A lo largo del proyecto se han usado:
 \begin{itemize}
 	\item \texttt{graph()}: para crear un grafo no dirigido al que se añadirán nodos y arcos.
 	\item \texttt{add\_node()}: Diferentes nodos junto con atributos como la posición obtenida del API de Google y el nombre.
@@ -182,7 +216,52 @@ Como ya he mencionado, esta biblioteca nos permite trabajar de una forma muy amp
 	\item \texttt{draw\_networkx()}: para dibujar el grafo.
 \end{itemize}
 
+Para su uso, es necesario instalar el requirement correspondiente e importarla en el proyecto. Para ello:
+\renewcommand{\lstlistingname}{NetworkX}
+\renewcommand{\lstlistlistingname}{List of \lstlistingname s}
+\begin{lstlisting}[language=python,caption={Instalación mediante pip.}]
+pip install networkx
+\end{lstlisting}
+\begin{lstlisting}[language=python,caption={Importación.}]
+import networkx
+\end{lstlisting}
+
 \subsection{SVGWRITE}\label{svgwrite}
+Esta biblioteca permite crear en el servidor nuevos archivos SVG~\cite{doc:svgwritedocs}. Permite crear, dentro del dibujo SVG distintos elementos, siendo en el caso de este proyecto círculos, rectángulos, líneas y textos. 
+
+Para el dibujado hacemos uso del método \texttt{Drawing()}, del cuál dependeran todos los elementos que queramos añadir:
+\renewcommand{\lstlistingname}{SVGWRITE}
+\renewcommand{\lstlistlistingname}{List of \lstlistingname s}
+\begin{lstlisting}[language=python,caption={Ejemplo de uso.}]
+dwg = svgwrite.Drawing()
+square = dwg.add(dwg.rect((0, 0), (1, 1), fill='blue'))
+\end{lstlisting}
+
+Para su uso, debemos instalar el \textit{requirement} e importarla al proyecto:
+\begin{lstlisting}[language=python,caption={Instalación mediante pip.}]
+pip install svgwrite
+\end{lstlisting}
+\begin{lstlisting}[language=python,caption={Importación.}]
+import svgwrite
+\end{lstlisting}
+
+\subsection{SNAP.SVG}\label{snapsvg}
+Es otra librería para crear gráficos vectoriales pero esta vez en la parte del cliente gracias a que es una biblioteca JavaScript~\cite{doc:snapsvg}. Esto la hace perfecta para manipular los elementos del SVG a nuestro antojo sin tener que hacer nuevas llamas al servidor.
+\renewcommand{\lstlistingname}{Snap.svg}
+\renewcommand{\lstlistlistingname}{List of \lstlistingname s}
+\begin{lstlisting}[language=javascript,caption={Ejemplo}]
+var s = Snap("#svg");
+// Lets create big circle in the middle:
+var bigCircle = s.circle(150, 150, 100);
+// By default its black, lets change its attributes
+bigCircle.attr({
+fill: "#bada55",
+stroke: "#000",
+strokeWidth: 5
+});
+\end{lstlisting}
+
+Para su uso debemos incluirla en el proyecto siguiendo una de las opciones propuestas en su documentación~\footnote{\url{https://github.com/adobe-webplatform/Snap.svg}} de GitHub. En este proyecto, se ha optado por descargar el directorio \texttt{\textbackslash{dist}} he incluir los ficheros JavaScript en el proyecto.
 
 
 \section{Despliegue de la aplicación en Azure}
@@ -197,7 +276,7 @@ Este proyecto está desarrollado con la versión 3.7.5, pero con para desarrolla
 
 \subsection{Instalación}
 La forma más cómoda de obtener todo el proyecto es mediante \textit{git}, usando el comando:
-\renewcommand{\lstlistingname}{Isntalación}% Listing -> Algorithm
+\renewcommand{\lstlistingname}{Instalación}% Listing -> Algorithm
 \renewcommand{\lstlistlistingname}{List of \lstlistingname s}
 \begin{lstlisting}[language=python,caption={Descargar el repositorio.}]
  $ git clone <url_del_repositiorio>
@@ -218,18 +297,17 @@ Para que la aplicación funcione correctamente hay que definir las siguientes va
 	\item \textbf{\texttt{SECRET\_KEY}:} clave necesaria por Flask.
 	\item \textbf{\texttt{ENVIRORMENT}:} en el que se está actualmente: development o production.
 \end{itemize}
-Para su configuración, acceder desde la parte superior derecha del editor a \textit{Edit Configurations$\dots$} y después seleccionar \textit{Envirorment variables} como vemos en la figura~\ref{fig:envirorment_variables}:
-\imagen{envirorment_variables}{Variables de entorno}.
+Para su configuración, acceder desde la parte superior derecha del editor a \textit{Edit Configurations$\dots$} y después seleccionar \textit{Envirorment variables} como vemos en la figura~\ref{fig:envirorment_variables}.
+\imagen{envirorment_variables}{Variables de entorno.}
 
 \subsection{Ejecución}
-Para la ejecución desde el editor, es necesario que hagamos una última configuración. Debemos ir a la parte superior derecha del editor y seleccionar \textit{Edit Configurations$\dots$}
+Para la ejecución desde el editor, es necesario que hagamos una última configuración. Debemos ir a la parte superior derecha del editor y seleccionar \textit{Edit Configurations$\dots$} como se ven en la figura \ref{fig:ejecucion}.
 \imagen{ejecucion}{Ejecución del proyecto.}
 
 En esta pantalla tenemos que elegir el punto de entrada a la aplicación, que será el fichero \textit{metrominuto.py}, escribir el entorno en el que queremos ejecutar la aplicación y marcar la opción de Debug. Una vez hecho esto, ya podemos ejecutar la aplicación desde el panel superior derecho.
 
 \subsection{Despliegue en Azure}
-Para realizar el despligue de la aplicación en Azure es necesario que el proyecto tenga una estructura concreta, ya que serán los servicios de Azure los que instalen las dependencias necesarias y ejecuten el código. 
-Para ello, esta estructura en la que se contempla y define en el apartado Estructura de directorios \ref{cap:Estructura}.
+Para realizar el despligue de la aplicación en Azure es necesario que el proyecto tenga una estructura concreta, ya que serán los servicios de Azure los que instalen las dependencias necesarias y ejecuten el código. Dicha estructura es la definida anteriormente en el apartado \textit{Estructura de directorios}~\ref{cap:Estructura}.
 
 He hecho el despliegue usando VS Code, igual no queda bonito decir que lo he usado después de usar PyCharm. Voy a probar a desplegarlo desde git y lo incluyo. 
 
