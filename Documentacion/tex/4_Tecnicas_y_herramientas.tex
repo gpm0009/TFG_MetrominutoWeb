@@ -9,6 +9,7 @@
 
 
 \section{Técnicas}
+En esta sección se explicarán las distintas herramientas utilizadas a lo largo del proyecto.
 
 \subsection{Scrum}
 Scrum es una metodología de desarrollo ágil la cual proporciona un marco de trabajo y desarrollo de productos. No es un solo proceso, si no que en esta metodología se aplican un conjunto de buenas prácticas y procesos para que el producto final sea de la mejor calidad posible.
@@ -89,8 +90,11 @@ Para poder utilizar \textit{Vue} en nuestros templates, además de incluir el \t
 
 \section{Bibliotecas}
 
+\subsection{JQuery}
+\textit{JQuery}~\cite{doc:jquery} es una biblioteca JavaScript que hace que la manipulación de documentos HTML, el manejo de eventos y las peticiones Ajax sean más sencillas de usar. Además, funciona en prácticamente todos los navegadores web.
+
 \subsection{Networkx}
-NetworkX es la biblioteca por excelencia de Python para trabajar con grafos y redes. Permite crear, manipular y estudiar su estructura.
+\textit{NetworkX} es la biblioteca por excelencia de Python para trabajar con grafos y redes. Permite crear, manipular y estudiar su estructura.
 \\
 Características:
 \begin{itemize}
@@ -103,12 +107,23 @@ Características:
 
 
 \subsection{Tube Map - D3}
-Esta biblioteca permite dibujar mapas muy similares a los mapas que hoy podemos ver en el metro, con sus estaciones, paradas e intersecciones.
+Esta biblioteca permite dibujar mapas muy similares a los mapas que hoy podemos ver en el metro, con sus estaciones, paradas e intersecciones~\cite{doc:tubemap}.
 \\
 Se intentó implementar en el proyecto durante dos Sprints, pero se llegó a la conclusión que no se podía generar la estructura necesaria en el archivo JSON para el dibujado del mapa. Esta estructura debía contener coordenadas con números enteros y estar ordenadas de tal forma que se indicasen las esquinas y cruces que debía haber entre las diferentes líneas, o en este caso, recorridos.
 
+\subsection{SVGWRITE}
+\textit{SVGWRITE}~\cite{doc:svgwritedocs}, como su propio nombre sugiere, sirve para la creación y dibujado de gráficos vectoriales escalables. Su principal inconveniente es que no permite leer o modificar un archivo ya existe, es decir, sólo permite su creación desde cero.
 
-\subsection{Documentación}
-Como herramienta para realizar la documentación se ha escogido \LaTeX{}, lenguaje orientaado a la creación de documentos que presenten una alta calidad tipográfica.
+\subsection{Snap.svg}
+\textit{Snap.svg}~\cite{doc:snapsvg} es una biblioteca JavaScript que permite crear gráficos vectoriales interactivos y fácilmente manipulables en el lado del cliente. Su uso es similar al uso de jQuery.
 
+
+\subsection{\LaTeX}
+Como herramienta para realizar la documentación se ha escogido \LaTeX{}~\cite{wiki:latex}, lenguaje orientado a la creación de documentos que presenten una alta calidad tipográfica.
+
+\subsubsection{TeXstudio}
+TeXstudio es un editor de código abierto para crear documentos \LaTeX. Posee numerosas características para su desarrollo. Además, para su correcto funcionamiento es necesario instalar MiKTeK.
+
+\subsubsection{MiKTeK}
+\textit{MiKTeK} es una distribución libre de \LaTeX que incluye tipografías compiladores y herramientas para generar bibliografías e índices.
 

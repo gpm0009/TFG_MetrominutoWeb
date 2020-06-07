@@ -15,6 +15,8 @@ Para la parte del servidor se siguieron los libros y tutoriales:
 \begin{itemize}
 	\item Flask Web Development~\cite{grinberg2014flask}.
 	\item The Flask Mega-Tutorial (2017)~\cite{grinberg-mega}.
+	\item Deploy Python apps to Azure App Service on Linux from Visual Studio Code~\cite{deploy-flask-azure}.
+	\item Flask Tutorial in Visual Studio Code~\cite{vscode-flask}.
 \end{itemize}
 
 Para la parte del cliente se utilizaron principalmente los siguientes
@@ -45,5 +47,8 @@ El principal objetivo de este proyecto se basa en obtener un grafo final de mane
 
 Estos problemas han resultado de gran complejidad en el desarrollo final del proyecto, ya que como mencionaba antes, es el resultado final de todo el proyecto.
 
+Un aspecto clave a tener en cuenta en el resultado final de de la aplicación es que a pesar de que la unión entre dos puntos es una línea recta, no debemos pensar que esto se corresponde con el recorrido en la vida real. Dos puntos que parecen estar cerca el uno del otro pueden tener una distancia mayor que dos puntos que parecen más alejados. Para entender mejor esto fijémonos en la imagen~\ref{fig:ejemplo-distancia}. Vemos que los puntos relativos a el \textit{Arco de San Martín} y \textit{Mirador del Castillo} están mas cerca el uno del otro mientras que el punto relativo a \textit{La Estación} se encuentra más alejado de ellos.
+\imagen{ejemplo-distancia}{Puntos en el mapa.}
+Sin embargo, si nos fijamos en el mapa anterior podemos ver que para llegar del \textit{Arco de San Martín} a el \textit{Mirador del Castillo} tenemos que dar un rodeo más largo de lo que parece, y puede ser el caso de que los puntos no se encuentren al mismo nivel (en términos de tiempo no es lo mismo hacer un kilómetro subiendo que un kilómetro bajando). Esto hace que,como vemos en la imagen~\ref{fig:ejemplo-distancia-tiempo}, el tiempo que tardamos entre estos dos puntos y el que tardamos desde el primero a \textit{La Estación}, que visualmente parece estar más lejos, sea el mismo.
+\imagen{ejemplo-distancia-tiempo}{Tiempo entre los puntos.}
 
-\subsection{Visualización}
