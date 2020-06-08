@@ -1,12 +1,15 @@
 {% extends "base.html" %}
 {% set active_page="edit_graph" %}
 {% block content %}
+     {{ super() }}
+
+    <script src="{{ url_for('static', filename='js/bootbox.all.min.js') }}"></script>
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static', filename='css/show_graph.css') }}">
     <script src="{{ url_for('static', filename='js/snap.svg-min.js') }}"></script>
 
-    <div id="form" style="visibility: hidden;padding-top: 10px">
-        <label>First name:</label>
+    <div class="row float-right" style="padding-top: 5px">
+        <button id="export" type="button" class="btn btn-outline-success">Export</button>
     </div>
 
     <div class="row">
@@ -115,6 +118,7 @@
                 circle.getPathString = getPathString;
                 circle.addPath = addPath;
                 circle.removePath = removePath;
+                //circle.addClass('circle');
                 return circle;
             };
 
@@ -166,27 +170,29 @@
         draw_graph(grap);
 
         $("[id^=label_node]").click(function (event) {
-            document.getElementById("form").style.visibility = "visible";
-            var id = event.target.id
-            var x = document.createElement("INPUT");
-            x.setAttribute("type", "text");
-            x.setAttribute("id", "change_text");
-            var form = document.getElementById("form")
-            form.appendChild(x);
-            var btn = document.createElement("BUTTON");   // Create a <button> element
-            btn.innerHTML = "Cambiar";
-            btn.setAttribute("id", "but");
-            btn.classList.add("btn-primary");
-            form.appendChild(btn);
-            $('#but').click(function () {
-                console.log(id);
-                var new_tex = document.getElementById("change_text").value;
-                Snap('#'+id).attr({'text': new_tex});
-                document.getElementById("change_text").remove();
-                document.getElementById("but").remove();
-                document.getElementById("form").style.visibility = "hidden";
+            bootbox.prompt({
+                title: "Introduzca el nuevo nombre:",
+                centerVertical: true,
+                value: $('#' + event.target.id).text(),
+                callback: function(result){
+                    if (result != null) {
+                        Snap('#' + event.target.id).attr({'text': result});
+                    }
+                }
             });
         });
+
+        /*$("#export").on("click", function() {
+            var svgData = $("#svgout")[0].outerHTML;
+            var svgBlob = new Blob([svgData], {type:"image/svg+xml;charset=utf-8"});
+            var svgUrl = URL.createObjectURL(svgBlob);
+            var downloadLink = document.createElement("a");
+            downloadLink.href = svgUrl;
+            downloadLink.download = "newesttree.svg";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        })*/
 
 
     </script>
