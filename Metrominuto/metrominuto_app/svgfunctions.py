@@ -61,6 +61,7 @@ def draw_metrominuto(graph_votes):
         time_label = add_label(dwg, text_pos, edge[2]['duration'], radio, color_aux, id_label_edge)
         dwg.add(time_label)
         position_labels_list['edges'].append({'edge': [edge[0], edge[1]], 'pos': text_pos, 'label': edge[2]['duration'], 'color': color_aux})
+        return_graph.add_lab(color_aux, edge[2]['duration'], text_pos, [edge[0], edge[1]], 'None', 0)
         # rect = dwg.rect(insert=(text_pos[0], text_pos[1] - text_height), size=(text_weight, text_height),
         #                 stroke=color, fill=color, stroke_width=0.01)
         # dwg.add(rect)
@@ -81,6 +82,7 @@ def draw_metrominuto(graph_votes):
         # rect = dwg.rect(insert=(pos_label[0], pos_label[1] - text_height), size=(text_weight, text_height),
         #                 stroke=color, fill=color, stroke_width=0.01)
         # dwg.add(rect)
+        return_graph.add_lab('black', 'Marcador' + node[0], pos_label, 'None', node[0], 0)
     dwg.save(pretty=True)
     return_graph.add_labels(position_labels_list['node'], position_labels_list['edges'])
     return dwg.tostring(), return_graph
@@ -466,11 +468,16 @@ def recalcule_positions(grafo):
     :return: new graph with same nodes and edges that graph received, but new label positions.
     :rtype: Graphs.
     """
-    pprint(grafo)
+    changed_nodes = {}
+    changed_edges = {}
+    for label in grafo['labels']:
+        if label['changed'] == 1:
+            if label['node'] == 'None':
+                changed_edges[tuple(label['edge'])] = label
+            else:
+                changed_nodes[label['node']] = label
     radio = 0.025
-    var_color = Color()
     return_graph = Graphs()
-    position_labels_list = {'node': [], 'edges': []}
     lines_points = []
     for edge in grafo['edges']:
         edge_1 = int(edge['edge'][0])
@@ -478,31 +485,39 @@ def recalcule_positions(grafo):
         start = Point(grafo['nodes'][edge_1]['pos'][0], grafo['nodes'][edge_1]['pos'][1])
         end = Point(grafo['nodes'][edge_2]['pos'][0], grafo['nodes'][edge_2]['pos'][1])
         lines_points = discretizar_linea_proyeccion(lines_points, start, end, 0.013)
-
-    for edge in grafo['edges']:
-        # print("Start -> End: ", edge[0], ' | ', edge[1])
-        id_edge = 'edge_' + edge['edge'][0] + '_' + edge['edge'][1]
-        id_label_edge = 'edge_label_' + edge['edge'][0] + '_' + edge['edge'][1]
-        edge_1 = int(edge['edge'][0])
-        edge_2 = int(edge['edge'][1])
-        start = Point(grafo['nodes'][edge_1]['pos'][0], grafo['nodes'][edge_1]['pos'][1])
-        end = Point(grafo['nodes'][edge_2]['pos'][0], grafo['nodes'][edge_2]['pos'][1])
-        color_aux = var_color.get_color(edge['duration'])
-        # punto de la recta perpendicular.
-        time_pos_positiva, time_pos_negativa = calculate_time_position(start.x, start.y, end.x, end.y)
-        # weight and height text.
-        text_weight, text_height = 0.08 + 0.01, 0.013
-        text_pos = calculate_time_overlap(lines_points, text_weight, text_height, time_pos_positiva, time_pos_negativa)
+    # return_graph.add_lab(color_aux, edge[2]['duration'], text_pos, [edge[0], edge[1]], 'None', 0)
+    # return_graph.add_lab('black', 'Marcador' + node[0], pos_label, 'None', node[0], 0)
+    for i in range(0, grafo['edges'].__len__()):
+        edge = grafo['edges'][i]
         return_graph.add_edges_aux(edge)
-        position_labels_list['edges'].append({'edge': [edge['edge'][0], edge['edge'][1]], 'pos': text_pos, 'label': edge['duration'], 'color': color_aux})
+        if tuple(edge['edge']) not in changed_edges.keys():
+            pprint(edge)
+            # print("Start -> End: ", edge[0], ' | ', edge[1])
+            edge_1 = int(edge['edge'][0])
+            edge_2 = int(edge['edge'][1])
+            start = Point(grafo['nodes'][edge_1]['pos'][0], grafo['nodes'][edge_1]['pos'][1])
+            end = Point(grafo['nodes'][edge_2]['pos'][0], grafo['nodes'][edge_2]['pos'][1])
+            color_aux = edge['color']
+            # punto de la recta perpendicular.
+            time_pos_positiva, time_pos_negativa = calculate_time_position(start.x, start.y, end.x, end.y)
+            # weight and height text.
+            text_weight, text_height = 0.08 + 0.01, 0.013
+            text_pos = calculate_time_overlap(lines_points, text_weight, text_height, time_pos_positiva, time_pos_negativa)
+            return_graph.add_lab(color_aux, edge['duration'], text_pos, [edge['edge'][0], edge['edge'][1]], 'None', 0)
+        else:
+            lab = changed_edges[tuple(edge['edge'])]
+            return_graph.add_lab(lab['color'], lab['label'], lab['pos'], [lab['edge'][0], lab['edge'][1]], 'None', 1)
 
-    for node in grafo['nodes']:
+    for j in range(0, grafo['nodes'].__len__()):
+        node = grafo['nodes'][j]
+        pprint(node)
         return_graph.add_nodes_aux(node)
-        id_node = 'node_' + node['id']
-        id_node_label = 'node_label_' + node['id']
-        point = [node['pos'][0], node['pos'][1]]
-        text_weight, text_height = 0.12, 0.013
-        pos_label = calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
-        position_labels_list['node'].append({'pos': pos_label, 'label': 'Marcador' + node['id'], 'color': 'balck'})
-    return_graph.add_labels(position_labels_list['node'], position_labels_list['edges'])
+        if node['id'] not in changed_nodes:
+            point = [node['pos'][0], node['pos'][1]]
+            text_weight, text_height = 0.12, 0.013
+            pos_label = calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
+            return_graph.add_lab('black', 'Marcador' + node['id'], pos_label, 'None', node['id'], 0)
+        else:
+            lab = changed_nodes[node['id']]
+            return_graph.add_lab(lab['color'], lab['label'], lab['pos'], 'None', node['id'], 1)
     return return_graph

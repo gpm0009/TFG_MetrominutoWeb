@@ -163,6 +163,7 @@ class Graphs:
         self.edges = []
         self.labels_nodes = []
         self.labels_edges = []
+        self.labels = []
 
     def add_nodes(self, node):
         """
@@ -214,3 +215,9 @@ class Graphs:
             self.labels_nodes.append(label_node)
         for label_edge in g_labels_edges:
             self.labels_edges.append(label_edge)
+
+    def add_lab(self, color, texto, pos, edge, node, changed):
+        if edge != 'None' and node == 'None':
+            self.labels.append({'node': 'None', 'edge': edge, 'pos': pos, 'label': texto, 'color': color, 'changed': changed})
+        elif edge == 'None' and node != 'None':
+            self.labels.append({'node': node, 'edge': 'None', 'pos': pos, 'label': texto, 'color': color, 'changed': changed})

@@ -83,6 +83,7 @@
                 }).done(function(response) {
                     papers.clear();
                     lista = []
+                    lista_labels = []
                     draw_graph(response);
                 }).fail(function() {
                     console.log('FAIL');
@@ -91,6 +92,8 @@
 
             function dragEnd(e) {
                 this.current_transform = this.transform();
+                grap['labels'][lista_labels.indexOf(this)]['changed'] = 1;
+                grap['labels'][lista_labels.indexOf(this)]['pos'] = [this.matrix.e, this.matrix.f];
             }
 
             function updatePaths() {
@@ -185,7 +188,7 @@
                 lista[parseInt(grafo['edges'][i]['edge'][0])].addPath(lista[parseInt(grafo['edges'][i]['edge'][1])], grafo['edges'][i]['color'])
             }
 
-            for(var i=0;i<grafo['labels_nodes'].length;i++) {
+            /*for(var i=0;i<grafo['labels_nodes'].length;i++) {
                 cx =grafo['labels_nodes'][i]['pos'][0];
                 cy =grafo['labels_nodes'][i]['pos'][1];
                 clabel = grafo['labels_nodes'][i]['label']
@@ -198,6 +201,19 @@
                 cy =grafo['labels_edges'][i]['pos'][1];
                 clabel = grafo['labels_edges'][i]['label']
                 text = papers.draggableText(cx, cy, clabel,0.13,0.08, 'label_edge_'+grafo['labels_edges'][i]['edge'][0]+grafo['labels_edges'][i]['edge'][1],  grafo['labels_edges'][i]['color']);
+            }*/
+            for(var i=0;i<grafo['labels'].length;i++) {
+                cx =grafo['labels'][i]['pos'][0];
+                cy =grafo['labels'][i]['pos'][1];
+                clabel = grafo['labels'][i]['label']
+                //papers.text(cx, cy, clabel).attr({'font-size':0.025, 'font-weight': 'bold'});
+                if(grafo['labels'][i]['node'] == 'None'){
+                    var text = papers.draggableText(cx, cy, clabel,0.13,0.08, 'label_edge_'+grafo['labels'][i]['edge'][0]+grafo['labels'][i]['edge'][1], grafo['labels'][i]['color']);
+                    lista_labels.push(text);
+                }else {
+                    var text = papers.draggableText(cx, cy, clabel,0.13,0.08, 'label_node'+grafo['labels'][i]['node'], grafo['labels'][i]['color']);
+                    lista_labels.push(text);
+                }
             }
         }
 
@@ -205,6 +221,7 @@
         papers.attr({viewBox:"0, 0.2, 1, 1.5"});
 
         var lista = []
+        var lista_labels = []
         var grap = {{ grafo|safe }};
         draw_graph(grap);
 
@@ -268,7 +285,7 @@
             downloadLink.click();
             document.body.removeChild(downloadLink);
         })*/
-        console.log(papers.toDataURL());
+        //console.log(papers.toDataURL());
 
     </script>
 {% endblock %}
