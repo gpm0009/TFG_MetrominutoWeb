@@ -1,20 +1,55 @@
 {% extends "base.html" %}
 {% set active_page="edit_graph" %}
 {% block content %}
-     {{ super() }}
+    {{ super() }}
 
     <script src="{{ url_for('static', filename='js/bootbox.all.min.js') }}"></script>
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static', filename='css/show_graph.css') }}">
     <script src="{{ url_for('static', filename='js/snap.svg-min.js') }}"></script>
-
-    <div class="row float-right" style="padding-top: 5px">
-        <button id="export" type="button" class="btn btn-outline-success">Export</button>
-    </div>
-
     <div class="row">
-        <div class="col-12">
+        <div class="col-lg-10 col-md-10">
+            <div class="row float-right" style="padding-top: 5px">
+                <button id="export" type="button" class="btn btn-outline-success">Export</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 col-md-10" style="height: 900px">
+            <!--canvas id="myCanvas" width="1953.020" height="890" style="border:1px solid #000000;"-->
             <svg id="svgout" version="1.1" xmlns="http://www.w3.org/2000/svg" style="width: 100%;height: 100%;padding-top: 10px;margin-left: auto;margin-right: auto"></svg>
+            <!--/canvas-->
+        </div>
+        <div class="col-lg-2 col-md-2">
+            <div class="panel panel-info">
+                <div id="dropdown" class="panel-heading">
+                    <h4 class="panel-title">Leyenda</h4>
+                </div>
+                <div class="panel-body">
+                    <ul id="leyenda" class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #31a84f">
+                            0 - 5 mins
+                            <span class="badge badge-dark badge-pill">14</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #3d9fe7">
+                            6 - 7 mins
+                            <span class="badge badge-dark badge-pill">2</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #ab6b49">
+                            8 - 10 mins
+                            <span class="badge badge-dark badge-pill">1</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #905996">
+                            10 - 13 mins
+                            <span class="badge badge-dark badge-pill">1</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #e52b15">
+                            +14 mins
+                            <span class="badge badge-dark badge-pill">1</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -23,6 +58,10 @@
     {{ super() }}
     {#    <script src="{{ url_for('static', filename='js/edit_graph.js') }}"></script>#}
     <script>
+        $( "#dropdown" ).click(function() {
+            $( "#leyenda" ).slideToggle( "slow");
+        });
+
         Snap.plugin(function (Snap, Element, Paper, global, Fragment) {
             function dragStart(x, y, e) {
                 this.current_transform = this.transform();
@@ -181,7 +220,43 @@
                 }
             });
         });
+        var download = function(href, name){
+            var link = document.createElement('a');
+            link.download = name;
+            link.style.opacity = "0";
+            //document.append(link);
+            link.href = href;
+            link.click();
+            link.remove();
+        }
 
+        $("#export").on("click", function() {
+            var svgElement = document.getElementById('svgout');
+            let {width, height} = svgElement.getBBox();
+            console.log(width);
+            console.log(height);
+            let clonedSvgElement = svgElement.cloneNode(true);
+            // true for deep clone
+            let outerHTML = clonedSvgElement.outerHTML;
+            let blob = new Blob([outerHTML],{type:'image/svg+xml;charset=utf-8'});
+            let URL = window.URL || window.webkitURL || window;
+            let blobURL = URL.createObjectURL(blob);
+            let image = new Image();
+            image.onload = function () {
+                let canvas = document.createElement('canvas');
+
+                canvas.widht = width;
+
+                canvas.height = height;   let context = canvas.getContext('2d');   // draw image in canvas starting left-0 , top - 0
+                context.drawImage(image, 0, 0.2, width, height );  //
+
+                let png = canvas.toDataURL(); // default png
+                let jpeg = canvas.toDataURL('image/jpg');
+                let webp = canvas.toDataURL('image/webp');
+                download(png, "image.png");
+            };
+            image.src = blobURL;
+        })
         /*$("#export").on("click", function() {
             var svgData = $("#svgout")[0].outerHTML;
             var svgBlob = new Blob([svgData], {type:"image/svg+xml;charset=utf-8"});
@@ -193,7 +268,7 @@
             downloadLink.click();
             document.body.removeChild(downloadLink);
         })*/
-
+        console.log(papers.toDataURL());
 
     </script>
 {% endblock %}

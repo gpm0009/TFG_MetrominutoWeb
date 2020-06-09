@@ -4,33 +4,70 @@
     {{ super() }}
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static', filename='css/show_graph.css') }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script-->
+    <script src="{{ url_for('static', filename='js/bootbox.all.min.js') }}"></script>
 
-
-    <form id="form-graph" action="{{url_for('main.draw_svg')}}" method="post" class="col-12">
-        {{ form.hidden_tag() }}
-        <div class="form-row">
-            <div class="col-md-6">
-                <label for="formControlRange">Número de arcos:</label>
-                <input type="range" min="{{min}}" value="{{min}}" max="{{max}}"
-                       class="custom-range" id="formControlRange" name="formControlRange">
-            </div>
-            <div class="col-md-1 col-lg-1" style="padding-top: 8px">
-                {{ form.submit(class="btn alert-success") }}
-{#                <a class="btn btn-primary"#}
-{#                           href="{{ url_for('main.edit_graph') }}">Mis ficheros</a>#}
+    <div class="row" style="padding-top: 10px">
+        <div class="col-lg-10 col-md-10">
+            <form id="form-graph" action="{{url_for('main.draw_svg')}}" method="post" class="col-12">
+                {{ form.hidden_tag() }}
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="formControlRange">Número de arcos:</label>
+                        <input type="range" min="{{min}}" value="{{min}}" max="{{max}}"
+                               class="custom-range" id="formControlRange" name="formControlRange">
+                    </div>
+                    <div class="col-md-1 col-lg-1" style="padding-top: 8px">
+                        {{ form.submit(class="btn alert-success") }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12 col-sm-12" id="mysvg" name="my-svg" style="height: 800px"></div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-2 col-md-2">
+            <div class="panel panel-info">
+                <div id="dropdown" class="panel-heading">
+                    <h4 class="panel-title">Leyenda</h4>
+                </div>
+                <div class="panel-body">
+                    <ul id="leyenda" class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #31a84f">
+                            0 - 5 mins
+                            <span class="badge badge-dark badge-pill">14</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #3d9fe7">
+                            6 - 7 mins
+                            <span class="badge badge-dark badge-pill">2</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #ab6b49">
+                            8 - 10 mins
+                            <span class="badge badge-dark badge-pill">1</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #905996">
+                            10 - 13 mins
+                            <span class="badge badge-dark badge-pill">1</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #e52b15">
+                            +14 mins
+                            <span class="badge badge-dark badge-pill">1</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="form-row">
-            <div class="col-md-12 col-sm-12" id="mysvg" name="my-svg" style="height: 800px"></div>
-        </div>
-    </form>
+    </div>
+
 
 {% endblock %}
 {% block scripts %}
     <script src="{{ url_for('static', filename='js/grafo.js') }}"></script>
     <script>
         $(document).ready(function boxes() {
+            $( "#dropdown" ).click(function() {
+                $( "#leyenda" ).slideToggle( "slow");
+            });
             draw_graphs({{ lista|safe }});
         });
     </script>
