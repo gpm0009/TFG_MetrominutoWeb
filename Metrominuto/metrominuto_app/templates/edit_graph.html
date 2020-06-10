@@ -20,6 +20,8 @@
             <svg id="svgout" version="1.1" xmlns="http://www.w3.org/2000/svg" style="width: 100%;height: 100%;padding-top: 10px;margin-left: auto;margin-right: auto"></svg>
             <!--/canvas-->
         </div>
+        <!--canvas id="myCanvas" width="1953.020px" height="890px" style="border:1px solid #000000;">
+        </canvas-->
         <div class="col-lg-2 col-md-2">
             <div class="panel panel-info">
                 <div id="dropdown" class="panel-heading">
@@ -247,7 +249,7 @@
             link.remove();
         }
 
-        $("#export").on("click", function() {
+        /*$("#export").on("click", function() {
             var svgElement = document.getElementById('svgout');
             let {width, height} = svgElement.getBBox();
             console.log(width);
@@ -273,19 +275,48 @@
                 download(png, "image.png");
             };
             image.src = blobURL;
-        })
-        /*$("#export").on("click", function() {
-            var svgData = $("#svgout")[0].outerHTML;
-            var svgBlob = new Blob([svgData], {type:"image/svg+xml;charset=utf-8"});
-            var svgUrl = URL.createObjectURL(svgBlob);
-            var downloadLink = document.createElement("a");
-            downloadLink.href = svgUrl;
-            downloadLink.download = "newesttree.svg";
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
         })*/
-        //console.log(papers.toDataURL());
+        function triggerDownload (imgURI, fileName) {
+            var evt = new MouseEvent("click", {
+                view: window,
+                bubbles: false,
+                cancelable: true
+            });
+            var a = document.createElement("a");
+            a.setAttribute("download", fileName);
+            a.setAttribute("href", imgURI);
+            a.setAttribute("target", '_blank');
+            a.dispatchEvent(evt);
+        }
+
+        $("#export").on("click", function() {
+            var canvas = document.createElement("canvas");
+            var ctx = canvas.getContext('2d');
+            var svg = document.getElementById('svgout');
+            var svg_widht = svg.getBBox().widht;
+            var svg_height = svg.getBBox().height;
+            ctx.clearRect(0, 0, svg_widht, svg_height);
+
+            var DOMURL = window.URL || window.webkitURL || window;
+            var img1 = new Image();
+            var url = papers.toDataURL();
+            img1.onload = function() {
+                ctx.drawImage(img1, 0, 0);
+                DOMURL.revokeObjectURL(url);
+                if (typeof navigator !== "undefined" && navigator.msSaveOrOpenBlob)
+                {
+                    var blob = canvas.msToBlob();
+                    navigator.msSaveOrOpenBlob(blob, 'fileName.png');
+                }
+                else {
+                    var imgURI = canvas
+                        .toDataURL("image/png")
+                        .replace("image/png", "image/octet-stream");
+                    triggerDownload(imgURI, 'fileName.png');
+                }
+            }
+            img1.src = url;
+        });
 
     </script>
 {% endblock %}
