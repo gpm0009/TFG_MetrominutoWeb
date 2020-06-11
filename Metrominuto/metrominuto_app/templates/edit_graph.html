@@ -16,12 +16,8 @@
     </div>
     <div class="row">
         <div class="col-lg-10 col-md-10" style="height: 900px">
-            <!--canvas id="myCanvas" width="1953.020" height="890" style="border:1px solid #000000;"-->
             <svg id="svgout" version="1.1" xmlns="http://www.w3.org/2000/svg" style="width: 100%;height: 100%;padding-top: 10px;margin-left: auto;margin-right: auto"></svg>
-            <!--/canvas-->
         </div>
-        <!--canvas id="myCanvas" width="1953.020px" height="890px" style="border:1px solid #000000;">
-        </canvas-->
         <div class="col-lg-2 col-md-2">
             <div class="panel panel-info">
                 <div id="dropdown" class="panel-heading">
@@ -159,7 +155,7 @@
             }
 
             Paper.prototype.draggableCircle = function (x, y, r, id_circle) {
-                var circle = this.circle(0, 0, r).attr({id: id_circle}).transform("T"+x+","+y);
+                var circle = this.circle(0, 0, r).attr({id: id_circle,stroke:'white', strokeWidth: 0.01}).transform("T"+x+","+y);
                 circle.paths = {};
                 circle.drag(dragMove, dragStart, dragEndCircle);
                 circle.updatePaths = updatePaths;
@@ -187,7 +183,7 @@
 
         function draw_graph(grafo) {
             for(var i=0;i<grafo['nodes'].length;i++){
-                lista.push(papers.draggableCircle(grafo['nodes'][i]['pos'][0],grafo['nodes'][i]['pos'][1],0.02, 'node_'+i.toString()));
+                lista.push(papers.draggableCircle(grafo['nodes'][i]['pos'][0],grafo['nodes'][i]['pos'][1],0.025, 'node_'+i.toString()));
             }
 
             for(var i=0;i<grafo['edges'].length;i++) {
