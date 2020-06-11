@@ -364,3 +364,47 @@ function discretizar(lines) {
         }
         return points_list
     }
+
+
+    -- svg to png
+    /*$("#export").on("click", function() {
+            var canvas = document.createElement("canvas");
+            var ctx = canvas.getContext('2d');
+            var svg = document.getElementById('svgout');
+            var svg_widht = svg.getBBox().widht;
+            var svg_height = svg.getBBox().height;
+            ctx.clearRect(0, 0, svg_widht, svg_height);
+
+            var DOMURL = window.URL || window.webkitURL || window;
+            var img1 = new Image();
+            var url = papers.toDataURL();
+            img1.onload = function() {
+                ctx.drawImage(img1, 0, 0);
+                //var png = canvas.toDataURL("image/png");
+                //var mg = document.createElement("img");
+                //mg.setAttribute("src", png);
+                //document.body.appendChild(mg);
+                DOMURL.revokeObjectURL(url);
+                var imgURI = canvas
+                    .toDataURL("image/png")
+                    .replace("image/png", "image/octet-stream");
+                triggerDownload(imgURI, 'fileName.png');
+
+            }
+            img1.src = url;
+            /*svg_xml = (new XMLSerializer()).serializeToString(document.getElementById('svgout'));
+            var canvas = document.createElement("canvas");
+            var ctx = canvas.getContext('2d');
+
+            // this is just a JavaScript (HTML) image
+            var img = new Image();
+            // http://en.wikipedia.org/wiki/SVG#Native_support
+            // https://developer.mozilla.org/en/DOM/window.btoa
+            img.src = papers.toDataURL();
+
+            img.onload = function() {
+                // after this, Canvas’ origin-clean is DIRTY
+                ctx.drawImage(img, 0, 0);
+            };
+            console.log(canvas.toDataURL("image/png"));
+        });*/

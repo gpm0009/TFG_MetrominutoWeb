@@ -54,6 +54,9 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <canvas width="640" height="3250"></canvas>
+    </div>
 
 {% endblock %}
 {% block scripts %}
@@ -84,8 +87,10 @@
                     data : JSON.stringify(grap)
                 }).done(function(response) {
                     papers.clear();
-                    lista = []
-                    lista_labels = []
+                    lista = [];
+                    lista_labels = [];
+                    delete grap;
+                    grap = response;
                     draw_graph(response);
                 }).fail(function() {
                     console.log('FAIL');
@@ -182,7 +187,6 @@
 
         function draw_graph(grafo) {
             for(var i=0;i<grafo['nodes'].length;i++){
-                //lista.push(papers.draggableRect(grafo['nodes'][i][1]['pos'][0],grafo['nodes'][i][1]['pos'][1],0.05,0.05));
                 lista.push(papers.draggableCircle(grafo['nodes'][i]['pos'][0],grafo['nodes'][i]['pos'][1],0.02, 'node_'+i.toString()));
             }
 
@@ -190,20 +194,6 @@
                 lista[parseInt(grafo['edges'][i]['edge'][0])].addPath(lista[parseInt(grafo['edges'][i]['edge'][1])], grafo['edges'][i]['color'])
             }
 
-            /*for(var i=0;i<grafo['labels_nodes'].length;i++) {
-                cx =grafo['labels_nodes'][i]['pos'][0];
-                cy =grafo['labels_nodes'][i]['pos'][1];
-                clabel = grafo['labels_nodes'][i]['label']
-                //papers.text(cx, cy, clabel).attr({'font-size':0.025, 'font-weight': 'bold'});
-                text_n = papers.draggableText(cx, cy, clabel,0.13,0.08, 'label_node'+i.toString(), grafo['labels_nodes'][i]['color']);
-            }
-
-            for(var i=0;i<grafo['labels_edges'].length;i++) {
-                cx =grafo['labels_edges'][i]['pos'][0];
-                cy =grafo['labels_edges'][i]['pos'][1];
-                clabel = grafo['labels_edges'][i]['label']
-                text = papers.draggableText(cx, cy, clabel,0.13,0.08, 'label_edge_'+grafo['labels_edges'][i]['edge'][0]+grafo['labels_edges'][i]['edge'][1],  grafo['labels_edges'][i]['color']);
-            }*/
             for(var i=0;i<grafo['labels'].length;i++) {
                 cx =grafo['labels'][i]['pos'][0];
                 cy =grafo['labels'][i]['pos'][1];
@@ -235,47 +225,12 @@
                 callback: function(result){
                     if (result != null) {
                         Snap('#' + event.target.id).attr({'text': result});
+                        grap['labels'][lista_labels.indexOf(Snap('#' + event.target.id))]['label'] = result;
                     }
                 }
             });
         });
-        var download = function(href, name){
-            var link = document.createElement('a');
-            link.download = name;
-            link.style.opacity = "0";
-            //document.append(link);
-            link.href = href;
-            link.click();
-            link.remove();
-        }
 
-        /*$("#export").on("click", function() {
-            var svgElement = document.getElementById('svgout');
-            let {width, height} = svgElement.getBBox();
-            console.log(width);
-            console.log(height);
-            let clonedSvgElement = svgElement.cloneNode(true);
-            // true for deep clone
-            let outerHTML = clonedSvgElement.outerHTML;
-            let blob = new Blob([outerHTML],{type:'image/svg+xml;charset=utf-8'});
-            let URL = window.URL || window.webkitURL || window;
-            let blobURL = URL.createObjectURL(blob);
-            let image = new Image();
-            image.onload = function () {
-                let canvas = document.createElement('canvas');
-
-                canvas.widht = width;
-
-                canvas.height = height;   let context = canvas.getContext('2d');   // draw image in canvas starting left-0 , top - 0
-                context.drawImage(image, 0, 0.2, width, height );  //
-
-                let png = canvas.toDataURL(); // default png
-                let jpeg = canvas.toDataURL('image/jpg');
-                let webp = canvas.toDataURL('image/webp');
-                download(png, "image.png");
-            };
-            image.src = blobURL;
-        })*/
         function triggerDownload (imgURI, fileName) {
             var evt = new MouseEvent("click", {
                 view: window,
@@ -290,33 +245,17 @@
         }
 
         $("#export").on("click", function() {
-            var canvas = document.createElement("canvas");
-            var ctx = canvas.getContext('2d');
-            var svg = document.getElementById('svgout');
-            var svg_widht = svg.getBBox().widht;
-            var svg_height = svg.getBBox().height;
-            ctx.clearRect(0, 0, svg_widht, svg_height);
-
             var DOMURL = window.URL || window.webkitURL || window;
             var img1 = new Image();
             var url = papers.toDataURL();
+            console.log(papers.toDataURL());
             img1.onload = function() {
-                ctx.drawImage(img1, 0, 0);
                 DOMURL.revokeObjectURL(url);
-                if (typeof navigator !== "undefined" && navigator.msSaveOrOpenBlob)
-                {
-                    var blob = canvas.msToBlob();
-                    navigator.msSaveOrOpenBlob(blob, 'fileName.png');
-                }
-                else {
-                    var imgURI = canvas
-                        .toDataURL("image/png")
-                        .replace("image/png", "image/octet-stream");
-                    triggerDownload(imgURI, 'fileName.png');
-                }
+
+                triggerDownload(url, 'fileName.svg');
+
             }
             img1.src = url;
         });
-
     </script>
 {% endblock %}
