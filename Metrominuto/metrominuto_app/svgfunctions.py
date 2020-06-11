@@ -85,7 +85,7 @@ def draw_metrominuto(graph_votes):
         return_graph.add_lab('black', 'Marcador' + node[0], pos_label, 'None', node[0], 0)
     dwg.save(pretty=True)
     return_graph.add_labels(position_labels_list['node'], position_labels_list['edges'])
-    return dwg.tostring(), return_graph
+    return dwg.tostring(), return_graph, var_color
 
 
 def check_line_overlap(edges_change, edge, graph_votes, positions, start, end):

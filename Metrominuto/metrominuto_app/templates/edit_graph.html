@@ -5,7 +5,7 @@
 
     <script src="{{ url_for('static', filename='js/bootbox.all.min.js') }}"></script>
     <link rel="stylesheet" type="text/css"
-          href="{{ url_for('static', filename='css/show_graph.css') }}">
+          href="{{ url_for('static', filename='css/edit_graph.css') }}">
     <script src="{{ url_for('static', filename='js/snap.svg-min.js') }}"></script>
     <div class="row">
         <div class="col-lg-10 col-md-10">
@@ -21,29 +21,29 @@
         <div class="col-lg-2 col-md-2">
             <div class="panel panel-info">
                 <div id="dropdown" class="panel-heading">
-                    <h4 class="panel-title">Leyenda</h4>
+                    <h4 class="panel-title leyenda">Leyenda</h4>
                 </div>
                 <div class="panel-body">
                     <ul id="leyenda" class="list-group">
                         <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #31a84f">
                             0 - 5 mins
-                            <span class="badge badge-dark badge-pill">14</span>
+                            <span class="badge badge-dark badge-pill">{{ cont_colors['green'] }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #3d9fe7">
                             6 - 7 mins
-                            <span class="badge badge-dark badge-pill">2</span>
+                            <span class="badge badge-dark badge-pill">{{ cont_colors['blue'] }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #ab6b49">
                             8 - 10 mins
-                            <span class="badge badge-dark badge-pill">1</span>
+                            <span class="badge badge-dark badge-pill">{{ cont_colors['brown'] }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #905996">
                             10 - 13 mins
-                            <span class="badge badge-dark badge-pill">1</span>
+                            <span class="badge badge-dark badge-pill">{{ cont_colors['purple'] }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #e52b15">
                             +14 mins
-                            <span class="badge badge-dark badge-pill">1</span>
+                            <span class="badge badge-dark badge-pill">{{ cont_colors['red'] }}</span>
                         </li>
                     </ul>
                 </div>

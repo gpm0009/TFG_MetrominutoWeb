@@ -35,23 +35,23 @@
                     <ul id="leyenda" class="list-group">
                         <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #31a84f">
                             0 - 5 mins
-                            <span class="badge badge-dark badge-pill">14</span>
+                            <span id="color_green" class="badge badge-dark badge-pill"></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #3d9fe7">
                             6 - 7 mins
-                            <span class="badge badge-dark badge-pill">2</span>
+                            <span id="color_blue" class="badge badge-dark badge-pill"></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #ab6b49">
                             8 - 10 mins
-                            <span class="badge badge-dark badge-pill">1</span>
+                            <span id="color_brown" class="badge badge-dark badge-pill"></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #905996">
                             10 - 13 mins
-                            <span class="badge badge-dark badge-pill">1</span>
+                            <span id="color_purple" class="badge badge-dark badge-pill"></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #e52b15">
                             +14 mins
-                            <span class="badge badge-dark badge-pill">1</span>
+                            <span id="color_red" class="badge badge-dark badge-pill"></span>
                         </li>
                     </ul>
                 </div>
@@ -68,7 +68,8 @@
             $( "#dropdown" ).click(function() {
                 $( "#leyenda" ).slideToggle( "slow");
             });
-            draw_graphs({{ lista|safe }});
+            console.log({{ cont_colors_dict|safe }});
+            draw_graphs({{ lista|safe }}, {{ cont_colors_dict|safe }});
         });
     </script>
 

@@ -96,6 +96,11 @@ class Color:
         self.blue = ['#3d9fe7', '#2f87de', '#1f8fd5', '#0087cc', '#007fc3', '#0077bb', '#006fb2']
         self.purple = ['#905996', '#8a5390', '#844e8a', '#7e4884', '#78427e', '#723d78', '#6c3873']
         self.brown = ['#ab6b49', '#a36543', '#9c5e3d', '#955837', '#8e5231', '#874c2b', '#804626']
+        self.num_green = 0
+        self.num_red = 0
+        self.num_blue = 0
+        self.num_purple = 0
+        self.num_brown = 0
 
     def get_color(self, time_str):
         """
@@ -113,18 +118,23 @@ class Color:
         if time <= 5:
             return_color = self.green[self.cont_green]
             self.cont_green += 1
+            self.num_green += 1
         elif time <= 7:
             return_color = self.brown[self.cont_brown]
             self.cont_brown += 1
+            self.num_brown += 1
         elif time <= 10:
             return_color = self.purple[self.cont_purple]
             self.cont_purple += 1
+            self.num_purple += 1
         elif time <= 13:
             return_color = self.blue[self.cont_blue]
             self.cont_blue += 1
+            self.num_blue += 1
         else:
             return_color = self.red[self.cont_red]
             self.cont_red += 1
+            self.num_red += 1
         return return_color
 
     def check_cont(self):

@@ -11,3 +11,11 @@
 .row > .col-12 > svg{
     align-items: center;
 }
+
+svg > circle:hover {
+    cursor: move;
+}
+
+.leyenda:hover {
+    cursor: pointer;
+}

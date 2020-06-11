@@ -64,19 +64,28 @@ def draw_svg():
         session['id_svg_selected'] = int(request.form['formControlRange'])
         return redirect(url_for('main.edit_graph'))
     svg_list = []
+    colors_cont_list = []
     svg_dict = {}
+    cont_colors_dict = {}
     for i in range(0, int(session['max_votes'])):  # 1):  #int(session['max_votes'])):  # 1):
         graph = gph.connected_graph(i)
-        svg, graph_class = svg_f.draw_metrominuto(graph)
+        svg, graph_class, cont_color = svg_f.draw_metrominuto(graph)
         svg_list.append(svg)
         svg_dict[str(i)] = graph_class.__dict__
+        cont_colors_dict[str(i)] = {'green': cont_color.num_green,
+                                    'red': cont_color.num_red,
+                                    'blue': cont_color.num_blue,
+                                    'purple': cont_color.num_purple,
+                                    'brown': cont_color.num_brown}
     session['svg_graphs_dict'] = svg_dict
-    return render_template('show_graph.html', max=session['max_votes'] - 1, min=session['min_votes'], lista=svg_list, form=form)
+    session['svg_cont_colors'] = cont_colors_dict
+    return render_template('show_graph.html', max=session['max_votes'] - 1, min=session['min_votes'], lista=svg_list, form=form, cont_colors_dict=cont_colors_dict)
 
 
 @main.route('/graph/edit', methods=['GET', 'POST'])
 def edit_graph():
-    return render_template('edit_graph.html', grafo=session['svg_graphs_dict'][str(session['id_svg_selected'])])
+    cont_colors = session['svg_cont_colors'][str(session['id_svg_selected'])]
+    return render_template('edit_graph.html', grafo=session['svg_graphs_dict'][str(session['id_svg_selected'])], cont_colors=cont_colors)
 
 
 @main.route('/setMode', methods=['POST'])
