@@ -5,46 +5,28 @@
 
     <!-- Define a viewport for Bootstrap's responsive rendering -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Metrominuto</title>
+    <title>{% block title %}{% endblock %}</title>
     <!-- Fav Icon -->
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static', filename='css/style.css') }}">
     <!-- Vuejs. Versión de desarrollo, incluye advertencias de ayuda en la consola -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
 </head>
 
 <body>
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top py-1">
-    <a class="navbar-brand" href="#">Metrominuto</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-            <a class="nav-item nav-link{% if active_page == 'mapa' %} active{% endif %}" href="{{ url_for('main.set_marks') }}">Mapa</a>
-            {% if session['grafo'] %}
-                <a class="nav-item nav-link{% if active_page == 'grafo' %} active{% endif %}" href="{{ url_for('main.draw_svg') }}">Grafo</a>
-                <a class="nav-item nav-link{% if active_page == 'edit_graph' %} active{% endif %}" href="{{ url_for('main.edit_graph') }}">Editar</a>
-            {% else %}
-                <a class="nav-item nav-link{% if active_page == 'grafo' %} disabled{% endif %} disabled" href="{{ url_for('main.draw_svg') }}">Grafo</a>
-                <a class="nav-item nav-link{% if active_page == 'edit_graph' %} disabled{% endif %}" href="{{ url_for('main.edit_graph') }}">Editar</a>
-            {% endif %}
-        </div>
-    </div>
-    <a class="navbar-brand" href="{{ url_for('main.help_page') }}" target="_blank" aria-label="Ayuda" rel="noopener">
-        <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>
-            <path d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
-        </svg>
-    </a>
-</nav>
-
 <!-- Cookies modal -->
 <div class="modal fade cookieModal" id="cookieModal" tabindex="-1" role="dialog" aria-labelledby="cookieModalLabel">
     <div class="modal-dialog" role="document">
@@ -66,91 +48,119 @@
     </div>
 </div>
 
+<header style="display: block">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top py-1">
+        <a class="navbar-brand" href="#">Metrominuto</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link{% if active_page == 'mapa' %} active{% endif %}" href="{{ url_for('main.set_marks') }}">Mapa</a>
+                {% if session['grafo'] %}
+                    <a class="nav-item nav-link{% if active_page == 'grafo' %} active{% endif %}" href="{{ url_for('main.draw_svg') }}">Grafo</a>
+                    <a class="nav-item nav-link{% if active_page == 'edit_graph' %} active{% endif %}" href="{{ url_for('main.edit_graph') }}">Editar</a>
+                {% else %}
+                    <a class="nav-item nav-link{% if active_page == 'grafo' %} disabled{% endif %} disabled" href="{{ url_for('main.draw_svg') }}">Grafo</a>
+                    <a class="nav-item nav-link{% if active_page == 'edit_graph' %} disabled{% endif %}" href="{{ url_for('main.edit_graph') }}">Editar</a>
+                {% endif %}
+            </div>
+        </div>
+        <a class="navbar-brand" href="{{ url_for('main.help_page') }}" target="_blank" aria-label="Ayuda" rel="noopener">
+            <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>
+                <path d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+            </svg>
+        </a>
+    </nav>
+</header>
+
 <!-- "content" block that pages are expected to override -->
 <div class="container-fluid col-12">
     {% block content %}{% endblock %}
-    <hr />
-    <footer>
-        <p>&copy; v0.1.20.05.22 - TFG Metrominuto. Guillermo Paredes Muga</p>
-    </footer>
 </div>
-{#<footer class="footer">#}
-{#    <div class="container">#}
-{#            <span class="text-muted pull-left">&copy; 0.1.20.05.18 - TFG Metrominuto.<span#}
-{#                    class="text-info"> Guillermo Paredes Muga</span></span>#}
-{#            <span class="text-muted pull-right">Tutores: <span#}
-{#                    class="text-info">Álvar Arnaiz González y César Ignacio García-Osorio</span></span>#}
-{#        </div>#}
-{#</footer>#}
-<!-- Additional scripts; use the "scripts" block to add page-specific scripts.  -->
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-{% block scripts %}
-    <script>
-        (function () {
-            "use strict";
+    <footer class="footer">
+        <div class="container col-12">
+            <span class="text-muted text-left">&copy; 0.1.20.05.18 - TFG Metrominuto.<span
+                    class="text-info"> Guillermo Paredes Muga</span></span>
+            <span class="text-muted">Tutores: <span
+                    class="text-info">Álvar Arnaiz González y César Ignacio García-Osorio</span></span>
+            <span>
+                <img src="{{ url_for('static', filename='img/flask-logo.png') }}" class="pull-right img-responsive" style="height: 60px">
+            </span>
+            <span>
+                <img src="{{ url_for('static', filename='img/cabecera.png') }}" class="pull-right img-responsive" style="height: 60px">
+            </span>
+        </div>
+    </footer>
 
-            var cookieName = 'tplCookieConsent'; // The cookie name
-            var cookieLifetime = 1; // Cookie expiry in days
+    <!-- Additional scripts; use the "scripts" block to add page-specific scripts.  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    {% block scripts %}
+        <script>
+            (function () {
+                "use strict";
 
-            /**
-             * Set a cookie
-             * @param cname - cookie name
-             * @param cvalue - cookie value
-             * @param exdays - expiry in days
-             */
-            var _setCookie = function (cname, cvalue, exdays) {
-                var d = new Date();
-                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-                var expires = "expires=" + d.toUTCString();
-                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-            };
+                var cookieName = 'tplCookieConsent'; // The cookie name
+                var cookieLifetime = 1; // Cookie expiry in days
 
-            /**
-             * Get a cookie
-             * @param cname - cookie name
-             * @returns string
-             */
-            var _getCookie = function (cname) {
-                var name = cname + "=";
-                var ca = document.cookie.split(';');
-                for (var i = 0; i < ca.length; i++) {
-                    var c = ca[i];
-                    while (c.charAt(0) == ' ') {
-                        c = c.substring(1);
+                /**
+                 * Set a cookie
+                 * @param cname - cookie name
+                 * @param cvalue - cookie value
+                 * @param exdays - expiry in days
+                 */
+                var _setCookie = function (cname, cvalue, exdays) {
+                    var d = new Date();
+                    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                    var expires = "expires=" + d.toUTCString();
+                    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+                };
+
+                /**
+                 * Get a cookie
+                 * @param cname - cookie name
+                 * @returns string
+                 */
+                var _getCookie = function (cname) {
+                    var name = cname + "=";
+                    var ca = document.cookie.split(';');
+                    for (var i = 0; i < ca.length; i++) {
+                        var c = ca[i];
+                        while (c.charAt(0) == ' ') {
+                            c = c.substring(1);
+                        }
+                        if (c.indexOf(name) == 0) {
+                            return c.substring(name.length, c.length);
+                        }
                     }
-                    if (c.indexOf(name) == 0) {
-                        return c.substring(name.length, c.length);
+                    return "";
+                };
+
+                /**
+                 * Should the cookie popup be shown?
+                 */
+                var _shouldShowPopup = function () {
+                    if (_getCookie(cookieName)) {
+                        return false;
+                    } else {
+                        return true;
                     }
+                };
+
+                // Show the cookie popup on load if not previously accepted
+                if (_shouldShowPopup()) {
+                    $('#cookieModal').modal('show');
                 }
-                return "";
-            };
 
-            /**
-             * Should the cookie popup be shown?
-             */
-            var _shouldShowPopup = function () {
-                if (_getCookie(cookieName)) {
-                    return false;
-                } else {
-                    return true;
-                }
-            };
+                // Modal dismiss btn - consent
+                $('#cookieModalConsent').on('click', function () {
+                    _setCookie(cookieName, 1, cookieLifetime);
+                });
 
-            // Show the cookie popup on load if not previously accepted
-            if (_shouldShowPopup()) {
-                $('#cookieModal').modal('show');
-            }
-
-            // Modal dismiss btn - consent
-            $('#cookieModalConsent').on('click', function () {
-                _setCookie(cookieName, 1, cookieLifetime);
-            });
-
-        })();
-    </script>
-{% endblock %}
+            })();
+        </script>
+    {% endblock %}
 </body>
 </html>

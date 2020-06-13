@@ -11,13 +11,13 @@ from flask import Flask
 import os
 import config
 
+
 bootstrap = Bootstrap()
 
 
 def create_app():
     app = Flask(__name__)
     config_name = os.environ.get('ENVIRONMENT') or 'default'
-    # app.secret_key = Config.SECRET_KEY
     app.config.from_object(config.config[config_name])
     bootstrap.init_app(app)
 
