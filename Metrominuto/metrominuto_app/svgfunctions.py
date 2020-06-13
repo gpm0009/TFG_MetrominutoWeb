@@ -8,7 +8,7 @@ from pprint import pprint
 import networkx as nx
 import svgwrite as svg
 import numpy as np
-from metrominuto_app.models import Graphs,Point,Color,Rect
+from metrominuto_app.models import Graphs, Point, Color, Rect
 from metrominuto_app import globals
 # from metrominuto_app import google_maps
 import os
@@ -76,13 +76,13 @@ def draw_metrominuto(graph_votes):
         text_weight, text_height = 0.12, 0.013
         pos_label = calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
         # text_label = google_maps.reverse_geocode((node[1]['pos'][0], node[1]['pos'][1]))[0]['formatted_address']
-        node_label = add_label(dwg, pos_label, 'Marcador' + node[0], radio, 'black', id_node_label)
+        node_label = add_label(dwg, pos_label, globals.global_dirs[int(node[0])].split(',')[0], radio, 'black', id_node_label)
         dwg.add(node_label)
         position_labels_list['node'].append({'pos': pos_label, 'label': 'Marcador' + node[0], 'color': 'balck'})
         # rect = dwg.rect(insert=(pos_label[0], pos_label[1] - text_height), size=(text_weight, text_height),
         #                 stroke=color, fill=color, stroke_width=0.01)
         # dwg.add(rect)
-        return_graph.add_lab('black', 'Marcador' + node[0], pos_label, 'None', node[0], 0)
+        return_graph.add_lab('black', globals.global_dirs[int(node[0])].split(',')[0], pos_label, 'None', node[0], 0)
     dwg.save(pretty=True)
     return_graph.add_labels(position_labels_list['node'], position_labels_list['edges'])
     return dwg.tostring(), return_graph, var_color
@@ -485,14 +485,11 @@ def recalcule_positions(grafo):
         start = Point(grafo['nodes'][edge_1]['pos'][0], grafo['nodes'][edge_1]['pos'][1])
         end = Point(grafo['nodes'][edge_2]['pos'][0], grafo['nodes'][edge_2]['pos'][1])
         lines_points = discretizar_linea_proyeccion(lines_points, start, end, 0.013)
-    # return_graph.add_lab(color_aux, edge[2]['duration'], text_pos, [edge[0], edge[1]], 'None', 0)
-    # return_graph.add_lab('black', 'Marcador' + node[0], pos_label, 'None', node[0], 0)
+
     for i in range(0, grafo['edges'].__len__()):
         edge = grafo['edges'][i]
         return_graph.add_edges_aux(edge)
         if tuple(edge['edge']) not in changed_edges.keys():
-            pprint(edge)
-            # print("Start -> End: ", edge[0], ' | ', edge[1])
             edge_1 = int(edge['edge'][0])
             edge_2 = int(edge['edge'][1])
             start = Point(grafo['nodes'][edge_1]['pos'][0], grafo['nodes'][edge_1]['pos'][1])
@@ -510,13 +507,12 @@ def recalcule_positions(grafo):
 
     for j in range(0, grafo['nodes'].__len__()):
         node = grafo['nodes'][j]
-        pprint(node)
         return_graph.add_nodes_aux(node)
         if node['id'] not in changed_nodes:
             point = [node['pos'][0], node['pos'][1]]
             text_weight, text_height = 0.12, 0.013
             pos_label = calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
-            return_graph.add_lab('black', 'Marcador' + node['id'], pos_label, 'None', node['id'], 0)
+            return_graph.add_lab('black', globals.global_dirs[int(node['id'])].split(',')[0], pos_label, 'None', node['id'], 0)
         else:
             lab = changed_nodes[node['id']]
             return_graph.add_lab(lab['color'], lab['label'], lab['pos'], 'None', node['id'], 1)
