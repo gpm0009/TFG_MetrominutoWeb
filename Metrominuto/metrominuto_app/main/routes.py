@@ -13,6 +13,7 @@ from metrominuto_app.main.forms import MapForm, Form
 import googlemaps
 from metrominuto_app.main import main
 import os
+from metrominuto_app.utils.decorators import log_in
 
 google_maps = googlemaps.Client(key=Config.GOOGLE_API_KEY)
 
@@ -22,19 +23,23 @@ def index():
     return render_template('index.html')
 
 
-@main.route("/login", methods=['POST'])
-def set_user():
-    user_info = json.loads(request.data)
-    pprint(user_info)
-    return render_template('index.html')
-
-
 @main.route("/widget", methods=['GET', 'POST'])
 def widget():
     return render_template('widget.html')
 
 
+@main.route("/login", methods=['POST'])
+def login():
+    if request.method == 'POST':
+        user_info = json.loads(request.data)
+        print(user_info)
+        session['email'] = user_info['email']
+        return redirect(url_for('main.set_marks'))
+    return 0
+
+
 @main.route("/map", methods=['GET', 'POST'])
+@log_in
 def set_marks():
     with open('metrominuto_app/static/markers_example2.json') as markers_file:
         new_markers = json.load(markers_file)

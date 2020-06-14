@@ -24,7 +24,7 @@ var signInWithPopup = function() {
  * @param {!firebase.User} user
  */
 var handleSignedInUser = function(user) {
-    document.getElementById('user-signed-in').style.display = 'block';
+    /*document.getElementById('user-signed-in').style.display = 'block';
     document.getElementById('user-signed-out').style.display = 'none';
     document.getElementById('name').textContent = user.displayName;
     document.getElementById('email').textContent = user.email;
@@ -43,7 +43,7 @@ var handleSignedInUser = function(user) {
         //document.getElementById('photo').style.display = 'block';
     } else {
         //document.getElementById('photo').style.display = 'none';
-    }
+    }*/
 };
 
 

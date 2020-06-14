@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>FirebaseUI Auth Demo</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase.js"></script>
     <script src="{{ url_for('static', filename='js/firebase-config.js') }}"></script>
     <script src="{{ url_for('static', filename='js/comons.js') }}"></script>
@@ -17,9 +19,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript">
         // FirebaseUI config.
+        //signInSuccessUrl: '{{ url_for('main.set_marks') }}',
         var ui = new firebaseui.auth.AuthUI(firebase.auth());
         ui.start('#firebaseui-auth-container', {
-           signInSuccessUrl: '{{ url_for('main.set_marks') }}',
+            signInSuccessUrl: '{{ url_for('main.set_marks') }}',
+            callbacks: {
+                signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+                    if (authResult.user) {
+                        var displayName = authResult.user.displayName;
+                        var email = authResult.user.email;
+                        var emailVerified = authResult.user.emailVerified;
+                        var photoURL = authResult.user.photoURL;
+                        var uid = authResult.user.uid;
+                        var phoneNumber = authResult.user.phoneNumber;
+                        var providerData = authResult.user.providerData;
+                        authResult.user.getIdToken().then(function(accessToken) {
+                            var data = {
+                                displayName: displayName,
+                                email: email,
+                                emailVerified: emailVerified,
+                                phoneNumber: phoneNumber,
+                                photoURL: photoURL,
+                                uid: uid,
+                                accessToken: accessToken,
+                                providerData: providerData
+                            };
+                            $.ajax({
+                                type : 'POST',
+                                url : "{{url_for('main.login')}}",
+                                contentType: 'application/json;charset=UTF-8',
+                                data : JSON.stringify(data)
+                            }).done(function(response) {
+                                window.close();
+                                return true;
+                            }).fail(function() {
+                                console.log('FAIL');
+                            });
+                        });
+                        return true;
+                    }
+                    // Do not redirect.
+                    return false;
+                }
+            },
             signInOptions: [
                 {
                     provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,

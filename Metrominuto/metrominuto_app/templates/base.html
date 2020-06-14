@@ -116,9 +116,11 @@
 
     <ul class="navbar-nav ml-md-auto">
         <li class="nav-item dropdown">
-            <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                usuario@hotmail.es
-            </a>
+            {% if session['email'] %}
+                <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ session['email']|safe }}
+                </a>
+            {% endif %}
             <div class="dropdown-menu dropdown-menu-md-right" aria-labelledby="bd-versions">
                 <a id="sign-out" class="dropdown-item">Cerrar Sesión</a>
                 <div class="dropdown-divider"></div>
@@ -135,7 +137,9 @@
             </a>
         </li>
     </ul>
-    <a id="sign-in" class="p-2 btn btn-outline-primary" href="#">Iniciar Sesión</a>
+    {% if not session['email'] %}
+        <a id="sign-in" class="p-2 btn btn-outline-primary" href="#">Iniciar Sesión</a>
+    {% endif %}
 </header>
 
 <!-- "content" block that pages are expected to override -->
