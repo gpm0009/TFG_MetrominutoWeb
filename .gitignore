@@ -25,7 +25,7 @@ Metrominuto/.vscode/
 
 Metrominuto/.deployment
 Metrominuto/metrominuto_app/templates/index.html
-Metrominuto/metrominuto_app/static/js/firebase-config
+Metrominuto/metrominuto_app/static/js/firebase-config.js
 
 Metrominuto/metrominuto_app/__pycache__/
 Google_API_Key.txt
