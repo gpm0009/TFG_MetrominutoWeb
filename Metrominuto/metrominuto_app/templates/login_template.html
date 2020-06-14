@@ -1,0 +1,88 @@
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Signin Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
+    <script src="{{ url_for('static', filename='js/firebase-config.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/comons.js') }}"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+    <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-auth.js"></script>
+</head>
+
+<body class="text-center">
+<div id="container">
+    <h3>FirebaseUI Demo</h3>
+    <div id="loading">Loading...</div>
+    <div id="loaded" class="hidden">
+        <div id="main">
+            <div id="user-signed-in" class="hidden">
+                <div id="user-info">
+
+                    <div id="name"></div>
+                    <div id="email"></div>
+                    <div id="phone"></div>
+                    <div id="is-new-user"></div>
+                    <div class="clearfix"></div>
+                </div>
+                <p>
+                    <button id="sign-out">Sign Out</button>
+                    <button id="delete-account">Delete account</button>
+                </p>
+            </div>
+            <div id="user-signed-out" class="hidden">
+                <h4>You are signed out.</h4>
+
+                <p>
+                    <button id="sign-in-with-redirect">Sign In with Redirect</button>
+                    <button id="sign-in">Sign In with Popup</button>
+                </p>
+                <div id="firebaseui-spa">
+                    <h5>Single Page Application mode:</h5>
+                    <div id="firebaseui-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script>
+    var CLIENT_ID = '621664518095-28aju93vkasp8414dmo6065fam1epl7u.apps.googleusercontent.com'
+    set_url_widget('{{ url_for('main.widget') }}');
+</script>
+</body>
+<!--script>
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+    ui.start('#firebaseui-auth-container', {
+        // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+        signInFlow: 'popup',
+        signInSuccessUrl: '{{ url_for('main.set_marks') }}',
+        signInOptions: [
+            {
+                provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+                scopes: [
+                    'https://www.googleapis.com/auth/contacts.readonly'
+                ],
+                customParameters: {
+                    // Forces account selection even when one account
+                    // is available.
+                    prompt: 'select_account'
+                },
+                clientId: '621664518095-28aju93vkasp8414dmo6065fam1epl7u.apps.googleusercontent.com'
+            },
+            firebase.auth.TwitterAuthProvider.PROVIDER_ID, // Twitter does not support scopes.
+            firebase.auth.EmailAuthProvider.PROVIDER_ID // Other providers don't need to be given as object.
+        ],
+    });
+
+</script-->
+</html>

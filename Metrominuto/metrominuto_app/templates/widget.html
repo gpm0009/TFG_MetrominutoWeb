@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>FirebaseUI Auth Demo</title>
+    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase.js"></script>
+    <script src="{{ url_for('static', filename='js/firebase-config.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/comons.js') }}"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+    <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-auth.js"></script>
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript">
+        // FirebaseUI config.
+        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+        ui.start('#firebaseui-auth-container', {
+           signInSuccessUrl: '{{ url_for('main.set_marks') }}',
+            signInOptions: [
+                {
+                    provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+                    scopes: [
+                        'https://www.googleapis.com/auth/contacts.readonly'
+                    ],
+                    customParameters: {
+                        // Forces account selection even when one account
+                        // is available.
+                        prompt: 'select_account'
+                    },
+                    clientId: '621664518095-28aju93vkasp8414dmo6065fam1epl7u.apps.googleusercontent.com'
+                },
+                firebase.auth.TwitterAuthProvider.PROVIDER_ID, // Twitter does not support scopes.
+                firebase.auth.EmailAuthProvider.PROVIDER_ID // Other providers don't need to be given as object.
+            ],
+        });
+    </script>
+</head>
+<body>
+<div id="firebaseui-auth-container"></div>
+</body>
+</html>

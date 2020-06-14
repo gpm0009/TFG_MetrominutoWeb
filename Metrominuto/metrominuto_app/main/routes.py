@@ -1,14 +1,11 @@
 """
     metrominuto_app.main.routes
-
     This file contains the routes of the main module.
 """
 import json
 from datetime import datetime
 from pprint import pprint
 from metrominuto_app import globals
-import networkx as nx
-
 from metrominuto_app import svgfunctions as svg_f, graphs as gph, calculateRoute as Clr
 from flask import render_template, request, session, jsonify, redirect, url_for
 from config import Config
@@ -21,6 +18,23 @@ google_maps = googlemaps.Client(key=Config.GOOGLE_API_KEY)
 
 
 @main.route("/", methods=['GET', 'POST'])
+def index():
+    return render_template('index.html')
+
+
+@main.route("/login", methods=['POST'])
+def set_user():
+    user_info = json.loads(request.data)
+    pprint(user_info)
+    return render_template('index.html')
+
+
+@main.route("/widget", methods=['GET', 'POST'])
+def widget():
+    return render_template('widget.html')
+
+
+@main.route("/map", methods=['GET', 'POST'])
 def set_marks():
     with open('metrominuto_app/static/markers_example2.json') as markers_file:
         new_markers = json.load(markers_file)
@@ -112,7 +126,7 @@ def mensaje():
 
 @main.route('/modal')
 def prueba():
-    return render_template('vue_template.html')
+    return render_template('login_template.html')
 
 
 @main.route('/ayuda')

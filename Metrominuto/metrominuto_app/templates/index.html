@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% set active_page="index" %}
+
+{% block head %}
+    {{ super() }}
+    <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
+    <script src="{{ url_for('static', filename='js/firebase-config.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/comons.js') }}"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+    <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-auth.js"></script>
+{% endblock %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    {{ super() }}
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">TFG - Metrominuto</h1>
+        <p class="lead">
+            <span
+                    class="text-info"> Guillermo Paredes Muga</span>
+            <span class="text-muted">Tutores: <span
+                    class="text-info">Álvar Arnaiz González y César Ignacio García-Osorio</span></span>
+        </p>
+    </div>
+
+    <div class="container">
+        <div class="card-deck mb-3 text-center">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Repositorio</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li>Documentación Latex</li>
+                        <li>Hola Mundo con Flask</li>
+                        <li>Metrominuto - Aplicación Web</li>
+                    </ul>
+                    <a class="btn btn-primary" href="https://github.com/gpm0009/TFG_MetrominutoWeb" target="_blank" role="button">GitHub</a>
+                </div>
+            </div>
+            {#            <div class="card mb-4 shadow-sm">#}
+            {#                <div class="card-header">#}
+            {#                    <h4 class="my-0 font-weight-normal">Pro</h4>#}
+            {#                </div>#}
+            {#                <div class="card-body">#}
+            {#                    <h1 class="card-title pricing-card-title">$15 <small class="text-muted">/ mo</small></h1>#}
+            {#                    <ul class="list-unstyled mt-3 mb-4">#}
+            {#                        <li>20 users included</li>#}
+            {#                        <li>10 GB of storage</li>#}
+            {#                        <li>Priority email support</li>#}
+            {#                        <li>Help center access</li>#}
+            {#                    </ul>#}
+            {#                    <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>#}
+            {#                </div>#}
+            {#            </div>#}
+            {#            <div class="card mb-4 shadow-sm">#}
+            {#                <div class="card-header">#}
+            {#                    <h4 class="my-0 font-weight-normal">Enterprise</h4>#}
+            {#                </div>#}
+            {#                <div class="card-body">#}
+            {#                    <h1 class="card-title pricing-card-title">$29 <small class="text-muted">/ mo</small></h1>#}
+            {#                    <ul class="list-unstyled mt-3 mb-4">#}
+            {#                        <li>30 users included</li>#}
+            {#                        <li>15 GB of storage</li>#}
+            {#                        <li>Phone and email support</li>#}
+            {#                        <li>Help center access</li>#}
+            {#                    </ul>#}
+            {#                    <button type="button" class="btn btn-lg btn-block btn-primary">Contact us</button>#}
+            {#                </div>#}
+            {#            </div>#}
+        </div>
+
+        {#        <footer class="pt-4 my-md-5 pt-md-5 border-top">#}
+        {#            <div class="row">#}
+        {#                <div class="col-12 col-md">#}
+        {#                    <img class="mb-2" src="/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="24" height="24">#}
+        {#                    <small class="d-block mb-3 text-muted">© 2017-2020</small>#}
+        {#                </div>#}
+        {#                <div class="col-6 col-md">#}
+        {#                    <h5>Features</h5>#}
+        {#                    <ul class="list-unstyled text-small">#}
+        {#                        <li><a class="text-muted" href="#">Cool stuff</a></li>#}
+        {#                        <li><a class="text-muted" href="#">Random feature</a></li>#}
+        {#                        <li><a class="text-muted" href="#">Team feature</a></li>#}
+        {#                        <li><a class="text-muted" href="#">Stuff for developers</a></li>#}
+        {#                        <li><a class="text-muted" href="#">Another one</a></li>#}
+        {#                        <li><a class="text-muted" href="#">Last time</a></li>#}
+        {#                    </ul>#}
+        {#                </div>#}
+        {#                <div class="col-6 col-md">#}
+        {#                    <h5>Resources</h5>#}
+        {#                    <ul class="list-unstyled text-small">#}
+        {#                        <li><a class="text-muted" href="#">Resource</a></li>#}
+        {#                        <li><a class="text-muted" href="#">Resource name</a></li>#}
+        {#                        <li><a class="text-muted" href="#">Another resource</a></li>#}
+        {#                        <li><a class="text-muted" href="#">Final resource</a></li>#}
+        {#                    </ul>#}
+        {#                </div>#}
+        {#                <div class="col-6 col-md">#}
+        {#                    <h5>About</h5>#}
+        {#                    <ul class="list-unstyled text-small">#}
+        {#                        <li><a class="text-muted" href="#">Team</a></li>#}
+        {#                        <li><a class="text-muted" href="#">Locations</a></li>#}
+        {#                        <li><a class="text-muted" href="#">Privacy</a></li>#}
+        {#                        <li><a class="text-muted" href="#">Terms</a></li>#}
+        {#                    </ul>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#        </footer>#}
+    </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script>
+        var CLIENT_ID = '621664518095-28aju93vkasp8414dmo6065fam1epl7u.apps.googleusercontent.com'
+        set_url_widget('{{ url_for('main.widget') }}');
+    </script>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+
+    </script>
+{% endblock %}
