@@ -25,41 +25,12 @@
             signInSuccessUrl: '{{ url_for('main.set_marks') }}',
             callbacks: {
                 signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-                    if (authResult.user) {
-                        var displayName = authResult.user.displayName;
-                        var email = authResult.user.email;
-                        var emailVerified = authResult.user.emailVerified;
-                        var photoURL = authResult.user.photoURL;
-                        var uid = authResult.user.uid;
-                        var phoneNumber = authResult.user.phoneNumber;
-                        var providerData = authResult.user.providerData;
-                        authResult.user.getIdToken().then(function(accessToken) {
-                            var data = {
-                                displayName: displayName,
-                                email: email,
-                                emailVerified: emailVerified,
-                                phoneNumber: phoneNumber,
-                                photoURL: photoURL,
-                                uid: uid,
-                                accessToken: accessToken,
-                                providerData: providerData
-                            };
-                            $.ajax({
-                                type : 'POST',
-                                url : "{{url_for('main.login')}}",
-                                contentType: 'application/json;charset=UTF-8',
-                                data : JSON.stringify(data)
-                            }).done(function(response) {
-                                window.close();
-                                return true;
-                            }).fail(function() {
-                                console.log('FAIL');
-                            });
-                        });
-                        return true;
+                    if (window.opener) {
+                        // The widget has been opened in a popup, so close the window
+                        // and return false to not redirect the opener.
+                        window.close();
+                        return false;
                     }
-                    // Do not redirect.
-                    return false;
                 }
             },
             signInOptions: [
@@ -79,6 +50,7 @@
                 firebase.auth.EmailAuthProvider.PROVIDER_ID // Other providers don't need to be given as object.
             ],
         });
+        ui.disableAutoSignIn();
     </script>
 </head>
 <body>

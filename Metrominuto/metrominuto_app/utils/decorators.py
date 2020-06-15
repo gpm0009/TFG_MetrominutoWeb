@@ -32,7 +32,7 @@ def log_in(controller):
         if session.get('email') is None:
             flash('Página con acceso restringido a usuarios autenticados. '
                   'Necesita iniciar sesión primero para continuar.', 'warning')
-            return redirect(url_for('main.widget'))
+            return redirect(url_for('main.index'))
         else:
             return controller(*args, **kwargs)
 

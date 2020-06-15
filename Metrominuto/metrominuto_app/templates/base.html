@@ -120,12 +120,12 @@
                 <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ session['email']|safe }}
                 </a>
-            {% endif %}
-            <div class="dropdown-menu dropdown-menu-md-right" aria-labelledby="bd-versions">
+                <div class="dropdown-menu dropdown-menu-md-right" aria-labelledby="bd-versions">
                 <a id="sign-out" class="dropdown-item">Cerrar Sesión</a>
                 <div class="dropdown-divider"></div>
                 <a id="delete-account" class="dropdown-item">Borrar Cuenta</a>
             </div>
+            {% endif %}
         </li>
 
         <li class="nav-item">
