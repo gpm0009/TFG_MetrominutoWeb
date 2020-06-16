@@ -22,10 +22,8 @@ google_maps = googlemaps.Client(key=Config.GOOGLE_API_KEY)
 def index():
     form = LogInForm()
     if request.method == 'POST':
-        user_info = 's'
-        print(user_info)
-        # session['email'] = user_info['email']
-        # print(url_for('main.set_marks'))
+        user_info = json.loads(request.form['user_data'])
+        session['email'] = user_info['data']['email']
         return redirect(url_for('main.set_marks'))
     return render_template('index.html', form=form)
 
@@ -37,27 +35,27 @@ def widget():
 
 @main.route("/map", methods=['GET', 'POST'])
 def set_marks():
-    with open('metrominuto_app/static/markers_example2.json') as markers_file:
-        new_markers = json.load(markers_file)
-    new_markers = new_markers['markers']
+    # with open('metrominuto_app/static/markers_example2.json') as markers_file:
+    #     new_markers = json.load(markers_file)
+    # new_markers = new_markers['markers']
     markers = []
-    for element in new_markers:
-        markers.append(element)
+    # for element in new_markers:
+    #     markers.append(element)
     origins = []
     destinations = []
     form = MapForm()
     if request.method == 'POST':
         mode = form.mode.data
         request_markers = json.loads(request.form['markers'])
-        # for mark in request_markers['markers']:
-        #     markers.append(mark)
-        #     origins.append(mark['position'])
-        #     destinations.append(mark['position'])
+        for mark in request_markers['markers']:
+            markers.append(mark)
+            origins.append(mark['position'])
+            destinations.append(mark['position'])
         central_markers = json.loads(request.form['central_markers'])
-        # now = datetime.now()
-        # matrix = google_maps.distance_matrix(origins, destinations, 'walking', departure_time=now)
-        with open('metrominuto_app/static/distance_matrix_example2.json') as matrix_file:
-            matrix = json.load(matrix_file)
+        now = datetime.now()
+        matrix = google_maps.distance_matrix(origins, destinations, 'walking', departure_time=now)
+        # with open('metrominuto_app/static/distance_matrix_example2.json') as matrix_file:
+        #     matrix = json.load(matrix_file)
         globals.global_dirs = matrix['destination_addresses']
         dist = Clr.get_distance_matrix_values(matrix)
         gph.calculate_graph(dist, markers, central_markers['central_markers'], matrix)

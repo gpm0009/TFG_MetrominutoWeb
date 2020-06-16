@@ -76,11 +76,11 @@ def draw_metrominuto(graph_votes):
         text_weight, text_height = 0.12, 0.013
         pos_label = calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
         # text_label = google_maps.reverse_geocode((node[1]['pos'][0], node[1]['pos'][1]))[0]['formatted_address']
-        node_label = add_label(dwg, pos_label, globals.global_dirs[int(node[0])].split(',')[0], radio, 'black', id_node_label)
+        node_label = add_label(dwg, pos_label, globals.global_dirs[int(node[0])-1].split(',')[0], radio, 'black', id_node_label)
         dwg.add(node_label)
         position_labels_list['node'].append({'pos': pos_label, 'label': 'Marcador' + node[0], 'color': 'balck'})
         # rect = dwg.rect(insert=(pos_label[0], pos_label[1] - text_height), size=(text_weight, text_height),
-        #                 stroke=color, fill=color, stroke_width=0.01)
+        #                 stroke='black', fill='blak', stroke_width=0.01)
         # dwg.add(rect)
         return_graph.add_lab('black', globals.global_dirs[int(node[0])].split(',')[0], pos_label, 'None', node[0], 0)
     dwg.save(pretty=True)
@@ -398,6 +398,7 @@ def calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
         Rect(Point(point[0] + radio + text_weight, point[1] - radio - text_height), text_weight, text_height)))
 
     for rect in list_text_rects:
+        print(rect.__str__())
         if not is_over_rect(lines_points, rect):
             lines_points.append(Point(rect.p.x + text_weight, rect.p.y + text_height))
             lines_points.append(Point(rect.p.x + text_weight, rect.p.y))

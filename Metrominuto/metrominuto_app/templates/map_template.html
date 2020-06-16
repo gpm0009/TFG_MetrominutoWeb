@@ -99,7 +99,6 @@
                 deleteMarkers();
             });
             $('#form-but').click(function() {
-                console.log('click');
                 var markers = []
                 app.markers_list.forEach(myFunctionMarkers);
                 function myFunctionMarkers(item) {
@@ -133,7 +132,7 @@
                 dialog.init(function(){
                     setTimeout(function(){
                          $('#myform').submit();
-                    }, 3000);
+                    }, 1000);
                 });
             });
 
@@ -172,7 +171,7 @@
                 }
             {% endif %}*/
                 //FIXME ONLY FOR NO API OPERATIONS
-                {% if  positions %}
+                /*{% if  positions %}
                     var positions = {{ positions|safe }};
                     for(var i=1;i<positions.length;i++){
                         var marker = new google.maps.Marker({position: positions[i].position,
@@ -183,7 +182,7 @@
                         //markers.push(marker);
                         app.addNewTodo(marker,'Marcador'+i.toString());
                     }
-                {% endif %}
+                {% endif %}*/
 
                 {#Search for places#}
                 var autocomplete = new google.maps.places.Autocomplete(input);
@@ -214,7 +213,7 @@
             var cont_aux=0;
             var geocoder = new google.maps.Geocoder;
             function addMarker(location, map) {
-                /*geocoder.geocode({'location': location}, function(results, status) {
+                geocoder.geocode({'location': location}, function(results, status) {
                         if (status === google.maps.GeocoderStatus.OK) {
                             if (results[1]) {
                                 //console.log(results[0].place_id);
@@ -238,9 +237,9 @@
                                 window.alert('No results found');
                             }
                         }
-                    });*/
+                    });
                 //FIXME
-                var marker = new google.maps.Marker({
+                /*var marker = new google.maps.Marker({
                     position: location,
                     map: map,
                     //draggable: true,
@@ -249,7 +248,7 @@
                     }
                 });
                 app.addNewTodo(marker,'Marcador'+cont_aux.toString());
-                cont_aux++;
+                cont_aux++;*/
             }
 
             // Deletes all markers in the array by removing references to them.

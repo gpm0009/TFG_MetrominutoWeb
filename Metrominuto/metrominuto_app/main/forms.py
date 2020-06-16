@@ -4,7 +4,7 @@
     This file contais the forms used by the main module.
 """
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, IntegerField, SelectField
+from wtforms import SubmitField, IntegerField, SelectField, StringField
 from wtforms.validators import DataRequired
 
 
@@ -29,3 +29,4 @@ class Form(FlaskForm):
 
 class LogInForm(FlaskForm):
     submit = SubmitField('Enviar')
+    number = StringField('Num')
