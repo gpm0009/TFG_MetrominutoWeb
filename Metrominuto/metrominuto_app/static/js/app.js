@@ -28,7 +28,6 @@ var signInWithPopup = function() {
  * @param {!firebase.User} user
  */
 var handleSignedInUser = function(user) {
-    console.log(user.displayName);
     if (user) {
         var displayName = user.displayName;
         var email = user.email;
@@ -48,17 +47,14 @@ var handleSignedInUser = function(user) {
                 accessToken: accessToken,
                 providerData: providerData
             };
-            $.ajax({
-                type: 'POST',
-                url: url_login,
-                contentType: 'application/json;charset=UTF-8',
-                data: JSON.stringify(data)
-            }).done(function (response) {
-                console.log('OK');
-            }).fail(function () {
-                console.log('FAIL');
-            });
+                const myForm = document.getElementById('myform');
+                const user_data = document.createElement('input');
+                user_data.type = 'hidden';
+                user_data.name = 'data';
+                user_data.value = JSON.stringify({data: data});
+                myForm.appendChild(user_data);
         });
+        $('#myform').submit();
     }
         /*document.getElementById('user-signed-in').style.display = 'block';
         document.getElementById('user-signed-out').style.display = 'none';

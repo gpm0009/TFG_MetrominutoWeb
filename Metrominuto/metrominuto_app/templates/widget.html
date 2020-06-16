@@ -22,7 +22,7 @@
         //signInSuccessUrl: '{{ url_for('main.set_marks') }}',
         var ui = new firebaseui.auth.AuthUI(firebase.auth());
         ui.start('#firebaseui-auth-container', {
-            signInSuccessUrl: '{{ url_for('main.set_marks') }}',
+            signInSuccessUrl: '{{ url_for('main.index') }}',
             callbacks: {
                 signInSuccessWithAuthResult: function(authResult, redirectUrl) {
                     if (window.opener) {
@@ -44,7 +44,7 @@
                         // is available.
                         prompt: 'select_account'
                     },
-                    clientId: '621664518095-28aju93vkasp8414dmo6065fam1epl7u.apps.googleusercontent.com'
+                    clientId: ''
                 },
                 firebase.auth.TwitterAuthProvider.PROVIDER_ID, // Twitter does not support scopes.
                 firebase.auth.EmailAuthProvider.PROVIDER_ID // Other providers don't need to be given as object.

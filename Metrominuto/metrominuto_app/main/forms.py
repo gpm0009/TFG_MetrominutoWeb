@@ -26,3 +26,6 @@ class MapForm(FlaskForm):
 class Form(FlaskForm):
     submit = SubmitField('Enviar')
 
+
+class LogInForm(FlaskForm):
+    submit = SubmitField('Enviar')

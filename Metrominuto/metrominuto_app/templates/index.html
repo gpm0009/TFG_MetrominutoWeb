@@ -38,6 +38,9 @@
                         <li>Metrominuto - Aplicación Web</li>
                     </ul>
                     <a class="btn btn-primary" href="https://github.com/gpm0009/TFG_MetrominutoWeb" target="_blank" role="button">GitHub</a>
+                    <form id="myform" action="{{url_for('main.index')}}" method="post" style="display: none">
+                        {{ form.hidden_tag() }}
+                    </form>
                 </div>
             </div>
             {#            <div class="card mb-4 shadow-sm">#}
@@ -112,8 +115,9 @@
     </div>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     <script>
-        var CLIENT_ID = ''
+        var CLIENT_ID = '621664518095-28aju93vkasp8414dmo6065fam1epl7u.apps.googleusercontent.com'
         set_url_widget('{{ url_for('main.widget') }}');
+        set_url_login('{{ url_for('main.index') }}');
     </script>
 {% endblock %}
 

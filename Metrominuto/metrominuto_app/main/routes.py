@@ -7,9 +7,9 @@ from datetime import datetime
 from pprint import pprint
 from metrominuto_app import globals
 from metrominuto_app import svgfunctions as svg_f, graphs as gph, calculateRoute as Clr
-from flask import render_template, request, session, jsonify, redirect, url_for
+from flask import Flask, redirect, url_for, render_template, request, session, jsonify
 from config import Config
-from metrominuto_app.main.forms import MapForm, Form
+from metrominuto_app.main.forms import MapForm, Form, LogInForm
 import googlemaps
 from metrominuto_app.main import main
 import os
@@ -20,7 +20,14 @@ google_maps = googlemaps.Client(key=Config.GOOGLE_API_KEY)
 
 @main.route("/", methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    form = LogInForm()
+    if request.method == 'POST':
+        user_info = 's'
+        print(user_info)
+        # session['email'] = user_info['email']
+        # print(url_for('main.set_marks'))
+        return redirect(url_for('main.set_marks'))
+    return render_template('index.html', form=form)
 
 
 @main.route("/widget", methods=['GET', 'POST'])
@@ -28,18 +35,7 @@ def widget():
     return render_template('widget.html')
 
 
-@main.route("/login", methods=['POST'])
-def login():
-    if request.method == 'POST':
-        user_info = json.loads(request.data)
-        print(user_info)
-        session['email'] = user_info['email']
-        return redirect(url_for('main.set_marks'))
-    return 0
-
-
 @main.route("/map", methods=['GET', 'POST'])
-@log_in
 def set_marks():
     with open('metrominuto_app/static/markers_example2.json') as markers_file:
         new_markers = json.load(markers_file)
@@ -75,6 +71,17 @@ def set_marks():
         longitude=longitude,
         latitude=latitude, API_KEY=Config.GOOGLE_API_KEY, form=form,
         positions=json.dumps(markers))  # positions=json.dumps(markers)
+
+
+# @main.route("/login", methods=['POST'])
+# def login():
+#     if request.method == 'POST':
+#         user_info = json.loads(request.data)
+#         print(user_info)
+#         session['email'] = user_info['email']
+#         print(url_for('main.set_marks'))
+#         return redirect(url_for('main.set_marks'))
+#     return render_template('edit_graph.html')
 
 
 @main.route('/graph', methods=['GET', 'POST'])
