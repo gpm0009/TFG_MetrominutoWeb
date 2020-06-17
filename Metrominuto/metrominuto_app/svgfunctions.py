@@ -73,19 +73,27 @@ def draw_metrominuto(graph_votes):
         point = [node[1]['pos'][0], node[1]['pos'][1]]
         circle = add_circle(dwg, point, radio, 0.010, id_node)
         dwg.add(circle)
-        text_weight, text_height = 0.12, 0.013
+        # text_weight, text_height = 0.25, 0.016
+        # pprint(globals.global_widths)
+        # print(node[0], ' -> ', ' size ', ' -> ', globals.global_widths[int(node[0])], get_text_width(globals.global_widths[int(node[0])]))
+        text_height = 0.016
+        text_weight = get_text_width(globals.global_widths[int(node[0])]['size'])
         pos_label = calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
         # text_label = google_maps.reverse_geocode((node[1]['pos'][0], node[1]['pos'][1]))[0]['formatted_address']
-        node_label = add_label(dwg, pos_label, globals.global_dirs[int(node[0])-1].split(',')[0], radio, 'black', id_node_label)
+        node_label = add_label(dwg, pos_label, globals.global_widths[int(node[0])]['text'].split(',')[0], radio, 'black', id_node_label)
         dwg.add(node_label)
         position_labels_list['node'].append({'pos': pos_label, 'label': 'Marcador' + node[0], 'color': 'balck'})
         # rect = dwg.rect(insert=(pos_label[0], pos_label[1] - text_height), size=(text_weight, text_height),
-        #                 stroke='black', fill='blak', stroke_width=0.01)
+        #                 stroke='black', fill='black', stroke_width=0.01)
         # dwg.add(rect)
         return_graph.add_lab('black', globals.global_dirs[int(node[0])].split(',')[0], pos_label, 'None', node[0], 0)
     dwg.save(pretty=True)
     return_graph.add_labels(position_labels_list['node'], position_labels_list['edges'])
     return dwg.tostring(), return_graph, var_color
+
+
+def get_text_width(size):
+    return (0.36*size)/213.23
 
 
 def check_line_overlap(edges_change, edge, graph_votes, positions, start, end):
@@ -398,14 +406,14 @@ def calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
         Rect(Point(point[0] + radio + text_weight, point[1] - radio - text_height), text_weight, text_height)))
 
     for rect in list_text_rects:
-        print(rect.__str__())
+        # print(rect.__str__())
         if not is_over_rect(lines_points, rect):
             lines_points.append(Point(rect.p.x + text_weight, rect.p.y + text_height))
             lines_points.append(Point(rect.p.x + text_weight, rect.p.y))
             lines_points.append(Point(rect.p.x, rect.p.y + text_height))
             lines_points.append(Point(rect.p.x, rect.p.y))
             return [rect.p.x, rect.p.y]
-    print('default')
+    # print('default')
     return [rect_nodo.x - text_weight, rect_nodo.y]
 
 

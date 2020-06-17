@@ -33,8 +33,17 @@ def widget():
     return render_template('widget.html')
 
 
+@main.route("/logut", methods=['GET', 'POST'])
+def logout():
+    session.clear()
+    if request.method == 'POST':
+        return redirect(url_for('main.index'))
+
+
 @main.route("/map", methods=['GET', 'POST'])
 def set_marks():
+    # with open('metrominuto_app/static/distance_matrix_example2.json') as matrix_file:
+    #     matrix = json.load(matrix_file)
     # with open('metrominuto_app/static/markers_example2.json') as markers_file:
     #     new_markers = json.load(markers_file)
     # new_markers = new_markers['markers']
@@ -43,21 +52,30 @@ def set_marks():
     #     markers.append(element)
     origins = []
     destinations = []
+    text_size = {}
+    text_size_id = []
     form = MapForm()
     if request.method == 'POST':
         mode = form.mode.data
+        size = json.loads(request.form['size'])
+        for width in size['size']:
+            text_size[width['id']] = {'size': width['size'], 'text': width['text']}
+            text_size_id.append(width['id'])
+        globals.global_widths = text_size
         request_markers = json.loads(request.form['markers'])
         for mark in request_markers['markers']:
             markers.append(mark)
             origins.append(mark['position'])
             destinations.append(mark['position'])
+        pprint(markers)
+        pprint(text_size)
         central_markers = json.loads(request.form['central_markers'])
         now = datetime.now()
         matrix = google_maps.distance_matrix(origins, destinations, 'walking', departure_time=now)
         # with open('metrominuto_app/static/distance_matrix_example2.json') as matrix_file:
         #     matrix = json.load(matrix_file)
         globals.global_dirs = matrix['destination_addresses']
-        dist = Clr.get_distance_matrix_values(matrix)
+        dist = Clr.get_distance_matrix_values(matrix, text_size_id)
         gph.calculate_graph(dist, markers, central_markers['central_markers'], matrix)
         session['marcadores'] = json.dumps(markers)
         session['grafo'] = 1
@@ -68,7 +86,7 @@ def set_marks():
         'map_template.html',
         longitude=longitude,
         latitude=latitude, API_KEY=Config.GOOGLE_API_KEY, form=form,
-        positions=json.dumps(markers))  # positions=json.dumps(markers)
+        positions=json.dumps(markers))  #, matrix=json.dumps(matrix['destination_addresses']))  # positions=json.dumps(markers)
 
 
 # @main.route("/login", methods=['POST'])

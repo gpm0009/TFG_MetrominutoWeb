@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static', filename='css/map_template.css') }}">
     <script src="{{ url_for('static', filename='js/bootbox.all.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/snap.svg-min.js') }}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{API_KEY}}&libraries=places"> type="text/javascript"</script>
     <div class="row">
         <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
@@ -86,6 +87,9 @@
 
             </div>
         </form>
+        <div class="col-lg-10 col-md-10" style="height: 900px">
+            <svg id="svgout" version="1.1" xmlns="http://www.w3.org/2000/svg" style="width: 100%;height: 100%;padding-top: 10px;margin-left: auto;margin-right: auto; visibility: hidden"></svg>
+        </div>
     </div>
 {% endblock %}
 {% block scripts %}
@@ -99,12 +103,24 @@
                 deleteMarkers();
             });
             $('#form-but').click(function() {
+                var papers = Snap("#svgout");
+                papers.attr({viewBox:"0, 0.2, 1, 1.5"});
+                var text_size = []
+                for(var i=0;i<app.markers_list.length;i++) {
+                    papers.text(0, 0, app.markers_list[i].text.split(",")[0]).attr({id: 'mark'+app.markers_list[i].id,'font-size': 0.025, 'font-weight': 'bold', fill: 'black'});
+                }
+                for(var i=0;i<app.markers_list.length;i++) {
+                    var t = document.getElementById('mark'+app.markers_list[i].id);
+                    text_size.push({'id':app.markers_list[i].id, 'size':t.getBoundingClientRect().width, 'text':app.markers_list[i].text});
+                }
+
                 var markers = []
                 app.markers_list.forEach(myFunctionMarkers);
                 function myFunctionMarkers(item) {
                     let  central_mark = {'id':item.id, 'position':item.mark.position};
                     markers.push(central_mark);
                 }
+
                 var central_marks = []
                 app.central_markers.forEach(myFunction);
                 function myFunction(item) {
@@ -124,6 +140,13 @@
                 input_central.name = 'central_markers';
                 input_central.value = JSON.stringify({central_markers: central_marks});
                 myForm.appendChild(input_central);
+
+                const textBox = document.createElement('input');
+                textBox.type = 'hidden';
+                textBox.name = 'size';
+                textBox.value = JSON.stringify({size: text_size});
+                myForm.appendChild(textBox);
+
                 var dialog = bootbox.dialog({
                     title: 'Calculando el mapa',
                     message: '<p><i class="fa fa-spin fa-spinner"></i> Cargando...</p>'
@@ -136,6 +159,7 @@
                 });
             });
 
+            var matrix = [];
             function initMap() {
                 let map = new google.maps.Map(document.getElementById('map'), {
                     zoom: 15,
@@ -227,11 +251,12 @@
                                 });
 
                                 var infowindow = new google.maps.InfoWindow({content: results[2].formatted_address });
-                                infowindow.open(map,marker);
+                                //infowindow.open(map,marker);
                                 marker.addListener('click', function() {
                                     infowindow.open(map, marker);
                                 });
-                                app.addNewTodo(marker,'Marcador'+cont_aux.toString());
+                                app.addNewTodo(marker, results[2].formatted_address);
+
                                 cont_aux++;
                             } else {
                                 window.alert('No results found');

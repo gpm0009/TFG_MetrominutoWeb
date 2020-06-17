@@ -100,21 +100,21 @@ def calculate_graph(distances, nodes, central_markers, matrix):
     nodes_name = 0
     # new_positions = calculate_positions(nodes)
     calculate_rejilla = []
-    for node in nodes:
-        pos_x = (coords_x[node['id']] - min_x) / dif_x
-        pos_y = 1.4 - (coords_y[node['id']] - min_y) / dif_y
+    for index, node in enumerate(nodes):
+        pos_x = (coords_x[index] - min_x) / dif_x
+        pos_y = 1.4 - (coords_y[index] - min_y) / dif_y
         calculate_rejilla.append([pos_x, pos_y])
     positions = rejilla(calculate_rejilla)
-    for node in nodes:
-        pos_x = positions[node['id']][0]
-        pos_y = positions[node['id']][1]
+    for index, node in enumerate(nodes):
+        print(index)
+        pos_x = positions[index][0]
+        pos_y = positions[index][1]
         # pos_x = new_positions[node['id']][0]
         # pos_y = new_positions[node['id']][1]
         # print('POS = ', pos_x, ' | ', pos_y)
         # print('POS_AUX = ', pos_x_aux, ' | ', pos_y_aux)
-        graph.add_node(str(nodes_name), pos=(pos_x, pos_y), id=node['id'])
-        min_graph.add_node(str(nodes_name), pos=(pos_x, pos_y), id=node['id'])
-        globals.vote_global_graph.add_node(str(nodes_name),
+        min_graph.add_node(str(node['id']), pos=(pos_x, pos_y), id=node['id'])
+        globals.vote_global_graph.add_node(str(node['id']),
                                            pos=(pos_x, pos_y),
                                            id=node['id'])
         nodes_name = nodes_name + 1
@@ -172,14 +172,14 @@ def calculate_edges_votes(graph, tam, central_markers):
     """
     central_markers_id = []
     for central_mark in central_markers:
-        central_markers_id.append(central_mark['id'])
+        central_markers_id.append(str(central_mark['id']))
     votes = np.zeros((tam, tam))
     graph_nodes = list(graph.nodes(data='id'))
-    for i in range(1, tam):
-        if graph_nodes[i][1] not in central_markers_id:
+    for i in graph_nodes:
+        if graph_nodes[int(i[0])][0] not in central_markers_id:
             random_graph = copy.deepcopy(graph)
             # print('OUT')
-            random_graph.remove_node(str(i))
+            random_graph.remove_node(i[0])
             mst = nx.minimum_spanning_edges(random_graph, weight='weight', data=True)
             edge_list_min = list(mst)  # make a list of the minimum edges
             for pair in edge_list_min:
@@ -249,8 +249,8 @@ def compare_distance_matrix(component_x, component_y):
         element_x = int(component_x.pop())
         for y in range(0, component_y.__len__()):
             element_y = int(component_y.pop())
-            if globals.global_matrix[element_x, element_y] < min:
-                min = globals.global_matrix[element_x, element_y]
+            if globals.global_matrix[str(element_x)][str(element_y)] < min:
+                min = globals.global_matrix[str(element_x)][str(element_y)]
                 nodex = element_x
                 nodey = element_y
     return nodex, nodey, min
