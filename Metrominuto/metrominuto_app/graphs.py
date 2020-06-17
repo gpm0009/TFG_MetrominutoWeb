@@ -105,25 +105,28 @@ def calculate_graph(distances, nodes, central_markers, matrix):
         pos_y = 1.4 - (coords_y[index] - min_y) / dif_y
         calculate_rejilla.append([pos_x, pos_y])
     positions = rejilla(calculate_rejilla)
+    globals.vote_global_graph.clear()
     for index, node in enumerate(nodes):
-        print(index)
         pos_x = positions[index][0]
         pos_y = positions[index][1]
-        # pos_x = new_positions[node['id']][0]
-        # pos_y = new_positions[node['id']][1]
-        # print('POS = ', pos_x, ' | ', pos_y)
-        # print('POS_AUX = ', pos_x_aux, ' | ', pos_y_aux)
         min_graph.add_node(str(node['id']), pos=(pos_x, pos_y), id=node['id'])
         globals.vote_global_graph.add_node(str(node['id']),
                                            pos=(pos_x, pos_y),
                                            id=node['id'])
+        print('Node Aded -> ', node['id'], ' + ', str(node['id']))
         nodes_name = nodes_name + 1
 
-    for i in range(0, distances.__len__()):
-        for j in range(0, distances.__len__()):
+    for i, node in enumerate(nodes):
+        for j, node_aux in enumerate(nodes):
             if i != j:
-                graph.add_edge(str(i), str(j), weight=distances[i][j],
+                graph.add_edge(str(node['id']), str(node_aux['id']), weight=distances[i][j],
                                duration=matrix['rows'][i]['elements'][j]['duration']['text'])
+
+    # for i in range(0, distances.__len__()):
+    #     for j in range(0, distances.__len__()):
+    #         if i != j:
+    #             graph.add_edge(str(i), str(j), weight=distances[i][j],
+    #                            duration=matrix['rows'][i]['elements'][j]['duration']['text'])
     votes = calculate_edges_votes(graph, nodes_name, central_markers)
     return votes
 
@@ -173,10 +176,16 @@ def calculate_edges_votes(graph, tam, central_markers):
     central_markers_id = []
     for central_mark in central_markers:
         central_markers_id.append(str(central_mark['id']))
-    votes = np.zeros((tam, tam))
+
+    votes_aux = {}
     graph_nodes = list(graph.nodes(data='id'))
+    l_max = []
+    for node in graph_nodes:
+        l_max.append(int(node[0]))
+    tam_aux = max(l_max)+1
+    votes = np.zeros((tam_aux, tam_aux))
     for i in graph_nodes:
-        if graph_nodes[int(i[0])][0] not in central_markers_id:
+        if i[0] not in central_markers_id:
             random_graph = copy.deepcopy(graph)
             # print('OUT')
             random_graph.remove_node(i[0])
@@ -189,6 +198,7 @@ def calculate_edges_votes(graph, tam, central_markers):
                 globals.vote_global_graph.add_edge(pair[0], pair[1],
                                                    weight=pair[2]['weight'],
                                                    votes=votes[x, y], duration=pair[2]['duration'])
+                print('Edge Added-> ', pair[0], ' - ', pair[1])
     session['max_votes'] = votes.max()
     session['min_votes'] = votes.min()
     return globals.vote_global_graph

@@ -53,9 +53,6 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <canvas width="640" height="3250"></canvas>
-    </div>
 
 {% endblock %}
 {% block scripts %}
@@ -185,13 +182,29 @@
         });
 
         function draw_graph(grafo) {
-            for(var i=0;i<grafo['nodes'].length;i++){
-                lista.push(papers.draggableCircle(grafo['nodes'][i]['pos'][0],grafo['nodes'][i]['pos'][1],0.025, 'node_'+i.toString()));
+            var cont = 0;
+            var l_cont = {}
+            grafo['nodes'].forEach(myFunctionNodes);
+            function myFunctionNodes(item) {
+                lista.push(papers.draggableCircle(item['pos'][0],item['pos'][1],0.025, 'node_'+item['id']));
+                l_cont[item['id']] = cont;
+                cont++;
             }
 
-            for(var i=0;i<grafo['edges'].length;i++) {
-                lista[parseInt(grafo['edges'][i]['edge'][0])].addPath(lista[parseInt(grafo['edges'][i]['edge'][1])], grafo['edges'][i]['color'])
+            /*for(var i=0;i<grafo['nodes'].length;i++){
+                lista.push(papers.draggableCircle(grafo['nodes'][i]['pos'][0],grafo['nodes'][i]['pos'][1],0.025, 'node_'+i.toString()));
+            }*/
+
+            grafo['edges'].forEach(myFunctionEdges);
+            function myFunctionEdges(item) {
+                console.log(item);
+                console.log(l_cont[item['edge'][0]]);
+                lista[l_cont[item['edge'][0]]].addPath(lista[l_cont[item['edge'][1]]], item['color']);
             }
+
+            /*for(var i=0;i<grafo['edges'].length;i++) {
+                lista[parseInt(grafo['edges'][i]['edge'][0])].addPath(lista[parseInt(grafo['edges'][i]['edge'][1])], grafo['edges'][i]['color'])
+            }*/
 
             for(var i=0;i<grafo['labels'].length;i++) {
                 cx =grafo['labels'][i]['pos'][0];

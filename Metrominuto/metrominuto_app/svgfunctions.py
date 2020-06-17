@@ -86,7 +86,7 @@ def draw_metrominuto(graph_votes):
         # rect = dwg.rect(insert=(pos_label[0], pos_label[1] - text_height), size=(text_weight, text_height),
         #                 stroke='black', fill='black', stroke_width=0.01)
         # dwg.add(rect)
-        return_graph.add_lab('black', globals.global_dirs[int(node[0])].split(',')[0], pos_label, 'None', node[0], 0)
+        return_graph.add_lab('black', globals.global_dirs[int(node[0])]['text'].split(',')[0], pos_label, 'None', node[0], 0)
     dwg.save(pretty=True)
     return_graph.add_labels(position_labels_list['node'], position_labels_list['edges'])
     return dwg.tostring(), return_graph, var_color
@@ -521,7 +521,7 @@ def recalcule_positions(grafo):
             point = [node['pos'][0], node['pos'][1]]
             text_weight, text_height = 0.12, 0.013
             pos_label = calculate_node_overlap(point, radio, text_weight, text_height, lines_points)
-            return_graph.add_lab('black', globals.global_dirs[int(node['id'])].split(',')[0], pos_label, 'None', node['id'], 0)
+            return_graph.add_lab('black', globals.global_dirs[int(node['id'])]['text'].split(',')[0], pos_label, 'None', node['id'], 0)
         else:
             lab = changed_nodes[node['id']]
             return_graph.add_lab(lab['color'], lab['label'], lab['pos'], 'None', node['id'], 1)

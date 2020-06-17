@@ -74,7 +74,7 @@ def set_marks():
         matrix = google_maps.distance_matrix(origins, destinations, 'walking', departure_time=now)
         # with open('metrominuto_app/static/distance_matrix_example2.json') as matrix_file:
         #     matrix = json.load(matrix_file)
-        globals.global_dirs = matrix['destination_addresses']
+        globals.global_dirs = text_size
         dist = Clr.get_distance_matrix_values(matrix, text_size_id)
         gph.calculate_graph(dist, markers, central_markers['central_markers'], matrix)
         session['marcadores'] = json.dumps(markers)
