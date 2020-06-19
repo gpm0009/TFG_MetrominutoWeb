@@ -26,9 +26,6 @@
 	basicstyle=\footnotesize\ttfamily,
 	showstringspaces=false,
 	showspaces=false,
-	numbers=left,
-	numberstyle=\footnotesize,
-	numbersep=9pt,
 	tabsize=2,
 	breaklines=true,
 	showtabs=false,
@@ -96,13 +93,18 @@ Un aspecto clave, y a tener muy en cuenta en la evaluación de todo lo comentado
 
 
 \section{Aplicaciones utilizadas}
-Para el desarrollo de este proyecto se tuvieron en cuenta principalmente dos editores de texto y dos herramientas para mantener el control de versiones.
+Para el desarrollo de este proyecto se han usado diferentes herramientas para incluir distintas funcionalidades, las cuales se explican brevemente a continuación:
 
 \begin{itemize}
-	\item \textbf{Visual Studio Code} 
-	\item \textbf{PyCharm}
-	\item \textbf{GitHub}
-	\item \textbf{GitCraken}
+	\item \textbf{Visual Studio Code}: se ha utilizado para el despliegue de la aplicación en Azure, ya que desde el editor es más cómodo.
+	\item \textbf{PyCharm}: se ha utilizado para el desarrollo de la aplicación. Acceso a licencia profesional con el correo de la Universidad.
+	\item \textbf{GitHub}: como sistema de gestión y control de versiones del proyecto.
+	\item \textbf{GitCraken}: al principio del proyecto se utilizó para realizar las subidas de los cambios en el proyecto al repositorio de GitHub, pero al final se usó la integración con GitHub de PyCharm.
+	\item \textbf{Lucidchart}\footnote{\url{https://app.lucidchart.com}}: se ha utilizado para realización de los diagramas de casos de uso, secuencia $\dots$
+	\item \textbf{Adobe illustrator}: se utilizó la versión de prueba para la realización del logo de la aplicación.
+	\item \textbf{TeXstudio}: herramienta utilizada a lo largo del proyecto para realizar la documentación.
+	\item \textbf{Google console}: herramienta utilizada para la administración y gestión de los servicios de la API.
+	\item \textbf{Firebase console}: herramienta utilizada para la administración y gestión de la autenticación en la aplicación.
 \end{itemize}
 Después de analizar y configurar ambos editores de texto, se llegó a la conclusión de que era mucho mas cómodo y útil utilizar PyCharm, ya que ofrece una configuración mas sencilla, además de permitir importar diversas librerías de una manera mas amigable. También ofrece la posibilidad de seguir los estándares de programación \textit{PEP8} y \textit{ECMAScript}.
 Para el control de versiones se ha utilizado GitCraken al comienzo del proyecto. Después, se utilizó el propio editor de texto.
@@ -147,7 +149,7 @@ Para instalar las dependencias ejecutar el comando:
 $ pip install -r requirements.txt
 \end{lstlisting}
 
-\subsection{Claves de Google}
+\subsection{Claves de Google}\label{cap:google}
 Para la obtención de una \textit{Google API KEY} es necesario obtener los credenciales en  \url{https://console.developers.google.com/apis/credentials}.\\
 Una vez registrados en Google, en el caso de que no lo estuviésemos ya, debemos acceder a la \textit{consola}\footnote{\url{https://console.cloud.google.com}} y desplegar el panel de la parte izquierda.
 \imagen{panelGoogle}{Panel Google Console}
@@ -187,6 +189,69 @@ En este caso, en PyCharm se configura de la siguiente manera:
 \item Environmental variables
 \item Add or change variables, then click OK 
 \end{enumerate}
+
+
+\subsection{FirebaseUI Auth}
+Para la configuración de la autenticación con FirebaseUI\footnote{\url{https://github.com/firebase/firebaseui-web\#configuration}} en nuestro proyecto debemos seguir los siguientes pasos:
+crear el proyecto en la consola de Firebase~\footnote{\url{https://console.firebase.google.com/}}. Para ello, debemos loguearnos con nuestro usuario de Google, ya que Firebase es un servicio del mismo. Una vez hecho esto, debemos seleccionar el proyecto que creamos anteriormente para la configuración del API en el apartado~\ref{cap:google}.
+
+\begin{steps}
+	\item Loguearnos en Firebase con nuestro usuario de Google, preferiblemente el mismo usuario que para la configuración del apartado~\ref{cap:google}.
+	\item \textit{Agregar un proyecto}. En este paso debemos elegir el proyecto creado en el apartado~\ref{cap:google}. Nos añadirá el plan de pago por defecto, ya que el proyecto que hemos escogido tiene asociado este plan para poder usar las APIs de los mapas.
+	\item Se abrirá automáticamente la página de descripción general del proyecto. Hacer click sobre \textit{Agregar Firebase a tu app web}, y seleccionar \textit{web}.
+		\imagen{AñadirAppFirebase}{Firebase: Añadir Aplicación.}
+	\item Acceder a la configuración general del proyecto e ir a \textit{Tus aplicaciones}.
+	\item Copiar el apartado \textit{Firebase SDK snippet} y agragarlo al <head> del template donde se vaya a incluir el login. Deberá quedar así:
+		\renewcommand{\lstlistingname}{Configuración de Firebase}
+		\renewcommand{\lstlistlistingname}{List of \lstlistingname s}
+		\begin{lstlisting}[language=javascript,caption={Ejemplo}]
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/7.4.0/firebase.js"></script>
+		<script>
+		// Your web app's Firebase configuration
+		var config = {
+		apiKey: "<API_KEY>",
+		authDomain: "<PROJECT_ID>.firebaseapp.com",
+		databaseURL: "https://<DATABASE_NAME>.firebaseio.com",
+		projectId: "<PROJECT_ID>",
+		storageBucket: "<BUCKET>.appspot.com",
+		messagingSenderId: "<MESSAGING_SENDER_ID>"
+		};
+		// Initialize Firebase
+		firebase.initializeApp(config);
+		</script>
+		<script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+		<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+		<script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-auth.js"></script>
+		\end{lstlisting}
+	\item Habilitar los proveedores que nos interese incluir en la aplicación. Pa ello, desde la consola\footnote{\url{https://console.firebase.google.com/}} ir al apartado de \textit{Authentication -> Sing--in method} y hablitar los proveedores que necesitemos.
+	\item En el apartado \textit{Dominios autorizados} agregar el dominio de nuestra aplicación.
+	\item Por último , agregar en nuestro template la inicialización de FirebaseUI para agragar los proveedores seleccionados anteriormente a la aplicación. Esto podemos incluirlo dentro de una etiqueta <script> al final del template, no es necesario que este al principio como en el caso anterior.
+	\begin{lstlisting}[language=javascript,caption={Proveedores Firebase.}]
+	// Firebase log-in widget
+	function configureFirebaseLoginWidget() {
+	var uiConfig = {
+	'signInSuccessUrl': '/',
+	'signInOptions': [
+	// Leave the lines as is for the providers you want to offer your users.
+	firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+	firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+	firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+	firebase.auth.GithubAuthProvider.PROVIDER_ID,
+	firebase.auth.EmailAuthProvider.PROVIDER_ID
+	],
+	// Terms of service url
+	'tosUrl': '<your-tos-url>',
+	};
+	
+	var ui = new firebaseui.auth.AuthUI(firebase.auth());
+	ui.start('#firebaseui-auth-container', uiConfig);
+	}
+	\end{lstlisting}
+\end{steps}
+
+
   
 \subsection{\TeX studio}
 Esta herramienta para la compilación de documentación \LaTeX{} permite la instalación de diccionarios para aplicar las reglas al texto. Para ello, debemos acceder a:

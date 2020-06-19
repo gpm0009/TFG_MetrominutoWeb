@@ -19,21 +19,21 @@ En este apéndice se explican y especifican tanto los requisitos funcionales com
 \begin{itemize}
 	\item \textbf{RF-1 Control de usuarios}: la aplicación debe permitir el control de usuarios.
 	\begin{itemize}
-		\item \textbf{RF-1.1 Integración con Google Auth:} La aplicación debe poder hacer uso de cuentas de google para el control de usuarios.
+		\item \textbf{RF-1.1 Firebase Auth:} La aplicación debe poder hacer uso de los servicios de autenticación de Firebase.
 	\end{itemize}
-	\item \textbf{RF-2 Control sobre el mapa:} La aplicación debe poder ofrecer la selección de distintos puntos sobre el mapa.
+	\item \textbf{RF-2 Generación de mapa:} La aplicación debe ofrecer la selección de distintos puntos sobre el mapa para generar un mapa personalizado.
 	\begin{itemize}
-		\item \textbf{RF-2.1 Integración con el API de Google:} La aplicación debe poder hacer uso de las operaciones, así como acceder a los servicios de \textit{Google Maps} proporcionados por el API.
-		\item \textbf{RF-2.2 Creación:} Debe poder añadir tantos puntos como desee.
-		\item \textbf{RF-2.3 Modificación:} Una vez creado un marcador, futuro nodo del grafo, el usuario debe poder moverlo.
-		\item \textbf{RF-2.4 Eliminación:} El usuario debe poder eliminar los puntos.
+		\item \textbf{RF-2.1 Visualización de puntos sobre Google Maps:} La aplicación debe poder hacer uso de las operaciones, así como acceder a los servicios de \textit{Google Maps} proporcionados por el API.
+		\item \textbf{RF-2.2 Selección de puntos:} Seleccionar sobre el mapa distintos puntos, hasta un máximo de 15.
+		\item \textbf{RF-2.3 Selección como centrales:} Una vez creado un marcador, el usuario debe poder darle una mayor importancia a este punto en el recorrido.
+		\item \textbf{RF-2.4 Eliminación de un punto cualquiera:} El usuario debe poder eliminar los puntos seleccionados.
 	\end{itemize}
-	\item \textbf{RF-3 Generación de mapas sinópticos:} Generación de un mapa sinóptico a través de los puntos seleccionados en el \textit{RF-~2}.
+	\item \textbf{RF-3 Creación de SVG:} Generación de un mapa sinóptico a través de los puntos seleccionados en el \textit{RF-~2}, con formato SVG, que permite la interacción con dicho mapa.
 	\begin{itemize}
-		\item \textbf{RF-3.1 Modificación:} El usuario debe poder mover los puntos del mapa.
-		\item \textbf{RF-3.2 Apariencia:} Posibilidad de cambio de color de los puntos, así como de las líneas que los unen.
-		\item \textbf{RF-3.3 Eliminación:} El usuario debe poder eliminar dichos puntos.
-		\item \textbf{RF-3.4 Elementos adicionales:} Dibujado de elementos adicionales como pueden ser ríos, parques, o estaciones públicas.
+		\item \textbf{RF-3.1 Añadir y eliminar arcos:} El usuario debe poder seleccionar el mapa o grafo que más se adecue a su necesidad, con más o menos recorridos (arcos).
+		\item \textbf{RF-3.2 Mover puntos y etiquetas:} Posibilidad de que el usuario recoloque tanto los puntos como las etiquetas de los mismos en el mapa.
+		\item \textbf{RF-3.3 Cambiar el nombre de los puntos:} El usuario debe poder cambiar las etiquetas referentes al nombre de los puntos.
+		\item \textbf{RF-3.4 Exportación y descarga:} El usuario debe poder descargar el mapa que ha generado.
 	\end{itemize}
 \end{itemize}
 
@@ -49,5 +49,7 @@ En este apéndice se explican y especifican tanto los requisitos funcionales com
 
 \section{Especificación de requisitos}
 En esta sección, se presentan los casos de uso de la aplicación.
-\imagen{Diagrama de caso de uso - TFG}{Diagrama de casos de uso.}
+\imagen{Diagrama de caso de uso - sitema}{Diagrama de casos de uso: General.}
+\imagen{Diagrama de caso de uso - RF2}{Diagrama de casos de uso: RF2 -- Generación de mapa.}
+\imagen{Diagrama de caso de uso - RF3}{Diagrama de casos de uso: RF3 -- Creación de SVG.}
 
