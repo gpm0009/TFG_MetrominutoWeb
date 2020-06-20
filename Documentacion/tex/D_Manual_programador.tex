@@ -82,15 +82,16 @@ El principal objetivo de este proyecto se basa en obtener un grafo final de mane
 
 Estos problemas han resultado de gran complejidad en el desarrollo final del proyecto, ya que como mencionaba antes, es el resultado final de todo el proyecto. Para solucionar el problema de que los textos no se superpongan, tanto en las líneas o \textit{caminos} como en los puntos o \textit{paradas}, he tenido en cuenta dos opciones:
 \begin{itemize}
-	\item \textbf{Discretización de las líneas:} este método consiste en dividir los arcos del grafo en varios puntos separados una distancia $\delta$ y comprobar si alguno de esos puntos está en el interior del rectángulo que contiene el texto que queremos colocar. Ese $\delta$ se calcula proyectando sobre cada recta una distancia en el eje x mínimamente inferior a la altura del texto, y para lo cuál nos hace falta calcular el ángulo entre dicha recta y la horizontal. Para cada texto comprendido en el punto medio de cada arco, se evalúan 8 distintas posiciones a cada lado del arco\footnote{\url{https://github.com/gpm0009/TFG_MetrominutoWeb/issues/91}}. Para el texto relativo a la información de cada nodo se evalúan estas posiciones para la posición inferior, superior, izquierda y derecha del nodo, y si no se encontrase ninguna se pasaría a evaluar las esquinas del cuadrado que contiene al círculo. En la figura \ref{fig:discretizacion} vemos un ejemplo de las 8 anclas en el rectángulo A. ¿Explicar el proceso de los dos puntos sobre los que se evalúan las anclas? o quedaría demasiado extenso?
+	\item \textbf{Discretización de las líneas:} primeramente, calculamos el cuadrado o rectángulo que contiene al texto. Una vez lo hemos calculado, el método consiste en dividir los arcos del grafo en varios puntos separados una distancia $\delta$, y comprobar si alguno de esos puntos está en el interior del rectángulo que hemos calculado previamente. Ese $\delta$ se calcula proyectando sobre cada recta una distancia en el eje x mínimamente inferior a la altura del texto, y para lo cuál nos hace falta calcular el ángulo entre dicha recta y la horizontal. Para cada texto comprendido en el punto medio de cada arco, se evalúan 8 distintas posiciones a cada lado del arco\footnote{\url{https://github.com/gpm0009/TFG_MetrominutoWeb/issues/91}}. Para el texto relativo a la información de cada nodo se evalúan estas posiciones para la posición inferior, superior, izquierda y derecha del nodo, y si no se encontrase ninguna se pasaría a evaluar las esquinas del cuadrado que contiene al círculo. En la figura \ref{fig:discretizacion} vemos un ejemplo de las 8 anclas en el rectángulo A. 
 	\imagen{discretizacion}{Discretización.}
+	Se observa cómo hay 3 puntos de la línea L2 que se solapan con el rectángulo que contiene la etiqueta A
 	
-	\item \textbf{Superposición de cuadrados:} Este método consiste en calcular primeramente el cuadrado que contiene el texto. Una vez que sabemos esto, podemos construir varios rectángulos en torno al punto donde queremos colocar el texto, tanto a un lado de la línea como al otro. Posteriormente, dividiremos la línea que une los dos puntos para los que queremos colocar el texto en cuatro cuadrados partiendo del punto medio. De este modo, en dos de ellos la diagonal sería parte de la línea que une los puntos, mientras que en los otros dos no habría nada. De este modo, y conociendo la dirección de la línea podemos calcular si, sobre los rectángulos que forman parte de la línea, existe una superposición con alguno de los posibles rectángulos del texto. En el caso del texto que referencia el punto, el rectángulo, o en este caso cuadrado, que se construye sería el que contiene al círculo y se evaluaría el rectángulo correspondiente del que la línea forma parte. En la figura \ref{fig:rectangulos-metodo} vemos un ejemplo: los rectángulos que contienen a la línea serían B, D, H y F, mientras que los rectángulos A, C, E y G no. Por ello, siempre que el rectángulo se encuentre dentro del segundo grupo no tendremos problemas de superposición con las líneas.
+	\item \textbf{Superposición de cuadrados:} al igual que en el método anterior, calculamos el cuadrado que contiene el texto. Una vez que sabemos esto, podemos construir varios rectángulos en torno al punto donde queremos colocar el texto, tanto a un lado de la línea como al otro. Posteriormente, dividiremos la línea que une los dos puntos para los que queremos colocar el texto en cuatro cuadrados partiendo del punto medio. De este modo, en dos de ellos la diagonal sería parte de la línea que une los puntos, mientras que en los otros dos no habría nada. De este modo, y conociendo la dirección de la línea podemos calcular si, sobre los rectángulos que forman parte de la línea, existe una superposición con alguno de los posibles rectángulos del texto. En el caso del texto que referencia el punto, el rectángulo, o en este caso cuadrado, que se construye sería el que contiene al círculo y se evaluaría el rectángulo correspondiente del que la línea forma parte. En la figura \ref{fig:rectangulos-metodo} vemos un ejemplo: los rectángulos que contienen a la línea serían B, D, H y F, mientras que los rectángulos A, C, E y G no. Por ello, siempre que el rectángulo se encuentre dentro del segundo grupo no tendremos problemas de superposición con las líneas.
 	\imagen{rectangulos-metodo}{Superposición de rectángulos.}
 \end{itemize}
-Finalmente, se optó por la primera opción, ya que después de comprobar que los textos no se superponían con las líneas, había que tener en cuenta que no se superpusiesen entre ellos. Para ello, sobre la lista de puntos discretizados, se añaden las 4 esquinas de los rectángulos que contienen al texto. Con esta operación lo que hacemos es que si al colocar el siguiente texto en una de las posiciones establecidas nos encontramos con que uno de estos puntos esta en el interior de este último rectángulo, significará que ya hay un texto en esa posición y debemos probar con la siguiente.
+Finalmente, se optó por la primera opción, ya que después de comprobar que los textos no se superponían con las líneas, había que tener en cuenta que no se superpusiesen entre ellos. Para ello, sobre la lista de puntos discretizados, se añaden las 4 esquinas de los rectángulos que contienen al texto. Con esta operación lo que hacemos es que si al colocar el siguiente texto en una de las posiciones establecidas, nos encontramos con que uno de estos puntos esta en el interior de este último rectángulo, significará que ya hay un texto en esa posición y debemos probar con la siguiente.
 
-Un aspecto clave, y a tener muy en cuenta en la evaluación de todo lo comentado anteriormente, es que debemos recordar en todo momento que estos cálculos se hacen para dibujar en SVG, por lo que el punto mas pequeño de la <<coordenada x>> y de la <<coordenada y>> se encuentra en la esquina superior izquierda. Esto nos lleva a que cada posible ancla (punto inferior izquierdo) del rectángulo del texto debemos restarle la altura de dicho texto para que la evaluación de los puntos coincida, ya que al dibujarlo en SVG el texto siempre se dibuja hace arriba desde el punto que indicamos. Para entender mejor esto, los puntos \textit{A} y \textit{C} de la imagen~\ref{fig:rectangulos} corresponderían con el punto inferior izquierdo del rectángulo que queremos evaluar, mientras que los puntos \textit{B} y \textit{D} serían los puntos que debemos indicar al dibujar el SVG.
+Un aspecto clave, y a tener muy en cuenta en la evaluación de todo lo comentado anteriormente, es que en todo momento estos cálculos se hacen para dibujar en SVG, por lo que el punto mas pequeño de la <<coordenada x>> y de la <<coordenada y>> se encuentra en la esquina superior izquierda. Esto nos lleva a que cada posible ancla (punto inferior izquierdo) del rectángulo del texto debemos restarle la altura de dicho texto para que la evaluación de los puntos coincida, ya que al dibujarlo en SVG el texto siempre se dibuja hacia arriba desde el punto que indicamos. Para entender mejor esto, los puntos \textit{A} y \textit{C} de la imagen~\ref{fig:rectangulos} corresponderían con el punto inferior izquierdo del rectángulo que queremos evaluar, mientras que los puntos \textit{B} y \textit{D} serían los puntos que debemos indicar al dibujar el SVG.
 \imagen{rectangulos}{Puntos del rectángulo.}
 
 
@@ -194,17 +195,13 @@ En este caso, en PyCharm se configura de la siguiente manera:
 
 
 \subsection{FirebaseUI Auth}
-Para la configuración de la autenticación con FirebaseUI\footnote{\url{https://github.com/firebase/firebaseui-web\#configuration}} en nuestro proyecto debemos seguir los siguientes pasos:
-crear el proyecto en la consola de Firebase~\footnote{\url{https://console.firebase.google.com/}}. Para ello, debemos loguearnos con nuestro usuario de Google, ya que Firebase es un servicio del mismo. Una vez hecho esto, debemos seleccionar el proyecto que creamos anteriormente para la configuración del API en el apartado~\ref{cap:google}.
+Para la obtención de las claves de autenticación con FirebaseUI\footnote{\url{https://github.com/firebase/firebaseui-web\#configuration}} en nuestro proyecto debemos seguir los siguientes pasos:
 
 \begin{steps}
 	\item Loguearnos en Firebase con nuestro usuario de Google, preferiblemente el mismo usuario que para la configuración del apartado~\ref{cap:google}.
 	\item \textit{Agregar un proyecto}. En este paso debemos elegir el proyecto creado en el apartado~\ref{cap:google}. Nos añadirá el plan de pago por defecto, ya que el proyecto que hemos escogido tiene asociado este plan para poder usar las APIs de los mapas. Se agragrá automáticamente una API\_KEY a nuestra consola de Google, a la cual, deberemos restringir su uso para \textit{Identity Toolkit API}.
 	\item Se abrirá automáticamente la página de descripción general del proyecto. Hacer click sobre \textit{Agregar Firebase a tu app web}, y seleccionar \textit{web}.
 		\imagen{AñadirAppFirebase}{Firebase: Añadir Aplicación.}
-	\item Acceder a la configuración general del proyecto e ir a \textit{Tus aplicaciones}.
-	\item Copiar el apartado \textit{Firebase SDK snippet} y pegarlo en el fichero de configuración del proyecto \textit{\textbackslash{}Metrominuto\textbackslash{}metrominuto\_app\textbackslash{}static\textbackslash{}js\textbackslash{}firebase-config.js}.
-	\item Añadir en el template \textit{widget.html} los proveedores que queramos.
 \end{steps}
 
 
@@ -277,7 +274,7 @@ dwg.save(pretty=True)
 \subsection{SNAP.SVG}\label{snapsvg}
 \textit{Snap.svg} es otra librería para crear gráficos vectoriales pero esta vez en la parte del cliente gracias a que es una biblioteca JavaScript~\cite{doc:snapsvg}. Esto la hace perfecta para manipular los elementos del SVG a nuestro antojo sin tener que hacer nuevas llamas al servidor.
 
-Para su uso debemos incluirla en el proyecto siguiendo una de las opciones propuestas en su documentación~\footnote{\url{https://github.com/adobe-webplatform/Snap.svg}} de GitHub. En este proyecto, se ha optado por descargar el directorio \texttt{\textbackslash{dist}} he incluir los ficheros JavaScript en el proyecto.
+Para su uso debemos incluirla en el proyecto siguiendo una de las opciones propuestas en su documentación~\footnote{\url{https://github.com/adobe-webplatform/Snap.svg}} de GitHub. En este proyecto, se ha optado por descargar el directorio \texttt{\textbackslash{dist}} e incluir los ficheros JavaScript en el proyecto.
 
 Una de las razones principales por las que he usado esta biblioteca es porque permite asociar las líneas o <<path>> que une dos puntos con dichos puntos, y, por lo tanto, si definimos una función para mover los puntos la posición de las líneas se actualiza sin necesidad de realizar cálculos adicionales.
 \renewcommand{\lstlistingname}{Snap.svg}
@@ -295,7 +292,7 @@ strokeWidth: 5
 \end{lstlisting}
 
 
-\subsection{Jquery}\label{jquery}
+\subsection{Jquery}\label{cap:jquery}
 \textit{Jquery~\footnote{\url{https://jquery.com/}}} es una biblioteca JavaScript que permite la manipulación de documentos HTML, así como sus eventos. Para importarla a nuestro tenemos dos opciones, descargar el código e importarlo en el documento HTML desde nuestro directorio \textit{$\backslash$static$\backslash$js}, o incluir el \textit{cdn} al principio del documento.
 \renewcommand{\lstlistingname}{Jquery}
 \renewcommand{\lstlistlistingname}{List of \lstlistingname s}
@@ -306,9 +303,33 @@ strokeWidth: 5
 </script>
 \end{lstlisting}
 
-\subsection{Firebase}\label{firebase}
+\subsection{Vue.js}\label{cap:Vue}
+\textit{Vue}~\cite{doc:vue} es un framework de JavaScript diseñado para la elaboración de interfaces de usuario. Para trabajar con este framework en el proyecto es necesario añadir en el template su cdn~\footnote{\url{https://es.vuejs.org/v2/guide/installation.html}}, o como alternativa descargar el código e importarlo desde nuestro directorio \textit{$\backslash$static$\backslash$js}.
+\renewcommand{\lstlistingname}{Vue.js}
+\renewcommand{\lstlistlistingname}{List of \lstlistingname s}
+\begin{figure}
+\begin{lstlisting}[language=javascript,caption={Vue cdn.}]
+<!-- version de desarrollo, incluye advertencias de ayuda en la consola -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!-- version de produccion, optimizada -->
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+\end{lstlisting}
+\end{figure}
 
+Además debemos crear un componente\footnote{\url{https://vuejs.org/v2/guide/components.html}}, al que le añadiremos una variable, que hará referencia al <div> donde queremos incluirlo. Esto se debe a que realmente la estructura y el nombre de los elementos de Vue es algo diferente a los que ya conocemos de \textit{HTML5}. También es importante tener en cuenta que Vue utiliza los mismos delimitadores que \textit{Flask}: \verb|{{variable}}|. Es por esto por lo que a nuestro componente o variable debemos añadir la línea \verb|delimiters:['[[',']]']| para cambiarlos.
 
+También es recomendable instalar las extensiones de desarrollo, bien sea para Chrome~\footnote{\url{https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd}} o para Firefox~\footnote{\url{https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/}}, ya que a la hora de desarrollar el proyecto permiten inspeccionar los elementos desde la consola del navegador.
+
+\subsection{FirebaseUI}\label{firebase}
+Para incluir la configuración de Firebase en el proyecto, seguir estos pasos:
+\begin{enumerate}
+	\item Acceder a la configuración general del proyecto e ir a \textit{Tus aplicaciones}.
+	\item Copiar el apartado \textit{Firebase SDK snippet} y pegarlo en el fichero de configuración del proyecto \textit{\textbackslash{}Metrominuto\textbackslash{}metrominuto\_app\textbackslash{}static\textbackslash{}js\textbackslash{}firebase-config.js}.
+	\item Añadir en el template \textit{widget.html} los proveedores que queramos.
+\end{enumerate}
+
+Además, cuando el acceso se realiza correctamente, Firebase permite ver la información básica del perfil. También permite una administración y control total de dichos accesos, ya que en todo momento podemos saber quién esta accediendo a la app, como vemos en la siguiente figura:
+\imagen{Firebase-users}{Control de usuarios.}
 
 \section{Compilación, instalación y ejecución del proyecto}
 Para el desarrollo de este proyecto se ha usado PyCharm, por lo que esta guía esta orientada a este editor. Para Visual Studio Code puede visitarse el enlace \url{https://code.visualstudio.com/docs/python/tutorial-flask}, ya que la creación y ejecución del entorno virtual no es igual.

@@ -11,9 +11,6 @@ En esta sección se explican las entidades usadas por la aplicación:
 	\item SVG: entidad que se usa para representar el grafo obtenido tras realizar distintas comprobaciones sobre los datos obtenidos anteriormente.
 \end{itemize}
 
-\subsection{NetworkX}
-En este proyecto se usa networkX, \ref{networkx}, para generar, modificar y visualizar grafos, en los cuales el elemento <<\textit{nodes}>> representa los diferentes puntos seleccionados por el usuario, y el elemento <<\textit{edges}>> representa las conexiones entre ellos.
-
 \subsection{Google API}
 Google se ha usado para la obtención de todos los datos necesarios para el cálculo de distancias y tiempos, así como para la selección de los diferentes puntos en el mapa. Para ello, Google proporciona un API para \textit{Python} y otro para \textit{JavaScript}. Las funciones que se han usado han sido:
 \begin{itemize}
@@ -21,8 +18,12 @@ Google se ha usado para la obtención de todos los datos necesarios para el cál
 	\item \texttt{directions()}: devuelve las direcciones que hay que seguir para llegar de un punto a otro.
 \end{itemize}
 
+\subsection{NetworkX}
+En este proyecto se usa \nameref{networkx}, para generar, modificar y visualizar grafos, en los cuales el elemento <<\textit{nodes}>> representa los diferentes puntos seleccionados por el usuario, y el elemento <<\textit{edges}>> representa las conexiones entre ellos.
+
+
 \subsection{SVG}
-Mediante la biblioteca \textit{svgwrite}~\ref{svgwrite} obtenemos el grafo mediante el dibujado de:
+Mediante la biblioteca \nameref{svgwrite} obtenemos el grafo mediante el dibujado de:
 \begin{itemize}
 	\item Círculos: corresponden con los marcadores seleccionados previamente en el mapa.
 	\item Líneas: corresponden a la distancia entre los puntos de sus extremos.
@@ -47,11 +48,11 @@ La estructura del proyecto esta condicionada por el tipo de proyecto que es. Se 
 \imagen{mvc}{Diagrama Modelo-Vista-Controlador}
 
 \section{Maquetación}
-Al tratarse de una aplicación web es muy importante que la apariencia de la misma se haya cuidado y sea adaptable a cualquier tipo de dispositivo.
-\\
+Al tratarse de una aplicación web es muy importante que la apariencia de la misma se haya cuidado y sea adaptable a cualquier tipo de dispositivo. En este proyecto se han usado las clases proporcionadas por Bootstrap~\cite{doc:bootstrap}.
 
-Para la construcción de las distintas páginas de este proyecto, se ha heredado una estructura común definida en el fichero \textit{base.html}. Este fichero importa diferentes librerías, como \textit{Bootstrap} y \textit{Vue}. También añade la barra de navegación y otros elementos comunes a todas las páginas. Es por ello que desde el comienzo del proyecto y con la finalidad de evitar futuros problemas a la hora de ordenar y alinear los elementos \textit{HTML} conviene tenerlo bien estructurado y ordenado. 
-\\
 
-A la hora de situar los diferentes elementos HTML en la página, como por ejemplo los botones de \textit{<<Aceptar>>} y \textit{<<Cancelar>>}, es importante tener en cuenta la usabilidad de los mismos.
+Para la construcción de las distintas páginas de este proyecto, se ha heredado una estructura común definida en el fichero \textit{base.html}. Este fichero importa diferentes librerías como \nameref{cap:jquery} y \nameref{cap:Vue}. También añade la barra de navegación y otros elementos comunes a todas las páginas como el <footer>. Es por ello que desde el comienzo del proyecto y con la finalidad de evitar futuros problemas a la hora de ordenar y alinear los elementos \textit{HTML} conviene tenerlo bien estructurado y ordenado. 
+
+
+A la hora de situar los diferentes elementos HTML en la página, como por ejemplo los botones de \textit{<<Aceptar>>} y \textit{<<Cancelar>>}, es importante tener en cuenta la usabilidad de los mismos, así como por ejemplo la situación de los botones para Iniciar Sesión o de ayuda.
 
