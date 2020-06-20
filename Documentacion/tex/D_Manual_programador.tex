@@ -59,10 +59,12 @@ La estructura del proyecto se divide en:
 	.4 static/ - Ficheros JavaScript.
 	.5 css/ - Estilos.
 	.5 img/ - Imágenes.
-	.5 templates/ - Ficheros HTML.
+	.4 templates/ - Ficheros HTML.
+	.5 ayuda - Template para la página de ayuda.
+	.4 utils/ - Decoradores de la aplicación.
 	.4 init.py - Inicializa la aplicación.
 	.4 models.py - Clases definidas en la aplicación.
-	.4 calculateRoute.py -O peraciones con el API de Google.
+	.4 calculateRoute.py - Operaciones con el API de Google.
 	.4 globals.py - Variables globales del proyecto.
 	.4 graphs.py - Operaciones con grafos.
 	.4 svgfunctions.py - Operaciones para dibujar.
@@ -197,58 +199,12 @@ crear el proyecto en la consola de Firebase~\footnote{\url{https://console.fireb
 
 \begin{steps}
 	\item Loguearnos en Firebase con nuestro usuario de Google, preferiblemente el mismo usuario que para la configuración del apartado~\ref{cap:google}.
-	\item \textit{Agregar un proyecto}. En este paso debemos elegir el proyecto creado en el apartado~\ref{cap:google}. Nos añadirá el plan de pago por defecto, ya que el proyecto que hemos escogido tiene asociado este plan para poder usar las APIs de los mapas.
+	\item \textit{Agregar un proyecto}. En este paso debemos elegir el proyecto creado en el apartado~\ref{cap:google}. Nos añadirá el plan de pago por defecto, ya que el proyecto que hemos escogido tiene asociado este plan para poder usar las APIs de los mapas. Se agragrá automáticamente una API\_KEY a nuestra consola de Google, a la cual, deberemos restringir su uso para \textit{Identity Toolkit API}.
 	\item Se abrirá automáticamente la página de descripción general del proyecto. Hacer click sobre \textit{Agregar Firebase a tu app web}, y seleccionar \textit{web}.
 		\imagen{AñadirAppFirebase}{Firebase: Añadir Aplicación.}
 	\item Acceder a la configuración general del proyecto e ir a \textit{Tus aplicaciones}.
-	\item Copiar el apartado \textit{Firebase SDK snippet} y agragarlo al <head> del template donde se vaya a incluir el login. Deberá quedar así:
-		\renewcommand{\lstlistingname}{Configuración de Firebase}
-		\renewcommand{\lstlistlistingname}{List of \lstlistingname s}
-		\begin{lstlisting}[language=javascript,caption={Ejemplo}]
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-		<script src="https://www.gstatic.com/firebasejs/7.4.0/firebase.js"></script>
-		<script>
-		// Your web app's Firebase configuration
-		var config = {
-		apiKey: "<API_KEY>",
-		authDomain: "<PROJECT_ID>.firebaseapp.com",
-		databaseURL: "https://<DATABASE_NAME>.firebaseio.com",
-		projectId: "<PROJECT_ID>",
-		storageBucket: "<BUCKET>.appspot.com",
-		messagingSenderId: "<MESSAGING_SENDER_ID>"
-		};
-		// Initialize Firebase
-		firebase.initializeApp(config);
-		</script>
-		<script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
-		<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
-		<script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-auth.js"></script>
-		\end{lstlisting}
-	\item Habilitar los proveedores que nos interese incluir en la aplicación. Pa ello, desde la consola\footnote{\url{https://console.firebase.google.com/}} ir al apartado de \textit{Authentication -> Sing--in method} y hablitar los proveedores que necesitemos.
-	\item En el apartado \textit{Dominios autorizados} agregar el dominio de nuestra aplicación.
-	\item Por último , agregar en nuestro template la inicialización de FirebaseUI para agragar los proveedores seleccionados anteriormente a la aplicación. Esto podemos incluirlo dentro de una etiqueta <script> al final del template, no es necesario que este al principio como en el caso anterior.
-	\begin{lstlisting}[language=javascript,caption={Proveedores Firebase.}]
-	// Firebase log-in widget
-	function configureFirebaseLoginWidget() {
-	var uiConfig = {
-	'signInSuccessUrl': '/',
-	'signInOptions': [
-	// Leave the lines as is for the providers you want to offer your users.
-	firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-	firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-	firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-	firebase.auth.GithubAuthProvider.PROVIDER_ID,
-	firebase.auth.EmailAuthProvider.PROVIDER_ID
-	],
-	// Terms of service url
-	'tosUrl': '<your-tos-url>',
-	};
-	
-	var ui = new firebaseui.auth.AuthUI(firebase.auth());
-	ui.start('#firebaseui-auth-container', uiConfig);
-	}
-	\end{lstlisting}
+	\item Copiar el apartado \textit{Firebase SDK snippet} y pegarlo en el fichero de configuración del proyecto \textit{\textbackslash{}Metrominuto\textbackslash{}metrominuto\_app\textbackslash{}static\textbackslash{}js\textbackslash{}firebase-config.js}.
+	\item Añadir en el template \textit{widget.html} los proveedores que queramos.
 \end{steps}
 
 
@@ -293,7 +249,7 @@ import networkx
 \end{lstlisting}
 
 \subsection{SVGWRITE}\label{svgwrite}
-Esta biblioteca permite crear en el servidor nuevos archivos SVG~\cite{doc:svgwritedocs}. Permite crear, dentro del dibujo SVG distintos elementos, siendo en el caso de este proyecto círculos, rectángulos, líneas y textos. 
+\textit{Svgwrite} permite crear en el servidor nuevos archivos SVG~\cite{doc:svgwritedocs}. Permite crear, dentro del dibujo SVG distintos elementos, siendo en el caso de este proyecto círculos, rectángulos, líneas y textos. 
 
 Para su uso, debemos instalar el \textit{requirement} e importarla al proyecto:
 \renewcommand{\lstlistingname}{SVGWRITE}
@@ -319,7 +275,7 @@ dwg.save(pretty=True)
 
 
 \subsection{SNAP.SVG}\label{snapsvg}
-Es otra librería para crear gráficos vectoriales pero esta vez en la parte del cliente gracias a que es una biblioteca JavaScript~\cite{doc:snapsvg}. Esto la hace perfecta para manipular los elementos del SVG a nuestro antojo sin tener que hacer nuevas llamas al servidor.
+\textit{Snap.svg} es otra librería para crear gráficos vectoriales pero esta vez en la parte del cliente gracias a que es una biblioteca JavaScript~\cite{doc:snapsvg}. Esto la hace perfecta para manipular los elementos del SVG a nuestro antojo sin tener que hacer nuevas llamas al servidor.
 
 Para su uso debemos incluirla en el proyecto siguiendo una de las opciones propuestas en su documentación~\footnote{\url{https://github.com/adobe-webplatform/Snap.svg}} de GitHub. En este proyecto, se ha optado por descargar el directorio \texttt{\textbackslash{dist}} he incluir los ficheros JavaScript en el proyecto.
 
@@ -337,6 +293,21 @@ stroke: "#000",
 strokeWidth: 5
 });
 \end{lstlisting}
+
+
+\subsection{Jquery}\label{jquery}
+\textit{Jquery~\footnote{\url{https://jquery.com/}}} es una biblioteca JavaScript que permite la manipulación de documentos HTML, así como sus eventos. Para importarla a nuestro tenemos dos opciones, descargar el código e importarlo en el documento HTML desde nuestro directorio \textit{$\backslash$static$\backslash$js}, o incluir el \textit{cdn} al principio del documento.
+\renewcommand{\lstlistingname}{Jquery}
+\renewcommand{\lstlistlistingname}{List of \lstlistingname s}
+\begin{lstlisting}[language=javascript,caption={Jquery cdn.}]
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous">
+</script>
+\end{lstlisting}
+
+\subsection{Firebase}\label{firebase}
+
 
 
 \section{Compilación, instalación y ejecución del proyecto}

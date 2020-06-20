@@ -32,10 +32,12 @@ Mediante la biblioteca \textit{svgwrite}~\ref{svgwrite} obtenemos el grafo media
 
 \section{Diseño procedimental}
 En esta sección se explican las interacciones más destacadas de la aplicación. La principal de ellas es, dentro de la visualización de los puntos, cuando se pasa a la vista del mapa sinóptico, ya que aquí entran en juego todas las funcionalidades más destacadas de la aplicación.
+
+
 // Diagrama de secuencia.
 
 
-Cuando el usuario selecciona y guarda una serie de puntos sobre el mapa, estos pasan al servidor de tal manera que, con el API proporcionado por Google se evalúan las distancias de unos nodos a otros y se genera un grafo. A continuación, se realizan diferentes operaciones con dicho grafo para evaluar los diferentes caminos más cortos para recorrer todos los nodos. \\
+Cuando el usuario selecciona y guarda una serie de puntos sobre el mapa, estos pasan al servidor de tal manera que, con el API proporcionado por Google se evalúan las distancias de unos nodos a otros y se genera un grafo. A continuación, se realizan diferentes operaciones con dicho grafo para evaluar los distintos caminos más cortos (minimum spanning tree~\footnote{\url{https://en.wikipedia.org/wiki/Minimum_spanning_tree}}) para recorrer todos los nodos. \\
 Como resultado final, obtenemos un mapa sinóptico con la representación de estos puntos y de los caminos existentes entre ellos.
 
 
