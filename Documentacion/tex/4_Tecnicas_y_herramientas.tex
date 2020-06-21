@@ -78,7 +78,7 @@ Las APIs que se usan en este proyecto son:
 \end{itemize}
 
 \subsection{Firebase -- Firebase Console}
-Firebase~\footnote{\url{https://firebase.google.com/}} es una plataforma móvil creada por Google para el desarrollo de aplicaciones, disponible para IOS, Android y web. Su función principal es facilitar la creación de aplicaciones de elevada calidad de una más rápida, permitiendo añadir una base de usuarios que mejore la rentabilidad económica.
+Firebase~\footnote{\url{https://firebase.google.com/}} es una plataforma móvil creada por Google para el desarrollo de aplicaciones, disponible para IOS, Android y web. Su función principal es facilitar la creación de aplicaciones de elevada calidad de una más rápida, permitiendo añadir una base de usuarios que mejore la rentabilidad económica, además de la posibilidad de añadir funciones de estadísticas, bases de datos o mensajería.
 
 
 Además, cuenta con varios planes para adecuar el precio con las funcionalidades que queremos incluir. En este proyecto he incluido sólo el servicio de autenticación, que forma parte del \textit{Plan Spark}~\footnote{\url{https://firebase.google.com/pricing}}, el cual es gratuito e incluye, entre otros, los servicios que vemos en la figura \ref{fig:firebase-price}.
@@ -86,8 +86,16 @@ Además, cuenta con varios planes para adecuar el precio con las funcionalidades
 
 
 
+\subsubsection{FirebaseUI (User Interface) for Web -- Firebase Auth}
+\textit{FirebaseUI}, desarrollado sobre \textit{Firebase Auth}~\footnote{\url{https://firebase.google.com/docs/auth}} es una librería de código abierto para la web que proporciona componentes simples y personalizables además de los \textit{software development kit} o SDKs, que permiten la eliminación de código repetitivo.
 
-\subsubsection{FirebaseUI -- Firebase Auth}
+
+Proporciona soluciones de autenticación integrada de manera que con unas pocas líneas de código podemos iniciar sesión con direcciones de correo electrónico y contraseñas, números de teléfono o proveedores como Google, Facebook, GitHub, Twitter, Apple, Microsoft, Yahoo $\dots$. Además, también nos proporciona la posibilidad de registrarse en nuestra aplicación o casos de recuperación de contraseñas. en la figura \ref{label} podemos apreciar cuál sería el resultado de incluirlo en nuestra aplicación.
+\imagen{firebaseui}{Inicio de sesión.}
+Como mencionaba arriba, estas funcionalidades que conllevan muy pocas líneas, dotan a nuestra aplicación de seguridad y nos permite tener un control absoluto sobre que usuarios acceden a ella~\ref{fig:firebase-users}.
+\imagen{firebase-users}{Control de usuarios.}
+
+
 
 \subsection{Frameworks}
 El término \textit{framework}~\cite{wiki:framework} significa entorno o marco de trabajo, y consiste en una estructura conceptual y tecnológica que puede servir de base para el desarrollo software. Incluye programas, bibliotecas y lenguajes interpretados.
@@ -163,5 +171,9 @@ Como herramienta para realizar la documentación se ha escogido \LaTeX{}~\cite{w
 
 
 \section{Despliegue}
-Azure
+La idea de plantear el proyecto como una aplicación web sugiere que ésta tiene que ser fácilmente accesible por lo usuarios, cosa que no es cierta si para poder usarla tienen que descargarse el código, configurar el proyecto y ejecutarlo en su propio dispositivo. Por esta razón, valoré desplegar la aplicación en Azure~\footnote{\url{https://azure.microsoft.com}}.
 
+Elegí esta plataforma por que con el correo de la Universidad podemos tener acceso a un plan de estudiantes, llamado \textit{Azure for Students}~\footnote{\url{https://azure.microsoft.com/es-es/free/students/}}, que permite, además de acceso a diversos tutoriales sobre computación en la nube, desplegar nuestra aplicación de manera gratuita, aunque por supuesto también tiene varios planes de pago.
+
+
+Link de la aplicación: \url{http://tfgmetrominuto.azurewebsites.net/}.

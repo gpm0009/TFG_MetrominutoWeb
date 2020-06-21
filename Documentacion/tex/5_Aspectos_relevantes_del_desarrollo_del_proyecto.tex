@@ -44,8 +44,16 @@ El principal objetivo de este proyecto se basa en obtener un grafo final de mane
 
 Estos problemas han resultado de gran complejidad en el desarrollo final del proyecto, ya que como mencionaba antes, es el resultado final de todo el proyecto.
 
-Un aspecto clave a tener en cuenta en el resultado final de de la aplicación es que a pesar de que la unión entre dos puntos es una línea recta, no debemos pensar que esto se corresponde con el recorrido en la vida real. Dos puntos que parecen estar cerca el uno del otro pueden tener una distancia mayor que dos puntos que parecen más alejados. Para entender mejor esto fijémonos en la imagen~\ref{fig:ejemplo-distancia}. Vemos que los puntos relativos a el \textit{Arco de San Martín} y \textit{Mirador del Castillo} están mas cerca el uno del otro mientras que el punto relativo a \textit{La Estación} se encuentra más alejado de ellos.
+Un aspecto clave a tener en cuenta en el resultado final de de la aplicación es que, a pesar de que la unión entre dos puntos es una línea recta, el recorrido entre ambos puntos en la realidad no tiene por que ser recto. Dos puntos que parecen estar cerca el uno del otro pueden tener una distancia mayor que dos puntos que parecen más alejados. Para entender mejor esto fijémonos en la imagen~\ref{fig:ejemplo-distancia}. Vemos que los puntos relativos a el \textit{Arco de San Martín} y \textit{Mirador del Castillo} están mas cerca el uno del otro mientras que el punto relativo a \textit{La Estación} se encuentra más alejado de ellos.
 \imagen{ejemplo-distancia}{Puntos en el mapa.}
-Sin embargo, si nos fijamos en el mapa anterior podemos ver que para llegar del \textit{Arco de San Martín} a el \textit{Mirador del Castillo} tenemos que dar un rodeo más largo de lo que parece, y puede ser el caso de que los puntos no se encuentren al mismo nivel (en términos de tiempo no es lo mismo hacer un kilómetro subiendo que un kilómetro bajando). Esto hace que,como vemos en la imagen~\ref{fig:ejemplo-distancia-tiempo}, el tiempo que tardamos entre estos dos puntos y el que tardamos desde el primero a \textit{La Estación}, que visualmente parece estar más lejos, sea el mismo.
+Sin embargo, si nos fijamos en el mapa anterior podemos ver que para llegar de el \textit{Arco de San Martín} a el \textit{Mirador del Castillo} tenemos que dar un rodeo más largo de lo que parece, y puede ser el caso de que los puntos no se encuentren al mismo nivel (en términos de tiempo no es lo mismo hacer un kilómetro subiendo que un kilómetro bajando). Esto hace que, como vemos en la imagen~\ref{fig:ejemplo-distancia-tiempo}, el tiempo que tardamos entre estos dos puntos y el que tardamos desde el primero a \textit{La Estación}, que visualmente parece estar más lejos, sea el mismo.
 \imagen{ejemplo-distancia-tiempo}{Tiempo entre los puntos.}
+
+\subsection{Decoradores de Flask}
+Los decoradores son funciones que envuelven y reemplaza a otra función, y al hacerlo, deben copiar la información de la función original a la nueva.
+
+En Flask, cada vista o ruta es una función ded Python, lo que significa que mediante decoradores podemos añadir funcionalidades adicionales.El más utilizado es \texttt{@route()}, que sirve para especificar la ruta y qué tipo de peticiones admite. 
+
+
+En el desarrollo del proyecto se incluyó un decorador para comprobar, antes de acceder a cada vista, si el usuario había iniciado sesión o no, y en el caso de que no, redirigir a dicho usuario a la página de inicio. 
 
