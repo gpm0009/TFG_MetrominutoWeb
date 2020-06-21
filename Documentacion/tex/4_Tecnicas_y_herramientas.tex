@@ -22,34 +22,45 @@ El uso de esta metodología, junto con las diversas reuniones que se realizan, p
 Es una metodología pensada para el trabajo en equipo, por lo que en este proyecto se han mantenido las bases pero se ha adaptado la forma de trabajar, de manera que las reuniones han sido entre los tutores y el alumno y la fecha de la reunión de planificación del Sprint coincide con la fecha de revisión del sprint anterior.
 
 
-\subsubsection{GitHub}
-Para el control de versiones de este proyecto he utilizado GitHub, que es un repositorio en línea que emplea Git. De esta manera tenemos acceso en línea a los diferentes cambios de nuestro proyecto.
-Git maneja los distintos archivos del proyecto como un conjunto de copias instantáneas. 
-
 
 \section{Herramientas}
+
 
 \subsection{Estándar Python Enhancement Proposal 8 -- PEP8}
 En este proyecto se ha seguido la guía de estilo \textit{PEP8}, guía única que define cómo debería estar escrito el código \textit{Python} y la forma de nombrar variables, funciones, clases o los comentarios del mismo.
 
+
 \subsection{Entorno de desarrollo Integrado (IDE)}
 Para el desarrollo del proyecto, se valoraron inicialmente dos editores:
-\begin{itemize}
-	\item Visual Studio Code
-	\item PyCharm
+\begin{itemize}	
+	\item Visual Studio Code~\footnote{\url{https://code.visualstudio.com/}}.
+	\item PyCharm~\footnote{\url{https://www.jetbrains.com/pycharm/}}.
 \end{itemize}
-Al inicio del proyecto se empezó trabajando con Visual Studio Code, pero tras darle una vuelta más se decidió usar Pycharm, ya que al estar programado el proyecto en Python este IDE ofrecía mejores opciones para el desarrollo.
 
-\subsection{Flask}
-Flask es un \textit{framework} de Python que nos permite crear aplicaciones cliente -- servidor de una manera mas sencilla, y que no impone ninguna limitación respecto a estructura del proyecto ni a los componentes que usar durante el desarrollo~\cite{grinberg2014flask}, aunque cave destacar que en este proyecto se ha seguido la estructura planteada por \textit{Azure} para poder realizar el despliegue.
+PyCharm es un IDE desarrollado por la empresa JetBrains para el lenguaje Python. Existen dos ediciones, \textit{Community} y \textit{Professional}. Gracias al programa For Students~\footnote{\url{https://www.jetbrains.com/student/}} de JetBrains se está usando la versión \textit{Professional} en el proyecto, aunque la versión \textit{Community} podría usarse también para el desarrollo del proyecto..
 
-
-\subsection{Jinja2}
-Para que \textit{Flask} pueda hacer uso de los contenidos \textit{HTML} requiere de la utilización de este motor de plantillas, \textit{Jinja2}, que consiste en un lenguaje de que permite insertar datos procesados y texto predeterminado en una página \textit{HTML} mediante las etiquetas \verb|{{variable}}| ó \verb|{% expresión %}|.
+Ofrece soporte para Flask de serie y soporte para desarrollo web mediante complementos, además de el control de estándares en el lenguaje (tanto código como comentarios), la repetición de fragmentos de código o sugerencias en el indexado del mismo.
 
 
 
-\subsection{Google API}
+\subsection{GitHub}
+Para el control de versiones de este proyecto he utilizado GitHub, que es un repositorio en línea que emplea Git. De esta manera tenemos acceso en línea a los diferentes cambios de nuestro proyecto.
+Git maneja los distintos archivos del proyecto como un conjunto de copias instantáneas.
+
+\subsection{Lucidchart}
+\textit{Lucidchart}~\footnote{\url{https://www.lucidchart.com}} es un espacio de trabajo visual diseñado para la elaboración de distintos tipos de diagramas y gráficos. En el caso de este proyecto, se ha usado para realizar los diagramas de casos de uso, clases, y secuencia, pero tiene una gran variedad de plantillas como vemos en la siguiente figura:
+\imagen{lucidchart-types}{Lucidchart.}
+
+Además, permite iniciar sesión con nuestro usuario de la Universidad y exportar nuestro trabajo a distintos formatos: png, jpg, pdf $\dots$
+
+\subsection{Adobe illustrator}
+\textit{Adobe illustrator}\footnote{\url{https://www.adobe.com/es/products/illustrator.html}} como editor de gráficos, en este caso, para la creación del logo de la aplicación web.
+\imagen{logo-negativo}{Logo Metrominuto.}
+
+\subsection{TeXstudio}
+TeXstudio es un editor de código abierto para crear documentos \LaTeX. Posee numerosas características para su desarrollo. Además, para su correcto funcionamiento es necesario instalar MiKTeK.
+
+\subsection{Google API -- Google Console}
 En este proyecto, para la selección de los distintos puntos a recorrer por parte del usuario he empleado los mapas de Google. Google proporciona una plataforma para los desarrolladores en la que se puede encontrar una gran cantidad de documentación\footnote{\url{https://cloud.google.com/maps-platform/}}.
 Para poder integrar en la aplicación web tanto los mapas como las diferentes funcionalidades que ofrecen debemos adquirir lo que llama API~Key\footnote{\url{https://developers-dot-devsite-v2-prod.appspot.com/maps/documentation/geocoding/get-api-key}}, la cual se trata de una clave <<privada>> para tener acceso a los servicios de su API. Para su obtención es necesario incluir tus datos bancarios, ya que durante el primer año el uso de los servicios es gratis y luego comienza a pagarse a partir de un determinado número de peticiones.
 Una vez obtenida la clave, puede restringirse su uso para ciertas direcciones o dominios, de modo que puedes mantener el control de quien la usa. Además, no vale con conseguir una clave y ya esta, si no que para usar los diferentes servicios que proporciona Google hay que activar diferentes APIs.
@@ -66,8 +77,34 @@ Las APIs que se usan en este proyecto son:
 	\item \textbf{Directions API}: como respuesta nos devuelve las indicaciones a seguir para llegar desde el punto de inicio hasta el punto de destino. Además, puede configurarse para diferentes modos de trasporte, diferentes momentos de salida o llegada.
 \end{itemize}
 
-\subsection{Vue.js}
-\textit{Vue} es un framework progresivo utilizado para construir interfaces de usuario. Está enfocado únicamente a la capa de visualización, por lo que resulta sencillo integrarlo con otras librerías o incluso en proyectos ya existentes, como es este caso.
+\subsection{Firebase -- Firebase Console}
+Firebase~\footnote{\url{https://firebase.google.com/}} es una plataforma móvil creada por Google para el desarrollo de aplicaciones, disponible para IOS, Android y web. Su función principal es facilitar la creación de aplicaciones de elevada calidad de una más rápida, permitiendo añadir una base de usuarios que mejore la rentabilidad económica.
+
+
+Además, cuenta con varios planes para adecuar el precio con las funcionalidades que queremos incluir. En este proyecto he incluido sólo el servicio de autenticación, que forma parte del \textit{Plan Spark}~\footnote{\url{https://firebase.google.com/pricing}}, el cual es gratuito e incluye, entre otros, los servicios que vemos en la figura \ref{fig:firebase-price}.
+\imagen{firebase-price}{Planes de Firebase.}
+
+
+
+
+\subsubsection{FirebaseUI -- Firebase Auth}
+
+\subsection{Frameworks}
+El término \textit{framework}~\cite{wiki:framework} significa entorno o marco de trabajo, y consiste en una estructura conceptual y tecnológica que puede servir de base para el desarrollo software. Incluye programas, bibliotecas y lenguajes interpretados.
+
+
+En este proyecto se han usado para el desarrollo del mismo los frameworks \nameref{sub:flask}, \nameref{sub:jinja} y \nameref{sub:vue}.
+
+
+\subsubsection{Flask}\label{sub:flask}
+Flask~\footnote{\url{https://flask.palletsprojects.com/en/1.1.x/}} es un \textit{framework} de Python que nos permite crear aplicaciones cliente -- servidor de una manera mas sencilla, y que no impone ninguna limitación respecto a estructura del proyecto ni a los componentes que usar durante el desarrollo~\cite{grinberg2014flask}, aunque cave destacar que en este proyecto se ha seguido la estructura planteada por \textit{Azure} para poder realizar el despliegue.
+
+\subsubsection{Jinja2}\label{sub:jinja}
+Para que \textit{Flask} pueda hacer uso de los contenidos \textit{HTML} requiere de la utilización de este motor de plantillas, \textit{Jinja2}~\footnote{\url{https://jinja.palletsprojects.com/en/2.11.x/}}, que consiste en un lenguaje de que permite insertar datos procesados y texto predeterminado en una página \textit{HTML} mediante las etiquetas \verb|{{variable}}| ó \verb|{% expresión %}|.
+
+
+\subsubsection{Vue.js}\label{sub:vue}
+\textit{Vue}~\footnote{\url{https://vuejs.org/}} es un framework progresivo utilizado para construir interfaces de usuario. Está enfocado únicamente a la capa de visualización, por lo que resulta sencillo integrarlo con otras librerías o incluso en proyectos ya existentes, como es este caso.
 Vue ofrece la posibilidad de instalar el cliente mediante \textit{Node.js}\footnote{\url{https://es.vuejs.org/v2/guide/installation.html}}, aunque también permite integrarlo directamente en la capa de visualización incluyendo en los templates del proyecto el \textit{cdn}:
 
 \renewcommand{\lstlistingname}{Vue.js cdn}% Listing -> Algorithm
@@ -91,7 +128,7 @@ Para poder utilizar \textit{Vue} en nuestros templates, además de incluir el \t
 \section{Bibliotecas}
 
 \subsection{JQuery}
-\textit{JQuery}~\cite{doc:jquery} es una biblioteca JavaScript que hace que la manipulación de documentos HTML, el manejo de eventos y las peticiones Ajax sean más sencillas de usar. Además, funciona en prácticamente todos los navegadores web.
+\textit{JQuery}~\cite{doc:jquery} es una biblioteca JavaScript que hace que la manipulación de documentos HTML, el manejo de eventos y las peticiones Ajax sean más sencillas de usar y manipular. Además, una de sus ventajas principales es que funciona en prácticamente todos los navegadores web.
 
 \subsection{Networkx}
 \textit{NetworkX} es la biblioteca por excelencia de Python para trabajar con grafos y redes. Permite crear, manipular y estudiar su estructura.
@@ -121,9 +158,10 @@ Se intentó implementar en el proyecto durante dos Sprints, pero se llegó a la 
 \subsection{\LaTeX}
 Como herramienta para realizar la documentación se ha escogido \LaTeX{}~\cite{wiki:latex}, lenguaje orientado a la creación de documentos que presenten una alta calidad tipográfica.
 
-\subsubsection{TeXstudio}
-TeXstudio es un editor de código abierto para crear documentos \LaTeX. Posee numerosas características para su desarrollo. Además, para su correcto funcionamiento es necesario instalar MiKTeK.
-
 \subsubsection{MiKTeK}
 \textit{MiKTeK} es una distribución libre de \LaTeX que incluye tipografías compiladores y herramientas para generar bibliografías e índices.
+
+
+\section{Despliegue}
+Azure
 
