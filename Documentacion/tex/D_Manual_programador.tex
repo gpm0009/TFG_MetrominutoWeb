@@ -372,7 +372,7 @@ En esta pantalla tenemos que elegir el punto de entrada a la aplicación, que se
 \subsection{Despliegue en Azure}
 Para realizar el despliegue de la aplicación en Azure es necesario que el proyecto tenga una estructura concreta, ya que serán los servicios de Azure los que instalen las dependencias necesarias y ejecuten el código. Dicha estructura es la definida anteriormente en el apartado \textit{Estructura de directorios}~\ref{cap:Estructura}. Para ello he seguido el tutorial propuesto por Microsoft~\cite{deploy-flask-azure}, junto con el ejemplo de de aplicación que propone~\footnote{\url{https://code.visualstudio.com/docs/python/python-tutorial}}.
 
-Tras hacer el despliegue, es importante acordarse de configurar en Azure las variables de entorno que teníamos definidas~\ref{variables_entorno}. Para ello debemos entrar, en Azure, a nuestro \textit{APP Service} y añadirlas en el apartado de \textit{Configuración} que aparece en el menú desplegable de la izquierda,  véase la figura~\ref{fig:configuracion_paso1}.
+Antes de hacer el despliegue, es importante acordarse de configurar en Azure las variables de entorno que teníamos definidas~\ref{variables_entorno}. Para ello debemos entrar, en Azure, a nuestro \textit{APP Service} y añadirlas en el apartado de \textit{Configuración} que aparece en el menú desplegable de la izquierda,  véase la figura~\ref{fig:configuracion_paso1}.
 \imagen{configuracion_paso1}{Configuración Variables de entorno en Azure, paso 1.}
 
 A continuación, seleccionar \textit{Configuración de la aplicación} y \textit{Nueva configuración de la aplicación}, como vemos en la figura~\ref{fig:configuracion_paso2}.

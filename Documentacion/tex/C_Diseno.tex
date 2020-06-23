@@ -6,10 +6,16 @@ En este apartado de la documentación se expone el diseño que ha dado lugar a l
 \section{Diseño de datos}
 En esta sección se explican las entidades usadas por la aplicación:
 \begin{itemize}
-	\item Grafos: Conjunto de datos necesarios para tratar los puntos y arcos que representan los caminos entre los distintos marcadores seleccionados.
 	\item Datos de Google: Datos que proporciona la API de Google, como distancias y tiempos entre puntos, así como datos acerca de la ubicación del marcador.
-	\item SVG: entidad que se usa para representar el grafo obtenido tras realizar distintas comprobaciones sobre los datos obtenidos anteriormente.
+	\item SVG (Graphs): entidad que se usa para representar el grafo obtenido tras realizar distintas comprobaciones sobre los datos calculados anteriormente, y dibujar el gráfico vectorial o SVG.
+	\item Rectángulo (Rect): Rectángulos generados para calcular el solapamiento de textos sobre nodos o arcos del grafo.
+	\item Color: entidad que indica el color de los arcos y textos en función del tiempo que representa.
+	\item Point: entidad que representa un punto con coordenadas X y Y.
 \end{itemize}
+\imagen{Clase UML - TFG}{Diagrama de clases.}
+
+//FIXME: Si me da tiempo, los datos de google también los meteré en models, si no lo quito de aqui.
+
 
 \subsection{Google API}
 Google se ha usado para la obtención de todos los datos necesarios para el cálculo de distancias y tiempos, así como para la selección de los diferentes puntos en el mapa. Para ello, Google proporciona un API para \textit{Python} y otro para \textit{JavaScript}. Las funciones que se han usado han sido:

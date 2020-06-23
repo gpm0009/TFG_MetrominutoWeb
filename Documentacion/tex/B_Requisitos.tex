@@ -24,9 +24,15 @@ En este apéndice se explican y especifican tanto los requisitos funcionales com
 	\item \textbf{RF-2 Generación de mapa:} La aplicación debe ofrecer la selección de distintos puntos sobre el mapa para generar un mapa personalizado.
 	\begin{itemize}
 		\item \textbf{RF-2.1 Visualización de puntos sobre Google Maps:} La aplicación debe poder hacer uso de las operaciones, así como acceder a los servicios de \textit{Google Maps} proporcionados por el API.
+		\begin{itemize}
+			\item \textbf{RF-2.1.1 Google Api:}
+		\end{itemize}
 		\item \textbf{RF-2.2 Selección de puntos:} Seleccionar sobre el mapa distintos puntos, hasta un máximo de 15.
-		\item \textbf{RF-2.3 Selección como centrales:} Una vez creado un marcador, el usuario debe poder darle una mayor importancia a este punto en el recorrido.
-		\item \textbf{RF-2.4 Eliminación de un punto cualquiera:} El usuario debe poder eliminar los puntos seleccionados.
+		\begin{itemize}
+			\item \textbf{RF-2.2.1 Selección como centrales:} Una vez creado un marcador, el usuario debe poder darle una mayor importancia a este punto en el recorrido.
+			\item \textbf{RF-2.2.2 Eliminación de un punto cualquiera:} El usuario debe poder eliminar los puntos seleccionados. 
+		\end{itemize}
+		
 	\end{itemize}
 	\item \textbf{RF-3 Creación de SVG:} Generación de un mapa sinóptico a través de los puntos seleccionados en el \textit{RF-~2}, con formato SVG, que permite la interacción con dicho mapa.
 	\begin{itemize}
@@ -53,3 +59,230 @@ En esta sección, se presentan los casos de uso de la aplicación.
 \imagen{Diagrama de caso de uso - RF2}{Diagrama de casos de uso: RF2 -- Generación de mapa.}
 \imagen{Diagrama de caso de uso - RF3}{Diagrama de casos de uso: RF3 -- Creación de SVG.}
 
+
+
+\begin{longtable}[H]{@{}l|l@{}}
+	\toprule
+	\begin{minipage}[b]{0.23\columnwidth}\raggedright\strut
+		\textbf{CU-1}\strut
+	\end{minipage} & \begin{minipage}[b]{0.71\columnwidth}\raggedright\strut
+		\textbf{Iniciar sesión}\strut
+	\end{minipage}\tabularnewline
+	\toprule
+	\endhead
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Requisitos asociados}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		RF-1, RF-1.1\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Actor}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Usuario no logueado.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Descripción}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		El usuario inicia sesión en la aplicación.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Precondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Navegador web abierto y página de inicio de la aplicación cargada.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Acciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Pulsar sobre el botón Iniciar sesión.
+			\item Seleccionar proveedor de autenticación.
+			\item Escribir los credenciales correspondientes.
+		\end{enumerate}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Postcondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Redirección a la aplicación con la sesión iniciada.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Excepciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		\begin{itemize}
+			\tightlist
+			\item Cuenta no existente.
+			\item Combinación de nombre y contraseña incorrecta.
+			\item Acceso no permitido.
+		\end{itemize}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Importancia}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Alta\strut
+	\end{minipage}\tabularnewline
+	\bottomrule
+	\caption{Iniciar sesión.}
+	\label{cu:1}
+\end{longtable}
+\newpage
+
+
+\begin{longtable}[H]{@{}l|l@{}}
+	\toprule
+	\begin{minipage}[b]{0.23\columnwidth}\raggedright\strut
+		\textbf{CU-2}\strut
+	\end{minipage} & \begin{minipage}[b]{0.71\columnwidth}\raggedright\strut
+		\textbf{Generación de mapa}\strut
+	\end{minipage}\tabularnewline
+	\toprule
+	\endhead
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Requisitos asociados}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		RF-2, RF-2.1, RF-2.2, RF-2.1.1, RF-2.2.1, RF-2.2.2\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Actor}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Usuario logueado.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Descripción}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		El usuario selecciona distintos puntos sobre Google Maps y genera un mapa sinóptico.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Precondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Sesión iniciada.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Acciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Pulsar sobre el mapa para marcar un punto.
+			\item Pulsar sobre el icono de la papelera para borrar un punto.
+			\item Pulsar sobre Borrar Marcadores para eliminar todos los puntos.
+			\item Pulsar sobre Generar mapa para crear un mapa sinóptico de los puntos seleccionados.
+		\end{enumerate}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Postcondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Redirección a la vista del mapa sinóptico.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Excepciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		\begin{itemize}
+			\tightlist
+			\item Seleccionar más de 15 puntos.
+			\item Seleccionar menos de 3 puntos.
+		\end{itemize}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Importancia}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Alta\strut
+	\end{minipage}\tabularnewline
+	\bottomrule
+	\caption{Generación de mapa.}
+	\label{cu:2}
+\end{longtable}
+\newpage
+
+
+\begin{longtable}[H]{@{}l|l@{}}
+	\toprule
+	\begin{minipage}[b]{0.23\columnwidth}\raggedright\strut
+		\textbf{CU-3}\strut
+	\end{minipage} & \begin{minipage}[b]{0.71\columnwidth}\raggedright\strut
+		\textbf{Creación de SVG}\strut
+	\end{minipage}\tabularnewline
+	\toprule
+	\endhead
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Requisitos asociados}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		RF-3, RF-3.1, RF-3.2, RF-3.3, RF-3.4\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Actor}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Usuario logueado.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Descripción}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		El usuario crea un SVG que puede editar.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Precondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Sesión iniciada, puntos seleccionados.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Acciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Seleccionar el mapa más conveniente.
+			\item Pulsar sobre Enviar.
+			\item Editar las posiciones de los puntos.
+			\item Editar los nombres de los puntos.
+			\item Editar la posición de los textos.
+			\item Exportar el mapa.
+		\end{enumerate}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Postcondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Nuevo cálculo de las posiciones de los textos al mover un punto.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Excepciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		\begin{itemize}
+			\tightlist
+			\item No se puede exportar el mapa.
+		\end{itemize}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Importancia}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Alta\strut
+	\end{minipage}\tabularnewline
+	\bottomrule
+	\caption{Creación de SVG.}
+	\label{cu:3}
+\end{longtable}
+\newpage
+
+
+FIXME: He estado mirando varios ejemplos, y aqui tendría que meter otra fila en la tabla que fuese casos de extensión o de inclusión?
+O añado directamente esos casos como una tabla nueva? por el momento lo he dejado incluido en la sección de pasos como un elemento de la lista (probablemente no sea la mejor opción).
