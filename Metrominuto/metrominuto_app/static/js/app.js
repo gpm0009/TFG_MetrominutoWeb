@@ -52,7 +52,7 @@ var handleSignedInUser = function(user) {
         user_data.name = 'user_data';
         user_data.value = JSON.stringify({data});
         myForm.appendChild(user_data);
-        //$('#myform').submit();
+        $('#myform').submit();
     }
     /*document.getElementById('user-signed-in').style.display = 'block';
     document.getElementById('user-signed-out').style.display = 'none';
@@ -119,14 +119,10 @@ var deleteAccount = function() {
 var initApp = function() {
     document.getElementById('sign-in').addEventListener(
         'click', signInWithPopup);
-    document.getElementById('#sign-out').addEventListener('click', function() {
-        firebase.auth().signOut();
-        console.log('out');
-    });
-    document.getElementById('delete-account').addEventListener(
+    /*document.getElementById('delete-account').addEventListener(
         'click', function() {
             deleteAccount();
-        });
+        });*/
 };
 
 window.addEventListener('load', initApp);

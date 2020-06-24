@@ -2,39 +2,39 @@
 <html>
 
 <head>
-{% block head %}
+    {% block head %}
 
-    <meta charset="utf-8" />
+        <meta charset="utf-8" />
 
-    <!-- Define a viewport for Bootstrap's responsive rendering -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %}</title>
-    <!-- Fav Icon -->
-    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
-    <link rel="stylesheet" type="text/css"
-          href="{{ url_for('static', filename='css/style.css') }}">
-    <!-- Vuejs. Versión de desarrollo, incluye advertencias de ayuda en la consola -->
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-            crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-          crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-            crossorigin="anonymous"></script>
-    <!-- Firebase config -->
-    <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
-    <script src="{{ url_for('static', filename='js/firebase-config.js') }}"></script>
-    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
-    <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-auth.js"></script>
-{% endblock %}
+        <!-- Define a viewport for Bootstrap's responsive rendering -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}{% endblock %}</title>
+        <!-- Fav Icon -->
+        <link rel="shortcut icon" href="{{ url_for('static', filename='img/logo_2.ico') }}">
+        <link rel="stylesheet" type="text/css"
+              href="{{ url_for('static', filename='css/style.css') }}">
+        <!-- Vuejs. Versión de desarrollo, incluye advertencias de ayuda en la consola -->
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+                integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+                crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+              integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+              crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+                integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+                crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+                integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+                crossorigin="anonymous"></script>
+        <!-- Firebase config -->
+        <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
+        <script src="{{ url_for('static', filename='js/firebase-config.js') }}"></script>
+        <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+        <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+        <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-auth.js"></script>
+    {% endblock %}
 </head>
 
 <body>
@@ -59,61 +59,35 @@
     </div>
 </div>
 
-{#<header style="display: block">#}
-{#    <!-- Navbar -->#}
-{#    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top py-1">#}
-{#        <a class="navbar-brand" href="#">Metrominuto</a>#}
-{#        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">#}
-{#            <span class="navbar-toggler-icon"></span>#}
-{#        </button>#}
-{#        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">#}
-{#            <div class="navbar-nav">#}
-{#                <a class="nav-item nav-link{% if active_page == 'mapa' %} active{% endif %}" href="{{ url_for('main.set_marks') }}">Mapa</a>#}
-{#                {% if session['grafo'] %}#}
-{#                    <a class="nav-item nav-link{% if active_page == 'grafo' %} active{% endif %}" href="{{ url_for('main.draw_svg') }}">Grafo</a>#}
-{#                    <a class="nav-item nav-link{% if active_page == 'edit_graph' %} active{% endif %}" href="{{ url_for('main.edit_graph') }}">Editar</a>#}
-{#                {% else %}#}
-{#                    <a class="nav-item nav-link{% if active_page == 'grafo' %} disabled{% endif %} disabled" href="{{ url_for('main.draw_svg') }}">Grafo</a>#}
-{#                    <a class="nav-item nav-link{% if active_page == 'edit_graph' %} disabled{% endif %}" href="{{ url_for('main.edit_graph') }}">Editar</a>#}
-{#                {% endif %}#}
-{#            </div>#}
-{#        </div>#}
-{##}
-{#        <a class="navbar-brand p-2" href="{{ url_for('main.help_page') }}" target="_blank" aria-label="Ayuda" rel="noopener">#}
-{#            <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">#}
-{#                <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>#}
-{#                <path d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>#}
-{#            </svg>#}
-{#        </a>#}
-{#        <a class="p-2 btn btn-outline-primary" href="#">Sign up</a>#}
-{#    </nav>#}
-{#</header>#}
 <header class="navbar navbar-expand-lg navbar-dark bg-dark flex-column flex-md-row bd-navbar sticky-top">
-{#    <a class="navbar-brand mr-0 mr-md-2" href="/" aria-label="Bootstrap"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" class="d-block" viewBox="0 0 612 612" role="img" focusable="false"><title>Bootstrap</title><path fill="currentColor" d="M510 8a94.3 94.3 0 0 1 94 94v408a94.3 94.3 0 0 1-94 94H102a94.3 94.3 0 0 1-94-94V102a94.3 94.3 0 0 1 94-94h408m0-8H102C45.9 0 0 45.9 0 102v408c0 56.1 45.9 102 102 102h408c56.1 0 102-45.9 102-102V102C612 45.9 566.1 0 510 0z"></path><path fill="currentColor" d="M196.77 471.5V154.43h124.15c54.27 0 91 31.64 91 79.1 0 33-24.17 63.72-54.71 69.21v1.76c43.07 5.49 70.75 35.82 70.75 78 0 55.81-40 89-107.45 89zm39.55-180.4h63.28c46.8 0 72.29-18.68 72.29-53 0-31.42-21.53-48.78-60-48.78h-75.57zm78.22 145.46c47.68 0 72.73-19.34 72.73-56s-25.93-55.37-76.46-55.37h-74.49v111.4z"></path></svg></a>#}
-
-    <div class="navbar-nav-scroll">
-        <ul class="navbar-nav bd-navbar-nav flex-row">
-            <li class="nav-item">
-                <a class="nav-link{% if active_page == 'mapa' %} active{% endif %}" href="{{ url_for('main.set_marks') }}">Mapa</a>
-            </li>
-            {% if session['grafo'] %}
+    {#    <a class="navbar-brand mr-0 mr-md-2" href="/" aria-label="Bootstrap"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" class="d-block" viewBox="0 0 612 612" role="img" focusable="false"><title>Bootstrap</title><path fill="currentColor" d="M510 8a94.3 94.3 0 0 1 94 94v408a94.3 94.3 0 0 1-94 94H102a94.3 94.3 0 0 1-94-94V102a94.3 94.3 0 0 1 94-94h408m0-8H102C45.9 0 0 45.9 0 102v408c0 56.1 45.9 102 102 102h408c56.1 0 102-45.9 102-102V102C612 45.9 566.1 0 510 0z"></path><path fill="currentColor" d="M196.77 471.5V154.43h124.15c54.27 0 91 31.64 91 79.1 0 33-24.17 63.72-54.71 69.21v1.76c43.07 5.49 70.75 35.82 70.75 78 0 55.81-40 89-107.45 89zm39.55-180.4h63.28c46.8 0 72.29-18.68 72.29-53 0-31.42-21.53-48.78-60-48.78h-75.57zm78.22 145.46c47.68 0 72.73-19.34 72.73-56s-25.93-55.37-76.46-55.37h-74.49v111.4z"></path></svg></a>#}
+        <a class="navbar-brand mr-0 mr-md-2" href="#" aria-label="Bootstrap">
+                <img src="{{ url_for('static', filename='img/logo.svg') }}" class="pull-right img-responsive" style="height: 35px">
+        </a>
+    {% if session['email'] %}
+        <div class="navbar-nav-scroll">
+            <ul class="navbar-nav bd-navbar-nav flex-row">
                 <li class="nav-item">
-                    <a class="nav-link{% if active_page == 'grafo' %} active{% endif %}" href="{{ url_for('main.draw_svg') }}">Grafo</a>
+                    <a class="nav-link{% if active_page == 'mapa' %} active{% endif %}" href="{{ url_for('main.set_marks') }}">Mapa</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link{% if active_page == 'edit_graph' %} active{% endif %}" href="{{ url_for('main.edit_graph') }}">Editar</a>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link{% if active_page == 'grafo' %} disabled{% endif %} disabled" href="{{ url_for('main.draw_svg') }}">Grafo</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link{% if active_page == 'edit_graph' %} disabled{% endif %}" href="{{ url_for('main.edit_graph') }}">Editar</a>
-                </li>
-            {% endif %}
-        </ul>
-    </div>
-
+                {% if session['grafo'] %}
+                    <li class="nav-item">
+                        <a class="nav-link{% if active_page == 'grafo' %} active{% endif %}" href="{{ url_for('main.draw_svg') }}">Grafo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{% if active_page == 'edit_graph' %} active{% endif %}" href="{{ url_for('main.edit_graph') }}">Editar</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link{% if active_page == 'grafo' %} disabled{% endif %} disabled" href="{{ url_for('main.draw_svg') }}">Grafo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{% if active_page == 'edit_graph' %} disabled{% endif %}" href="{{ url_for('main.edit_graph') }}">Editar</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
     <ul class="navbar-nav ml-md-auto">
         <li class="nav-item dropdown">
             {% if session['email'] %}
@@ -121,10 +95,8 @@
                     {{ session['email']|safe }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-md-right" aria-labelledby="bd-versions">
-                <a id="sign-out" class="dropdown-item">Cerrar Sesión</a>
-                <div class="dropdown-divider"></div>
-                <a id="delete-account" class="dropdown-item">Borrar Cuenta</a>
-            </div>
+                    <a id="sign-out" class="dropdown-item">Cerrar Sesión</a>
+                </div>
             {% endif %}
         </li>
 
@@ -165,6 +137,22 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 {% block scripts %}
     <script>
+        document.getElementById('sign-out').addEventListener('click', function() {
+            firebase.auth().signOut();
+            console.log('OUT');
+            $.ajax({
+                type : 'POST',
+                url : "{{url_for('main.logout')}}",
+                contentType: 'application/json;charset=UTF-8',
+                data : JSON.stringify('OUT')
+            }).done(function(response) {
+                setTimeout(function(){
+                         window.open("{{ url_for('main.index') }}", "_self")
+                    }, 900);
+            }).fail(function() {
+                console.log('FAIL');
+            });
+        });
         (function () {
             "use strict";
 
