@@ -191,10 +191,6 @@
                 cont++;
             }
 
-            /*for(var i=0;i<grafo['nodes'].length;i++){
-                lista.push(papers.draggableCircle(grafo['nodes'][i]['pos'][0],grafo['nodes'][i]['pos'][1],0.025, 'node_'+i.toString()));
-            }*/
-
             grafo['edges'].forEach(myFunctionEdges);
             function myFunctionEdges(item) {
                 console.log(item);
@@ -202,15 +198,10 @@
                 lista[l_cont[item['edge'][0]]].addPath(lista[l_cont[item['edge'][1]]], item['color']);
             }
 
-            /*for(var i=0;i<grafo['edges'].length;i++) {
-                lista[parseInt(grafo['edges'][i]['edge'][0])].addPath(lista[parseInt(grafo['edges'][i]['edge'][1])], grafo['edges'][i]['color'])
-            }*/
-
             for(var i=0;i<grafo['labels'].length;i++) {
                 cx =grafo['labels'][i]['pos'][0];
                 cy =grafo['labels'][i]['pos'][1];
-                clabel = grafo['labels'][i]['label']
-                //papers.text(cx, cy, clabel).attr({'font-size':0.025, 'font-weight': 'bold'});
+                clabel = grafo['labels'][i]['label'];
                 if(grafo['labels'][i]['node'] == 'None'){
                     var text = papers.draggableText(cx, cy, clabel,0.13,0.08, 'label_edge_'+grafo['labels'][i]['edge'][0]+grafo['labels'][i]['edge'][1], grafo['labels'][i]['color']);
                     lista_labels.push(text);
@@ -263,9 +254,7 @@
             console.log(papers.toDataURL());
             img1.onload = function() {
                 DOMURL.revokeObjectURL(url);
-
                 triggerDownload(url, 'fileName.svg');
-
             }
             img1.src = url;
         });

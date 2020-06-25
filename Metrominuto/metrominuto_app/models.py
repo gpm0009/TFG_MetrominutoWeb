@@ -197,7 +197,7 @@ class Graphs:
         :param edge: node origin and node end
         :type edge: list.
         :param color: edge's color.
-        :type color: Color.
+        :type color: str.
         :param position: Start's and End's Node positions.
         :type position: list.
         """
