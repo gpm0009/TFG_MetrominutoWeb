@@ -11,8 +11,6 @@ import os
 class Config(object):
     GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
     SECRET_KEY = os.environ.get('SECRET_KEY')
-    # GOOGLE_OAUTH_CLIENT_ID = os.environ.get('GOOGLE_OAUTH_CLIENT_ID')
-    # GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get('GOOGLE_OAUTH_CLIENT_SECRET')
 
 
 class DevelopmentConfig(Config):

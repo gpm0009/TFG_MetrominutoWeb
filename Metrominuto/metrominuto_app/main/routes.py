@@ -4,15 +4,15 @@
 """
 import json
 from datetime import datetime
-from pprint import pprint
+
+import googlemaps
+from flask import redirect, url_for, render_template, request, session
+
+from config import Config
 from metrominuto_app import globals
 from metrominuto_app import svgfunctions as svg_f, graphs as gph, calculateRoute as Clr
-from flask import Flask, redirect, url_for, render_template, request, session, jsonify
-from config import Config
-from metrominuto_app.main.forms import MapForm, Form, LogInForm
-import googlemaps
 from metrominuto_app.main import main
-import os
+from metrominuto_app.main.forms import MapForm, Form, LogInForm
 from metrominuto_app.utils.decorators import log_in
 
 google_maps = googlemaps.Client(key=Config.GOOGLE_API_KEY)
@@ -41,7 +41,7 @@ def logout():
 
 
 @main.route("/map", methods=['GET', 'POST'])
-# @log_in
+@log_in
 def set_marks():
     # with open('metrominuto_app/static/distance_matrix_example2.json') as matrix_file:
     #     matrix = json.load(matrix_file)
@@ -68,8 +68,6 @@ def set_marks():
             markers.append(mark)
             origins.append(mark['position'])
             destinations.append(mark['position'])
-        pprint(markers)
-        pprint(text_size)
         central_markers = json.loads(request.form['central_markers'])
         now = datetime.now()
         matrix = google_maps.distance_matrix(origins, destinations, 'walking', departure_time=now)
@@ -86,30 +84,17 @@ def set_marks():
     return render_template(
         'map_template.html',
         longitude=longitude,
-        latitude=latitude, API_KEY=Config.GOOGLE_API_KEY, form=form,
-        positions=json.dumps(markers))  #, matrix=json.dumps(matrix['destination_addresses']))  # positions=json.dumps(markers)
-
-
-# @main.route("/login", methods=['POST'])
-# def login():
-#     if request.method == 'POST':
-#         user_info = json.loads(request.data)
-#         print(user_info)
-#         session['email'] = user_info['email']
-#         print(url_for('main.set_marks'))
-#         return redirect(url_for('main.set_marks'))
-#     return render_template('edit_graph.html')
+        latitude=latitude, API_KEY=Config.GOOGLE_API_KEY, form=form)  #, matrix=json.dumps(matrix['destination_addresses']))  # positions=json.dumps(markers)
 
 
 @main.route('/graph', methods=['GET', 'POST'])
-# @log_in
+@log_in
 def draw_svg():
     form = Form()
     if request.method == 'POST':
         session['id_svg_selected'] = int(request.form['formControlRange'])
         return redirect(url_for('main.edit_graph'))
     svg_list = []
-    colors_cont_list = []
     svg_dict = {}
     cont_colors_dict = {}
     for i in range(0, int(session['max_votes'])):  # 1):  #int(session['max_votes'])):  # 1):
@@ -128,19 +113,10 @@ def draw_svg():
 
 
 @main.route('/graph/edit', methods=['GET', 'POST'])
-# @log_in
+@log_in
 def edit_graph():
     cont_colors = session['svg_cont_colors'][str(session['id_svg_selected'])]
     return render_template('edit_graph.html', grafo=session['svg_graphs_dict'][str(session['id_svg_selected'])], cont_colors=cont_colors)
-
-
-@main.route('/setMode', methods=['POST'])
-def set_mode():
-    mode = request.form['mode']
-    session['mode'] = mode
-    if mode:
-        return jsonify('OK')
-    return jsonify('ERROR')
 
 
 @main.route('/recalcule', methods=['POST'])
@@ -148,16 +124,6 @@ def recalcule():
     grafo = json.loads(request.data)
     g = svg_f.recalcule_positions(grafo)
     return g.__dict__
-
-
-@main.route('/prueba')
-def mensaje():
-    return render_template('template.html', grafo=session['svg_graphs_dict']['0'])
-
-
-@main.route('/modal')
-def prueba():
-    return render_template('login_template.html')
 
 
 @main.route('/ayuda')

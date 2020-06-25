@@ -19,7 +19,7 @@
                     </svg>, o pulsando sobre <b style="color:red;">Borrar Marcadores</b>.</li>
                 <li>Si los seleccionas como centrales, significa que los tendrá en cuenta en el cálculo de los caminos más cortos, y se cambiará el color de la chincheta a verde.</li>
                 <li>Selecciona el modo de desplazamiento, que podrá ser en bicicleta o a pie.</li>
-                <li>Pulsa sobre el botón  hasta un máximo de <b style="color:forestgreen;">Mostrar Mapa</b>.</li>
+                <li>Pulsa sobre el botón  hasta un máximo de <b style="color:forestgreen;">Generar Mapa</b>.</li>
             </ul>
         </div>
         <div class="col-lg-8">
@@ -57,5 +57,4 @@
 {% endblock %}
 {% block scripts %}
     {{ super() }}
-    <script src="{{ url_for('static', filename='js/ayuda.js') }}"></script>
 {% endblock %}

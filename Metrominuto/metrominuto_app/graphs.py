@@ -4,12 +4,12 @@
     This file contains NetworkX operations with graphs in order to calculate
     votes and the final graph.
 """
-from random import sample
+import copy
+
 import networkx as nx
 import numpy as np
-import matplotlib.pyplot as plt
 from flask import session
-import copy
+
 from metrominuto_app import globals
 
 

@@ -4,13 +4,12 @@
     This file contais the operations needed to convert NetworkX graph into
     SVG data.
 """
-from pprint import pprint
 import networkx as nx
-import svgwrite as svg
 import numpy as np
-from metrominuto_app.models import Graphs, Point, Color, Rect
+import svgwrite as svg
+
 from metrominuto_app import globals
-import os
+from metrominuto_app.models import Graphs, Point, Color, Rect
 
 
 def draw_metrominuto(graph_votes):

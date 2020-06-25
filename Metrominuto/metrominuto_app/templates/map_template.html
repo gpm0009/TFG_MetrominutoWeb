@@ -31,9 +31,10 @@
                     </div>
                     <div class="panel-body">
                         <ul>
-                            <li><p>Seleccione sobre el mapa los puntos que desee.</p></li>
-                            <li><p>Marque como centrales los que desee.</p></li>
-                            <li><p>Pulse sobre <b>Mostrar Mapa.</b></p></li>
+                            <li><p>Selecciona sobre el mapa los puntos que desees.</p></li>
+                            <li><p>Marcar como centrales significa dar prioridad a esos puntos.</p></li>
+                            <li><p>Elige el modo de desplazamiento: a pie o en bicicleta.</p></li>
+                            <li><p>Pulsa sobre <b>Generar mapa.</b></p></li>
                         </ul>
                     </div>
                 </div>
@@ -42,9 +43,9 @@
                 <table class="table table-sm table-hover">
                     <thead class="thead-light">
                     <tr>
-                        <th style="width: 20%" scope="col">Central Point</th>
-                        <th style="width: 20%" scope="col">Delete</th>
-                        <th style="width: 60%;text-align: left" scope="col">Location</th>
+                        <th style="width: 20%" scope="col">Punto central</th>
+                        <th style="width: 20%" scope="col">Borrar</th>
+                        <th style="width: 60%;text-align: left" scope="col">Dirección</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -87,14 +88,13 @@
 
             </div>
         </form>
-        <div class="col-lg-10 col-md-10" style="height: 900px">
+        <div id="divsvg" class="col-lg-10 col-md-10" style="display: none">
             <svg id="svgout" version="1.1" xmlns="http://www.w3.org/2000/svg" style="width: 100%;height: 100%;padding-top: 10px;margin-left: auto;margin-right: auto; visibility: hidden"></svg>
         </div>
     </div>
 {% endblock %}
 {% block scripts %}
     {{ super() }}
-{#    <script src="{{ url_for('static', filename='js/map.js') }}"></script>#}
     <script>
         $(document).ready(function boxes(){
             $(".alert").hide()
@@ -103,6 +103,9 @@
                 deleteMarkers();
             });
             $('#form-but').click(function() {
+                var svg_div = document.getElementById('divsvg');
+                svg_div.style.display = 'block';
+                svg_div.style.height = "900px";
                 var papers = Snap("#svgout");
                 papers.attr({viewBox:"0, 0.2, 1, 1.5"});
                 var text_size = []

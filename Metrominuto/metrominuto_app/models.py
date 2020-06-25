@@ -164,15 +164,11 @@ class Graphs:
         :type nodes: list.
         :param edges: List that contains edges and ther attributes.
         :type edges: list.
-        :param labels_nodes: List that contains node labels and their positions.
-        :type labels_nodes: list.
-        :param labels_edges: List that contains edge labels and their positions.
-        :type labels_edges: list.
+        :param labels: List that contains node and edge labels with their positions.
+        :type labels: list.
         """
         self.nodes = []
         self.edges = []
-        self.labels_nodes = []
-        self.labels_edges = []
         self.labels = []
 
     def add_nodes(self, node):
@@ -212,19 +208,6 @@ class Graphs:
         """
         self.edges.append(
             {'edge': [edge['edge'][0], edge['edge'][1]], 'color': edge['color'], 'pos': edge['pos'], 'duration': edge['duration']})
-
-    def add_labels(self, g_labels_nodes, g_labels_edges):
-        """
-        Method that adds labels the Graph.
-        :param g_labels_nodes: list with node's labels and positions.
-        :type g_labels_nodes: list.
-        :param g_labels_edges: list with edge's labels and positions.
-        :type g_labels_edges: list.
-        """
-        for label_node in g_labels_nodes:
-            self.labels_nodes.append(label_node)
-        for label_edge in g_labels_edges:
-            self.labels_edges.append(label_edge)
 
     def add_lab(self, color, texto, pos, edge, node, changed):
         if edge != 'None' and node == 'None':

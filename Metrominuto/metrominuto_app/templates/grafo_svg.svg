@@ -1,34 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <svg baseProfile="full" height="100%" version="1.1" viewBox="0 0.2 1 1.5" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs/>
-  <line fill="#ab6b49" id="line" stroke="#ab6b49" stroke-width="0.01" x1="0.6650141449416318" x2="0.9264224728421748" y1="0.7761779196721255" y2="0.7761779196721255"/>
-  <text fill="#ab6b49" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.7677183088919033" y="0.8011779196721255">7 mins</text>
-  <line fill="#31a84f" id="line" stroke="#31a84f" stroke-width="0.01" x1="0.6650141449416318" x2="0.3911779196721254" y1="0.7761779196721255" y2="0.8461779196721254"/>
-  <text fill="#31a84f" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.4939044456692931" y="0.7869567666254748">5 mins</text>
-  <line fill="#905996" id="line" stroke="#905996" stroke-width="0.01" x1="0.3911779196721254" x2="0.23955105670998256" y1="0.8461779196721254" y2="0.6361779196721254"/>
-  <text fill="#905996" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.3526332922248597" y="0.7265431807595523">9 mins</text>
-  <line fill="#8a5390" id="line" stroke="#8a5390" stroke-width="0.01" x1="0.3911779196721254" x2="0.0" y1="0.8461779196721254" y2="0.6361779196721254"/>
-  <text fill="#8a5390" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.17941375908977641" y="0.7191512512311339">8 mins</text>
-  <line fill="#e52b15" id="line" stroke="#e52b15" stroke-width="0.01" x1="0.0" x2="0.1808114015934698" y1="0.6361779196721254" y2="1.4"/>
-  <text fill="#e52b15" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="-0.006921976414429362" y="1.023847789709344">14 mins</text>
-  <line fill="#dc210e" id="line" stroke="#dc210e" stroke-width="0.01" x1="0.0" x2="0.7720633487850622" y1="0.6361779196721254" y2="0.42617791967212537"/>
-  <text fill="#dc210e" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.40959324243648293" y="0.5553014729925753">18 mins</text>
-  <line fill="#d41406" id="line" stroke="#d41406" stroke-width="0.01" x1="0.7720633487850622" x2="1.0" y1="0.42617791967212537" y2="1.1010209858719626"/>
-  <text fill="#d41406" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.7893462515603905" y="0.7715994993508278">14 mins</text>
-  <circle cx="0.6650141449416318" cy="0.7761779196721255" fill="black" id="node0" r="0.025" stroke="white" stroke-width="0.01"/>
-  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.6000141449416319" y="0.8201779196721255">Marcador0</text>
-  <circle cx="0.3911779196721254" cy="0.8461779196721254" fill="black" id="node1" r="0.025" stroke="white" stroke-width="0.01"/>
-  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.3261779196721254" y="0.8901779196721255">Marcador1</text>
-  <circle cx="0.23955105670998256" cy="0.6361779196721254" fill="black" id="node2" r="0.025" stroke="white" stroke-width="0.01"/>
-  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.06555105670998257" y="0.6296779196721255">Marcador2</text>
-  <circle cx="0.0" cy="0.6361779196721254" fill="black" id="node3" r="0.025" stroke="white" stroke-width="0.01"/>
-  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="-0.065" y="0.5791779196721254">Marcador3</text>
-  <circle cx="0.1808114015934698" cy="1.4" fill="black" id="node4" r="0.025" stroke="white" stroke-width="0.01"/>
-  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.11581140159346981" y="1.4439999999999997">Marcador4</text>
-  <circle cx="0.7720633487850622" cy="0.42617791967212537" fill="black" id="node5" r="0.025" stroke="white" stroke-width="0.01"/>
-  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.7070633487850622" y="0.3691779196721253">Marcador5</text>
-  <circle cx="0.9264224728421748" cy="0.7761779196721255" fill="black" id="node6" r="0.025" stroke="white" stroke-width="0.01"/>
-  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.9704224728421749" y="0.7696779196721255">Marcador6</text>
-  <circle cx="1.0" cy="1.1010209858719626" fill="black" id="node7" r="0.025" stroke="white" stroke-width="0.01"/>
-  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" stroke="none" x="0.935" y="1.1450209858719624">Marcador7</text>
+  <line class="static" fill="#3d9fe7" id="edge_0_2" stroke="#3d9fe7" stroke-width="0.01" x1="0.39467093751251303" x2="0.0" y1="0.4193648748692933" y2="0.9793648748692935"/>
+  <text fill="#3d9fe7" font-family="Arial" font-size="0.025" font-weight="bold" id="edge_label_0_2" stroke="none" x="0.10390056408998678" y="0.6849629766860513">12 mins</text>
+  <line class="static" fill="#e52b15" id="edge_0_3" stroke="#e52b15" stroke-width="0.01" x1="0.39467093751251303" x2="1.0" y1="0.4193648748692933" y2="0.7693648748692934"/>
+  <text fill="#e52b15" font-family="Arial" font-size="0.025" font-weight="bold" id="edge_label_0_3" stroke="none" x="0.6118217123294412" y="0.6160075618579817">17 mins</text>
+  <line class="static" fill="#905996" id="edge_1_2" stroke="#905996" stroke-width="0.01" x1="0.3143648748692933" x2="0.0" y1="1.3993648748692933" y2="0.9793648748692935"/>
+  <text fill="#905996" font-family="Arial" font-size="0.025" font-weight="bold" id="edge_label_1_2" stroke="none" x="0.19419695573854578" y="1.1743842521498304">10 mins</text>
+  <circle class="draggable" cx="0.39467093751251303" cy="0.4193648748692933" fill="black" id="node_0" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" id="node_label_0" stroke="none" x="0.29575825461943506" y="0.37236487486929326">Parque Dr. Vara</text>
+  <circle class="draggable" cx="0.3143648748692933" cy="1.3993648748692933" fill="black" id="node_1" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" id="node_label_1" stroke="none" x="0.19980008138091296" y="1.4463648748692932">Calle Luisa Rosado</text>
+  <circle class="draggable" cx="0.0" cy="0.9793648748692935" fill="black" id="node_2" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" id="node_label_2" stroke="none" x="-0.2761295869767607" y="0.9713648748692935">Calle Sta. Águeda</text>
+  <circle class="draggable" cx="1.0" cy="0.7693648748692934" fill="black" id="node_3" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" id="node_label_3" stroke="none" x="0.7915225300589629" y="0.8163648748692934">Calle Padre Diego Luis San Vítores</text>
 </svg>
