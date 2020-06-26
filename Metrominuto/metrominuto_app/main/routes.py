@@ -107,6 +107,8 @@ def draw_svg():
                                     'blue': cont_color.num_blue,
                                     'purple': cont_color.num_purple,
                                     'brown': cont_color.num_brown}
+        # set_svg = set(svg_list)
+        # li = list(set_svg)
     session['svg_graphs_dict'] = svg_dict
     session['svg_cont_colors'] = cont_colors_dict
     return render_template('show_graph.html', max=session['max_votes'] - 1, min=session['min_votes'], lista=svg_list, form=form, cont_colors_dict=cont_colors_dict)

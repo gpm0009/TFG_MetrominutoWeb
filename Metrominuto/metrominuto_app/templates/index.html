@@ -16,14 +16,38 @@
 {% block content %}
     {{ super() }}
     <div class="jumbotron text-center">
-        <div class="container">
-            <h1 class="display-4">TFG - Metrominuto</h1>
-            <p class="lead">
-                <span
-                        class="text-info"> Guillermo Paredes Muga</span>
-                <span class="text-muted">Tutores: <span
-                        class="text-info">Álvar Arnaiz González y César Ignacio García-Osorio</span></span>
-            </p>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-3 text-center" >
+
+                </div>
+            <div class="col-md-6 text-center" >
+                <h2>UNIVERSIDAD DE BURGOS</h2>
+                <h3>ESCUELA POLITÉCTICA SPERIOR</h3>
+                <h4>Grado en Ingeniería Informática</h4>
+            </div>
+
+            <div class="col-md-3 text-center" >
+            </div>
+            </div>
+        </div>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-1 text-center" >
+{#                        <img src="{{ url_for('static', filename='img/logo_negativo.svg') }}" style="max-width: 100%;height: 100px">#}
+                </div>
+                <div class="col-md-10 text-center" >
+                    <h1 class="display-4">TFG - MetrominutoWeb</h1>
+                    <p class="lead">
+                        <span class="text-info"> Guillermo Paredes Muga</span>
+                        <span class="text-muted">Tutores:
+                            <span class="text-info">Álvar Arnaiz González y César Ignacio García-Osorio</span>
+                        </span>
+                    </p>
+                </div>
+                <div class="col-md-1 text-center" >
+                </div>
+            </div>
         </div>
     </div>
 
@@ -31,18 +55,25 @@
         <form id="myform" action="{{url_for('main.index')}}" method="post">
                         {{ form.hidden_tag() }}
         </form>
-        <div class="row">
-            <div class="col-md-4">
-
+        <div class="row text-center">
+            <p>
+                Para comenzar a usar la aplicación, debe iniciar sesión. Para ello, pulsa en la parte superior derecha sobre el botón <b style="color:mediumblue;">Iniciar sesión</b>.
+            </p>
+        </div>
+        <div class="row text-center">
+            <div class="col-md-3">
                 <img src="{{ url_for('static', filename='img/flask-logo.png') }}" style="max-width: 100%;height: 80px">
-
             </div>
-            <div class="col-md-5">
-
-                <img src="{{ url_for('static', filename='img/cabecera.png') }}" style="max-width: 100%">
-
+            <div class="col-md-2">
+                <img src="{{ url_for('static', filename='img/github_logo.png') }}" style="max-width: 100%;height: 80px">
             </div>
             <div class="col-md-3">
+                <img src="{{ url_for('static', filename='img/lucidchart_logo.png') }}" style="max-width: 100%;height: 80px">
+            </div>
+            <div class="col-md-2">
+                <img src="{{ url_for('static', filename='img/microsoft-azure-cloud-logo.png') }}" style="max-width: 100%;height: 80px">
+            </div>
+            <div class="col-md-2">
                 <img src="{{ url_for('static', filename='img/pycharm_logo.png') }}" style="max-width: 100%;height: 80px">
 
             </div>
