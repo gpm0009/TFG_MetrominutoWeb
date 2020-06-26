@@ -15,6 +15,9 @@
             <div class="row float-right" style="padding-top: 5px">
                 <button id="export" type="button" class="btn btn-outline-success">Export</button>
             </div>
+            <div class="row float-right" style="padding-top: 5px">
+                <button id="refresh" type="button" class="btn btn-outline-danger">Recargar</button>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -257,6 +260,27 @@
                 triggerDownload(url, 'fileName.svg');
             }
             img1.src = url;
+        });
+
+        $("#refresh").on("click", function() {
+            bootbox.confirm({
+                message: "Perderá todos los cambios realizados, ¿estás seguro?",
+                buttons: {
+                    confirm: {
+                        label: 'Si',
+                        className: 'btn alert-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn alert-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result == true){
+                        location.reload();
+                    }
+                }
+            });
         });
     </script>
 {% endblock %}
