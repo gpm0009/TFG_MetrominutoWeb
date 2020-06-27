@@ -12,7 +12,7 @@
 En esta sección se explicarán las distintas técnicas utilizadas a lo largo del proyecto.
 
 \subsection{Scrum}
-Scrum es una metodología de desarrollo ágil la cual proporciona un marco de trabajo y desarrollo de productos. No es un solo proceso, si no que en esta metodología se aplican un conjunto de buenas prácticas y procesos para que el producto final sea de la mejor calidad posible.
+Scrum es una metodología de desarrollo ágil la cual proporciona un marco de trabajo y desarrollo de productos. No es un solo proceso, sino que en esta metodología se aplican un conjunto de buenas prácticas y procesos para que el producto final sea de la mejor calidad posible.
 El principal elemento del Scrum consiste en los llamados Sprints, que son ciclos de trabajo de una semana de duración. Este periodo sirve para producir un desarrollo o mejora del producto final. Estos sprints están marcados por dos reuniones:
 \begin{itemize}
 	\item Planificación: en ella se presentan los requisitos o avances que tiene que cumplir el proyecto, a la vez que se estiman los tiempos y se realiza la planificación.
@@ -39,7 +39,7 @@ Para el desarrollo del proyecto, se valoraron inicialmente dos editores:
 
 PyCharm es un IDE desarrollado por la empresa JetBrains para el lenguaje Python. Existen dos ediciones, \textit{Community} y \textit{Professional}. Gracias al programa For Students~\footnote{\url{https://www.jetbrains.com/student/}} de JetBrains se está usando la versión \textit{Professional} en el proyecto, aunque la versión \textit{Community} podría usarse también para el desarrollo del proyecto..
 
-Ofrece soporte para Flask de serie y soporte para desarrollo web mediante complementos, además de el control de estándares en el lenguaje (tanto código como comentarios), la repetición de fragmentos de código o sugerencias en el indexado del mismo.
+Ofrece soporte para Flask de serie y soporte para desarrollo web mediante complementos, además del control de estándares en el lenguaje (tanto código como comentarios), la repetición de fragmentos de código o sugerencias en el indexado del mismo.
 
 
 
@@ -55,18 +55,25 @@ Además, permite iniciar sesión con nuestro usuario de la Universidad y exporta
 
 \subsection{Adobe illustrator}
 \textit{Adobe illustrator}\footnote{\url{https://www.adobe.com/es/products/illustrator.html}} como editor de gráficos, en este caso, para la creación del logo de la aplicación web.
-\imagen{logo-negativo}{Logo Metrominuto.}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.5\textwidth, height=6cm]{logo-negativo}
+	\caption{Logo Metrominuto.}\label{fig:logo-negativo}
+\end{figure}
+\FloatBarrier
+
 
 \subsection{\TeX\hspace{0mm}studio}
 \TeX\hspace{0mm}studio es un editor de código abierto para crear documentos \LaTeX. Posee numerosas características para su desarrollo. Además, para su correcto funcionamiento es necesario instalar MiKTeK.
 
 \subsection{Google API -- Google Console}
 En este proyecto, para la selección de los distintos puntos a recorrer por parte del usuario he empleado los mapas de Google. Google proporciona una plataforma para los desarrolladores en la que se puede encontrar una gran cantidad de documentación\footnote{\url{https://cloud.google.com/maps-platform/}}.
-Para poder integrar en la aplicación web tanto los mapas como las diferentes funcionalidades que ofrecen debemos adquirir lo que llama API~Key\footnote{\url{https://developers-dot-devsite-v2-prod.appspot.com/maps/documentation/geocoding/get-api-key}}, la cual se trata de una clave <<privada>> para tener acceso a los servicios de su API. Para su obtención es necesario incluir tus datos bancarios, ya que durante el primer año el uso de los servicios es gratis y luego comienza a pagarse a partir de un determinado número de peticiones.
-Una vez obtenida la clave, puede restringirse su uso para ciertas direcciones o dominios, de modo que puedes mantener el control de quien la usa. Además, no vale con conseguir una clave y ya esta, si no que para usar los diferentes servicios que proporciona Google hay que activar diferentes APIs.
+Para poder integrar en la aplicación web tanto los mapas como las diferentes funcionalidades que ofrecen debemos adquirir lo que llama API~Key\footnote{\url{https://developers-dot-devsite-v2-prod.appspot.com/maps/documentation/geocoding/get-api-key}}, la cual se trata de una clave <<privada>> para tener acceso a los servicios de su API. Para su obtención es necesario incluir los datos bancarios, ya que durante el primer año el uso de los servicios es gratis y luego comienza a pagarse a partir de un determinado número de peticiones.
+Una vez obtenida la clave, puede restringirse su uso para ciertas direcciones o dominios, de modo que puedes mantener el control de quien la usa. Además, no vale con conseguir una clave y ya está, sino que para usar los diferentes servicios que proporciona Google hay que activar diferentes APIs.
 Las APIs que se usan en este proyecto son:
 \begin{itemize}
-	\item \textbf{Maps JavaScript API}: Se utiliza en el cliente, de manera que se muestra el mapa al cargar la página y permite realizar diferentes acciones en él; tales como buscar, seleccionar puntos o moverte a traves de él. Algunas de estas acciones implican el uso de algunas de funcionalidades que proporcionan las APIs explicadas a continuación.
+	\item \textbf{Maps JavaScript API}: Se utiliza en el cliente, de manera que se muestra el mapa al cargar la página y permite realizar diferentes acciones en él; tales como buscar, seleccionar puntos o moverte a través de él. Algunas de estas acciones implican el uso de algunas de funcionalidades que proporcionan las APIs explicadas a continuación.
 	\item \textbf{Geocoding API}: este API consta de dos elementos:
 	\begin{itemize}
 		\item Geocodificación: Consiste en convertir direcciones en coordenadas.
@@ -111,7 +118,7 @@ En este proyecto se han usado para el desarrollo del mismo los frameworks \namer
 
 
 \subsubsection{Flask}\label{sub:flask}
-Flask~\footnote{\url{https://flask.palletsprojects.com/en/1.1.x/}} es un \textit{framework} de Python que nos permite crear aplicaciones cliente -- servidor de una manera mas sencilla, y que no impone ninguna limitación respecto a estructura del proyecto ni a los componentes que usar durante el desarrollo~\cite{grinberg2014flask}, aunque cave destacar que en este proyecto se ha seguido la estructura planteada por \textit{Azure} para poder realizar el despliegue.
+Flask~\footnote{\url{https://flask.palletsprojects.com/en/1.1.x/}} es un \textit{framework} de Python que nos permite crear aplicaciones cliente--servidor de una manera más sencilla, y que no impone ninguna limitación respecto a estructura del proyecto, ni a los componentes que usar durante el desarrollo~\cite{grinberg2014flask}, aunque cabe destacar que en este proyecto se ha seguido la estructura planteada por \textit{Azure} para poder realizar el despliegue.
 
 \subsubsection{Jinja2}\label{sub:jinja}
 Para que \textit{Flask} pueda hacer uso de los contenidos \textit{HTML} requiere de la utilización de este motor de plantillas, \textit{Jinja2}~\footnote{\url{https://jinja.palletsprojects.com/en/2.11.x/}}, que consiste en un lenguaje de que permite insertar datos procesados y texto predeterminado en una página \textit{HTML} mediante las etiquetas \verb|{{variable}}| ó \verb|{% expresión %}|.
@@ -119,7 +126,7 @@ Para que \textit{Flask} pueda hacer uso de los contenidos \textit{HTML} requiere
 
 \subsubsection{Vue.js}\label{sub:vue}
 \textit{Vue}~\footnote{\url{https://vuejs.org/}} es un framework progresivo utilizado para construir interfaces de usuario. Está enfocado únicamente a la capa de visualización, por lo que resulta sencillo integrarlo con otras librerías o incluso en proyectos ya existentes, como es este caso.
-Vue ofrece la posibilidad de instalar el cliente mediante \textit{Node.js}\footnote{\url{https://es.vuejs.org/v2/guide/installation.html}}, aunque también permite integrarlo directamente en la capa de visualización incluyendo en los templates del proyecto el \textit{cdn}:
+Vue ofrece la posibilidad de instalar el cliente mediante \textit{Node.js}\footnote{\url{https://es.vuejs.org/v2/guide/installation.html}}, aunque también permite integrarlo directamente en la capa de visualización incluyendo en los templates del proyecto el \textit{CDN}:
 
 \renewcommand{\lstlistingname}{Vue.js cdn}% Listing -> Algorithm
 \renewcommand{\lstlistlistingname}{List of \lstlistingname s}
@@ -136,7 +143,7 @@ src="https://cdn.jsdelivr.net/npm/vue"
 \end{lstlisting}
 La versión de desarrollo ofrece distintas alertas o advertencias que permiten realizar diferentes trazas a la hora de localizar posibles errores, mientras que la versión de producción está optimizada en cuanto a tamaño y velocidad.
 \\
-Para poder utilizar \textit{Vue} en nuestros templates, además de incluir el \textit{cdn} debemos crear un componente\footnote{\url{https://vuejs.org/v2/guide/components.html}}, al que le añadiremos una variable. Esto se debe a que realmente la estructura y el nombre de los elementos de Vue es algo diferente a los que ya conocemos de \textit{HTML5}. También es importante tener en cuenta que Vue utiliza los mismos delimitadores que \textit{Flask}: \verb|{{variable}}|. Es por esto por lo que a nuestro componente o variable debemos añadir la línea \verb|delimiters:['[[',']]']| para cambiarlos.
+Para poder utilizar \textit{Vue} en nuestros templates, además de incluir el \textit{CDN} debemos crear un componente\footnote{\url{https://vuejs.org/v2/guide/components.html}}, al que le añadiremos una variable. Esto se debe a que realmente la estructura y el nombre de los elementos de Vue es algo diferente a los que ya conocemos de \textit{HTML5}. También es importante tener en cuenta que Vue utiliza los mismos delimitadores que \textit{Flask}: \verb|{{variable}}|. Es por esto por lo que a nuestro componente o variable debemos añadir la línea \verb|delimiters:['[[',']]']| para cambiarlos.
 
 
 \section{Bibliotecas}
@@ -154,7 +161,7 @@ En este apartado se explicarán brevemente las bibliotecas utilizadas para en el
 	\item Estructuras de datos para grafos simples, grafos dirigidos y multigrafos.
 	\item Contiene la gran parte de algoritmos utilizados para el estudio y modificación de grafos.
 	\item Los nodos pueden ser <<cualquier cosa>> como por ejemplo texto, imágenes o números.
-	\item Los arcos pueden tener diferentes atributos o datos, como el peso, distancia\dots
+	\item Los arcos pueden tener diferentes atributos o datos, como el peso, distancia...
 	\item Es de código abierto.
 \end{itemize}
 
@@ -165,7 +172,7 @@ Esta biblioteca permite dibujar mapas muy similares a los mapas que hoy podemos 
 Se intentó implementar en el proyecto durante dos Sprints, pero se llegó a la conclusión que no se podía generar la estructura necesaria en el archivo JSON para el dibujado del mapa. Esta estructura debía contener coordenadas con números enteros y estar ordenadas de tal forma que se indicasen las esquinas y cruces que debía haber entre las diferentes líneas, o en este caso, recorridos.
 
 \subsection{SVGWRITE}\label{sub:svgwrite}
-\textit{SVGWRITE}~\cite{doc:svgwritedocs}, como su propio nombre sugiere, sirve para la creación y dibujado de gráficos vectoriales escalables. Su principal inconveniente es que no permite leer o modificar un archivo ya existe, es decir, sólo permite su creación desde cero.
+\textit{SVGWRITE}~\cite{doc:svgwritedocs}, como su propio nombre sugiere, sirve para la creación y dibujado de gráficos vectoriales escalables. Su principal inconveniente es que no permite leer o modificar un archivo ya existente, es decir, sólo permite su creación desde cero.
 
 \subsection{Snap.svg}\label{sub:snap}
 \textit{Snap.svg}~\cite{doc:snapsvg} es una biblioteca JavaScript que permite crear gráficos vectoriales interactivos y fácilmente manipulables en el lado del cliente. Su uso es similar al uso de jQuery.
@@ -179,9 +186,9 @@ Como herramienta para realizar la documentación se ha escogido \LaTeX{}~\cite{w
 
 
 \section{Despliegue}
-La idea de plantear el proyecto como una aplicación web sugiere que ésta tiene que ser fácilmente accesible por lo usuarios, cosa que no es cierta si para poder usarla tienen que descargarse el código, configurar el proyecto y ejecutarlo en su propio dispositivo. Por esta razón, valoré desplegar la aplicación en Azure~\footnote{\url{https://azure.microsoft.com}}.
+La idea de plantear el proyecto como una aplicación web sugiere que ésta tiene que ser fácilmente accesible por lo usuarios, cosa que no es cierta si para poder usarla tienen que descargarse el código, configurar el proyecto y ejecutarlo en su propio dispositivo. Por esta razón, valoré desplegar la aplicación en Azure\footnote{\url{https://azure.microsoft.com}}.
 
-Elegí esta plataforma por que con el correo de la Universidad podemos tener acceso a un plan de estudiantes, llamado \textit{Azure for Students}~\footnote{\url{https://azure.microsoft.com/es-es/free/students/}}, que permite, además de acceso a diversos tutoriales sobre computación en la nube, desplegar nuestra aplicación de manera gratuita, aunque por supuesto también tiene varios planes de pago.
+Elegí esta plataforma por que con el correo de la Universidad podemos tener acceso a un plan de estudiantes, llamado \textit{Azure for Students}\footnote{\url{https://azure.microsoft.com/es-es/free/students/}}, que permite, además de acceso a diversos tutoriales sobre computación en la nube, desplegar nuestra aplicación de manera gratuita, aunque por supuesto también tiene varios planes de pago.
 
 
 Link de la aplicación: \url{http://tfgmetrominuto.azurewebsites.net/}.

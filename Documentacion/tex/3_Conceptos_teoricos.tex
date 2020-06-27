@@ -21,7 +21,7 @@ Realizó varias versiones antes de llegar a la que conocemos hoy en día, como p
 El concepto de Metrominuto surgió como resultado de diversas ideas sobre movilidad en la ciudad de Pontevedra. Este concepto hace referencia a un mapa sináptico, como si de un mapa de metro se tratase, que representa las distancias y los tiempos existentes entre los diferentes puntos de una ciudad.
 \imagen{MetrominutoPontevedra}{Metrominuto de Pontevedra}
 
-Metrominuto no solo ofrece información de cara a la gente que quiere visitar la ciudad, si no que también fomenta caminar como medio de transporte en una ciudad, donde de una manera sencilla y curiosa nos muestra cómo llegar de un sitio a otro. Caminar, como ya sabemos, es la mejor solución para evitar el gran flujo de automóviles en el área urbana, y lo que ello conlleva: una constante emisión de elementos contaminantes.\\
+Metrominuto no solo ofrece información de cara a la gente que quiere visitar la ciudad, sino que también fomenta caminar como medio de transporte en una ciudad, donde de una manera sencilla y curiosa nos muestra como llegar de un sitio a otro. Caminar, como ya sabemos, es la mejor solución para evitar el gran flujo de automóviles en el área urbana, y lo que ello conlleva: una constante emisión de elementos contaminantes.\\
 
 
 En los orígenes de este sistema de movilidad se encuentra el estudio, por medio de la técnica DAFO (Debilidades, Amenazas, Fortalezas, Oportunidades):
@@ -32,27 +32,27 @@ En los orígenes de este sistema de movilidad se encuentra el estudio, por medio
 	\item[Fortalezas:] Cuidado del medio ambiente, mayor salud y al reducir los desplazamientos en automóvil se produce como resultado una mayor seguridad en los pocos que haya.
 	\item[Oportunidades:] Mejorar la ciudad, bienestar.
 \end{description}
-Estos planos no solo nos incitan a caminar, si no que también incluyen información útil acerca de líneas de autobús, estaciones de ferrocarril o de metro.
+Estos planos no solo nos incitan a caminar, sino que también incluyen información útil acerca de líneas de autobús, estaciones de ferrocarril o de metro.
 
 \subsection{Proceso de elaboración}
 Los pasos a seguir para crear un \textit{Metrominuto} de forma manual son los siguientes:
 
 \begin{steps}
 	\item Consiste en la selección, dentro de una ciudad, de los puntos que se quieren representar en el mapa. Estos puntos pueden elegirse en función de su importancia, interés turístico o de los ciudadanos.
-	\item Decidir qué ruta peatonal es la mas adecuada para unirlos.
+	\item Decidir qué ruta peatonal es la más adecuada para unirlos.
 	\item Considerar cómo se va a dibujar el mapa. Puede ser más o menos preciso respecto a la realidad cartográfica.
 	\item Situar un punto central que sirva como punto de origen y de orientación para todos los usuarios.
 	\item Realizar por medio de herramientas de mapas, como Google Maps en nuestro caso o los mapas de Bing, el cálculo de las distancias entre los diferentes puntos.
 	\item Establecer una relación entre las distancias con el tiempo medio que lleva recorrerlas. Tenemos que tener en cuenta que toda la población no camina al mismo ritmo.
 	\item Una vez establecidas las diferentes rutas, hacer un estudio sobre ellas para corregir errores que puedan surgir, así como la variación en el tiempo si el terreno no es uniforme o si las condiciones de tráfico y semáforos varía.
 	\item Reflejar accidentes naturales o elementos de la ciudad como parques, costa, ríos\dots A través de elementos muy sencillos y con un código de colores al que estamos acostumbrados.
-	\item Reflejar aspectos de la movilidad intermodal, es decir elementos como estaciones de metro, autobús, tren, etc. 
+	\item Reflejar aspectos de la movilidad intermodal, es decir, elementos como estaciones de metro, autobús, tren, etc. 
 	\item Advertir de los espacios con condiciones adversas para personas con problemas de movilidad.
 	\item Simplicidad, claridad y facilidad de lectura a la hora de dibujar el mapa.
 	\item No sólo mostrar conexiones con el punto central establecido como referencia, sino que también debe aparecer información sobre la interconexión entre los diferentes puntos.
 \end{steps}
 
-El objetivo de este proyecto es automatizar este proceso recogido en el documento publicado por el Concello de Pontevedra~\cite{metrominuto}, ya que actualmente los Metrominutos existentes se realizan de esta forma totalmente manual. Con el proceso automatizado sería el mismo usuario quien realice su propio Metrominuto con los puntos de interés personalizados que él decida. Evitando que aparezcan puntos o información que no le resulta interesante.
+El objetivo de este proyecto es automatizar este proceso, recogido en el documento publicado por el Concello de Pontevedra~\cite{metrominuto}, ya que actualmente los Metrominutos existentes se realizan de esta forma totalmente manual. Con el proceso automatizado sería el mismo usuario quien realice su propio Metrominuto con los puntos de interés personalizados que él decida. Evitando que aparezcan puntos o información que no le resulta interesante.
 
 
 \section{Teoría de grafos}
@@ -85,7 +85,7 @@ Permite tres tipos de elementos:
 	\item Texto.
 \end{enumerate}
 
-Las ventajas que presenta SVG son que a estos elementos se les pueden aplicar diferentes estilos, agrupar o transformar bien sea antes de la compilación o dinámicamente. 
+Las ventajas que presenta SVG son que a estos elementos se les pueden aplicar diferentes estilos, agrupar o transformar, bien sea antes de la compilación o dinámicamente. 
 
 
 Este formato de representación gráfica será el elegido para el dibujado de los mapas sinópticos, ya que con librerías como \nameref{sub:svgwrite} y \nameref{sub:snap} podemos manipular los distintos elementos.
