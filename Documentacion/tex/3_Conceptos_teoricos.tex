@@ -1,6 +1,6 @@
 \capitulo{3}{Conceptos teóricos}
 
-Aquí se explican los conceptos teóricos en los que se basa el proyecto. Aborda diferentes aspectos sobre la teoría de grafos y cómo dibujarlos.
+Aquí se explican los conceptos teóricos en los que se basa el proyecto. Aborda diferentes aspectos, desde los mapas sinópticos de tránsito a la teoría de grafos, así como su dibujado.
 
 \section{Mapa de tránsito}
 Un mapa de tránsito consiste en un mapa topológico y esquemático utilizado para mostrar trayectos y estaciones en el ámbito urbano, como puede ser el metro o el autobús. Los elementos principales de este tipo de mapas son:
@@ -14,15 +14,16 @@ Como aplicación para este proyecto, las estaciones o paradas del mapa correspon
 \subsection{Harry Beck}
 Harry Beck fue un ingeniero electrónico del metro de Londres que trabajaba diseñando diagramas del circuito eléctrico, y que comenzó a diseñar un nuevo mapa de las líneas y estaciones de metro de su ciudad. El objetivo de la solución estaba claro: tenía que ser sencillo de leer para el público y que este pudiese reconocer claramente las distintas estaciones, salidas y traslados.
 Realizó varias versiones antes de llegar a la que conocemos hoy en día, como por ejemplo las que podemos observar en las imágenes \ref{fig:MetroLondres1928} y \ref{fig:MetroLondres1933}.
-\imagen{MetroLondres1928.png}{Mapa del metro de Londres de 1928.}\label{fig:MetroLondres1928}
-\imagen{MetroLondres1933.png}{Mapa del metro de Londres de 1933.}\label{fig:MetroLondres1933}
+\imagen{MetroLondres1928}{Mapa del metro de Londres de 1928.}
+\imagen{MetroLondres1933}{Mapa del metro de Londres de 1933.}
 
 \section{Metrominuto}
-El concepto de Metrominuto surgió como resultado de diversas ideas sobre movilidad en la ciudad de Pontevedra. Este concepto hace referencia a un mapa sináptico, como si de un mapa de metro se tratase, que representa las distancias y los tiempos existentes entre los diferentes puntos de una ciudad. 
-//Algún gráfico sobre movilidad urbana, medios de transporte....?
+El concepto de Metrominuto surgió como resultado de diversas ideas sobre movilidad en la ciudad de Pontevedra. Este concepto hace referencia a un mapa sináptico, como si de un mapa de metro se tratase, que representa las distancias y los tiempos existentes entre los diferentes puntos de una ciudad.
 \imagen{MetrominutoPontevedra}{Metrominuto de Pontevedra}
 
-Metrominuto no solo ofrece información de cara a la gente que quiere visitar la ciudad, si no que también fomenta caminar como medio de transporte en una ciudad, donde de una manera sencilla y curiosa nos muestra cómo llegar de un sitio a otro. Caminar, como ya sabemos, es la mejor solución para evitar el gran flujo de automóviles en el área urbana, y lo que ello conlleva: una constante emisión de elementos contaminantes. \\
+Metrominuto no solo ofrece información de cara a la gente que quiere visitar la ciudad, si no que también fomenta caminar como medio de transporte en una ciudad, donde de una manera sencilla y curiosa nos muestra cómo llegar de un sitio a otro. Caminar, como ya sabemos, es la mejor solución para evitar el gran flujo de automóviles en el área urbana, y lo que ello conlleva: una constante emisión de elementos contaminantes.\\
+
+
 En los orígenes de este sistema de movilidad se encuentra el estudio, por medio de la técnica DAFO (Debilidades, Amenazas, Fortalezas, Oportunidades):
 
 \begin{description}
@@ -51,7 +52,7 @@ Los pasos a seguir para crear un \textit{Metrominuto} de forma manual son los si
 	\item No sólo mostrar conexiones con el punto central establecido como referencia, sino que también debe aparecer información sobre la interconexión entre los diferentes puntos.
 \end{steps}
 
-El objetivo de este proyecto es automatizar este proceso recogido en el documento publicado por el Concello de Pontevedra~\cite{metrominuto}, ya que actualmente los Metrominutos existentes se realizan de esta forma. Con el proceso automatizado sería el mismo usuario quien realice su propio Metrominuto con los puntos de interés personalizados que él decida. Evitando que aparezcan puntos o información que no le resulta interesante.
+El objetivo de este proyecto es automatizar este proceso recogido en el documento publicado por el Concello de Pontevedra~\cite{metrominuto}, ya que actualmente los Metrominutos existentes se realizan de esta forma totalmente manual. Con el proceso automatizado sería el mismo usuario quien realice su propio Metrominuto con los puntos de interés personalizados que él decida. Evitando que aparezcan puntos o información que no le resulta interesante.
 
 
 \section{Teoría de grafos}
@@ -59,8 +60,20 @@ Es aquella rama de las matemáticas que, junto con la ciencia de computación se
 Existen varios tipos de grafos, pero en ese proyecto se han usado grafos no dirigidos para realizar las distintas operaciones con los nodos, es decir, los nodos corresponden con los puntos o lugares que selecciona el usuario y los arcos hacen referencia a la distancia existente entre ellos~\cite{wiki:tgrafos}. 
 
 \subsection{Uso de grafos}
-En este proyecto el resultado final es un mapa sinóptico formado por puntos o lugares (nodos) y el <<camino>> o distancia entre ellos (arcos), y para su generación es necesario realizar una serie de operaciones. 
-//explicar proceso de elaboración o explicarlo en aspectos relevantes?
+El resultado final de este proyecto es un mapa sinóptico formado por lugares y el <<camino>> o distancia entre ellos.\\
+
+
+Dicho mapa se genera tras realizar varias operaciones (listadas a continuación) con grafos, donde los nodos serán los lugares previamente seleccionados y los arcos los trayectos que unen dichos lugares.
+
+\begin{steps}
+	\item Calcular las distancias de todos con todos.
+	\item Eliminar un nodo de la lista.
+	\item Minimum spanning tree~\cite{wiki:minimum-spanning-tree} del grafo obtenido en el paso 2.
+	\item Sumar un voto a cada arco resultante.
+	\item Repetir pasos 2, 3 y 4 hasta que se haya eliminado cada nodo del grafo una única vez.
+\end{steps}
+
+Este proceso se detalla en la sección de aspectos relevantes del proyecto (ver \nameref{sub:grafos-aspectos-relevantes}).
 
 
 \section{Scalable Vector Graphics (SVG)}
@@ -73,4 +86,8 @@ Permite tres tipos de elementos:
 \end{enumerate}
 
 Las ventajas que presenta SVG son que a estos elementos se les pueden aplicar diferentes estilos, agrupar o transformar bien sea antes de la compilación o dinámicamente. 
+
+
+Este formato de representación gráfica será el elegido para el dibujado de los mapas sinópticos, ya que con librerías como \nameref{sub:svgwrite} y \nameref{sub:snap} podemos manipular los distintos elementos.
+
 

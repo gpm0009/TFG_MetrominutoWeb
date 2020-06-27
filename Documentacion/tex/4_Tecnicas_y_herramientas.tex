@@ -9,7 +9,7 @@
 
 
 \section{Técnicas}
-En esta sección se explicarán las distintas herramientas utilizadas a lo largo del proyecto.
+En esta sección se explicarán las distintas técnicas utilizadas a lo largo del proyecto.
 
 \subsection{Scrum}
 Scrum es una metodología de desarrollo ágil la cual proporciona un marco de trabajo y desarrollo de productos. No es un solo proceso, si no que en esta metodología se aplican un conjunto de buenas prácticas y procesos para que el producto final sea de la mejor calidad posible.
@@ -24,10 +24,10 @@ Es una metodología pensada para el trabajo en equipo, por lo que en este proyec
 
 
 \section{Herramientas}\label{herramientas}
-
+En esta sección se explicarán las herramientas utilizadas en el desarrollo del proyecto.
 
 \subsection{Estándar Python Enhancement Proposal 8 -- PEP8}
-En este proyecto se ha seguido la guía de estilo \textit{PEP8}, guía única que define cómo debería estar escrito el código \textit{Python} y la forma de nombrar variables, funciones, clases o los comentarios del mismo.
+En este proyecto se ha seguido la guía de estilo \textit{PEP8}~\footnote{\url{https://www.python.org/dev/peps/pep-0008/}}, guía única que define cómo debería estar escrito el código \textit{Python} y la forma de nombrar variables, funciones, clases o los comentarios del mismo.
 
 
 \subsection{Entorno de desarrollo Integrado (IDE)}
@@ -57,8 +57,8 @@ Además, permite iniciar sesión con nuestro usuario de la Universidad y exporta
 \textit{Adobe illustrator}\footnote{\url{https://www.adobe.com/es/products/illustrator.html}} como editor de gráficos, en este caso, para la creación del logo de la aplicación web.
 \imagen{logo-negativo}{Logo Metrominuto.}
 
-\subsection{TeXstudio}
-TeXstudio es un editor de código abierto para crear documentos \LaTeX. Posee numerosas características para su desarrollo. Además, para su correcto funcionamiento es necesario instalar MiKTeK.
+\subsection{\TeX\hspace{0mm}studio}
+\TeX\hspace{0mm}studio es un editor de código abierto para crear documentos \LaTeX. Posee numerosas características para su desarrollo. Además, para su correcto funcionamiento es necesario instalar MiKTeK.
 
 \subsection{Google API -- Google Console}
 En este proyecto, para la selección de los distintos puntos a recorrer por parte del usuario he empleado los mapas de Google. Google proporciona una plataforma para los desarrolladores en la que se puede encontrar una gran cantidad de documentación\footnote{\url{https://cloud.google.com/maps-platform/}}.
@@ -81,18 +81,24 @@ Las APIs que se usan en este proyecto son:
 Firebase~\footnote{\url{https://firebase.google.com/}} es una plataforma móvil creada por Google para el desarrollo de aplicaciones, disponible para IOS, Android y web. Su función principal es facilitar la creación de aplicaciones de elevada calidad de una más rápida, permitiendo añadir una base de usuarios que mejore la rentabilidad económica, además de la posibilidad de añadir funciones de estadísticas, bases de datos o mensajería.
 
 
-Además, cuenta con varios planes para adecuar el precio con las funcionalidades que queremos incluir. En este proyecto he incluido sólo el servicio de autenticación, que forma parte del \textit{Plan Spark}~\footnote{\url{https://firebase.google.com/pricing}}, el cual es gratuito e incluye, entre otros, los servicios que vemos en la figura \ref{fig:firebase-price}.
+Además, cuenta con varios planes para adecuar el precio con las funcionalidades que queramos incluir. En este proyecto he incluido sólo el servicio de autenticación, que forma parte del \textit{Plan Spark}~\footnote{\url{https://firebase.google.com/pricing}}, el cual es gratuito e incluye, entre otros, los servicios que vemos en la figura \ref{fig:firebase-price}.
 \imagen{firebase-price}{Planes de Firebase.}
 
 
 
 \subsubsection{FirebaseUI (User Interface) for Web -- Firebase Auth}
-\textit{FirebaseUI}, desarrollado sobre \textit{Firebase Auth}~\footnote{\url{https://firebase.google.com/docs/auth}} es una librería de código abierto para la web que proporciona componentes simples y personalizables además de los \textit{software development kit} o SDKs, que permiten la eliminación de código repetitivo.
+\textit{FirebaseUI}, desarrollado sobre \textit{Firebase Auth}~\footnote{\url{https://firebase.google.com/docs/auth}} es una librería de código abierto para la web que proporciona componentes simples y personalizables además de los \textit{software development kit} o SDKs, que permiten la eliminación de código repetido.
 
 
-Proporciona soluciones de autenticación integrada de manera que con unas pocas líneas de código podemos iniciar sesión con direcciones de correo electrónico y contraseñas, números de teléfono o proveedores como Google, Facebook, GitHub, Twitter, Apple, Microsoft, Yahoo $\dots$. Además, también nos proporciona la posibilidad de registrarse en nuestra aplicación o casos de recuperación de contraseñas. en la figura \ref{fig:firebaseui} podemos apreciar cuál sería el resultado de incluirlo en nuestra aplicación.
-\imagen{firebaseui}{Inicio de sesión.}
-Como mencionaba arriba, estas funcionalidades que conllevan muy pocas líneas, dotan a nuestra aplicación de seguridad y nos permite tener un control absoluto sobre que usuarios acceden a ella~\ref{fig:firebase-users}.
+Proporciona soluciones de autenticación integrada de manera que con unas pocas líneas de código podemos iniciar sesión con direcciones de correo electrónico y contraseñas, números de teléfono o proveedores como Google, Facebook, GitHub, Twitter, Apple, Microsoft, Yahoo $\dots$ Además, también nos proporciona la posibilidad de registrarse en nuestra aplicación o casos de recuperación de contraseñas. en la figura \ref{fig:firebaseui} podemos apreciar cuál sería el resultado de incluirlo en nuestra aplicación.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.6\textwidth, height=11cm]{firebaseui}
+	\caption{Inicio de sesión.}\label{fig:firebaseui}
+\end{figure}
+\FloatBarrier
+
+Como mencionaba arriba, estas funcionalidades que conllevan muy pocas líneas, dotan a nuestra aplicación de seguridad y nos permite tener un control absoluto sobre qué usuarios acceden a ella, como se ve en la figura~\ref{fig:firebase-users}.
 \imagen{firebase-users}{Control de usuarios.}
 
 
@@ -134,14 +140,16 @@ Para poder utilizar \textit{Vue} en nuestros templates, además de incluir el \t
 
 
 \section{Bibliotecas}
+En este apartado se explicarán brevemente las bibliotecas utilizadas para en el desarrollo.
 
 \subsection{JQuery}
 \textit{JQuery}~\cite{doc:jquery} es una biblioteca JavaScript que hace que la manipulación de documentos HTML, el manejo de eventos y las peticiones Ajax sean más sencillas de usar y manipular. Además, una de sus ventajas principales es que funciona en prácticamente todos los navegadores web.
 
-\subsection{Networkx}
+\subsection{NetworkX}\label{sub:networkx}
 \textit{NetworkX} es la biblioteca por excelencia de Python para trabajar con grafos y redes. Permite crear, manipular y estudiar su estructura.
 \\
-Características:
+
+\noindent Características:
 \begin{itemize}
 	\item Estructuras de datos para grafos simples, grafos dirigidos y multigrafos.
 	\item Contiene la gran parte de algoritmos utilizados para el estudio y modificación de grafos.
@@ -156,18 +164,18 @@ Esta biblioteca permite dibujar mapas muy similares a los mapas que hoy podemos 
 \\
 Se intentó implementar en el proyecto durante dos Sprints, pero se llegó a la conclusión que no se podía generar la estructura necesaria en el archivo JSON para el dibujado del mapa. Esta estructura debía contener coordenadas con números enteros y estar ordenadas de tal forma que se indicasen las esquinas y cruces que debía haber entre las diferentes líneas, o en este caso, recorridos.
 
-\subsection{SVGWRITE}
+\subsection{SVGWRITE}\label{sub:svgwrite}
 \textit{SVGWRITE}~\cite{doc:svgwritedocs}, como su propio nombre sugiere, sirve para la creación y dibujado de gráficos vectoriales escalables. Su principal inconveniente es que no permite leer o modificar un archivo ya existe, es decir, sólo permite su creación desde cero.
 
-\subsection{Snap.svg}
+\subsection{Snap.svg}\label{sub:snap}
 \textit{Snap.svg}~\cite{doc:snapsvg} es una biblioteca JavaScript que permite crear gráficos vectoriales interactivos y fácilmente manipulables en el lado del cliente. Su uso es similar al uso de jQuery.
 
 
 \subsection{\LaTeX}
 Como herramienta para realizar la documentación se ha escogido \LaTeX{}~\cite{wiki:latex}, lenguaje orientado a la creación de documentos que presenten una alta calidad tipográfica.
 
-\subsubsection{MiKTeK}
-\textit{MiKTeK} es una distribución libre de \LaTeX que incluye tipografías compiladores y herramientas para generar bibliografías e índices.
+\subsubsection{MiK\TeX}
+\textit{MiK\TeX} es una distribución libre de \LaTeX{} que incluye tipografías compiladores y herramientas para generar bibliografías e índices.
 
 
 \section{Despliegue}

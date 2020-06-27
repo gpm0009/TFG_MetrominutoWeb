@@ -5,18 +5,29 @@ A continuación, se detallan los diferentes objetivos que han motivado la realiz
 \subsection{Objetivos principales}
 
 \begin{itemize}
-	\item Desarrollar una aplicación web en la que los diferentes usuarios puedan seleccionar diversos puntos en un mapa (ciudad) con el fin de visualizar al mismo tiempo las opciones existentes para llegar a los distintos puntos seleccionados.
-	\item Creación automatizada de \textit{metrominutos}.
-	\item Generar un grafo de nodos a partir de los puntos seleccionados en el mapa.
-	\item Visualizar los puntos seleccionados: información acerca de la ubicación, marcador en el mapa.
-	\item Permitir al usuario añadir y eliminar líneas (conexiones) entre puntos.
-	\item Permitir al usuario interaccionar con el mapa.
+	\item \textbf{Generar Metrominutos de manera automática.}
+	\begin{itemize}
+		\item Generar un grafo de nodos a partir de los puntos seleccionados.
+		\item Manipulación de los grafos para calcular distancias y posiciones.
+	\end{itemize}
+
+	\item \textbf{Desarrollar una aplicación web para la generación y edición de Metrominutos.}
+	\begin{itemize}
+		\item Desarrollar una aplicación web en la que los diferentes usuarios puedan seleccionar diversos puntos en un mapa (ciudad) con el fin de visualizar al mismo tiempo las opciones existentes para llegar a los distintos puntos seleccionados.
+		\item Visualizar los puntos con el API de Maps de Google~\cite{doc:google-api-js}.
+		\item Visualizar los puntos seleccionados: información acerca de la ubicación, marcador en el mapa.
+		\item Permitir al usuario añadir y eliminar líneas (conexiones) entre puntos.
+		\item Permitir al usuario interaccionar con el mapa.
+	\end{itemize}
 \end{itemize}
 
+
+
 \subsection{Objetivos técnicos}
+
 \begin{itemize}
-	\item Desarrollar una aplicación cliente servidor en Python utilizando Flask.
-	\item Hacer uso del API de Google para obtener la localización de puntos de interés sobre sus mapas y para obtener datos sobre las distancias entre ellos.
+	\item Desarrollar una aplicación cliente--servidor en Python utilizando Flask.
+	\item Hacer uso de las APIs de Google para obtener la localización de puntos de interés sobre sus mapas y para obtener datos sobre las distancias entre ellos.
 	\item Hacer uso de Git como sistema de control de versiones del proyecto.
 	\item Aplicar la teoría de grafos.
 \end{itemize}
@@ -24,4 +35,5 @@ A continuación, se detallan los diferentes objetivos que han motivado la realiz
 \begin{itemize}
 	\item Realizar una aportación al turismo derivada de una necesidad personal.
 	\item Poner en práctica los conocimientos adquiridos durante el Grado para el correcto desarrollo de este trabajo.
+	\item Adquirir nuevos conocimientos acerca del uso de APIs y servicios web proporcionados por plataformas Cloud como Azure o Google.
 \end{itemize}

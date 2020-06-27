@@ -11,7 +11,7 @@ Esto me llevó a conocer nuevas culturas pero también a conocer nuevas ciudades
 
 Para poder realizar el proyecto se necesitaban unos conocimientos no adquiridos sobre desarrollo web, tanto de la parte de servidor en Flask como la parte del cliente en HTML, CSS y JavaScript. Además de para aprendizaje, los recursos se han usado también como material de consulta durante el desarrollo.
 
-Para la parte del servidor se siguieron los libros y tutoriales:
+Para la parte del servidor se siguieron los siguientes libros y tutoriales:
 \begin{itemize}
 	\item Flask Web Development~\cite{grinberg2014flask}.
 	\item The Flask Mega-Tutorial (2017)~\cite{grinberg-mega}.
@@ -27,13 +27,39 @@ oficial también ha sido consultada en varias ocasiones, están disponibles en:
 	\item Documentación de Flask~\cite{doc:flask}.
 	\item Documentación de Bootstrap~\cite{doc:bootstrap}.
 	\item Documentación de NetworkX~\cite{SciPyProceedings_11}.
-	\item Tutorial FirebaseUI \url{https://github.com/firebase/FirebaseUi-Web#installation}.
+	\item Tutorial FirebaseUI~\footnote{\url{https://github.com/firebase/FirebaseUi-Web\#installation}}.
 \end{itemize}
 
-\subsection{Dibujado de grafos}
+
+\subsection{Calculo de grafos}\label{sub:grafos-aspectos-relevantes}
+Para calcular el mapa sinóptico se han empleado grafos, junto con la librería~\nameref{sub:networkx} para realizar las operaciones que se explican a continuación:
+
+\begin{steps}
+	\item Calcular las distancias de todos con todos, grafo no dirigido al que llamaremos $\alpha$: añadir un arco entre cada par de nodos del grafo, asignando a cada nodo la posición que ocupa en el mapa y a cada arco el valor de la distancia que representa. Estos datos de distancia y posición los obtenemos de los APIs de Google de \textit{Places}~\footnote{\url{https://developers.google.com/maps/documentation/distance-matrix/start?hl=es}} y \textit{Distance Matrix}~\footnote{\url{https://developers.google.com/places/web-service/intro?hl=es}}.
+	\item Eliminar un nodo: eliminamos un nodo del grafo junto con sus arcos asociados.
+	\item Minimum spanning tree del grafo obtenido en el paso 2: evaluamos el camino mínimo para recorrer los nodos que nos quedan en el grafo.
+	\item A cada arco obtenido en el grafo resultante del paso 3.
+	\item Guardamos en una lista los votos de cada arco.
+	\item Repetir pasos 2, 3 y 4 hasta que se haya eliminado cada nodo del grafo una única vez. De este modo, en la lista final de arcos tendremos el número de veces que aparece cada arco en el recorrido mínimo.
+	\item Para cada valor ($\epsilon$) comprendido entre el mínimo y máximo de los votos anteriores:
+	\begin{enumerate}
+		\item Calculamos un subgrafo ($\beta$) con todos los nodos y aquellos arcos con un número de votos mayor o igual a $\epsilon$.
+		\item Comprobamos que el subgrafo $\beta$ sea conexo: comprobamos que todos los nodos estén conectados. En el caso de que no lo estén, mediante NetworkX obtenemos los subconjuntos de $\beta$ y, recuperando el grafo inicial $\alpha$, unimos los subconjuntos por los arcos de menor coste. Esto quiere decir, que si por ejemplo nuestro grafo inicial $\alpha$ es (imagen~\ref{fig:explicación-grafo-conexo}):
+		\imagen{explicación-grafo-conexo}{Grafo inicial.}
+		y el resultado de comprobar si $\beta$ es conexo o no es (imagen~\ref{fig:explicación-grafo-inconexo}):
+		\imagen{explicación-grafo-inconexo}{Grafo inconexo.}
+		La unión entre ambos subconjuntos (nodo <<b>> con el resto del grafo) se realizaría por el arco que tenga una menor distancia, b--a.
+		\item Guardar el subgrafo conexo obtenido.
+	\end{enumerate}
+	\item Generar el grafo SVG correspondiente a cada subgrafo, que se explica en la siguiente sección, \nameref{sub:dibujar-grafo-svg}.
+\end{steps}
+
+
+
+\subsection{Dibujado de grafos}\label{sub:dibujar-grafo-svg}
 El principal objetivo de este proyecto se basa en obtener un grafo final de manera que éste sea fácilmente entendible por todos. Es por ello que a la hora de dibujar dicho grafo se plantean cuestiones y problemas como:
 \begin{itemize}
-	\item Dónde colocar los textos y a que distancia de la línea.
+	\item Dónde colocar los textos y a qué distancia de la línea.
 	\item Cómo orientar esos textos.
 	\item Evitar la superposición de los textos, tanto los referentes al punto como los referentes a la información del trayecto, con las líneas o puntos.
 	\item Evitar la superposición de unos textos con otros.
@@ -42,18 +68,21 @@ El principal objetivo de este proyecto se basa en obtener un grafo final de mane
 	\item Reposicionar los puntos que vertical u horizontalmente sean casi similares para evitar líneas diagonales.
 \end{itemize}
 
-Estos problemas han resultado de gran complejidad en el desarrollo final del proyecto, ya que como mencionaba antes, es el resultado final de todo el proyecto.
+Estos problemas han resultado de gran complejidad en el desarrollo final del proyecto ya que, como mencionaba antes, es el resultado final de la aplicación web diseñada y programada para el TFG.
 
-Un aspecto clave a tener en cuenta en el resultado final de de la aplicación es que, a pesar de que la unión entre dos puntos es una línea recta, el recorrido entre ambos puntos en la realidad no tiene por que ser recto. Dos puntos que parecen estar cerca el uno del otro pueden tener una distancia mayor que dos puntos que parecen más alejados. Para entender mejor esto fijémonos en la imagen~\ref{fig:ejemplo-distancia}. Vemos que los puntos relativos a el \textit{Arco de San Martín} y \textit{Mirador del Castillo} están mas cerca el uno del otro mientras que el punto relativo a \textit{La Estación} se encuentra más alejado de ellos.
+Un aspecto clave a tener en cuenta en el resultado final de de la aplicación es que, a pesar de que la unión entre dos puntos es una línea recta, el recorrido entre ambos puntos en la realidad no tiene por que ser recto. Dos puntos que parecen estar cerca el uno del otro pueden tener una distancia mayor que dos puntos que parecen más alejados. Para entender mejor esto fijémonos en la imagen~\ref{fig:ejemplo-distancia}. Vemos que los puntos relativos a el \textit{Arco de San Martín} y \textit{Mirador del Castillo} están mas cerca el uno del otro, mientras que el punto relativo a \textit{La Estación} se encuentra más alejado de ellos.
 \imagen{ejemplo-distancia}{Puntos en el mapa.}
-Sin embargo, si nos fijamos en el mapa anterior podemos ver que para llegar de el \textit{Arco de San Martín} a el \textit{Mirador del Castillo} tenemos que dar un rodeo más largo de lo que parece, y puede ser el caso de que los puntos no se encuentren al mismo nivel (en términos de tiempo no es lo mismo hacer un kilómetro subiendo que un kilómetro bajando). Esto hace que, como vemos en la imagen~\ref{fig:ejemplo-distancia-tiempo}, el tiempo que tardamos entre estos dos puntos y el que tardamos desde el primero a \textit{La Estación}, que visualmente parece estar más lejos, sea el mismo.
+Sin embargo, si nos fijamos en el mapa anterior podemos ver que para llegar desde el \textit{Arco de San Martín} al \textit{Mirador del Castillo} tenemos que dar un rodeo más largo de lo que parece, y puede ser el caso de que los puntos no se encuentren al mismo nivel (en términos de tiempo no es lo mismo hacer un kilómetro subiendo que un kilómetro bajando). Esto hace que, como vemos en la imagen~\ref{fig:ejemplo-distancia-tiempo}, el tiempo que tardamos entre estos dos puntos y el que tardamos desde el primero a \textit{La Estación}, que visualmente parece estar más lejos, sea el mismo.
 \imagen{ejemplo-distancia-tiempo}{Tiempo entre los puntos.}
 
 \subsection{Decoradores de Flask}
-Los decoradores son funciones que envuelven y reemplaza a otra función, y al hacerlo, deben copiar la información de la función original a la nueva.
+Los decoradores son funciones que envuelven y reemplazan a otra función, y al hacerlo, deben copiar la información de la función original a la nueva.
 
-En Flask, cada vista o ruta es una función ded Python, lo que significa que mediante decoradores podemos añadir funcionalidades adicionales.El más utilizado es \texttt{@route()}, que sirve para especificar la ruta y qué tipo de peticiones admite. 
+En Flask, cada vista o ruta es una función de Python, lo que significa que mediante decoradores podemos añadir funcionalidades adicionales. El más utilizado es \texttt{@route()}, que sirve para especificar la ruta y qué tipo de peticiones admite. 
 
 
 En el desarrollo del proyecto se incluyó un decorador para comprobar, antes de acceder a cada vista, si el usuario había iniciado sesión o no, y en el caso de que no, redirigir a dicho usuario a la página de inicio. 
+
+
+
 
