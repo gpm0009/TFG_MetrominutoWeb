@@ -14,7 +14,6 @@ En esta sección se explican las entidades usadas por la aplicación:
 \end{itemize}
 \imagen{Clase UML - TFG}{Diagrama de clases.}
 
-//FIXME: Si me da tiempo, los datos de google también los meteré en models, si no lo quito de aqui.
 
 
 \subsection{Google API}
@@ -33,7 +32,7 @@ Mediante la biblioteca \nameref{svgwrite} obtenemos el grafo mediante el dibujad
 \begin{itemize}
 	\item Círculos: corresponden con los marcadores seleccionados previamente en el mapa.
 	\item Líneas: corresponden a la distancia entre los puntos de sus extremos.
-	\item Labels: texto con información acerca de los puntos y de la distancia entre ellos
+	\item Labels: texto con información acerca de los puntos y de la distancia entre ellos.
 \end{itemize}
 
 
@@ -44,7 +43,10 @@ En esta sección se explican las interacciones más destacadas de la aplicación
 // Diagrama de secuencia.
 
 
-Cuando el usuario selecciona y guarda una serie de puntos sobre el mapa, estos pasan al servidor de tal manera que, con el API proporcionado por Google se evalúan las distancias de unos nodos a otros y se genera un grafo. A continuación, se realizan diferentes operaciones con dicho grafo para evaluar los distintos caminos más cortos (minimum spanning tree~\footnote{\url{https://en.wikipedia.org/wiki/Minimum_spanning_tree}}) para recorrer todos los nodos. \\
+Cuando el usuario selecciona y guarda una serie de puntos sobre el mapa, estos pasan al servidor de tal manera que, con el API proporcionado por Google se evalúan las distancias de unos nodos a otros y se genera un grafo. A continuación, se realizan diferentes operaciones con dicho grafo para evaluar los distintos caminos más cortos (minimum spanning tree~\footnote{\url{https://en.wikipedia.org/wiki/Minimum_spanning_tree}}) para recorrer todos los nodos.
+\\
+
+
 Como resultado final, obtenemos un mapa sinóptico con la representación de estos puntos y de los caminos existentes entre ellos.
 
 
@@ -53,11 +55,39 @@ Como resultado final, obtenemos un mapa sinóptico con la representación de est
 La estructura del proyecto esta condicionada por el tipo de proyecto que es. Se trata de una aplicación web y por ello se ha seguido el patrón MVC (Modelo - Vista - Controlador), el cual permite separar en 3 componentes diferentes los datos, el interfaz y la lógica de la aplicación. 
 \imagen{mvc}{Diagrama Modelo-Vista-Controlador}
 
+\begin{itemize}
+	\item \textbf{Modelo:} Parte de la aplicación en la que se manejan los datos y su lógica. En este proyecto, este modulo estaría formado por:
+	\dirtree{%
+		.2 Metrominuto/ - Directorio del proyecto web.
+		.3 metrominuto\_app/ - Aplicación web.
+		.4 main/ - Inicializa el blueprint de la aplicación.
+		.5 forms.py - Contiene los formularios de la aplicación.
+		.4 models.py - Clases definidas en la aplicación.
+		.4 calculateRoute.py - Operaciones con el API de Google.
+		.4 globals.py - Variables globales del proyecto.
+		.4 graphs.py - Operaciones con grafos.
+		.4 svgfunctions.py - Operaciones para dibujar.
+	}
+	Ficheros en los que se manejan los datos y realizan las operaciones necesarias.
+	\item \textbf{Vista:} Módulo de la aplicación formado por la interfaz de usuario. En este proyecto, está formado por el directorio \textit{templates}, donde están todos los ficheros \textit{HTML} que se usan en la aplicación.
+	\item \textbf{Controlador:} Intermediario entre los modelos y las vistas. Se encarga de gestionar el flujo de información y la obtención de los datos necesarios para cada vista. En este proyecto, este modulo estaría formado por:
+	\dirtree{%
+		.1 / Directorio raíz.
+		.2 Metrominuto/ - Directorio del proyecto web.
+		.3 metrominuto\_app/ - Aplicación web.
+		.4 main/ - Inicializa el blueprint de la aplicación.
+		.5 init.py - Inicialización.
+		.5 routes.py - Contiene las rutas de la aplicación.
+		.4 utils/ - Decoradores de la aplicación.
+	}
+\end{itemize}
+
+
 \section{Maquetación}
 Al tratarse de una aplicación web es muy importante que la apariencia de la misma se haya cuidado y sea adaptable a cualquier tipo de dispositivo. En este proyecto se han usado las clases proporcionadas por Bootstrap~\cite{doc:bootstrap}.
 
 
-Para la construcción de las distintas páginas de este proyecto, se ha heredado una estructura común definida en el fichero \textit{base.html}. Este fichero importa diferentes librerías como \nameref{cap:jquery} y \nameref{cap:Vue}. También añade la barra de navegación y otros elementos comunes a todas las páginas como el <footer>. Es por ello que desde el comienzo del proyecto y con la finalidad de evitar futuros problemas a la hora de ordenar y alinear los elementos \textit{HTML} conviene tenerlo bien estructurado y ordenado. 
+Para la construcción de las distintas páginas de este proyecto, se ha heredado una estructura común definida en el fichero \textit{base.html}. Este fichero importa diferentes librerías como \nameref{cap:jquery} y \nameref{cap:Vue}. También añade la barra de navegación y otros elementos comunes a todas las páginas como el pie (\textit{footer}). Es por ello que desde el comienzo del proyecto y con la finalidad de evitar futuros problemas a la hora de ordenar y alinear los elementos \textit{HTML} conviene tenerlo bien estructurado y ordenado. 
 
 
 A la hora de situar los diferentes elementos HTML en la página, como por ejemplo los botones de \textit{<<Aceptar>>} y \textit{<<Cancelar>>}, es importante tener en cuenta la usabilidad de los mismos, así como por ejemplo la situación de los botones para Iniciar Sesión o de ayuda.

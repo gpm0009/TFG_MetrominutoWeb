@@ -78,9 +78,9 @@ La estructura del proyecto se divide en:
 \section{Manual del programador}
 En este apartado se explican los puntos a tener en cuenta por futuros desarrolladores que tengan la intención de mantener o mejorar el proyecto.
 \subsection{Dibujado de grafos}
-El principal objetivo de este proyecto se basa en obtener un grafo final de manera que éste sea fácilmente entendible por todos. Es por ello que a la hora de dibujar dicho grafo se plantean cuestiones y problemas como dónde colocar los textos, a que distancias, cómo orientar esos textos$\dots$
+El principal objetivo de este proyecto se basa en obtener un grafo final de manera que éste sea fácilmente entendible por todos. Es por ello que a la hora de dibujar dicho grafo se plantean cuestiones y problemas como dónde colocar los textos, a que distancias, cómo orientar esos textos...
 
-Estos problemas han resultado de gran complejidad en el desarrollo final del proyecto, ya que como mencionaba antes, es el resultado final de todo el proyecto. Para solucionar el problema de que los textos no se superpongan, tanto en las líneas o \textit{caminos} como en los puntos o \textit{paradas}, he tenido en cuenta dos opciones:
+Estos problemas han resultado de gran complejidad en el desarrollo final del proyecto, ya que como mencionaba antes, es el resultado final de todo el proyecto. Para solucionar el problema de que los textos no se superpongan, tanto en las líneas o \textit{caminos}, como en los puntos o \textit{paradas}, he tenido en cuenta dos opciones:
 \begin{itemize}
 	\item \textbf{Discretización de las líneas:} primeramente, calculamos el cuadrado o rectángulo que contiene al texto. Una vez lo hemos calculado, el método consiste en dividir los arcos del grafo en varios puntos separados una distancia $\delta$, y comprobar si alguno de esos puntos está en el interior del rectángulo que hemos calculado previamente. Ese $\delta$ se calcula proyectando sobre cada recta una distancia en el eje x mínimamente inferior a la altura del texto, y para lo cuál nos hace falta calcular el ángulo entre dicha recta y la horizontal. Para cada texto comprendido en el punto medio de cada arco, se evalúan 8 distintas posiciones a cada lado del arco\footnote{\url{https://github.com/gpm0009/TFG_MetrominutoWeb/issues/91}}. Para el texto relativo a la información de cada nodo se evalúan estas posiciones para la posición inferior, superior, izquierda y derecha del nodo, y si no se encontrase ninguna se pasaría a evaluar las esquinas del cuadrado que contiene al círculo. En la figura \ref{fig:discretizacion} vemos un ejemplo de las 8 anclas en el rectángulo A. 
 	\imagen{discretizacion}{Discretización.}
@@ -89,9 +89,9 @@ Estos problemas han resultado de gran complejidad en el desarrollo final del pro
 	\item \textbf{Superposición de cuadrados:} al igual que en el método anterior, calculamos el cuadrado que contiene el texto. Una vez que sabemos esto, podemos construir varios rectángulos en torno al punto donde queremos colocar el texto, tanto a un lado de la línea como al otro. Posteriormente, dividiremos la línea que une los dos puntos para los que queremos colocar el texto en cuatro cuadrados partiendo del punto medio. De este modo, en dos de ellos la diagonal sería parte de la línea que une los puntos, mientras que en los otros dos no habría nada. De este modo, y conociendo la dirección de la línea podemos calcular si, sobre los rectángulos que forman parte de la línea, existe una superposición con alguno de los posibles rectángulos del texto. En el caso del texto que referencia el punto, el rectángulo, o en este caso cuadrado, que se construye sería el que contiene al círculo y se evaluaría el rectángulo correspondiente del que la línea forma parte. En la figura \ref{fig:rectangulos-metodo} vemos un ejemplo: los rectángulos que contienen a la línea serían B, D, H y F, mientras que los rectángulos A, C, E y G no. Por ello, siempre que el rectángulo se encuentre dentro del segundo grupo no tendremos problemas de superposición con las líneas.
 	\imagen{rectangulos-metodo}{Superposición de rectángulos.}
 \end{itemize}
-Finalmente, se optó por la primera opción, ya que después de comprobar que los textos no se superponían con las líneas, había que tener en cuenta que no se superpusiesen entre ellos. Para ello, sobre la lista de puntos discretizados, se añaden las 4 esquinas de los rectángulos que contienen al texto. Con esta operación lo que hacemos es que si al colocar el siguiente texto en una de las posiciones establecidas, nos encontramos con que uno de estos puntos esta en el interior de este último rectángulo, significará que ya hay un texto en esa posición y debemos probar con la siguiente.
+Finalmente, se optó por la primera opción, ya que después de comprobar que los textos no se superponían con las líneas, había que tener en cuenta que no se superpusiesen entre ellos. Para ello, sobre la lista de puntos discretizados, se añaden las 4 esquinas de los rectángulos que contienen al texto. Con esta operación lo que hacemos es que si, al colocar el siguiente texto en una de las posiciones establecidas, nos encontramos con que uno de estos puntos está en el interior de este último rectángulo, significará que ya hay un texto en esa posición y debemos probar con la siguiente.
 
-Un aspecto clave, y a tener muy en cuenta en la evaluación de todo lo comentado anteriormente, es que en todo momento estos cálculos se hacen para dibujar en SVG, por lo que el punto mas pequeño de la <<coordenada x>> y de la <<coordenada y>> se encuentra en la esquina superior izquierda. Esto nos lleva a que cada posible ancla (punto inferior izquierdo) del rectángulo del texto debemos restarle la altura de dicho texto para que la evaluación de los puntos coincida, ya que al dibujarlo en SVG el texto siempre se dibuja hacia arriba desde el punto que indicamos. Para entender mejor esto, los puntos \textit{A} y \textit{C} de la imagen~\ref{fig:rectangulos} corresponderían con el punto inferior izquierdo del rectángulo que queremos evaluar, mientras que los puntos \textit{B} y \textit{D} serían los puntos que debemos indicar al dibujar el SVG.
+Un aspecto clave, y a tener muy en cuenta en la evaluación de todo lo comentado anteriormente, es que en todo momento estos cálculos se hacen para dibujar en SVG, por lo que el punto mas pequeño de la <<coordenada $x$>> y de la <<coordenada $y$>> se encuentra en la esquina superior izquierda. Esto nos lleva a que cada posible ancla (punto inferior izquierdo) del rectángulo del texto debemos restarle la altura de dicho texto para que la evaluación de los puntos coincida, ya que al dibujarlo en SVG el texto siempre se dibuja hacia arriba desde el punto que indicamos. Para entender mejor esto, los puntos \textit{A} y \textit{C} de la imagen~\ref{fig:rectangulos} corresponderían con el punto inferior izquierdo del rectángulo que queremos evaluar, mientras que los puntos \textit{B} y \textit{D} serían los puntos que debemos indicar al dibujar el SVG.
 \imagen{rectangulos}{Puntos del rectángulo.}
 
 
@@ -103,14 +103,14 @@ Para el desarrollo de este proyecto se han usado diferentes herramientas para in
 	\item \textbf{PyCharm}: se ha utilizado para el desarrollo de la aplicación. Acceso a licencia profesional con el correo de la Universidad.
 	\item \textbf{GitHub}: como sistema de gestión y control de versiones del proyecto.
 	\item \textbf{GitCraken}: al principio del proyecto se utilizó para realizar las subidas de los cambios en el proyecto al repositorio de GitHub, pero al final se usó la integración con GitHub de PyCharm.
-	\item \textbf{Lucidchart}\footnote{\url{https://app.lucidchart.com}}: se ha utilizado para realización de los diagramas de casos de uso, secuencia $\dots$
+	\item \textbf{Lucidchart}\footnote{\url{https://app.lucidchart.com}}: se ha utilizado para realización de los diagramas de casos de uso, secuencia...
 	\item \textbf{Adobe illustrator}: se utilizó la versión de prueba para la realización del logo de la aplicación.
 	\item \textbf{TeXstudio}: herramienta utilizada a lo largo del proyecto para realizar la documentación.
 	\item \textbf{Google console}: herramienta utilizada para la administración y gestión de los servicios de la API.
 	\item \textbf{Firebase console}: herramienta utilizada para la administración y gestión de la autenticación en la aplicación.
 \end{itemize}
 Después de analizar y configurar ambos editores de texto, se llegó a la conclusión de que era mucho mas cómodo y útil utilizar PyCharm, ya que ofrece una configuración mas sencilla, además de permitir importar diversas librerías de una manera mas amigable. También ofrece la posibilidad de seguir los estándares de programación \textit{PEP8} y \textit{ECMAScript}.
-Para el control de versiones se ha utilizado GitCraken al comienzo del proyecto. Después, se utilizó el propio editor de texto.
+Para el control de versiones se ha utilizado GitCraken al comienzo del proyecto. Después, se utilizó la funcionalidad integrada en el propio IDE de desarrollo.
 
 
 \section{Instalación y configuración}
@@ -157,8 +157,7 @@ Para la obtención de una \textit{Google API KEY} es necesario obtener los crede
 Una vez registrados en Google, en el caso de que no lo estuviésemos ya, debemos acceder a la \textit{consola}\footnote{\url{https://console.cloud.google.com}} y desplegar el panel de la parte izquierda.
 \imagen{panelGoogle}{Panel Google Console}
 
-Hacemos click sobre <<APIs y servicios>> - <<Credenciales>> y después sobre la clave que se nos ha generado anteriormente. Desde el apartado <<Restricciones de API>> podremos seleccionar que servicios queremos que proporcione nuestra clave y restringir desde dónde se va a usar.\\
-En concreto, para este proyecto debemos tener activados:
+Hacemos click sobre <<APIs y servicios>> - <<Credenciales>> y después sobre la clave que se nos ha generado anteriormente. Desde el apartado <<Restricciones de API>> podremos seleccionar que servicios queremos que proporcione nuestra clave y restringir desde dónde se va a usar. En concreto, para este proyecto debemos tener activados:
 \begin{itemize}
 	\item Directions.
 	\item Distance Matrix.
@@ -183,9 +182,7 @@ Además, no hay que olvidar incluirla en los templates:
 	 type="text/javascript"</script>
 \end{lstlisting}
 
-También podemos incluirla como variable de entorno en nuestro editor. De esta manera nos aseguramos de no compartirla al realizar los commints en el control de versiones.
-\\
-En este caso, en PyCharm se configura de la siguiente manera:
+También podemos incluirla como variable de entorno en nuestro editor. De esta manera nos aseguramos de no compartirla al realizar los commits en el control de versiones. En este caso, en PyCharm se configura de la siguiente manera:
 \begin{enumerate}
 \item Abrir selector Run Configuration (arriba a la derecha)
 \item Edit Configurations...
@@ -199,7 +196,7 @@ Para la obtención de las claves de autenticación con FirebaseUI\footnote{\url{
 
 \begin{steps}
 	\item Loguearnos en Firebase con nuestro usuario de Google, preferiblemente el mismo usuario que para la configuración del apartado~\ref{cap:google}.
-	\item \textit{Agregar un proyecto}. En este paso debemos elegir el proyecto creado en el apartado~\ref{cap:google}. Nos añadirá el plan de pago por defecto, ya que el proyecto que hemos escogido tiene asociado este plan para poder usar las APIs de los mapas. Se agragrá automáticamente una API\_KEY a nuestra consola de Google, a la cual, deberemos restringir su uso para \textit{Identity Toolkit API}.
+	\item \textit{Agregar un proyecto}. En este paso debemos elegir el proyecto creado en el apartado~\ref{cap:google}. Nos añadirá el plan de pago por defecto, ya que el proyecto que hemos escogido tiene asociado este plan para poder usar las APIs de los mapas. Se agregará automáticamente una API\_KEY a nuestra consola de Google, a la cual, deberemos restringir su uso para \textit{Identity Toolkit API}.
 	\item Se abrirá automáticamente la página de descripción general del proyecto. Hacer click sobre \textit{Agregar Firebase a tu app web}, y seleccionar \textit{web}.
 		\imagen{AñadirAppFirebase}{Firebase: Añadir Aplicación.}
 \end{steps}
@@ -258,7 +255,7 @@ pip install svgwrite
 import svgwrite
 \end{lstlisting}
 
-Para el dibujado hacemos uso del método \texttt{Drawing()}, del cuál dependerán todos los elementos que queramos añadir. Un ejemplo de uso sería:
+Para el dibujado hacemos uso del método \texttt{Drawing()}, del cual dependerán todos los elementos que queramos añadir. Un ejemplo de uso sería:
 \begin{lstlisting}[language=python,caption={Ejemplo de uso.}]
 dwg = svgwrite.Drawing(file_name, size=('100%', '100%'), viewBox='0 0.2 1 1.5', profile='full')
 line = dwg.line(id=id_edge,
@@ -274,9 +271,9 @@ dwg.save(pretty=True)
 \subsection{SNAP.SVG}\label{snapsvg}
 \textit{Snap.svg} es otra librería para crear gráficos vectoriales pero esta vez en la parte del cliente gracias a que es una biblioteca JavaScript~\cite{doc:snapsvg}. Esto la hace perfecta para manipular los elementos del SVG a nuestro antojo sin tener que hacer nuevas llamas al servidor.
 
-Para su uso debemos incluirla en el proyecto siguiendo una de las opciones propuestas en su documentación~\footnote{\url{https://github.com/adobe-webplatform/Snap.svg}} de GitHub. En este proyecto, se ha optado por descargar el directorio \texttt{\textbackslash{dist}} e incluir los ficheros JavaScript en el proyecto.
+Para su uso debemos incluirla en el proyecto siguiendo una de las opciones propuestas en su documentación\footnote{\url{https://github.com/adobe-webplatform/Snap.svg}} de GitHub. En este proyecto, se ha optado por descargar el directorio \texttt{\textbackslash{dist}} e incluir los ficheros JavaScript en el proyecto.
 
-Una de las razones principales por las que he usado esta biblioteca es porque permite asociar las líneas o <<path>> que une dos puntos con dichos puntos, y, por lo tanto, si definimos una función para mover los puntos la posición de las líneas se actualiza sin necesidad de realizar cálculos adicionales.
+Una de las razones principales por las que he usado esta biblioteca es porque permite asociar las líneas o <<path>> que unen dos puntos con dichos puntos, y, por lo tanto, si definimos una función para mover los puntos la posición de las líneas se actualiza sin necesidad de realizar cálculos adicionales.
 \renewcommand{\lstlistingname}{Snap.svg}
 \renewcommand{\lstlistlistingname}{List of \lstlistingname s}
 \begin{lstlisting}[language=javascript,caption={Ejemplo}]
@@ -293,7 +290,7 @@ strokeWidth: 5
 
 
 \subsection{Jquery}\label{cap:jquery}
-\textit{Jquery~\footnote{\url{https://jquery.com/}}} es una biblioteca JavaScript que permite la manipulación de documentos HTML, así como sus eventos. Para importarla a nuestro tenemos dos opciones, descargar el código e importarlo en el documento HTML desde nuestro directorio \textit{$\backslash$static$\backslash$js}, o incluir el \textit{cdn} al principio del documento.
+\textit{Jquery~\footnote{\url{https://jquery.com/}}} es una biblioteca JavaScript que permite la manipulación de documentos HTML, así como sus eventos. Para importarla a nuestro tenemos dos opciones, descargar el código e importarlo en el documento HTML desde nuestro directorio \verb|/static/js|, o incluir el \textit{CDN} al principio del documento.
 \renewcommand{\lstlistingname}{Jquery}
 \renewcommand{\lstlistlistingname}{List of \lstlistingname s}
 \begin{lstlisting}[language=javascript,caption={Jquery cdn.}]
@@ -304,7 +301,7 @@ strokeWidth: 5
 \end{lstlisting}
 
 \subsection{Vue.js}\label{cap:Vue}
-\textit{Vue}~\cite{doc:vue} es un framework de JavaScript diseñado para la elaboración de interfaces de usuario. Para trabajar con este framework en el proyecto es necesario añadir en el template su cdn~\footnote{\url{https://es.vuejs.org/v2/guide/installation.html}}, o como alternativa descargar el código e importarlo desde nuestro directorio \textit{$\backslash$static$\backslash$js}.
+\textit{Vue}~\cite{doc:vue} es un framework de JavaScript diseñado para la elaboración de interfaces de usuario. Para trabajar con este framework en el proyecto es necesario añadir en el template su cdn~\footnote{\url{https://es.vuejs.org/v2/guide/installation.html}}, o como alternativa descargar el código e importarlo desde nuestro directorio \verb|/static/js|.
 \renewcommand{\lstlistingname}{Vue.js}
 \renewcommand{\lstlistlistingname}{List of \lstlistingname s}
 \begin{figure}
@@ -316,7 +313,7 @@ strokeWidth: 5
 \end{lstlisting}
 \end{figure}
 
-Además debemos crear un componente\footnote{\url{https://vuejs.org/v2/guide/components.html}}, al que le añadiremos una variable, que hará referencia al <div> donde queremos incluirlo. Esto se debe a que realmente la estructura y el nombre de los elementos de Vue es algo diferente a los que ya conocemos de \textit{HTML5}. También es importante tener en cuenta que Vue utiliza los mismos delimitadores que \textit{Flask}: \verb|{{variable}}|. Es por esto por lo que a nuestro componente o variable debemos añadir la línea \verb|delimiters:['[[',']]']| para cambiarlos.
+Además debemos crear un componente\footnote{\url{https://vuejs.org/v2/guide/components.html}}, al que le añadiremos una variable, que hará referencia al \verb|<div>| donde queremos incluirlo. Esto se debe a que realmente la estructura y el nombre de los elementos de Vue es algo diferente a los que ya conocemos de \textit{HTML5}. También es importante tener en cuenta que Vue utiliza los mismos delimitadores que \textit{Flask}: \verb|{{variable}}|. Es por esto por lo que a nuestro componente o variable debemos añadir la línea \verb|delimiters:['[[',']]']| para cambiarlos.
 
 También es recomendable instalar las extensiones de desarrollo, bien sea para Chrome~\footnote{\url{https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd}} o para Firefox~\footnote{\url{https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/}}, ya que a la hora de desarrollar el proyecto permiten inspeccionar los elementos desde la consola del navegador.
 
@@ -324,7 +321,7 @@ También es recomendable instalar las extensiones de desarrollo, bien sea para C
 Para incluir la configuración de Firebase en el proyecto, seguir estos pasos:
 \begin{enumerate}
 	\item Acceder a la configuración general del proyecto e ir a \textit{Tus aplicaciones}.
-	\item Copiar el apartado \textit{Firebase SDK snippet} y pegarlo en el fichero de configuración del proyecto \textit{\textbackslash{}Metrominuto\textbackslash{}metrominuto\_app\textbackslash{}static\textbackslash{}js\textbackslash{}firebase-config.js}.
+	\item Copiar el apartado \textit{Firebase SDK snippet} y pegarlo en el fichero de configuración del proyecto \verb|/Metrominuto/metrominuto_app/static/js/firebase-config.js|.
 	\item Añadir en el template \textit{widget.html} los proveedores que queramos.
 \end{enumerate}
 
@@ -344,9 +341,7 @@ La forma más cómoda de obtener todo el proyecto es mediante \textit{git}, usan
 \begin{lstlisting}[language=python,caption={Descargar el repositorio.}]
  $ git clone <url_del_repositiorio>
 \end{lstlisting}
-Siendo \url{https://github.com/gpm0009/TFG_MetrominutoWeb} la URL del repositorio en \textit{GitHub}.
-\\
-Ya con el proyecto descargado, el siguiente paso es instalar las dependencias. Aunque se pueden instalar sobre la instalación global de Python, es recomendable usar un entorno virtual. Para ello, debemos abrir el directorio del proyecto desde Pycharm, y una vez que lo tengamos ir a \textit{Files - Settings - Project Interpreter - Add}, y seleccionar la opción de \textit{Virtual Envirorment} y a continuación creamos uno nuevo.
+Siendo \url{https://github.com/gpm0009/TFG_MetrominutoWeb} la URL del repositorio en \textit{GitHub}. Ya con el proyecto descargado, el siguiente paso es instalar las dependencias. Aunque se pueden instalar sobre la instalación global de Python, es recomendable usar un entorno virtual. Para ello, debemos abrir el directorio del proyecto desde Pycharm, y una vez que lo tengamos ir a \textit{Files - Settings - Project Interpreter - Add}, y seleccionar la opción de \textit{Virtual Envirorment} y a continuación creamos uno nuevo.
 \imagen{NewVirtualEnvirorment}{Creación del entorno virtual.}
 Después, el editor detectará automáticamente el fichero \textit{requirements.txt} y nos preguntará si queremos instalar las dependencias, a lo que le diremos que sí. De no ser así, hay que abrir la terminal en la parte inferior del editor y ejecutar el comando:
 \begin{lstlisting}[language=python,caption={Instalar dependencias en el entorno virtual.}]

@@ -24,10 +24,7 @@ En este apéndice se explican y especifican tanto los requisitos funcionales com
 	\item \textbf{RF-2 Generación de mapa:} La aplicación debe ofrecer la selección de distintos puntos sobre el mapa para generar un mapa personalizado.
 	\begin{itemize}
 		\item \textbf{RF-2.1 Visualización de puntos sobre Google Maps:} La aplicación debe poder hacer uso de las operaciones, así como acceder a los servicios de \textit{Google Maps} proporcionados por el API.
-		\begin{itemize}
-			\item \textbf{RF-2.1.1 Google Api:}
-		\end{itemize}
-		\item \textbf{RF-2.2 Selección de puntos:} Seleccionar sobre el mapa distintos puntos, hasta un máximo de 15.
+		\item \textbf{RF-2.2 Selección de puntos:} Seleccionar sobre el mapa distintos puntos, hasta un máximo de 15~\footnote{limitación que se debe al número de argumentos que permite el API de Distance Matrix de Google.}.
 		\begin{itemize}
 			\item \textbf{RF-2.2.1 Selección como centrales:} Una vez creado un marcador, el usuario debe poder darle una mayor importancia a este punto en el recorrido.
 			\item \textbf{RF-2.2.2 Eliminación de un punto cualquiera:} El usuario debe poder eliminar los puntos seleccionados. 
@@ -60,7 +57,7 @@ En esta sección, se presentan los casos de uso de la aplicación.
 \imagen{Diagrama de caso de uso - RF3}{Diagrama de casos de uso: RF3 -- Creación de SVG.}
 
 
-
+%Caso de Uso 1%
 \begin{longtable}[H]{@{}l|l@{}}
 	\toprule
 	\begin{minipage}[b]{0.23\columnwidth}\raggedright\strut
@@ -90,19 +87,20 @@ En esta sección, se presentan los casos de uso de la aplicación.
 	\midrule
 	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
 		\textbf{Precondición}\strut
-	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
-		Navegador web abierto y página de inicio de la aplicación cargada.\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		\begin{itemize}
+			\tightlist
+			\item Página de inicio cargada.
+			\item Usuario no logueado.
+		\end{itemize}
 	\end{minipage}\tabularnewline
 	\midrule
 	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
 		\textbf{Acciones}\strut
-	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
 		\begin{enumerate}
 			\def\labelenumi{\arabic{enumi}.}
-			\tightlist
 			\item Pulsar sobre el botón Iniciar sesión.
-			\item Seleccionar proveedor de autenticación.
-			\item Escribir los credenciales correspondientes.
 		\end{enumerate}
 	\end{minipage}\tabularnewline
 	\midrule
@@ -114,12 +112,12 @@ En esta sección, se presentan los casos de uso de la aplicación.
 	\midrule
 	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
 		\textbf{Excepciones}\strut
-	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
 		\begin{itemize}
 			\tightlist
 			\item Cuenta no existente.
 			\item Combinación de nombre y contraseña incorrecta.
-			\item Acceso no permitido.
+			\item Acceso no permitido: usuario bloqueado.
 		\end{itemize}
 	\end{minipage}\tabularnewline
 	\midrule
@@ -135,6 +133,83 @@ En esta sección, se presentan los casos de uso de la aplicación.
 \newpage
 
 
+%Caso de Uso 1.1%
+\begin{longtable}[H]{@{}l|l@{}}
+	\toprule
+	\begin{minipage}[b]{0.23\columnwidth}\raggedright\strut
+		\textbf{CU-1.1}\strut
+	\end{minipage} & \begin{minipage}[b]{0.71\columnwidth}\raggedright\strut
+		\textbf{Firebase Auth}\strut
+	\end{minipage}\tabularnewline
+	\toprule
+	\endhead
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Requisitos asociados}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		RF-1.1\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Actor}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Usuario no logueado.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Descripción}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		El usuario inicia sesión mediante el proveedor que seleccione.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Precondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		\begin{itemize}
+			\item Dominio autorizado en la consola de Firebase por el administrador.
+			\item Proveedor correctamente habilitado por el administrador.
+		\end{itemize}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Acciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\item Pulsar sobre el proveedor deseado.
+			\item Introducir credenciales.
+		\end{enumerate}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Postcondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Redirección a la aplicación con la sesión iniciada.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Excepciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		\begin{itemize}
+			\tightlist
+			\item Cuenta no existente.
+			\item Combinación de nombre y contraseña incorrecta.
+			\item Acceso no permitido: usuario bloqueado.
+		\end{itemize}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Importancia}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Alta\strut
+	\end{minipage}\tabularnewline
+	\bottomrule
+	\caption{Firebase Auth.}
+	\label{cu:1.1}
+\end{longtable}
+\newpage
+
+
+%Caso de Uso 2%
 \begin{longtable}[H]{@{}l|l@{}}
 	\toprule
 	\begin{minipage}[b]{0.23\columnwidth}\raggedright\strut
@@ -170,7 +245,7 @@ En esta sección, se presentan los casos de uso de la aplicación.
 	\midrule
 	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
 		\textbf{Acciones}\strut
-	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
 		\begin{enumerate}
 			\def\labelenumi{\arabic{enumi}.}
 			\tightlist
@@ -189,7 +264,7 @@ En esta sección, se presentan los casos de uso de la aplicación.
 	\midrule
 	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
 		\textbf{Excepciones}\strut
-	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
 		\begin{itemize}
 			\tightlist
 			\item Seleccionar más de 15 puntos.
@@ -209,6 +284,371 @@ En esta sección, se presentan los casos de uso de la aplicación.
 \newpage
 
 
+%Caso de Uso 2.1%
+\begin{longtable}[H]{@{}l|l@{}}
+	\toprule
+	\begin{minipage}[b]{0.23\columnwidth}\raggedright\strut
+		\textbf{CU-2.1}\strut
+	\end{minipage} & \begin{minipage}[b]{0.71\columnwidth}\raggedright\strut
+		\textbf{Visualización de puntos sobre Google Maps}\strut
+	\end{minipage}\tabularnewline
+	\toprule
+	\endhead
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Requisitos asociados}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		RF-2.1, RF-2.1.1\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Actor}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Usuario logueado.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Descripción}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		El usuario visualiza un mapa de Google Maps.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Precondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		\begin{itemize}
+			\item Usuario logueado.
+			\item API\_KEY configurada correctamente por el administrador.
+			\item API de Google cargada corretamente en el navegador.
+		\end{itemize}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Acciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Postcondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Seleccionar puntos (\nameref{cu:2.2}).\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Excepciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		\begin{itemize}
+			\tightlist
+			\item API bloqueada por el administrador.
+			\item Dominio bloqueado por el administrador.
+			\item Error al cargadar JavaScript en el navegador.
+		\end{itemize}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Importancia}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Alta\strut
+	\end{minipage}\tabularnewline
+	\bottomrule
+	\caption{Visualización de puntos sobre Google Maps.}
+	\label{cu:2.1}
+\end{longtable}
+\newpage
+
+%Caso de Uso 2.1.1%
+\begin{longtable}[H]{@{}l|l@{}}
+	\toprule
+	\begin{minipage}[b]{0.23\columnwidth}\raggedright\strut
+		\textbf{CU-2.1.1}\strut
+	\end{minipage} & \begin{minipage}[b]{0.71\columnwidth}\raggedright\strut
+		\textbf{Google API}\strut
+	\end{minipage}\tabularnewline
+	\toprule
+	\endhead
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Requisitos asociados}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		RF-2.1.1\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Actor}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Usuario logueado.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Descripción}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Acceso al API de Google.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Precondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		\begin{itemize}
+			\item Usuario logueado.
+			\item Credenciales configuradas correctamente por el administrador.
+		\end{itemize}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Acciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Postcondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Visualización del mapa.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Excepciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		\begin{itemize}
+			\tightlist
+			\item API bloqueada por el administrador.
+		\end{itemize}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Importancia}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Alta\strut
+	\end{minipage}\tabularnewline
+	\bottomrule
+	\caption{Google API.}
+	\label{cu:2.1.1}
+\end{longtable}
+\newpage
+
+%Caso de Uso 2.2%
+\begin{longtable}[H]{@{}l|l@{}}
+	\toprule
+	\begin{minipage}[b]{0.23\columnwidth}\raggedright\strut
+		\textbf{CU-2.2}\strut
+	\end{minipage} & \begin{minipage}[b]{0.71\columnwidth}\raggedright\strut
+		\textbf{Selección de puntos}\strut
+	\end{minipage}\tabularnewline
+	\toprule
+	\endhead
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Requisitos asociados}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		RF-2.2, RF-2.2.1, RF-2.2.2\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Actor}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Usuario logueado.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Descripción}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Selección de puntos sobre el mapa de Google.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Precondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		\begin{itemize}
+			\item Usuario logueado.
+			\item Mapa cargado.
+			\item JavaScript cargado.
+		\end{itemize}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Acciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+			\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Hacer click sobre el punto o lugar del mapa deseado para marcarlo.
+		\end{enumerate}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Postcondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		\begin{itemize}
+			\item Aparece sobre el mapa un chincheta indicando el punto seleccionado.
+			\item El lugar seleccionado aparece en una tabla junto con el resto de puntos seleccionados.
+		\end{itemize}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Excepciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		\begin{itemize}
+			\tightlist
+			\item API bloqueada por el administrador.
+		\end{itemize}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Importancia}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Alta\strut
+	\end{minipage}\tabularnewline
+	\bottomrule
+	\caption{Selección de puntos.}
+	\label{cu:2.2}
+\end{longtable}
+\newpage
+
+%Caso de Uso 2.2.1%
+\begin{longtable}[H]{@{}l|l@{}}
+	\toprule
+	\begin{minipage}[b]{0.23\columnwidth}\raggedright\strut
+		\textbf{CU-2.2.1}\strut
+	\end{minipage} & \begin{minipage}[b]{0.71\columnwidth}\raggedright\strut
+		\textbf{Selección como centrales}\strut
+	\end{minipage}\tabularnewline
+	\toprule
+	\endhead
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Requisitos asociados}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		RF-2.2, RF-2.2.1\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Actor}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Usuario logueado.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Descripción}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Selección de algunos puntos como centrales: adquieren mayor importancia en el recorrido.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Precondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		\begin{itemize}
+			\item Usuario logueado.
+			\item Mapa cargado.
+			\item JavaScript cargado.
+			\item Punto seleccionado.
+		\end{itemize}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Acciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Hacer click sobre el \textit{checkbox} correspondiente.
+			\item Para eliminarlo de centrales, volver a hacer click sobre el mismo \textit{checkbox}.
+		\end{enumerate}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Postcondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		La chincheta del punto seleccionado como central cambia de roja a verde.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Excepciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Importancia}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Baja\strut
+	\end{minipage}\tabularnewline
+	\bottomrule
+	\caption{Selección como centrales.}
+	\label{cu:2.2.1}
+\end{longtable}
+\newpage
+
+%Caso de Uso 2.2.2%
+\begin{longtable}[H]{@{}l|l@{}}
+	\toprule
+	\begin{minipage}[b]{0.23\columnwidth}\raggedright\strut
+		\textbf{CU-2.2.2}\strut
+	\end{minipage} & \begin{minipage}[b]{0.71\columnwidth}\raggedright\strut
+		\textbf{Eliminación de un punto cualquiera}\strut
+	\end{minipage}\tabularnewline
+	\toprule
+	\endhead
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Requisitos asociados}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		RF-2.2, RF-2.2.2\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Actor}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Usuario logueado.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Descripción}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Eliminar un punto seleccionado previamente.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Precondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		\begin{itemize}
+			\item Usuario logueado.
+			\item Mapa cargado.
+			\item JavaScript cargado.
+			\item Punto seleccionado.
+			\item Punto añadido a la tabla que contiene la lista de los lugares ya seleccionados.
+		\end{itemize}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Acciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Hacer click sobre el icono de la papelera del punto que se quiere eliminar.
+		\end{enumerate}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Postcondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		El punto desaparece del mapa y de la tabla.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Excepciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Importancia}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Baja\strut
+	\end{minipage}\tabularnewline
+	\bottomrule
+	\caption{Eliminación de un punto cualquiera.}
+	\label{cu:2.2.2}
+\end{longtable}
+\newpage
+
+%Caso de Uso 3%
 \begin{longtable}[H]{@{}l|l@{}}
 	\toprule
 	\begin{minipage}[b]{0.23\columnwidth}\raggedright\strut
@@ -244,12 +684,12 @@ En esta sección, se presentan los casos de uso de la aplicación.
 	\midrule
 	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
 		\textbf{Acciones}\strut
-	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
 		\begin{enumerate}
 			\def\labelenumi{\arabic{enumi}.}
 			\tightlist
 			\item Seleccionar el mapa más conveniente.
-			\item Pulsar sobre Enviar.
+			\item Enviar y calcular/generar el mapa.
 			\item Editar las posiciones de los puntos.
 			\item Editar los nombres de los puntos.
 			\item Editar la posición de los textos.
@@ -265,11 +705,8 @@ En esta sección, se presentan los casos de uso de la aplicación.
 	\midrule
 	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
 		\textbf{Excepciones}\strut
-	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
-		\begin{itemize}
-			\tightlist
-			\item No se puede exportar el mapa.
-		\end{itemize}
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+
 	\end{minipage}\tabularnewline
 	\midrule
 	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
@@ -284,5 +721,290 @@ En esta sección, se presentan los casos de uso de la aplicación.
 \newpage
 
 
-FIXME: He estado mirando varios ejemplos, y aqui tendría que meter otra fila en la tabla que fuese casos de extensión o de inclusión?
-O añado directamente esos casos como una tabla nueva? por el momento lo he dejado incluido en la sección de pasos como un elemento de la lista (probablemente no sea la mejor opción).
+%Caso de Uso 3.1%
+\begin{longtable}[H]{@{}l|l@{}}
+	\toprule
+	\begin{minipage}[b]{0.23\columnwidth}\raggedright\strut
+		\textbf{CU-3.1}\strut
+	\end{minipage} & \begin{minipage}[b]{0.71\columnwidth}\raggedright\strut
+		\textbf{Añadir y eliminar arcos}\strut
+	\end{minipage}\tabularnewline
+	\toprule
+	\endhead
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Requisitos asociados}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		RF-3.1\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Actor}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Usuario logueado.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Descripción}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Mediante el uso de un slider, el usuario elige el número de arcos (trayectos) que se muestran.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Precondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		\begin{itemize}
+			\item Sesión iniciada.
+			\item Puntos seleccionados y enviados (\nameref{cu:2}).
+		\end{itemize}.
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Acciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Mover el punto del slider.
+			\item Enviar el mapa seleccionado. 
+		\end{enumerate}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Postcondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Redirección a una nueva página en la que solo se muestra el mapa seleccionado.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Excepciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Importancia}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Alta\strut
+	\end{minipage}\tabularnewline
+	\bottomrule
+	\caption{Añadir y eliminar arcos.}
+	\label{cu:3.1}
+\end{longtable}
+\newpage
+
+%Caso de Uso 3.2%
+\begin{longtable}[H]{@{}l|l@{}}
+	\toprule
+	\begin{minipage}[b]{0.23\columnwidth}\raggedright\strut
+		\textbf{CU-3.2}\strut
+	\end{minipage} & \begin{minipage}[b]{0.71\columnwidth}\raggedright\strut
+		\textbf{Mover los puntos y las etiquetas}\strut
+	\end{minipage}\tabularnewline
+	\toprule
+	\endhead
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Requisitos asociados}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		RF-3.2\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Actor}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Usuario logueado.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Descripción}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Cambiar de posición los puntos y etiquetas del mapa.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Precondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		\begin{itemize}
+			\item Sesión iniciada.
+			\item Mapa cargado.
+		\end{itemize}.
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Acciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Mover el punto.
+			\item Mover las etiquetas. 
+		\end{enumerate}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Postcondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		\begin{itemize}
+			\item Cambio de posición.
+			\item La posición de las etiquetas se recalcula para ajustarse a la nueva posición del punto.
+		\end{itemize}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Excepciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Importancia}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Baja\strut
+	\end{minipage}\tabularnewline
+	\bottomrule
+	\caption{Mover los puntos y las etiquetas.}
+	\label{cu:3.2}
+\end{longtable}
+\newpage
+
+%Caso de Uso 3.3%
+\begin{longtable}[H]{@{}l|l@{}}
+	\toprule
+	\begin{minipage}[b]{0.23\columnwidth}\raggedright\strut
+		\textbf{CU-3.3}\strut
+	\end{minipage} & \begin{minipage}[b]{0.71\columnwidth}\raggedright\strut
+		\textbf{Cambiar el nombre de los puntos}\strut
+	\end{minipage}\tabularnewline
+	\toprule
+	\endhead
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Requisitos asociados}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		RF-3.3\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Actor}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Usuario logueado.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Descripción}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Cambiar el nombre de los puntos que aparecen en el mapa.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Precondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		\begin{itemize}
+			\item Sesión iniciada.
+			\item Mapa cargado.
+		\end{itemize}.
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Acciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Pulsar sobre la etiqueta que se quiere cambiar.
+			\item Introducir el texto nuevo. 
+		\end{enumerate}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Postcondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Cambio de texto de la etiqueta.
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Excepciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Importancia}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Baja\strut
+	\end{minipage}\tabularnewline
+	\bottomrule
+	\caption{Cambiar el nombre de los puntos.}
+	\label{cu:3.3}
+\end{longtable}
+\newpage
+
+%Caso de Uso 3.4%
+\begin{longtable}[H]{@{}l|l@{}}
+	\toprule
+	\begin{minipage}[b]{0.23\columnwidth}\raggedright\strut
+		\textbf{CU-3.4}\strut
+	\end{minipage} & \begin{minipage}[b]{0.71\columnwidth}\raggedright\strut
+		\textbf{Exportación y descarga}\strut
+	\end{minipage}\tabularnewline
+	\toprule
+	\endhead
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Requisitos asociados}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		RF-3.4\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Actor}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Usuario logueado.\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Descripción}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Descarga como SVG del mapa generado (editado o no).\strut
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Precondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		\begin{itemize}
+			\item Sesión iniciada.
+			\item Mapa cargado.
+		\end{itemize}.
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Acciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Pulsar sobre el botón de exportar.
+			\item Guardar archivo. 
+		\end{enumerate}
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Postcondición}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Descarga del mapa.
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Excepciones}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		
+	\end{minipage}\tabularnewline
+	\midrule
+	\begin{minipage}[t]{0.23\columnwidth}\raggedright\strut
+		\textbf{Importancia}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright\strut
+		Baja\strut
+	\end{minipage}\tabularnewline
+	\bottomrule
+	\caption{Exportación y descarga.}
+	\label{cu:3.4}
+\end{longtable}
+\newpage
+
