@@ -40,6 +40,9 @@ En este apéndice se va a definir todo aquello que es necesario conocer para que
 \section{Estructura de directorios}\label{cap:Estructura}
 En este proyecto, aunque al principio se siguieron distintos tutoriales sobre cómo crear la estructura de directorios y ficheros, al final se optó por la opción que propone Azure. De este modo, a la hora de realizar el despliegue no tendríamos ningún tipo de problema, ya que esta plataforma requiere determinados ficheros de configuración que se explicarán a continuación.
 La estructura del proyecto se divide en:
+
+
+FIXME: va el dictree de abajo, pero al ponerlo dentro de un begin{figure} para que salga en una pag entera, lo mueve abajo.
 \begin{figure}
 
 \dirtree{%
@@ -368,9 +371,25 @@ En esta pantalla tenemos que elegir el punto de entrada a la aplicación, que se
 Para realizar el despliegue de la aplicación en Azure es necesario que el proyecto tenga una estructura concreta, ya que serán los servicios de Azure los que instalen las dependencias necesarias y ejecuten el código. Dicha estructura es la definida anteriormente en el apartado \textit{Estructura de directorios}~\ref{cap:Estructura}. Para ello he seguido el tutorial propuesto por Microsoft~\cite{deploy-flask-azure}, junto con el ejemplo de de aplicación que propone~\footnote{\url{https://code.visualstudio.com/docs/python/python-tutorial}}.
 
 Antes de hacer el despliegue, es importante acordarse de configurar en Azure las variables de entorno que teníamos definidas~\ref{variables_entorno}. Para ello debemos entrar, en Azure, a nuestro \textit{APP Service} y añadirlas en el apartado de \textit{Configuración} que aparece en el menú desplegable de la izquierda,  véase la figura~\ref{fig:configuracion_paso1}.
-\imagen{configuracion_paso1}{Configuración Variables de entorno en Azure, paso 1.}
 
-A continuación, seleccionar \textit{Configuración de la aplicación} y \textit{Nueva configuración de la aplicación}, como vemos en la figura~\ref{fig:configuracion_paso2}.
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.7\textwidth, height=12cm]{configuracion_paso1}
+	\caption{Configuración Variables de entorno en Azure, paso 1.}\label{fig:configuracion_paso1}
+\end{figure}
+\FloatBarrier
+
+
+A continuación, seleccionar \textit{Configuración de la aplicación} y \textit{Nueva configuración de la aplicación}, como vemos en la Figura~\ref{fig:configuracion_paso2}.
 \imagen{configuracion_paso2}{Configuración Variables de entorno en Azure, paso 2.}
 
 \section{Pruebas del sistema}
+Esta sección no es una parte en la que se haya hecho mucho hincapié a lo largo del desarrollo, pero se han realizado diferentes pruebas manuales y de usabilidad.
+\\
+
+
+A lo largo del desarrollo, con el objetivo de que Google no me cobrase por las múltiples llamadas a las APIs, guarde unos archivos \textit{JSON} con algunos ejemplos de datos que me proporcionaba Google. Se encuentran en el directorio \verb|/static|. Mediantes ejemplos (conociendo la entrada) se evaluaba cual era la salida esperada, que al principio comenzó siendo el posicionamiento correcto de los puntos sobre el SVG y, al final, acabó siendo el posicionamiento correcto de todas las líneas, puntos y textos sobre el SVG.
+
+
+
+
