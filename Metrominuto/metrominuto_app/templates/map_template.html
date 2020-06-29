@@ -1,4 +1,4 @@
- {% extends "base.html" %}
+{% extends "base.html" %}
 {% set active_page="mapa" %}
 
 {% block title %}Mapa{% endblock %}
@@ -79,7 +79,7 @@
                     {{ form.mode(class="form-control") }}
                 </div>
                 <div class="form-group col-lg-1 col-md-12 col-sm-12">
-{#                    {{ form.submit(class="btn alert-success") }}#}
+                    {#                    {{ form.submit(class="btn alert-success") }}#}
                     <input id="form-but" type="button" class="btn alert-success" value="Generar Mapa">
                 </div>
                 <div class="form-group col-md-2 col-sm-12">
@@ -103,63 +103,71 @@
                 deleteMarkers();
             });
             $('#form-but').click(function() {
-                var svg_div = document.getElementById('divsvg');
-                svg_div.style.display = 'block';
-                svg_div.style.height = "900px";
-                var papers = Snap("#svgout");
-                papers.attr({viewBox:"0, 0.2, 1, 1.5"});
-                var text_size = []
-                for(var i=0;i<app.markers_list.length;i++) {
-                    papers.text(0, 0, app.markers_list[i].text.split(",")[0]).attr({id: 'mark'+app.markers_list[i].id,'font-size': 0.025, 'font-weight': 'bold', fill: 'black'});
+                if(app.markers_list.length<3){
+                    bootbox.alert("Seleccione más de 3 marcadores");
+                }else {
+                    if ($('#mode').val() == ''){
+                        bootbox.alert("Seleccione un modo de desplazamiento.");
+                    }else {
+                        var svg_div = document.getElementById('divsvg');
+                        svg_div.style.display = 'block';
+                        svg_div.style.height = "900px";
+                        var papers = Snap("#svgout");
+                        papers.attr({viewBox:"0, 0.2, 1, 1.5"});
+                        var text_size = []
+                        for(var i=0;i<app.markers_list.length;i++) {
+                            papers.text(0, 0, app.markers_list[i].text.split(",")[0]).attr({id: 'mark'+app.markers_list[i].id,'font-size': 0.025, 'font-weight': 'bold', fill: 'black'});
+                        }
+                        for(var i=0;i<app.markers_list.length;i++) {
+                            var t = document.getElementById('mark'+app.markers_list[i].id);
+                            text_size.push({'id':app.markers_list[i].id, 'size':t.getBoundingClientRect().width, 'text':app.markers_list[i].text});
+                        }
+
+                        var markers = []
+                        app.markers_list.forEach(myFunctionMarkers);
+                        function myFunctionMarkers(item) {
+                            let  central_mark = {'id':item.id, 'position':item.mark.position};
+                            markers.push(central_mark);
+                        }
+
+                        var central_marks = []
+                        app.central_markers.forEach(myFunction);
+                        function myFunction(item) {
+                            let  central_mark = {'id':item.id, 'position':item.mark.position};
+                            central_marks.push(central_mark);
+                        }
+
+                        const myForm = document.getElementById('myform');
+                        const input_markers = document.createElement('input');
+                        input_markers.type = 'hidden';
+                        input_markers.name = 'markers';
+                        input_markers.value = JSON.stringify({markers: markers});
+                        myForm.appendChild(input_markers);
+
+                        const input_central = document.createElement('input');
+                        input_central.type = 'hidden';
+                        input_central.name = 'central_markers';
+                        input_central.value = JSON.stringify({central_markers: central_marks});
+                        myForm.appendChild(input_central);
+
+                        const textBox = document.createElement('input');
+                        textBox.type = 'hidden';
+                        textBox.name = 'size';
+                        textBox.value = JSON.stringify({size: text_size});
+                        myForm.appendChild(textBox);
+
+                        var dialog = bootbox.dialog({
+                            title: 'Calculando el mapa',
+                            message: '<p><i class="fa fa-spin fa-spinner"></i> Cargando...</p>'
+                        });
+
+                        dialog.init(function(){
+                            setTimeout(function(){
+                                $('#myform').submit();
+                            }, 1000);
+                        });
+                    }
                 }
-                for(var i=0;i<app.markers_list.length;i++) {
-                    var t = document.getElementById('mark'+app.markers_list[i].id);
-                    text_size.push({'id':app.markers_list[i].id, 'size':t.getBoundingClientRect().width, 'text':app.markers_list[i].text});
-                }
-
-                var markers = []
-                app.markers_list.forEach(myFunctionMarkers);
-                function myFunctionMarkers(item) {
-                    let  central_mark = {'id':item.id, 'position':item.mark.position};
-                    markers.push(central_mark);
-                }
-
-                var central_marks = []
-                app.central_markers.forEach(myFunction);
-                function myFunction(item) {
-                    let  central_mark = {'id':item.id, 'position':item.mark.position};
-                    central_marks.push(central_mark);
-                }
-
-                const myForm = document.getElementById('myform');
-                const input_markers = document.createElement('input');
-                input_markers.type = 'hidden';
-                input_markers.name = 'markers';
-                input_markers.value = JSON.stringify({markers: markers});
-                myForm.appendChild(input_markers);
-
-                const input_central = document.createElement('input');
-                input_central.type = 'hidden';
-                input_central.name = 'central_markers';
-                input_central.value = JSON.stringify({central_markers: central_marks});
-                myForm.appendChild(input_central);
-
-                const textBox = document.createElement('input');
-                textBox.type = 'hidden';
-                textBox.name = 'size';
-                textBox.value = JSON.stringify({size: text_size});
-                myForm.appendChild(textBox);
-
-                var dialog = bootbox.dialog({
-                    title: 'Calculando el mapa',
-                    message: '<p><i class="fa fa-spin fa-spinner"></i> Cargando...</p>'
-                });
-
-                dialog.init(function(){
-                    setTimeout(function(){
-                         $('#myform').submit();
-                    }, 1000);
-                });
             });
 
             var matrix = [];
@@ -241,31 +249,31 @@
             var geocoder = new google.maps.Geocoder;
             function addMarker(location, map) {
                 geocoder.geocode({'location': location}, function(results, status) {
-                        if (status === google.maps.GeocoderStatus.OK) {
-                            if (results[1]) {
-                                //console.log(results[0].place_id);
-                                var marker = new google.maps.Marker({
-                                    position: location,
-                                    map: map,
-                                    //draggable: true,
-                                    icon: {
-                                        url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
-                                    }
-                                });
+                    if (status === google.maps.GeocoderStatus.OK) {
+                        if (results[1]) {
+                            //console.log(results[0].place_id);
+                            var marker = new google.maps.Marker({
+                                position: location,
+                                map: map,
+                                //draggable: true,
+                                icon: {
+                                    url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+                                }
+                            });
 
-                                var infowindow = new google.maps.InfoWindow({content: results[2].formatted_address });
-                                //infowindow.open(map,marker);
-                                marker.addListener('click', function() {
-                                    infowindow.open(map, marker);
-                                });
-                                app.addNewTodo(marker, results[2].formatted_address);
+                            var infowindow = new google.maps.InfoWindow({content: results[2].formatted_address });
+                            //infowindow.open(map,marker);
+                            marker.addListener('click', function() {
+                                infowindow.open(map, marker);
+                            });
+                            app.addNewTodo(marker, results[2].formatted_address);
 
-                                cont_aux++;
-                            } else {
-                                window.alert('No results found');
-                            }
+                            cont_aux++;
+                        } else {
+                            window.alert('No results found');
                         }
-                    });
+                    }
+                });
                 //FIXME
                 /*var marker = new google.maps.Marker({
                     position: location,

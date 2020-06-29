@@ -198,7 +198,7 @@ def calculate_edges_votes(graph, tam, central_markers):
                 globals.vote_global_graph.add_edge(pair[0], pair[1],
                                                    weight=pair[2]['weight'],
                                                    votes=votes[x, y], duration=pair[2]['duration'])
-                print('Edge Added-> ', pair[0], ' - ', pair[1])
+                print('Edge Added-> ', pair[0], ' - ', pair[1], ' -> ', pair[2]['duration'])
     session['max_votes'] = votes.max()
     session['min_votes'] = votes.min()
     return globals.vote_global_graph

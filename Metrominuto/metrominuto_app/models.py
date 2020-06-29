@@ -1,4 +1,4 @@
-import math
+import math, re
 
 
 class Point:
@@ -110,27 +110,33 @@ class Color:
         :return: specific color.
         :rtype str color.
         """
+        var = bool(re.match(r"[0-9] day", time_str))
         self.check_cont()
-        if time_str != '':
-            time = int(time_str.split(' mins')[0]) or int(time_str.split(' hours')[0])
-        else:
-            time = 20
-        if time <= 5:
-            return_color = self.green[self.cont_green]
-            self.cont_green += 1
-            self.num_green += 1
-        elif time <= 7:
-            return_color = self.brown[self.cont_brown]
-            self.cont_brown += 1
-            self.num_brown += 1
-        elif time <= 10:
-            return_color = self.purple[self.cont_purple]
-            self.cont_purple += 1
-            self.num_purple += 1
-        elif time <= 13:
-            return_color = self.blue[self.cont_blue]
-            self.cont_blue += 1
-            self.num_blue += 1
+        if var is False:
+            if time_str != '':
+                time = int(time_str.split(' mins')[0]) or int(time_str.split(' hours')[0])
+            else:
+                time = 25
+            if time <= 5:
+                return_color = self.green[self.cont_green]
+                self.cont_green += 1
+                self.num_green += 1
+            elif time <= 10:
+                return_color = self.blue[self.cont_blue]
+                self.cont_blue += 1
+                self.num_blue += 1
+            elif time <= 15:
+                return_color = self.brown[self.cont_brown]
+                self.cont_brown += 1
+                self.num_brown += 1
+            elif time <= 20:
+                return_color = self.purple[self.cont_purple]
+                self.cont_purple += 1
+                self.num_purple += 1
+            else:
+                return_color = self.red[self.cont_red]
+                self.cont_red += 1
+                self.num_red += 1
         else:
             return_color = self.red[self.cont_red]
             self.cont_red += 1

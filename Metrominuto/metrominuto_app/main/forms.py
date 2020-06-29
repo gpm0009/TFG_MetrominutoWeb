@@ -24,7 +24,7 @@ class MapForm(FlaskForm):
 
 
 class Form(FlaskForm):
-    submit = SubmitField('Enviar')
+    submit = SubmitField('Editar')
 
 
 class LogInForm(FlaskForm):

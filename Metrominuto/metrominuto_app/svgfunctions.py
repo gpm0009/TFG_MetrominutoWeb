@@ -4,6 +4,8 @@
     This file contais the operations needed to convert NetworkX graph into
     SVG data.
 """
+import re
+
 import networkx as nx
 import numpy as np
 import svgwrite as svg
@@ -56,9 +58,15 @@ def draw_metrominuto(graph_votes):
         # weight and height text.
         text_weight, text_height = 0.08 + 0.01, 0.013
         text_pos = calculate_time_overlap(lines_points, text_weight, text_height, time_pos_positiva, time_pos_negativa)
-        time_label = add_label(dwg, text_pos, edge[2]['duration'], radio, color_aux, id_label_edge)
+        var = bool(re.match(r"[0-9] day", edge[2]['duration']))
+        if var is False:
+            time_label = add_label(dwg, text_pos, edge[2]['duration'], radio, color_aux, id_label_edge)
+            return_graph.add_lab(color_aux, edge[2]['duration'], text_pos, [edge[0], edge[1]], 'None', 0)
+        else:
+            time_label = add_label(dwg, text_pos, edge[2]['duration'].split(' day')[0]+' day', radio, color_aux, id_label_edge)
+            return_graph.add_lab(color_aux, edge[2]['duration'].split(' day')[0]+' day', text_pos, [edge[0], edge[1]], 'None', 0)
         dwg.add(time_label)
-        return_graph.add_lab(color_aux, edge[2]['duration'], text_pos, [edge[0], edge[1]], 'None', 0)
+
         # rect = dwg.rect(insert=(text_pos[0], text_pos[1] - text_height), size=(text_weight, text_height),
         #                 stroke=color, fill=color, stroke_width=0.01)
         # dwg.add(rect)
@@ -508,7 +516,12 @@ def recalcule_positions(grafo):
             # weight and height text.
             text_weight, text_height = 0.08 + 0.01, 0.013
             text_pos = calculate_time_overlap(lines_points, text_weight, text_height, time_pos_positiva, time_pos_negativa)
-            return_graph.add_lab(color_aux, edge['duration'], text_pos, [edge['edge'][0], edge['edge'][1]], 'None', 0)
+            var = bool(re.match(r"[0-9] day", edge['duration']))
+            if var is False:
+                return_graph.add_lab(color_aux, edge['duration'].split(' day')[0]+' day', text_pos, [edge['edge'][0], edge['edge'][1]], 'None', 0)
+            else:
+                return_graph.add_lab(color_aux, edge['duration'].split(' day')[0]+' day', text_pos, [edge['edge'][0], edge['edge'][1]], 'None',
+                                     0)
         else:
             lab = changed_edges[tuple(edge['edge'])]
             return_graph.add_lab(lab['color'], lab['label'], lab['pos'], [lab['edge'][0], lab['edge'][1]], 'None', 1)

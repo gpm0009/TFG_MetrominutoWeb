@@ -7,19 +7,35 @@
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static', filename='css/ayuda.css') }}">
 
-    <div id="ayuda_mapa" class="row" style="padding-top: 5px">
+    <div class="jumbotron text-center" style="padding-top: 5px">
+        <div class="col">
+            <h4>Bienvenido a la ayuda de MetrominutoWeb,</h4> <h5>una aplicación en la que cada usuario puede crear sus propios mapas.</h5>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top: 10px">
+        <div class="col-md-11">
+            <p>
+                Para comenzar a usar la aplicación debe iniciar sesión. Para ello, pulse sobre el botón Inciar sesión de la
+                parte superior <b style="color:mediumblue;">Iniciar sesión</b>.
+            </p>
+        </div>
+    </div>
+    <div id="ayuda_mapa" class="row" style="padding-top: 10px">
         <div class="col-lg-3">
-            <p>Selección de puntos:</p>
+            <p><b>Selección de puntos:</b></p>
             <ul>
-                <li>Seleccione los puntos que desee incluir en el recorrido oulsando sobre el mapa, hasta un máximo de <b style="color:red;">15</b>.</li>
-                <li>Puedes eliminar los puntos desde el botón
+                <li>Seleccione los puntos que desee incluir en el recorrido pulsando sobre el mapa. Seleccione desde un mínimo de
+                   <b style="color:red;">3</b> hasta un máximo de <b style="color:red;">15</b>.</li>
+                <li>Puede eliminar un punto desde el botón
                     <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z"/>
                         <path fill-rule="evenodd" d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 01-1-1V2a1 1 0 011-1H6a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" clip-rule="evenodd"/>
-                    </svg>, o pulsando sobre <b style="color:red;">Borrar Marcadores</b>.</li>
-                <li>Si los seleccionas como centrales, significa que los tendrá en cuenta en el cálculo de los caminos más cortos, y se cambiará el color de la chincheta a verde.</li>
-                <li>Selecciona el modo de desplazamiento, que podrá ser en bicicleta o a pie.</li>
-                <li>Pulsa sobre el botón  hasta un máximo de <b style="color:forestgreen;">Generar Mapa</b>.</li>
+                    </svg>, o todos pulsando sobre <b style="color:red;">Borrar Marcadores</b>.</li>
+                <li>Si los selecciona como centrales, significa que la aplicación los interpretará con una importancia mayor
+                    a la hora de realizar los cáclulos. Se cambiará el color de la chincheta a verde.</li>
+                <li>Seleccione el modo de desplazamiento, que podrá ser en bicicleta o a pie.</li>
+                <li>Pulse sobre el botón <b style="color:forestgreen;">Generar Mapa</b>.</li>
             </ul>
         </div>
         <div class="col-lg-8">
@@ -28,10 +44,10 @@
     </div>
     <div id="ayuda_grafo" class="row" style="padding-top: 5px">
         <div class="col-lg-3">
-            <p>Selección del número de arcos:</p>
+            <p><b>Selección del número de trayectos:</b></p>
             <ul>
-                <li>En esta pantalla podemos cambiar el núnmero de arcos que queremos que se muestren en el mapa generado.</li>
-                <li>Una vez el mapa tenga los arcos que nos interesan, pulsar sobre el botón <b style="color:forestgreen;">Enviar</b></li>
+                <li>En esta pantalla podemos cambiar el núnmero de trayectos que queremos que se muestren en el mapa generado.</li>
+                <li>Una vez el mapa tenga los trayectos que nos interesan, pulsar sobre el botón <b style="color:forestgreen;">Enviar</b></li>
             </ul>
         </div>
         <div class="col-lg-8">
@@ -40,14 +56,14 @@
     </div>
     <div id="ayuda_grafo_edit" class="row" style="padding-top: 5px">
         <div class="col-lg-3">
-            <p>Edicón del mapa:</p>
+            <p><b>Edicón del mapa:</b></p>
             <ul>
                 <li>En esta pantalla podemos editar la posción de los puntos. Para ellos pulsa encima del punto y arrastralo a la nueva posición.
-                    <br>Los textos que indican el nombre del punto, así como los que indican el tiempo entre los puntos conectados a él se recalculan
+                    <br>Los textos que indican el nombre del punto, así como los que indican el tiempo entre los puntos conectados a él se recalcularán
                     automáticamente.</br>
                 </li>
                 <li>También se pueden mover los textos, por si fuesen de más ayuda en otra posición. Para ello sigue el mismo proceso que antes: haz click sobre un punto
-                y arrastra para dejarlo en la posición que desee.</li>
+                y arrastrar para dejarlo en la posición que desee.</li>
             </ul>
         </div>
         <div class="col-lg-8">
