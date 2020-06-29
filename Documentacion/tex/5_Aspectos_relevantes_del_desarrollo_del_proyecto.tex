@@ -51,7 +51,7 @@ Para calcular el mapa sinóptico se han empleado grafos, junto con la librería~
 		La unión entre ambos subconjuntos (nodo <<b>> con el resto del grafo) se realizaría por el arco que tenga una menor distancia, b--a.
 		\item Guardar el subgrafo conexo obtenido.
 	\end{enumerate}
-	\item Generar el grafo SVG correspondiente a cada subgrafo, que se explica en la siguiente sección, \nameref{sub:dibujar-grafo-svg}.
+	\item Generar el grafo SVG correspondiente a cada subgrafo.
 \end{steps}
 
 
@@ -68,7 +68,13 @@ El principal objetivo de este proyecto se basa en obtener un grafo final de mane
 	\item Reposicionar los puntos que vertical u horizontalmente sean casi similares para evitar líneas diagonales.
 \end{itemize}
 
-Estos problemas han resultado de gran complejidad en el desarrollo final del proyecto ya que, como mencionaba antes, es el resultado final de la aplicación web diseñada y programada para el TFG.
+Estos problemas han resultado de gran complejidad en el desarrollo final del proyecto ya que, como mencionaba antes, es el resultado final de la aplicación web diseñada y programada para el TFG. Para la resolución de cómo calcular la posición de los textos, se han tenido en cuenta dos opciones (explicadas en detalle en \textit{Anexos--Manual del programador--Dibujado de grafos}):
+\begin{enumerate}
+	\item \textbf{Discretización de las líneas:} Este método consiste en que, una vez hemos calculado el punto medio de la línea que une dos nodos, dividimos dicha línea en varios puntos separados una distancia $\delta$ (algo menor a la altura del recuadro que contiene al texto). Después, para cada posible posición del texto en la línea vertical, por el punto medio, a la que une los nodos, calculamos si en el interior del rectángulo que contiene al texto hay uno de los puntos que hemos calculado previamente. Si lo hay, pasamos a valuar la siguiente posición.
+	\item \textbf{Superposición de cuadrados:} Este método consiste en calcular primeramente la dirección de la línea, y una vez que la sabemos, calcular el punto medio. Después, construimos 4 cuadrados usando los extremos y el punto medio, de tal modo que descartamos los dos en los que la línea coincide con la diagonal. Los otros dos, serán las dos posibles <<zonas>> en las que podemos colocar el texto.
+\end{enumerate}
+
+
 
 Un aspecto clave a tener en cuenta en el resultado final de de la aplicación es que, a pesar de que la unión entre dos puntos es una línea recta, el recorrido entre ambos puntos en la realidad no tiene por que ser recto. Dos puntos que parecen estar cerca el uno del otro pueden tener una distancia mayor que dos puntos que parecen más alejados. Para entender mejor esto fijémonos en la imagen~\ref{fig:ejemplo-distancia}. Vemos que los puntos relativos a el \textit{Arco de San Martín} y \textit{Mirador del Castillo} están más cerca el uno del otro, mientras que el punto relativo a \textit{La Estación} se encuentra más alejado de ellos.
 \imagen{ejemplo-distancia}{Puntos en el mapa.}
