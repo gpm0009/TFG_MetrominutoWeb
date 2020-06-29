@@ -88,7 +88,6 @@
             $( "#dropdown" ).click(function() {
                 $( "#leyenda" ).slideToggle( "slow");
             });
-            console.log({{ cont_colors_dict|safe }});
             draw_graphs({{ lista|safe }}, {{ cont_colors_dict|safe }});
         });
     </script>

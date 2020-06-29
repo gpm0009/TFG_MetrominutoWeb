@@ -15,7 +15,7 @@
               href="{{ url_for('static', filename='css/style.css') }}">
         <!-- Vuejs. Versión de desarrollo, incluye advertencias de ayuda en la consola -->
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
                 integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
                 crossorigin="anonymous"></script>
@@ -46,23 +46,20 @@
                 <h2 id="cookieModalLabel">Cookie Information and Consent Request</h2>
             </div>
             <div class="modal-body">
-                <h4>Cookie Policy</h4>
-                <p>[COOKIE MESSAGE HERE]</p>
-                <p>
-                    <a href="" target="_blank">Click here to view our cookie policy</a>
-                </p>
+                <h4>Política de Cookies</h4>
+                <p>Utilizamos cookies propias y de terceros para mejorar la experiencia y los servicios analizando la navegación en la web.</p>
             </div>
             <div class="modal-footer">
-                <button id="cookieModalConsent" type="button" class="btn btn-primary btn-lg btn-block" data-dismiss="modal">Accept</button>
+                <button id="cookieModalConsent" type="button" class="btn btn-primary btn-lg btn-block" data-dismiss="modal">Aceptar</button>
             </div>
         </div>
     </div>
 </div>
 
 <header class="navbar navbar-expand-lg navbar-dark bg-dark flex-column flex-md-row bd-navbar sticky-top">
-        <a class="navbar-brand mr-0 mr-md-2" href="{{ url_for('main.set_marks') }}" aria-label="Metrominuto">
-                <img src="{{ url_for('static', filename='img/logo.svg') }}" class="pull-right img-responsive" style="height: 35px">
-        </a>
+    <a class="navbar-brand mr-0 mr-md-2" href="#" aria-label="Metrominuto">
+        <img src="{{ url_for('static', filename='img/logo.svg') }}" class="pull-right img-responsive" style="height: 35px">
+    </a>
     {% if session['email'] %}
         <div class="navbar-nav-scroll">
             <ul class="navbar-nav bd-navbar-nav flex-row">
@@ -134,85 +131,94 @@
 
 <!-- Additional scripts; use the "scripts" block to add page-specific scripts.  -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+{% if active_page == 'index' %}
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+                integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+                crossorigin="anonymous"></script>
+{% endif %}
 {% block scripts %}
     <script>
-        document.getElementById('sign-out').addEventListener('click', function() {
-            firebase.auth().signOut();
-            console.log('OUT');
-            $.ajax({
-                type : 'POST',
-                url : "{{url_for('main.logout')}}",
-                contentType: 'application/json;charset=UTF-8',
-                data : JSON.stringify('OUT')
-            }).done(function(response) {
-                setTimeout(function(){
-                         window.open("{{ url_for('main.index') }}", "_self")
+        {% if session['email'] %}
+            document.getElementById('sign-out').addEventListener('click', function() {
+                firebase.auth().signOut();
+                console.log('OUT');
+                $.ajax({
+                    type : 'POST',
+                    url : "{{url_for('main.logout')}}",
+                    contentType: 'application/json;charset=UTF-8',
+                    data : JSON.stringify('OUT')
+                }).done(function(response) {
+                    setTimeout(function(){
+                        window.open("{{ url_for('main.index') }}", "_self")
                     }, 900);
-            }).fail(function() {
-                console.log('FAIL');
+                }).fail(function() {
+                    console.log('FAIL');
+                });
             });
-        });
-        (function () {
-            "use strict";
+        {% endif %}
+        {% if active_page == 'index' %}
+            (function () {
+                "use strict";
 
-            var cookieName = 'tplCookieConsent'; // The cookie name
-            var cookieLifetime = 1; // Cookie expiry in days
+                var cookieName = 'tplCookieConsent'; // The cookie name
+                var cookieLifetime = 1; // Cookie expiry in days
 
-            /**
-             * Set a cookie
-             * @param cname - cookie name
-             * @param cvalue - cookie value
-             * @param exdays - expiry in days
-             */
-            var _setCookie = function (cname, cvalue, exdays) {
-                var d = new Date();
-                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-                var expires = "expires=" + d.toUTCString();
-                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-            };
+                /**
+                 * Set a cookie
+                 * @param cname - cookie name
+                 * @param cvalue - cookie value
+                 * @param exdays - expiry in days
+                 */
+                var _setCookie = function (cname, cvalue, exdays) {
+                    var d = new Date();
+                    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                    var expires = "expires=" + d.toUTCString();
+                    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+                };
 
-            /**
-             * Get a cookie
-             * @param cname - cookie name
-             * @returns string
-             */
-            var _getCookie = function (cname) {
-                var name = cname + "=";
-                var ca = document.cookie.split(';');
-                for (var i = 0; i < ca.length; i++) {
-                    var c = ca[i];
-                    while (c.charAt(0) == ' ') {
-                        c = c.substring(1);
+                /**
+                 * Get a cookie
+                 * @param cname - cookie name
+                 * @returns string
+                 */
+                var _getCookie = function (cname) {
+                    var name = cname + "=";
+                    var ca = document.cookie.split(';');
+                    for (var i = 0; i < ca.length; i++) {
+                        var c = ca[i];
+                        while (c.charAt(0) == ' ') {
+                            c = c.substring(1);
+                        }
+                        if (c.indexOf(name) == 0) {
+                            return c.substring(name.length, c.length);
+                        }
                     }
-                    if (c.indexOf(name) == 0) {
-                        return c.substring(name.length, c.length);
+                    return "";
+                };
+
+                /**
+                 * Should the cookie popup be shown?
+                 */
+                var _shouldShowPopup = function () {
+                    if (_getCookie(cookieName)) {
+                        return false;
+                    } else {
+                        return true;
                     }
+                };
+
+                // Show the cookie popup on load if not previously accepted
+                if (_shouldShowPopup()) {
+                    $('#cookieModal').modal('show');
                 }
-                return "";
-            };
 
-            /**
-             * Should the cookie popup be shown?
-             */
-            var _shouldShowPopup = function () {
-                if (_getCookie(cookieName)) {
-                    return false;
-                } else {
-                    return true;
-                }
-            };
+                // Modal dismiss btn - consent
+                $('#cookieModalConsent').on('click', function () {
+                    _setCookie(cookieName, 1, cookieLifetime);
+                });
 
-            // Show the cookie popup on load if not previously accepted
-            if (_shouldShowPopup()) {
-                {#$('#cookieModal').modal('show');#}
-            }
-
-            // Modal dismiss btn - consent
-            $('#cookieModalConsent').on('click', function () {
-                _setCookie(cookieName, 1, cookieLifetime);
-            });
-
-        })();
+            })();
+        {% endif %}
     </script>
 {% endblock %}
 </body>

@@ -525,7 +525,7 @@ def recalcule_positions(grafo):
             text_pos = calculate_time_overlap(lines_points, text_weight, text_height, time_pos_positiva, time_pos_negativa)
             var = bool(re.match(r"[0-9] day", edge['duration']))
             if var is False:
-                return_graph.add_lab(color_aux, edge['duration'].split(' day')[0]+' day', text_pos, [edge['edge'][0], edge['edge'][1]], 'None', 0)
+                return_graph.add_lab(color_aux, edge['duration'], text_pos, [edge['edge'][0], edge['edge'][1]], 'None', 0)
             else:
                 return_graph.add_lab(color_aux, edge['duration'].split(' day')[0]+' day', text_pos, [edge['edge'][0], edge['edge'][1]], 'None',
                                      0)

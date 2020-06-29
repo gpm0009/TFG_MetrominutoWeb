@@ -196,8 +196,6 @@
 
             grafo['edges'].forEach(myFunctionEdges);
             function myFunctionEdges(item) {
-                console.log(item);
-                console.log(l_cont[item['edge'][0]]);
                 lista[l_cont[item['edge'][0]]].addPath(lista[l_cont[item['edge'][1]]], item['color']);
             }
 
@@ -254,7 +252,6 @@
             var DOMURL = window.URL || window.webkitURL || window;
             var img1 = new Image();
             var url = papers.toDataURL();
-            console.log(papers.toDataURL());
             img1.onload = function() {
                 DOMURL.revokeObjectURL(url);
                 triggerDownload(url, 'fileName.svg');
