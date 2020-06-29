@@ -190,21 +190,13 @@
 
                 });
 
-                /*{%if session['marcadores'] %}
+                {%if session['marcadores'] %}
                 console.log('TRUE marcadores');
                 var aux = {{ session['marcadores']|safe }};
-                console.log(aux);
-                for(var i=1;i<aux.length;i++) {
-                    var marker = new google.maps.Marker({
-                        position: aux[i].position,
-                        map: map,
-                        icon: {
-                            url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
-                        }
-                    });
-                    app.addNewTodo(marker, 'Marcador' + i.toString());
+                for(var i=0;i<aux.length;i++) {
+                    addMarker(aux[i].position,map);
                 }
-            {% endif %}*/
+            {% endif %}
                 //FIXME ONLY FOR NO API OPERATIONS
                 /*{% if  positions %}
                     var positions = {{ positions|safe }};
