@@ -33,7 +33,7 @@ def widget():
     return render_template('widget.html')
 
 
-@main.route("/logut", methods=['GET', 'POST'])
+@main.route("/logout", methods=['GET', 'POST'])
 def logout():
     session.clear()
     if request.method == 'POST':
@@ -41,7 +41,7 @@ def logout():
 
 
 @main.route("/map", methods=['GET', 'POST'])
-@log_in
+# @log_in
 def set_marks():
     # with open('metrominuto_app/static/distance_matrix_example2.json') as matrix_file:
     #     matrix = json.load(matrix_file)
@@ -70,7 +70,7 @@ def set_marks():
             destinations.append(mark['position'])
         central_markers = json.loads(request.form['central_markers'])
         now = datetime.now()
-        matrix = google_maps.distance_matrix(origins, destinations, 'walking', departure_time=now)
+        matrix = google_maps.distance_matrix(origins, destinations, mode, departure_time=now)
         # with open('metrominuto_app/static/distance_matrix_example2.json') as matrix_file:
         #     matrix = json.load(matrix_file)
         globals.global_dirs = text_size
@@ -88,7 +88,7 @@ def set_marks():
 
 
 @main.route('/graph', methods=['GET', 'POST'])
-@log_in
+# @log_in
 def draw_svg():
     form = Form()
     if request.method == 'POST':
@@ -97,25 +97,28 @@ def draw_svg():
     svg_list = []
     svg_dict = {}
     cont_colors_dict = {}
+    cont = 0
     for i in range(0, int(session['max_votes'])):  # 1):  #int(session['max_votes'])):  # 1):
         graph = gph.connected_graph(i)
         svg, graph_class, cont_color = svg_f.draw_metrominuto(graph)
-        svg_list.append(svg)
-        svg_dict[str(i)] = graph_class.__dict__
-        cont_colors_dict[str(i)] = {'green': cont_color.num_green,
-                                    'red': cont_color.num_red,
-                                    'blue': cont_color.num_blue,
-                                    'purple': cont_color.num_purple,
-                                    'brown': cont_color.num_brown}
+        if svg not in svg_list:
+            svg_list.append(svg)
+            svg_dict[str(cont)] = graph_class.__dict__
+            cont_colors_dict[str(cont)] = {'green': cont_color.num_green,
+                                        'red': cont_color.num_red,
+                                        'blue': cont_color.num_blue,
+                                        'purple': cont_color.num_purple,
+                                        'brown': cont_color.num_brown}
+            cont += 1
         # set_svg = set(svg_list)
         # li = list(set_svg)
     session['svg_graphs_dict'] = svg_dict
     session['svg_cont_colors'] = cont_colors_dict
-    return render_template('show_graph.html', max=session['max_votes'] - 1, min=session['min_votes'], lista=svg_list, form=form, cont_colors_dict=cont_colors_dict)
+    return render_template('show_graph.html', max=cont - 1, min=0, lista=svg_list, form=form, cont_colors_dict=cont_colors_dict)
 
 
 @main.route('/graph/edit', methods=['GET', 'POST'])
-@log_in
+# @log_in
 def edit_graph():
     cont_colors = session['svg_cont_colors'][str(session['id_svg_selected'])]
     return render_template('edit_graph.html', grafo=session['svg_graphs_dict'][str(session['id_svg_selected'])], cont_colors=cont_colors)

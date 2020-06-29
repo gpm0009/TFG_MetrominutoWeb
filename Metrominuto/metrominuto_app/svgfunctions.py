@@ -92,6 +92,13 @@ def draw_metrominuto(graph_votes):
 
 
 def get_text_width(size):
+    """
+    Function that calculate text width for the SVG.
+    :param size: initial size.
+    :type size: float.
+    :return: text width.
+    :rtype: float.
+    """
     return (0.36*size)/213.23
 
 
