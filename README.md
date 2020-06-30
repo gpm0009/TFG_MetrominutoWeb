@@ -1,12 +1,11 @@
 # TFG - MetrominutoWeb
 ![logo-negativo](https://user-images.githubusercontent.com/33413579/86137687-da421200-baed-11ea-856a-18c74655ed85.png)
 
-## Trabajo de fin de grado
 
-### Autor
+## Autor
 - Guillermo Paredes Muga
 
-### Tutores
+## Tutores
 - Dr. Álvar Arnaiz González
 - Dr. César Ignacio García Osorio
 
