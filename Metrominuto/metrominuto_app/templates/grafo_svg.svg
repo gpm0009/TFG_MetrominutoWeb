@@ -1,30 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <svg baseProfile="full" height="100%" version="1.1" viewBox="0 0.2 1 1.5" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs/>
-  <line class="static" fill="#3d9fe7" id="edge_0_3" stroke="#3d9fe7" stroke-width="0.01" x1="0.4184327026203808" x2="0.7684327026203809" y1="1.4" y2="0.9450000000000002"/>
-  <text fill="#3d9fe7" font-family="Arial" font-size="0.025" font-weight="bold" id="edge_label_0_3" stroke="none" x="0.6302483023479959" y="1.1877427690212423">10 mins</text>
-  <line class="static" fill="#ab6b49" id="edge_1_3" stroke="#ab6b49" stroke-width="0.01" x1="0.0" x2="0.7684327026203809" y1="1.0150000000000001" y2="0.9450000000000002"/>
-  <text fill="#ab6b49" font-family="Arial" font-size="0.025" font-weight="bold" id="edge_label_1_3" stroke="none" x="0.3584843234305201" y="1.0048969135127512">13 mins</text>
-  <line class="static" fill="#2f87de" id="edge_2_3" stroke="#2f87de" stroke-width="0.01" x1="0.4184327026203808" x2="0.7684327026203809" y1="0.6650000000000001" y2="0.9450000000000002"/>
-  <text fill="#2f87de" font-family="Arial" font-size="0.025" font-weight="bold" id="edge_label_2_3" stroke="none" x="0.5048153264315203" y="0.824521720236076">9 mins</text>
-  <line class="static" fill="#1f8fd5" id="edge_3_5" stroke="#1f8fd5" stroke-width="0.01" x1="0.7684327026203809" x2="0.7684327026203809" y1="0.9450000000000002" y2="1.3177152454577812"/>
-  <text fill="#1f8fd5" font-family="Arial" font-size="0.025" font-weight="bold" id="edge_label_3_5" stroke="none" x="0.6704327026203809" y="1.1313576227288906">6 mins</text>
-  <line class="static" fill="#0087cc" id="edge_3_6" stroke="#0087cc" stroke-width="0.01" x1="0.7684327026203809" x2="0.9784327026203808" y1="0.9450000000000002" y2="0.525"/>
-  <text fill="#0087cc" font-family="Arial" font-size="0.025" font-weight="bold" id="edge_label_3_6" stroke="none" x="0.9127933823953788" y="0.746180339887499">9 mins</text>
-  <line class="static" fill="#e52b15" id="edge_3_4" stroke="#e52b15" stroke-width="0.01" x1="0.7684327026203809" x2="0.0050628879431768815" y1="0.9450000000000002" y2="0.385"/>
-  <text fill="#e52b15" font-family="Arial" font-size="0.025" font-weight="bold" id="edge_label_3_4" stroke="none" x="0.37353524319372644" y="0.6448423368355497">23 mins</text>
-  <circle class="draggable" cx="0.4184327026203808" cy="1.4" fill="black" id="node_0" r="0.025" stroke="white" stroke-width="0.01"/>
-  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" id="node_label_0" stroke="none" x="0.3351721303226052" y="1.4469999999999998">Calle Madrid</text>
-  <circle class="draggable" cx="0.0" cy="1.0150000000000001" fill="black" id="node_1" r="0.025" stroke="white" stroke-width="0.01"/>
-  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" id="node_label_1" stroke="none" x="-0.09891265069097191" y="1.062">Plaza Sta. María</text>
-  <circle class="draggable" cx="0.4184327026203808" cy="0.6650000000000001" fill="black" id="node_2" r="0.025" stroke="white" stroke-width="0.01"/>
-  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" id="node_label_2" stroke="none" x="0.09534680317897648" y="0.6570000000000001">Calle Gral. Santocildes</text>
-  <circle class="draggable" cx="0.7684327026203809" cy="0.9450000000000002" fill="black" id="node_3" r="0.025" stroke="white" stroke-width="0.01"/>
-  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" id="node_label_3" stroke="none" x="0.8154327026203809" y="0.9370000000000002">N-120</text>
-  <circle class="draggable" cx="0.0050628879431768815" cy="0.385" fill="black" id="node_4" r="0.025" stroke="white" stroke-width="0.01"/>
-  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" id="node_label_4" stroke="none" x="-0.1173279318609592" y="0.33799999999999997">Calle de las Corazas</text>
-  <circle class="draggable" cx="0.7684327026203809" cy="1.3177152454577812" fill="black" id="node_5" r="0.025" stroke="white" stroke-width="0.01"/>
-  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" id="node_label_5" stroke="none" x="0.669520051929409" y="1.3647152454577811">Calle Sta. Clara</text>
-  <circle class="draggable" cx="0.9784327026203808" cy="0.525" fill="black" id="node_6" r="0.025" stroke="white" stroke-width="0.01"/>
-  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" id="node_label_6" stroke="none" x="0.8873460911260072" y="0.478">Calle Briviesca</text>
+  <line class="static" fill="#31a84f" id="edge_0_6" stroke="#31a84f" stroke-width="0.01" x1="0.6569358122839335" x2="0.6569358122839335" y1="0.6982690036262968" y2="0.3999999999999999"/>
+  <text fill="#31a84f" font-family="Arial" font-size="0.025" font-weight="bold" id="edge_label_0_6" stroke="none" x="0.6989358122839335" y="0.5491345018131484">2 mins</text>
+  <line class="static" fill="#259f48" id="edge_0_3" stroke="#259f48" stroke-width="0.01" x1="0.6569358122839335" x2="0.6082395503808382" y1="0.6982690036262968" y2="1.3276447615315348"/>
+  <text fill="#259f48" font-family="Arial" font-size="0.025" font-weight="bold" id="edge_label_0_3" stroke="none" x="0.5346621779663489" y="1.0110283385815764">5 mins</text>
+  <line class="static" fill="#179740" id="edge_1_3" stroke="#179740" stroke-width="0.01" x1="1.0" x2="0.6082395503808382" y1="0.8682901282431711" y2="1.3276447615315348"/>
+  <text fill="#179740" font-family="Arial" font-size="0.025" font-weight="bold" id="edge_label_1_3" stroke="none" x="0.7120980670536969" y="1.0817447872887547">5 mins</text>
+  <line class="static" fill="#008f39" id="edge_3_5" stroke="#008f39" stroke-width="0.01" x1="0.6082395503808382" x2="0.25252651388192565" y1="1.3276447615315348" y2="1.4"/>
+  <text fill="#008f39" font-family="Arial" font-size="0.025" font-weight="bold" id="edge_label_3_5" stroke="none" x="0.39739985201690825" y="1.3393240560078024">4 mins</text>
+  <line class="static" fill="#008732" id="edge_4_5" stroke="#008732" stroke-width="0.01" x1="0.0" x2="0.25252651388192565" y1="1.008290128243171" y2="1.4"/>
+  <text fill="#008732" font-family="Arial" font-size="0.025" font-weight="bold" id="edge_label_4_5" stroke="none" x="0.03225121047023945" y="1.2176910562636236">3 mins</text>
+  <circle class="draggable" cx="0.6569358122839335" cy="0.6982690036262968" fill="black" id="node_0" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" id="node_label_0" stroke="none" x="0.349502094282465" y="0.6902690036262968">Calle de la Concordia</text>
+  <circle class="draggable" cx="1.0" cy="0.8682901282431711" fill="black" id="node_1" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" id="node_label_1" stroke="none" x="0.8854352322733045" y="0.821290128243171">Av. del Arlanzón</text>
+  <circle class="draggable" cx="0.6082395503808382" cy="1.3276447615315348" fill="black" id="node_3" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" id="node_label_3" stroke="none" x="0.5249790296064324" y="1.3746447615315347">Calle Madrid</text>
+  <circle class="draggable" cx="0.0" cy="1.008290128243171" fill="black" id="node_4" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" id="node_label_4" stroke="none" x="-0.09891267645265676" y="0.9612901282431711">Paseo de la Isla</text>
+  <circle class="draggable" cx="0.25252651388192565" cy="1.4" fill="black" id="node_5" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" id="node_label_5" stroke="none" x="0.06752723881573758" y="1.4469999999999998">Calle Dr. José Luis Santamaría</text>
+  <circle class="draggable" cx="0.6569358122839335" cy="0.3999999999999999" fill="black" id="node_6" r="0.025" stroke="white" stroke-width="0.01"/>
+  <text fill="black" font-family="Arial" font-size="0.025" font-weight="bold" id="node_label_6" stroke="none" x="0.542371044557238" y="0.35299999999999987">Calle Diego Laínez</text>
 </svg>

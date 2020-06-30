@@ -20,6 +20,10 @@ google_maps = googlemaps.Client(key=Config.GOOGLE_API_KEY)
 
 @main.route("/", methods=['GET', 'POST'])
 def index():
+    """
+    Function that loads initial page of the application.
+    :return: index template.
+    """
     form = LogInForm()
     if request.method == 'POST':
         user_info = json.loads(request.form['user_data'])
@@ -30,11 +34,19 @@ def index():
 
 @main.route("/widget", methods=['GET', 'POST'])
 def widget():
+    """
+    Function that loads the new page in order to make the login.
+    :return: Login template.
+    """
     return render_template('widget.html')
 
 
 @main.route("/logout", methods=['GET', 'POST'])
 def logout():
+    """
+    function that removes session attributes and returns the user to the home page.
+    :return: redirect to index page.
+    """
     session.clear()
     if request.method == 'POST':
         return redirect(url_for('main.index'))
@@ -43,6 +55,12 @@ def logout():
 @main.route("/map", methods=['GET', 'POST'])
 @log_in
 def set_marks():
+    """
+    Function that reives all places and redirect the user to a new page with the
+    different options.
+    :return: if the method is get, return a template with the map.
+            If the method is post, redirect to graph page.
+    """
     # with open('metrominuto_app/static/distance_matrix_example2.json') as matrix_file:
     #     matrix = json.load(matrix_file)
     # with open('metrominuto_app/static/markers_example2.json') as markers_file:
@@ -90,6 +108,11 @@ def set_marks():
 @main.route('/graph', methods=['GET', 'POST'])
 @log_in
 def draw_svg():
+    """
+    Function that calculate differents graphs from initial places.
+    :return: if method is get, return a template with the options.
+            if method is post, redirect to edit page.
+    """
     form = Form()
     if request.method == 'POST':
         session['id_svg_selected'] = int(request.form['formControlRange'])
@@ -120,12 +143,21 @@ def draw_svg():
 @main.route('/graph/edit', methods=['GET', 'POST'])
 @log_in
 def edit_graph():
+    """
+    Function that shows the graph that the user has selected.
+    :return: template with the graph.
+    """
     cont_colors = session['svg_cont_colors'][str(session['id_svg_selected'])]
     return render_template('edit_graph.html', grafo=session['svg_graphs_dict'][str(session['id_svg_selected'])], cont_colors=cont_colors)
 
 
 @main.route('/recalcule', methods=['POST'])
 def recalcule():
+    """
+    Function that recalculates the label positions.
+    :return: Graph with new positions.
+    :rtype: dict.
+    """
     grafo = json.loads(request.data)
     g = svg_f.recalcule_positions(grafo)
     return g.__dict__
@@ -133,4 +165,8 @@ def recalcule():
 
 @main.route('/ayuda')
 def help_page():
+    """
+    Function that load help page.
+    :return: template.
+    """
     return render_template('ayuda.html')

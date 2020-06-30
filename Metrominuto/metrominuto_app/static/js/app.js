@@ -119,6 +119,8 @@ var deleteAccount = function() {
 var initApp = function() {
     document.getElementById('sign-in').addEventListener(
         'click', signInWithPopup);
+    document.getElementById('sign-link').addEventListener(
+        'click', signInWithPopup);
     /*document.getElementById('delete-account').addEventListener(
         'click', function() {
             deleteAccount();
