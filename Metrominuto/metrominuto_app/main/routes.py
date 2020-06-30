@@ -41,7 +41,7 @@ def logout():
 
 
 @main.route("/map", methods=['GET', 'POST'])
-# @log_in
+@log_in
 def set_marks():
     # with open('metrominuto_app/static/distance_matrix_example2.json') as matrix_file:
     #     matrix = json.load(matrix_file)
@@ -88,7 +88,7 @@ def set_marks():
 
 
 @main.route('/graph', methods=['GET', 'POST'])
-# @log_in
+@log_in
 def draw_svg():
     form = Form()
     if request.method == 'POST':
@@ -118,7 +118,7 @@ def draw_svg():
 
 
 @main.route('/graph/edit', methods=['GET', 'POST'])
-# @log_in
+@log_in
 def edit_graph():
     cont_colors = session['svg_cont_colors'][str(session['id_svg_selected'])]
     return render_template('edit_graph.html', grafo=session['svg_graphs_dict'][str(session['id_svg_selected'])], cont_colors=cont_colors)
